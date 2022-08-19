@@ -1,0 +1,216 @@
+/*
+  Super classes
+  // Classes responsáveis por acelerar o desenvolvimento, não há condicionais
+  // apenas evita o uso de linhas repetidas.
+*/
+
+
+// Define altura, largura, espaçamento, cor de fundo.
+@mixin container($w, $h, $p, $b) {
+  width: $w;
+  height: $h;
+  padding: $p;
+  background-color: $b;
+}
+
+// Define o display como flexível, o tipo de flex(alinhado ou coluna), alinhamento horizontal e vertical,
+// bem como o espaçamento entre os itens
+@mixin flex($t, $j, $a, $g) {
+  display: flex;
+  flex-direction: $t;
+  justify-content: $j;
+  align-items: $a;
+  gap: $g;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+  Pattern codes
+  // Códigos padronizados para situações específicas, como bordas, sombras, transições
+*/
+
+// Adiciona sombras ao elemento
+@mixin sh {
+  box-shadow: 0 0 4px rgb(0 0 0 / 6%), 0 2px 2px rgb(0 0 0 / 12%);
+}
+
+// Adiciona sombras mais escuras ao colocar o mouse encima do elemento.
+@mixin sh-h {
+  @include sh;
+  @include tr;
+  &:hover {
+    box-shadow: 0 0 4px rgb(0 0 0 / 20%), 0 2px 2px rgb(0 0 0 / 28%);
+  }
+}
+
+// Transição padrão
+@mixin tr {
+  transition: .2s ease-in-out;
+}
+
+// Transição com cursor pointer (mão)
+@mixin tr-p {
+  @include tr;
+  cursor: pointer;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+  Buttons
+  // Botões especiais
+*/
+
+// Botão arredondado com fundo transparente e bordas brancas
+@mixin btn-r-w($b, $c) {
+  border-radius: 10px;
+  border: 1px solid #fff;
+  padding: 10px 40px;
+  background-color: transparent;
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 600;
+  @include tr-p;
+  &:hover {
+    background-color: $b;
+    color: $c;
+  }
+}
+
+/*
+  Inputs
+  // Campos de entrada especiais
+ */
+
+// Campo de texto cinza e retangular
+@mixin inp-t-g {
+  border: none;
+  @include flex(row, flex-start, center, 10px);
+  @include container(100%, initial, 15px 15px, $b-inp-g);
+  @include tr;
+
+  i {
+    font-size: 2rem;
+    color: $inp-t-g;
+  }
+
+  span {
+    color: $inp-t-g;
+    font-size: 1.8rem;
+    padding-bottom: 3px;
+  }
+
+  &:hover {
+    background-color: $b-inp-g-f;
+  }
+
+  input[type=text], input[type=password], input[type=email] {
+    border: none;
+    background-color: transparent;
+    width: 100%;
+    padding-bottom: 3px;
+    color: $inp-t-g;
+    font-size: 1.8rem;
+  }
+}
+
+// Submit com cor age larança
+@mixin inp-s-cd {
+  @include btn-r-w(#fff, $age-or);
+  background-color: $age-or;
+
+  .loader {
+    border-color: #fff !important;
+    border-bottom-color: transparent !important;
+  }
+
+  &:hover {
+    border: 1px solid $age-or;
+
+    .loader {
+      border-color: $age-or !important;
+      border-bottom-color: transparent !important;
+    }
+  }
+}
+
+// Submit com cor age preta
+@mixin inp-s-cd-d {
+  @include btn-r-w(#fff, $age-bl-l);
+  background-color: $age-bl-l;
+
+  .loader {
+    border-color: #fff;
+    border-bottom-color: transparent;
+  }
+
+  &:hover {
+    border: 1px solid $age-bl-l;
+
+    .loader {
+      border-color: $age-bl-l;
+      border-bottom-color: transparent;
+    }
+  }
+}
+
+/*
+  Loadings
+  // Animações diversas
+ */
+
+// Rosquinha girando pra direita
+@mixin spin($w, $h, $b, $c) {
+  width: $w;
+  height: $h;
+  border: $b solid $c;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+// Barra passando no topo do sistema
+@mixin bar {
+  width: 100%;
+  height: 3px;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  background: #fff;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    width: 15vw;
+    height: 4.8px;
+    background: $age-or;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    animation: hitZak .6s linear infinite;
+  }
+
+  @keyframes hitZak {
+    0% {
+      left: 0;
+      transform: translateX(-1%);
+    }
+    100% {
+      left: 100%;
+      transform: translateX(-99%);
+    }
+  }
+}
