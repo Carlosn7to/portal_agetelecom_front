@@ -12,7 +12,7 @@
     </div>
     <nav v-if="system === 'portal'">
       <ul>
-        <router-link to="/sistemas" active-class="active-li">
+        <router-link to="/sistemas" active-class="active-li" @click="loading = true">
          <li>
             <div>
               <i class="fi fi-rr-apps-add"></i>
@@ -20,7 +20,7 @@
             <span>Sistemas</span>
           </li>
         </router-link>
-        <router-link to="/gerenciamento" active-class="active-li">
+        <router-link to="/gerenciamento" active-class="active-li" @click="loading = true">
           <li>
             <div>
               <i class="fi fi-rr-settings-sliders"></i>
@@ -28,7 +28,7 @@
             <span>Gerenciamento</span>
           </li>
         </router-link>
-        <router-link to="/minha-conta" active-class="active-li">
+        <router-link to="/minha-conta" active-class="active-li" @click="loading = true">
           <li>
             <div>
               <i class="fi fi-rr-user"></i>
@@ -39,7 +39,8 @@
         <router-link to="/"
                      active-class="active-li"
                      style="position: absolute;
-                            bottom: 1vh">
+                            bottom: 1vh"
+                     @click="loading = true">
           <li>
             <div>
               <i class="fi fi-rr-sign-out-alt"></i>
@@ -51,7 +52,7 @@
     </nav>
     <nav v-if="system === 'report'">
       <ul>
-        <router-link to="/ageReport/home" active-class="active-li">
+        <router-link to="/ageReport/home" active-class="active-li" @click="loading = true">
          <li>
             <div>
               <i class="fi fi-rr-document"></i>
@@ -59,7 +60,7 @@
             <span>Relatórios</span>
           </li>
         </router-link>
-        <router-link to="/gerenciamento" active-class="active-li">
+        <router-link to="/gerenciamento" active-class="active-li" @click="loading = true">
           <li>
             <div>
               <i class="fi fi-rr-settings-sliders"></i>
@@ -70,7 +71,8 @@
         <router-link to="/sistemas"
                      active-class="active-li"
                      style="position: absolute;
-                            bottom: 7vh">
+                            bottom: 7vh"
+                     @click="loading = true">
           <li>
             <div>
               <i class="fi fi-rr-arrow-left"></i>
@@ -92,6 +94,9 @@
       </ul>
     </nav>
   </div>
+  <div class="loading-bar" v-if="loading === true">
+
+  </div>
 </template>
 
 <script>
@@ -112,7 +117,8 @@ export default {
   },
   data () {
     return {
-      menu: Cookie.get('menu')
+      menu: Cookie.get('menu'),
+      loading: false,
     }
   },
   methods: {
@@ -346,5 +352,9 @@ export default {
       }
     }
   }
+}
+
+.loading-bar {
+  @include bar;
 }
 </style>

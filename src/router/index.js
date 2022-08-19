@@ -22,12 +22,18 @@ const routes = [
   {
     path: '/gerenciamento',
     name: 'PanelDashboard',
-    component: PanelDashboard
+    component: PanelDashboard,
+    beforeEnter: [
+      Guard.auth
+    ]
   },
   {
     path: '/ageReport/home',
     name: 'ReportPage',
-    component: ReportPage
+    component: ReportPage,
+    beforeEnter: [
+      Guard.auth
+    ]
   }
 ]
 
