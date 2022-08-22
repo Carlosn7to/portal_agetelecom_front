@@ -15,9 +15,21 @@
           Relatórios disponíveis
         </h1>
         <div id="reports">
+          <div class="report" @click="downloadReport('list-connections','lista_conexoes.xlsx')">
+            <i class="fi fi-rr-document-signed"></i>
+            <span>Lista de <br> conexões</span>
+          </div>
+          <div class="report" @click="downloadReport('dici','dici.xlsx')">
+            <i class="fi fi-rr-document-signed"></i>
+            <span>DICI</span>
+          </div>
           <div class="report" @click="downloadReport('lista_conexoes.xlsx')">
             <i class="fi fi-rr-document-signed"></i>
-            <span>Lista de conexões</span>
+            <span>Contribuentes</span>
+          </div>
+          <div class="report" @click="downloadReport('lista_conexoes.xlsx')">
+            <i class="fi fi-rr-document-signed"></i>
+            <span>Vendas <br> instaladas</span>
           </div>
         </div>
       </div>
@@ -47,14 +59,14 @@ export default {
     modeView: function (mode) {
       this.mode = mode
     },
-    downloadReport: function (name) {
+    downloadReport: function (url, name) {
       AXIOS({
         method: 'GET',
-        url: 'report/list-connections',
+        url: 'report/'+url,
         headers: {
           'Authorization': 'Bearer '+Cookie.get('token')
         },
-        responseType: 'blob'
+        responseType: 'blob',
       }).then((res) => {
         let blob = new Blob([res.data],
             { type: 'vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
@@ -89,22 +101,25 @@ export default {
     flex-wrap: wrap;
 
     .report {
-      @include container(15%, 25vh, 1vh 2vw, #fff);
+      @include container(initial, initial, 1vh 2vw, #fff);
+      min-width: 10%;
+      min-height: 15vh;
       border-radius: 5px;
       @include sh-h;
       @include tr-p;
       @include flex(column, center, center, 5px);
+      word-break: break-all;
 
       i {
-        font-size: 3rem;
-        color: $ml-text-light;
+        font-size: 2.4rem;
+        color: $age-or;
       }
 
       span {
-        font-size: 1.6rem;
+        font-size: 1.4rem;
         text-align: center;
         font-weight: 600;
-        color: #666;
+        color: $age-bl;
       }
     }
 
@@ -120,6 +135,22 @@ export default {
 .mode-d-p {
   background-color: #161819;
   @include tr;
+
+  #reports {
+
+    .report {
+      background-color: $md-back-l !important;
+      border: 2px solid $md-back-l;
+
+      span {
+        color: $md-text-light !important;
+      }
+
+      &:hover {
+        border: 2px solid $age-or;
+      }
+    }
+  }
 }
 
 </style>

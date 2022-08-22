@@ -60,14 +60,6 @@
             <span>Relatórios</span>
           </li>
         </router-link>
-        <router-link to="/gerenciamento" active-class="active-li" @click="loading = true">
-          <li>
-            <div>
-              <i class="fi fi-rr-settings-sliders"></i>
-            </div>
-            <span>Gerenciamento</span>
-          </li>
-        </router-link>
         <router-link to="/sistemas"
                      active-class="active-li"
                      style="position: absolute;
