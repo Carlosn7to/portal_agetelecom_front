@@ -23,14 +23,6 @@
             <i class="fi fi-rr-document-signed"></i>
             <span>DICI</span>
           </div>
-          <div class="report" @click="downloadReport('lista_conexoes.xlsx')">
-            <i class="fi fi-rr-document-signed"></i>
-            <span>Contribuentes</span>
-          </div>
-          <div class="report" @click="downloadReport('lista_conexoes.xlsx')">
-            <i class="fi fi-rr-document-signed"></i>
-            <span>Vendas <br> instaladas</span>
-          </div>
         </div>
       </div>
     </div>
@@ -109,6 +101,7 @@ export default {
       @include tr-p;
       @include flex(column, center, center, 5px);
       word-break: break-all;
+      border: 2px solid #fff;
 
       i {
         font-size: 2.4rem;
@@ -130,6 +123,7 @@ export default {
 .mode-l-p {
   background-color: $ml-back-l;
   @include tr;
+
 }
 
 .mode-d-p {
@@ -140,7 +134,7 @@ export default {
 
     .report {
       background-color: $md-back-l !important;
-      border: 2px solid $md-back-l;
+      border: 2px solid $md-back-l !important;
 
       span {
         color: $md-text-light !important;

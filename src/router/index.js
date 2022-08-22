@@ -32,7 +32,8 @@ const routes = [
     name: 'ReportPage',
     component: ReportPage,
     beforeEnter: [
-      Guard.auth
+      Guard.auth,
+      Guard.permission_report
     ]
   }
 ]

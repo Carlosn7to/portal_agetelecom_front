@@ -14,11 +14,6 @@
         <div class="systems-on">
           <h1>Sistemas</h1>
           <div id="systems">
-          </div>
-        </div>
-        <div class="systems-on">
-          <h1>Em desenvolvimento</h1>
-          <div id="systems">
             <router-link to="/ageReport/home" @click="loading = true">
               <div class="system">
                 <div class="img-title">
@@ -30,6 +25,11 @@
                 </p>
               </div>
             </router-link>
+          </div>
+        </div>
+        <div class="systems-on">
+          <h1>Em desenvolvimento</h1>
+          <div id="systems">
             <router-link to="/sistemas">
               <div class="system">
                 <div class="img-title">
