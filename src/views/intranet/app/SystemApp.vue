@@ -93,7 +93,6 @@ export default {
 <style scoped lang="scss">
 
 #content-page {
-  padding: 4vh 3vw !important;
   @include flex(column, flex-start, initial, 5vh);
 
   h1 {
