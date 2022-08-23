@@ -3,10 +3,16 @@
        :class="{'mode-l' : mode === 'light' || mode === undefined,
                 'mode-d' : mode === 'dark'}">
     <div id="profile">
-      <span>Carlos</span>
-      <img :src="require('@/assets/img/users/user.jpg')" alt="carlos">
+      <span>Olá, {{ username }}</span>
     </div>
-    <button @click="modeView()">mode</button>
+    <div id="darkmode" @click="modeView">
+      <i class="fi fi-rr-sun" v-if="mode === 'light' || mode === undefined"></i>
+      <div>
+
+      </div>
+      <i class="fi fi-rr-moon-stars" v-if="mode === 'dark'"></i>
+    </div>
+
   </div>
 </template>
 
@@ -17,7 +23,8 @@ export default {
   name: "HeaderApp",
   data () {
     return {
-      mode: Cookie.get('mode')
+      mode: Cookie.get('mode'),
+      username: Cookie.get('name')
     }
   },
   methods: {
@@ -65,18 +72,52 @@ export default {
       font-weight: 500;
     }
   }
+
+  #darkmode {
+    width: 4vw;
+    height: 50%;
+    padding: 4px;
+    border-radius: 20px;
+    @include flex(row, space-between, center, 0px);
+    @include tr-p;
+
+    div {
+      border-radius: 50%;
+      width: 35%;
+      height: 100%;
+    }
+
+    i {
+      padding: 2px 0 0px 2px;
+      font-size: 1.2rem;
+    }
+  }
 }
 
 .mode-l {
   background-color: #fff;
   border-bottom: 2px solid #cccccc90;
   @include tr;
+  @include flex(row, center, center, 5px);
 
   #profile {
     span {
       color: $ml-text-menu;
     }
   }
+
+  #darkmode {
+    background-color: $age-or;
+    div {
+      background-color: #fff;
+
+    }
+
+    i {
+      color: #fff;
+    }
+  }
+
 }
 
 .mode-d {
@@ -89,6 +130,21 @@ export default {
     span {
       color: $md-text-menu;
     }
+  }
+
+  #darkmode {
+    @include tr-p;
+    background-color: $md-back-l !important;
+
+    div {
+      background-color: #fff !important;
+    }
+
+    i {
+      color: #fff !important;
+      padding: 2px 4px 0 0 !important;
+    }
+
   }
 }
 </style>

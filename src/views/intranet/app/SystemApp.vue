@@ -14,6 +14,11 @@
         <div class="systems-on">
           <h1>Sistemas</h1>
           <div id="systems">
+          </div>
+        </div>
+        <div class="systems-on">
+          <h1>Em desenvolvimento</h1>
+          <div id="systems">
             <router-link to="/ageReport/home" @click="loading = true">
               <div class="system">
                 <div class="img-title">
@@ -25,12 +30,7 @@
                 </p>
               </div>
             </router-link>
-          </div>
-        </div>
-        <div class="systems-on">
-          <h1>Em desenvolvimento</h1>
-          <div id="systems">
-            <router-link to="/sistemas">
+            <router-link to="/ageRv/comercial/analitico" @click="loading = true">
               <div class="system">
                 <div class="img-title">
                   <i class="fi fi-rr-star"></i>
@@ -41,7 +41,7 @@
                 </p>
               </div>
             </router-link>
-            <router-link to="/sistemas">
+            <router-link to="/sistemas" @click="loading = true">
               <div class="system">
                 <div class="img-title">
                   <i class="fi fi-rr-stats"></i>
@@ -54,7 +54,6 @@
             </router-link>
           </div>
         </div>
-
       </div>
     </div>
   </div>

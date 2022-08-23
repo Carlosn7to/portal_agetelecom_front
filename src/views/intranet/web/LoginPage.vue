@@ -162,6 +162,7 @@ export default {
           this.error = false
           this.functions.authenticate = false
           Cookie.set('token', res.data.access_token, {expires: res.data.expires_in} )
+          Cookie.set('name', res.data.name, {expires: res.data.expires_in})
           this.$router.replace('/sistemas')
         }).catch((error) => {
           if(error.response.status === 401) {

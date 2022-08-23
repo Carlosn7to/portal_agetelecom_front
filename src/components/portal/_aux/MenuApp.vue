@@ -85,6 +85,61 @@
         </router-link>
       </ul>
     </nav>
+    <nav v-if="system === 'ageRv'">
+      <ul>
+        <router-link to="/ageRv/comercial/vendas" active-class="active-li" @click="loading = true">
+          <li>
+            <div>
+              <i class="fi fi-rr-chart-histogram"></i>
+            </div>
+            <span>Minhas vendas</span>
+          </li>
+        </router-link>
+        <router-link to="/sistemas"
+                     active-class="active-li"
+                     style="position: absolute;
+                            bottom: 7vh"
+                     @click="loading = true">
+          <li>
+            <div>
+              <i class="fi fi-rr-arrow-left"></i>
+            </div>
+            <span>Voltar ao portal</span>
+          </li>
+        </router-link>
+        <router-link to="/ageRv/comercial/analitico" active-class="active-li" @click="loading = true">
+          <li>
+            <div>
+              <i class="fi fi-rr-settings-sliders"></i>
+            </div>
+            <span>Analítico</span>
+          </li>
+        </router-link>
+        <router-link to="/sistemas"
+                     active-class="active-li"
+                     style="position: absolute;
+                            bottom: 7vh"
+                     @click="loading = true">
+          <li>
+            <div>
+              <i class="fi fi-rr-arrow-left"></i>
+            </div>
+            <span>Voltar ao portal</span>
+          </li>
+        </router-link>
+        <router-link to="/"
+                     active-class="active-li"
+                     style="position: absolute;
+                            bottom: 1vh">
+          <li>
+            <div>
+              <i class="fi fi-rr-sign-out-alt"></i>
+            </div>
+            <span>Logout</span>
+          </li>
+        </router-link>
+      </ul>
+    </nav>
   </div>
   <div class="loading-bar" v-if="loading === true">
 
@@ -139,6 +194,7 @@ export default {
 
 #menu {
   width: 17%;
+  min-width: 17%;
   height: 100%;
 
   #logo-name {
@@ -182,7 +238,7 @@ export default {
           @include flex(row, flex-start, center, 5px);
 
           div {
-            padding: 5px 8px;
+            padding: 7px 8px 3px 8px;
             border-radius: 5px;
             i {
               font-size: 2rem;
@@ -319,6 +375,7 @@ export default {
 
 .decrease-menu {
   width: 5% !important;
+  min-width: 5% !important;
 
   #logo-name {
     padding-top: 5vh !important;

@@ -23,7 +23,7 @@ import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 
 export default {
-  name: "ReportPage",
+  name: "SalesPage",
   components: {
     MenuApp,
     HeaderApp

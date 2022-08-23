@@ -4,7 +4,6 @@ const TOKEN = Cookie.get('token')
 
 export default {
     auth(to, from, next) {
-
         AXIOS({
             method: "get",
             url: "validatedToken",
@@ -21,17 +20,40 @@ export default {
                 return next({ path: '/'})
         })
     },
-    permission_report() {
+    permission_report(to, from, next) {
         AXIOS({
             method: 'get',
             url: 'permissions/systems',
             headers: {
                 'Authorization': 'Bearer'+TOKEN
+            },
+            params: {
+                sysName: 'AgeReport'
             }
-        }).then((res) => {
-            console.log(res)
+        }).then(() => {
+            return next()
+        }).catch(() => {
+            alert('Você não pode acessar o sistema AgeReport.')
+            return next({ path: '/sistemas'})
         })
 
+    },
+    permission_rv(to, from, next) {
+        AXIOS({
+            method: 'get',
+            url: 'permissions/systems',
+            headers: {
+                'Authorization': 'Bearer'+TOKEN
+            },
+            params: {
+                sysName: 'AgeRv'
+            }
+        }).then(() => {
+            return next()
+        }).catch(() => {
+            alert('Você não pode acessar o sistema AgeRv.')
+            return next({ path: '/sistemas'})
+        })
     }
 
 }
