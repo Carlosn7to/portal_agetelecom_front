@@ -1,9 +1,11 @@
 import Cookie from "js-cookie";
 import {AXIOS} from "../api.ts";
-const TOKEN = Cookie.get('token')
 
 export default {
     auth(to, from, next) {
+        const TOKEN = Cookie.get('token')
+        console.log(TOKEN)
+
         AXIOS({
             method: "get",
             url: "validatedToken",
@@ -17,10 +19,11 @@ export default {
                 }
 
             }).catch(() => {
-                return next({ path: '/'})
+            return next({ path: '/'})
         })
     },
     permission_report(to, from, next) {
+        const TOKEN = Cookie.get('token')
         AXIOS({
             method: 'get',
             url: 'permissions/systems',
@@ -39,6 +42,8 @@ export default {
 
     },
     permission_rv(to, from, next) {
+        const TOKEN = Cookie.get('token')
+
         AXIOS({
             method: 'get',
             url: 'permissions/systems',
