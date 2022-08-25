@@ -30,7 +30,7 @@
                 </p>
               </div>
             </router-link>
-            <router-link to="/ageRv/comercial/analitico" @click="loading = true">
+            <router-link to="/ageRv/comercial/vendas" @click="loading = true">
               <div class="system">
                 <div class="img-title">
                   <i class="fi fi-rr-star"></i>

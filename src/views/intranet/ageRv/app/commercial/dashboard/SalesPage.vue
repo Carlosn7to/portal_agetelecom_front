@@ -1,4 +1,6 @@
 <template>
+  <div class="loading-bar" v-if="loading === true">
+  </div>
   <div id="content-app">
     <MenuApp
         :mode="mode"
@@ -14,14 +16,18 @@
         <div class="dashboard-commercial">
           <h1>Dashboard de vendas</h1>
           <div class="dashboards">
-            <div class="dashboard" style="background-color: #FEA11D; cursor: pointer;">
+            <div class="dashboard"
+                style="background-color: #FEA11D; cursor: pointer;"
+                @click="modalView('stars')">
               <div class="type-value">
                 <span>{{ data.stars }}</span>
                 <span>Estrelas</span>
               </div>
               <i class="fi fi-ss-star"></i>
             </div>
-            <div class="dashboard" style="background-color: #2fa1d0; cursor: pointer;">
+            <div class="dashboard"
+                 style="background-color: #2fa1d0; cursor: pointer;"
+                 @click="modalView('salesTotals')">
               <div class="type-value">
                 <span>{{ data.salesTotals }}</span>
                 <span>Vendas totais</span>
@@ -42,14 +48,16 @@
               </div>
               <i class="fi fi-ss-delete-document"></i>
             </div>
-            <div class="dashboard" style="background-color: #FECA1D; cursor: pointer;">
+            <div class="dashboard" style="background-color: #FECA1D">
               <div class="type-value">
                 <span>R${{ data.valueStars }}</span>
                 <span>Valor da estrela</span>
               </div>
               <i class="fi fi-sr-grin-stars"></i>
             </div>
-            <div class="dashboard" style="background-color: #6892d0; cursor: pointer;">
+            <div class="dashboard"
+                 style="background-color: #6892d0; cursor: pointer;"
+                 @click="modalView('salesAprovation')">
               <div class="type-value">
                 <span>{{ data.salesAprovation }}</span>
                 <span>Vendas em <br>Aprovação</span>
@@ -77,7 +85,9 @@
               </div>
               <i class="fi fi-sr-sack-dollar"></i>
             </div>
-            <div class="dashboard" style="background-color: #009688; cursor: pointer;">
+            <div class="dashboard"
+                 style="background-color: #009688; cursor: pointer;"
+                 @click="modalView('salesValid')">
               <div class="type-value">
                 <span>{{ data.sales }}</span>
                 <span>Vendas válidas</span>
@@ -110,6 +120,136 @@
       </div>
     </div>
   </div>
+  <div id="modal"
+       v-if="modal === true"
+       :class="{'mode-d-m' : mode === 'dark'}">
+    <div id="card-modal" class="stars" v-if="dashboard === 'stars'">
+      <div id="close-button">
+        <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
+      </div>
+      <div id="table">
+        <h1>Extrato de planos e estrelas</h1>
+        <table>
+          <thead>
+          <tr>
+            <th style="text-align: left; width: 50%">Plano</th>
+            <th>Quantidade</th>
+            <th>Valor da estrela</th>
+            <th>Total de estrelas</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in data.extractStars" :key="item.valueStar">
+              <td style="text-align: left; width: 50%">{{ item.plan }}</td>
+              <td>{{ item.qntd }}</td>
+              <td>{{ item.valueStar }}</td>
+              <td>{{ item.totals }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="card-modal" class="stars salesTotals" v-if="dashboard === 'salesTotals'">
+      <div id="close-button">
+        <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
+      </div>
+      <div id="table">
+        <h1>Extrato de todas as vendas instaladas</h1>
+        <table>
+          <thead>
+          <tr>
+            <th>Nº contrato</th>
+            <th>Nome do cliente</th>
+            <th>Plano</th>
+            <th>Status</th>
+            <th>Situação</th>
+            <th>Data do cadastro</th>
+            <th>Data da aprovação</th>
+            <th>Data da vigência</th>
+            <th>Data do cancelamento</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="item in data.extractSalesTotals" :key="item.id_contrato">
+            <td>{{ item.id_contrato }}</td>
+            <td>{{ item.nome_cliente }}</td>
+            <td>{{ item.plano }}</td>
+            <td>{{ item.status }}</td>
+            <td>{{ item.situacao }}</td>
+            <td>{{ item.data_contrato }}</td>
+            <td>{{ item.data_ativacao }}</td>
+            <td>{{ item.data_vigencia }}</td>
+            <td>{{ item.data_cancelamento }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="card-modal" class="stars salesAprovation" v-if="dashboard === 'salesAprovation'">
+      <div id="close-button">
+        <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
+      </div>
+      <div id="table">
+        <h1>Extrato de vendas em aprovação</h1>
+        <table>
+          <thead>
+          <tr>
+            <th>Nº contrato</th>
+            <th>Nome do cliente</th>
+            <th>Plano</th>
+            <th>Status</th>
+            <th>Situação</th>
+            <th>Data do cadastro</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="item in data.extractSalesAprovation" :key="item.id_contrato">
+            <td>{{ item.id_contrato }}</td>
+            <td>{{ item.nome_cliente }}</td>
+            <td>{{ item.plano }}</td>
+            <td>{{ item.status }}</td>
+            <td>{{ item.situacao }}</td>
+            <td>{{ item.data_contrato }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="card-modal" class="stars salesTotals" v-if="dashboard === 'salesValid'">
+      <div id="close-button">
+        <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
+      </div>
+      <div id="table">
+        <h1>Extrato de todas as vendas instaladas</h1>
+        <table>
+          <thead>
+          <tr>
+            <th>Nº contrato</th>
+            <th>Nome do cliente</th>
+            <th>Plano</th>
+            <th>Status</th>
+            <th>Situação</th>
+            <th>Data do cadastro</th>
+            <th>Data da aprovação</th>
+            <th>Data da vigência</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="item in data.extractSalesTotals" :key="item.id_contrato">
+            <td>{{ item.id_contrato }}</td>
+            <td>{{ item.nome_cliente }}</td>
+            <td>{{ item.plano }}</td>
+            <td>{{ item.status }}</td>
+            <td>{{ item.situacao }}</td>
+            <td>{{ item.data_contrato }}</td>
+            <td>{{ item.data_ativacao }}</td>
+            <td>{{ item.data_vigencia }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -131,7 +271,10 @@ export default {
       data: {},
       filter: {
         month: '08'
-      }
+      },
+      modal: false,
+      dashboard: '',
+      loading: false
     }
   },
   methods: {
@@ -140,7 +283,10 @@ export default {
     },
     getSellers: function (month) {
 
+      this.loading = true
       this.filter.month = month
+      this.data = null
+
 
       AXIOS({
         method: 'GET',
@@ -154,7 +300,12 @@ export default {
         }
       }).then((res) => {
         this.data = res.data
+        this.loading = false
       })
+    },
+    modalView: function (dash) {
+      this.modal = true
+      this.dashboard = dash
     }
   },
   mounted() {
@@ -164,6 +315,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+.loading-bar {
+  @include bar;
+}
 
 #content-page {
   @include flex(row, space-between, initial, 0px);
@@ -263,6 +418,47 @@ export default {
   }
 }
 
+.stars {
+  width: 60vw;
+  #table {
+    padding: 2vh 2vw 3vh 2vw;
+    h1 {
+      font-size: 3rem;
+      text-align: center;
+      color: $ml-text-menu;
+    }
+    table {
+      @include table;
+
+      th, td {
+        text-align: center;
+        padding: 0;
+
+      }
+    }
+  }
+}
+
+.salesTotals {
+  width: 95vw;
+
+  #table {
+    padding: 2vh 1vw 3vh 1vw;
+
+    table {
+      th {
+        font-size: 1.2rem !important;
+      }
+      td {
+        font-size: 1rem !important;
+      }
+    }
+  }
+}
+
+.salesAprovation {
+  width: 70vw;
+}
 
 .mode-l-p {
   background-color: $ml-back-l;
@@ -315,6 +511,49 @@ export default {
       }
     }
   }
+}
+
+.mode-d-m {
+ #card-modal {
+   background-color: $md-back-l !important;
+
+   #close-button {
+     i {
+       color: #fff !important;
+
+       &:hover {
+         color: $red !important;
+       }
+     }
+   }
+
+   table {
+
+     thead {
+       tr {
+         background-color: #161819 !important;
+         th {
+           color: $md-text-light !important;
+         }
+       }
+     }
+
+     tbody {
+       tr {
+         td {
+           color: $md-text-op;
+         }
+
+         &:nth-child(even) {
+           background-color: #1a1a1a !important;
+         }
+         &:nth-child(odd) {
+           background-color: transparent;
+         }
+       }
+     }
+   }
+ }
 }
 
 </style>

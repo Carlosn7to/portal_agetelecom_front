@@ -33,6 +33,44 @@ h1 {
   font-size: 3.6rem;
 }
 
+#modal {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(3,3,3, .3);
+  position: absolute;
+  top: 0;
+  @include flex(row, center, center, 0px);
+
+  #card-modal {
+    background-color: #fff;
+    border-radius: 5px;
+    @include sh;
+    animation: appears .2s forwards;
+
+    #close-button {
+      @include flex(row, flex-end, center, 0);
+      @include container(100%, 10vh, 1vh 1vw, transparent);
+
+      i {
+        font-size: 2rem;
+        @include tr-p;
+        &:hover {
+          color: $red;
+        }
+      }
+    }
+  }
+}
+
+@keyframes appears {
+  from {
+    transform: scale(.6);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
 /*   PLACEHOLDER   */
 ::-webkit-input-placeholder {
   color: #33333360;
