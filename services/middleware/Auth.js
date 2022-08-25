@@ -4,7 +4,6 @@ import {AXIOS} from "../api.ts";
 export default {
     auth(to, from, next) {
         const TOKEN = Cookie.get('token')
-        console.log(TOKEN)
 
         AXIOS({
             method: "get",
@@ -26,12 +25,9 @@ export default {
         const TOKEN = Cookie.get('token')
         AXIOS({
             method: 'get',
-            url: 'permissions/systems',
+            url: 'agerreport/Access',
             headers: {
                 'Authorization': 'Bearer'+TOKEN
-            },
-            params: {
-                sysName: 'AgeReport'
             }
         }).then(() => {
             return next()
@@ -46,12 +42,9 @@ export default {
 
         AXIOS({
             method: 'get',
-            url: 'permissions/systems',
+            url: 'agerv/Access',
             headers: {
                 'Authorization': 'Bearer'+TOKEN
-            },
-            params: {
-                sysName: 'AgeRv'
             }
         }).then(() => {
             return next()

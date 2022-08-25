@@ -55,6 +55,13 @@ h1 {
         height: 92%;
         padding: 1vh 3vw;
         max-height: 92%;
+        overflow-y: auto;
+
+        h1 {
+          font-size: 2.4rem;
+          font-weight: 500;
+          color: $ml-text-menu;
+        }
       }
     }
   }

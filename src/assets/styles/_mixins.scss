@@ -214,3 +214,77 @@
     }
   }
 }
+
+@mixin table {
+  @include container(100%, 75vh, 10px 2vh, transparent);
+  border-collapse: collapse;
+  border-radius: 10px 10px 0 0;
+
+
+  thead {
+    tr {
+      background-color: $back-main;
+      height: 7vh;
+      text-align: left;
+
+      th {
+        padding: 0 0 0 1vw;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #333;
+        letter-spacing: .02rem;
+      }
+    }
+  }
+
+  thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;/* even columns width , fix width of table too*/
+  }
+
+  tbody {
+    display: block;
+    height: 90%;
+    overflow: auto;
+
+    tr {
+      border-bottom: 1px solid #cccccc40;
+      height: 6vh;
+
+      &:nth-child(even) {
+        background-color: #cccccc20;
+      }
+      &:nth-child(odd) {
+        background-color: transparent;
+      }
+
+      td {
+        padding: 0 0 0 1vw;
+        font-size: 1.2rem;
+        font-weight: 600;
+        letter-spacing: .02rem;
+        color: #333;
+      }
+    }
+
+  }
+
+  @media (min-width: 360px) and (max-width: 500px) {
+    thead {
+      tr {
+        th {
+          font-size: 1rem;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        td {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}

@@ -94,11 +94,7 @@ export default {
 #content-page {
   @include flex(column, flex-start, initial, 5vh);
 
-  h1 {
-    font-size: 2.4rem;
-    font-weight: 500;
-    color: $ml-text-menu;
-  }
+
 
   .systems-on {
     width: 100%;
