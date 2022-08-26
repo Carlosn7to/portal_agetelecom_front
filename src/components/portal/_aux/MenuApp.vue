@@ -20,22 +20,22 @@
             <span>Sistemas</span>
           </li>
         </router-link>
-        <router-link to="/gerenciamento" active-class="active-li" @click="loading = true">
-          <li>
-            <div>
-              <i class="fi fi-rr-settings-sliders"></i>
-            </div>
-            <span>Gerenciamento</span>
-          </li>
-        </router-link>
-        <router-link to="/minha-conta" active-class="active-li" @click="loading = true">
-          <li>
-            <div>
-              <i class="fi fi-rr-user"></i>
-            </div>
-            <span>Minha conta</span>
-          </li>
-        </router-link>
+<!--        <router-link to="/gerenciamento" active-class="active-li" @click="loading = true">-->
+<!--          <li>-->
+<!--            <div>-->
+<!--              <i class="fi fi-rr-settings-sliders"></i>-->
+<!--            </div>-->
+<!--            <span>Gerenciamento</span>-->
+<!--          </li>-->
+<!--        </router-link>-->
+<!--        <router-link to="/minha-conta" active-class="active-li" @click="loading = true">-->
+<!--          <li>-->
+<!--            <div>-->
+<!--              <i class="fi fi-rr-user"></i>-->
+<!--            </div>-->
+<!--            <span>Minha conta</span>-->
+<!--          </li>-->
+<!--        </router-link>-->
         <router-link to="/"
                      active-class="active-li"
                      style="position: absolute;
@@ -155,7 +155,6 @@ export default {
   props: {
     mode: {
       type: String,
-      required: true
     },
     system: {
       type: String,

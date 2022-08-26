@@ -41,7 +41,7 @@
               </div>
               <i class="fi fi-rr-chart-histogram"></i>
             </div>
-            <div class="dashboard" style="background-color: #F44336; cursor: pointer;">
+            <div class="dashboard" style="background-color: #F44336">
               <div class="type-value">
                 <span>{{ data.cancelTotals }}</span>
                 <span>Cancelamentos<br>Totais</span>
@@ -71,7 +71,9 @@
               </div>
               <i class="fi fi-sr-chart-line-up"></i>
             </div>
-            <div class="dashboard" style="background-color: #911515; cursor: pointer;">
+            <div class="dashboard"
+                 style="background-color: #911515; cursor: pointer;"
+                 @click="modalView('cancelD7')">
               <div class="type-value">
                 <span>{{ data.cancelD7 }}</span>
                 <span>Cancelamento <br> -7 Dias</span>
@@ -90,7 +92,7 @@
                  @click="modalView('salesValid')">
               <div class="type-value">
                 <span>{{ data.sales }}</span>
-                <span>Vendas válidas</span>
+                <span>Vendas na base</span>
               </div>
               <i class="fi fi-rr-trophy"></i>
             </div>
@@ -170,7 +172,43 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="item in data.extractSalesTotals" :key="item.id_contrato">
+          <tr v-for="item in data.extractSalesTotals" :key="item.id">
+            <td>{{ item.id_contrato }}</td>
+            <td>{{ item.nome_cliente }}</td>
+            <td>{{ item.plano }}</td>
+            <td>{{ item.status }}</td>
+            <td>{{ item.situacao }}</td>
+            <td>{{ item.data_contrato }}</td>
+            <td>{{ item.data_ativacao }}</td>
+            <td>{{ item.data_vigencia }}</td>
+            <td>{{ item.data_cancelamento }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="card-modal" class="stars salesTotals" v-if="dashboard === 'cancelD7'">
+      <div id="close-button">
+        <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
+      </div>
+      <div id="table">
+        <h1>Extrato de cancelamentos antes dos 7 dias</h1>
+        <table>
+          <thead>
+          <tr>
+            <th>Nº contrato</th>
+            <th>Nome do cliente</th>
+            <th>Plano</th>
+            <th>Status</th>
+            <th>Situação</th>
+            <th>Data do cadastro</th>
+            <th>Data da aprovação</th>
+            <th>Data da vigência</th>
+            <th>Data do cancelamento</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="item in data.extractCancelsD7" :key="item.id">
             <td>{{ item.id_contrato }}</td>
             <td>{{ item.nome_cliente }}</td>
             <td>{{ item.plano }}</td>
@@ -203,7 +241,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="item in data.extractSalesAprovation" :key="item.id_contrato">
+          <tr v-for="item in data.extractSalesAprovation" :key="item.id">
             <td>{{ item.id_contrato }}</td>
             <td>{{ item.nome_cliente }}</td>
             <td>{{ item.plano }}</td>
@@ -220,7 +258,7 @@
         <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
       </div>
       <div id="table">
-        <h1>Extrato de todas as vendas instaladas</h1>
+        <h1>Extrato de todas as vendas que continuam na base</h1>
         <table>
           <thead>
           <tr>
@@ -235,7 +273,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="item in data.extractSalesTotals" :key="item.id_contrato">
+          <tr v-for="item in data.extractSalesValids" :key="item.id">
             <td>{{ item.id_contrato }}</td>
             <td>{{ item.nome_cliente }}</td>
             <td>{{ item.plano }}</td>
@@ -448,9 +486,11 @@ export default {
     table {
       th {
         font-size: 1.2rem !important;
+        padding: 0 !important;
       }
       td {
         font-size: 1rem !important;
+        padding: 0 !important;
       }
     }
   }
