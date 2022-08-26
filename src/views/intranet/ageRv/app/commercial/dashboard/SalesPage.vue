@@ -9,6 +9,7 @@
     <div id="layer-app">
       <HeaderApp
           @mode="modeView"
+          :mode="mode"
       />
       <div id="content-page"
            :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
@@ -92,7 +93,7 @@
                  @click="modalView('salesValid')">
               <div class="type-value">
                 <span>{{ data.sales }}</span>
-                <span>Vendas na base</span>
+                <span>Vendas <br> comissionáveis</span>
               </div>
               <i class="fi fi-rr-trophy"></i>
             </div>
@@ -156,7 +157,7 @@
         <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
       </div>
       <div id="table">
-        <h1>Extrato de todas as vendas instaladas</h1>
+        <h1>Extrato de todas as vendas realizadas</h1>
         <table>
           <thead>
           <tr>
@@ -258,7 +259,7 @@
         <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
       </div>
       <div id="table">
-        <h1>Extrato de todas as vendas que continuam na base</h1>
+        <h1>Extrato de todas as vendas válidas para o comissionamento</h1>
         <table>
           <thead>
           <tr>
@@ -471,6 +472,7 @@ export default {
       th, td {
         text-align: center;
         padding: 0;
+        user-select: text !important;
 
       }
     }
