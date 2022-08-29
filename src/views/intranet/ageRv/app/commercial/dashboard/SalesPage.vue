@@ -14,7 +14,7 @@
       <div id="content-page"
            :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
                   'mode-d-p' : mode === 'dark'}">
-        <div class="section-1">
+        <div class="section-1" v-if="dashStatus === true">
           <div class="dashboard-commercial">
             <h1>Dashboard de vendas</h1>
             <div class="dashboards">
@@ -124,7 +124,9 @@
         </div>
         <div class="section-2">
           <ProjectionSection
-            :mode="mode"
+              :mode="mode"
+              :projection="data.projection"
+              v-if="filter.month === filter.actualMonth && projection === true"
           />
         </div>
       </div>
@@ -317,11 +319,14 @@ export default {
       mode: Cookie.get('mode'),
       data: {},
       filter: {
-        month: '08'
+        month: '08',
+        actualMonth: null
       },
       modal: false,
       dashboard: '',
-      loading: false
+      dashStatus: false,
+      loading: false,
+      projection: false
     }
   },
   methods: {
@@ -333,7 +338,12 @@ export default {
       this.loading = true
       this.filter.month = month
       this.data = null
-
+      const date = new Date()
+      if(date.getMonth() < 10) {
+        this.filter.actualMonth = '0'+(date.getMonth() + 1)
+      } else {
+        this.filter.actualMonth = (date.getMonth() + 1).toString()
+      }
 
       AXIOS({
         method: 'GET',
@@ -357,6 +367,8 @@ export default {
   },
   mounted() {
     this.getSellers('08')
+    this.projection = true
+    this.dashStatus = true
   }
 }
 </script>

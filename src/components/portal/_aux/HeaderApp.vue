@@ -75,7 +75,7 @@ export default {
 
   #darkmode {
     width: 4vw;
-    height: 50%;
+    height: 4vh;
     padding: 4px;
     border-radius: 20px;
     @include flex(row, space-between, center, 0px);
@@ -83,7 +83,7 @@ export default {
 
     div {
       border-radius: 50%;
-      width: 35%;
+      width: 1.3vw;
       height: 100%;
     }
 

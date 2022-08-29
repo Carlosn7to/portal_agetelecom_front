@@ -1,33 +1,32 @@
 <template>
   <div class="projection"
        :class="{'mode-l' : mode === 'light' || mode === undefined,
-                'mode-d' : mode === 'dark',
-                'decrease-menu' : menu === 'decrease'}">
+                'mode-d' : mode === 'dark'}">
     <h1>Projeção de vendas para o mês atual</h1>
     <div class="data-projection">
       <p>
-        Hoje é dia <b>26</b>, faltam <b>5</b> dias para acabar seu mês e caso mantenha esse desempenho, terminará o mês com:
+        Hoje é dia <b>{{ projection.dateActual }}</b>, faltam <b>{{ projection.daysMissing }}</b> dias para acabar seu mês e caso mantenha esse desempenho, terminará o mês com:
       </p>
       <div class="table-projection">
         <div class="item-table">
           <i class="fi fi-ss-stars"></i>
           <span>Estrelas:</span>
-          <span>2812</span>
+          <span>{{ projection.stars }}</span>
         </div>
         <div class="item-table" style="color: #009688;">
           <i class="fi fi-ss-rocket-lunch"></i>
           <span>Vendas:</span>
-          <span>22</span>
+          <span>{{ projection.sales }}</span>
         </div>
         <div class="item-table" style="color: #C571E1">
           <i class="fi fi-sr-chart-line-up"></i>
           <span>Meta atingida:</span>
-          <span>192%</span>
+          <span>{{ projection.metaPercent }}%</span>
         </div>
         <div class="item-table" style="border: none; color: #24A527">
           <i class="fi fi-sr-sack-dollar"></i>
           <span>Comissão:</span>
-          <span>R$202,20</span>
+          <span>R${{ projection.commission }}</span>
         </div>
       </div>
     </div>
@@ -40,6 +39,9 @@ export default {
   props: {
     mode: {
       required: true
+    },
+    projection: {
+      type: Object
     }
   }
 }
