@@ -5,7 +5,7 @@
     <h1>Projeção de vendas para o mês atual</h1>
     <div class="data-projection">
       <p>
-        Hoje é dia <b>{{ projection.dateActual }}</b>, faltam <b>{{ projection.daysMissing }}</b> dias para acabar seu mês e caso mantenha esse desempenho, terminará o mês com:
+        Hoje é o dia útil <b>{{ projection.dateActual }}</b>, falta(m) <b>{{ projection.daysMissing }}</b> dia(s) para acabar seu mês e caso mantenha esse desempenho, terminará o mês com:
       </p>
       <div class="table-projection">
         <div class="item-table">

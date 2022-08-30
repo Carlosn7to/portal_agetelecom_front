@@ -13,13 +13,24 @@ export default {
             }
         })
             .then((res) => {
-                if(res.data === 1) {
+                if(res.data.status === true) {
+                    Cookie.set('portal_permission', res.data.levelAccess, { expires: 1})
                     return next()
                 }
 
             }).catch(() => {
             return next({ path: '/'})
         })
+    },
+    management_portal(to, from, next) {
+        const PERMISSION = Cookie.get('portal_permission')
+
+        if(PERMISSION === 'Admin' || PERMISSION === 'Master') {
+            return next()
+        }
+
+        return next({ path: '/sistemas'})
+
     },
     permission_report(to, from, next) {
         const TOKEN = Cookie.get('token')

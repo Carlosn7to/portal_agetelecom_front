@@ -11,6 +11,16 @@
       <div id="content-page"
            :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
                   'mode-d-p' : mode === 'dark'}">
+        <div class="section">
+          <h1>Usuários</h1>
+          <table>
+            <thead>
+              <tr>
+                th*5
+              </tr>
+            </thead>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -23,7 +33,7 @@ import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 
 export default {
-  name: "PanelDashboard",
+  name: "PanelUsers",
   components: {
     MenuApp,
     HeaderApp
@@ -44,6 +54,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+#content-page {
+  .section {
+    padding: 1vh 1vw;
+  }
+}
 
 
 .mode-l-p {

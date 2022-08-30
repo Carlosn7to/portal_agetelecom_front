@@ -7,6 +7,7 @@ import Guard from '/services/middleware/Auth.js'
 import SalesAnalytics from "@/views/intranet/ageRv/app/commercial/dashboard/SalesAnalytics";
 import SalesPage from "@/views/intranet/ageRv/app/commercial/dashboard/SalesPage";
 import HomePage from "@/views/intranet/ageRv/app/HomePage";
+import PanelUsers from "@/views/intranet/app/management/PanelUsers";
 
 const routes = [
   {
@@ -23,11 +24,21 @@ const routes = [
     ]
   },
   {
-    path: '/gerenciamento',
+    path: '/gerenciamento/dashboard',
     name: 'PanelDashboard',
     component: PanelDashboard,
     beforeEnter: [
-      Guard.auth
+      Guard.auth,
+      Guard.management_portal
+    ]
+  },
+  {
+    path: '/gerenciamento/usuarios',
+    name: 'PanelUsers',
+    component: PanelUsers,
+    beforeEnter: [
+      Guard.auth,
+      Guard.management_portal
     ]
   },
   {

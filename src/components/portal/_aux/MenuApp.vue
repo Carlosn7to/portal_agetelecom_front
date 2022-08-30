@@ -20,14 +20,18 @@
             <span>Sistemas</span>
           </li>
         </router-link>
-<!--        <router-link to="/gerenciamento" active-class="active-li" @click="loading = true">-->
-<!--          <li>-->
-<!--            <div>-->
-<!--              <i class="fi fi-rr-settings-sliders"></i>-->
-<!--            </div>-->
-<!--            <span>Gerenciamento</span>-->
-<!--          </li>-->
-<!--        </router-link>-->
+        <router-link to="/gerenciamento/usuarios"
+                     active-class="active-li"
+                     @click="loading = true"
+                     v-if="permissions.portal === 'Admin' ||
+                           permissions.portal === 'Master'">
+          <li>
+            <div>
+              <i class="fi fi-rr-settings-sliders"></i>
+            </div>
+            <span>Gerenciamento</span>
+          </li>
+        </router-link>
 <!--        <router-link to="/minha-conta" active-class="active-li" @click="loading = true">-->
 <!--          <li>-->
 <!--            <div>-->
@@ -36,6 +40,62 @@
 <!--            <span>Minha conta</span>-->
 <!--          </li>-->
 <!--        </router-link>-->
+        <router-link to="/"
+                     active-class="active-li"
+                     style="position: absolute;
+                            bottom: 1vh"
+                     @click="loading = true">
+          <li>
+            <div>
+              <i class="fi fi-rr-sign-out-alt"></i>
+            </div>
+            <span>Logout</span>
+          </li>
+        </router-link>
+      </ul>
+    </nav>
+    <nav v-if="system === 'portal-mng'">
+      <ul>
+<!--        <router-link to="/gerenciamento/dashboard"-->
+<!--                     active-class="active-li"-->
+<!--                     @click="loading = true"-->
+<!--                     v-if="permissions.portal === 'admin' ||-->
+<!--                           permissions.portal === 'master'">-->
+<!--          <li>-->
+<!--            <div>-->
+<!--              <i class="fi fi-rr-chart-pie-alt"></i>-->
+<!--            </div>-->
+<!--            <span>Dashboard</span>-->
+<!--          </li>-->
+<!--        </router-link>-->
+        <router-link to="/gerenciamento/usuarios" active-class="active-li" @click="loading = true">
+          <li>
+            <div>
+              <i class="fi fi-rr-users-alt"></i>
+            </div>
+            <span>Usuários</span>
+          </li>
+        </router-link>
+        <!--        <router-link to="/minha-conta" active-class="active-li" @click="loading = true">-->
+        <!--          <li>-->
+        <!--            <div>-->
+        <!--              <i class="fi fi-rr-user"></i>-->
+        <!--            </div>-->
+        <!--            <span>Minha conta</span>-->
+        <!--          </li>-->
+        <!--        </router-link>-->
+        <router-link to="/sistemas"
+                     active-class="active-li"
+                     style="position: absolute;
+                            bottom: 7vh"
+                     @click="loading = true">
+          <li>
+            <div>
+              <i class="fi fi-rr-arrow-left"></i>
+            </div>
+            <span>Voltar ao portal</span>
+          </li>
+        </router-link>
         <router-link to="/"
                      active-class="active-li"
                      style="position: absolute;
@@ -180,7 +240,8 @@ export default {
       menu: Cookie.get('menu'),
       loading: false,
       permissions: {
-        agerv: Cookie.get('agerv_permission')
+        agerv: Cookie.get('agerv_permission'),
+        portal: Cookie.get('portal_permission')
       }
     }
   },
