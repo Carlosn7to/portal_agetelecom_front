@@ -95,6 +95,7 @@ export default {
   .data-projection {
     background-color: $md-back-l;
     border-color: $age-or !important;
+    @include tr;
 
     p {
       color: $md-text-light;

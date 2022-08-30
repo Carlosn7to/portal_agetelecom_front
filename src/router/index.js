@@ -6,6 +6,7 @@ import ReportPage from "@/views/intranet/ageReport/app/ReportPage";
 import Guard from '/services/middleware/Auth.js'
 import SalesAnalytics from "@/views/intranet/ageRv/app/commercial/dashboard/SalesAnalytics";
 import SalesPage from "@/views/intranet/ageRv/app/commercial/dashboard/SalesPage";
+import HomePage from "@/views/intranet/ageRv/app/HomePage";
 
 const routes = [
   {
@@ -48,7 +49,7 @@ const routes = [
     ]
   },
   {
-    path: '/ageRv/comercial/vendas',
+    path: '/ageRv/comercial/vendas/dashboard',
     name: 'SalesPage',
     component: SalesPage,
     beforeEnter: [
@@ -56,6 +57,16 @@ const routes = [
       Guard.permission_rv
     ]
   },
+  {
+    path: '/ageRv/home',
+    name: 'HomePage',
+    component: HomePage,
+    beforeEnter: [
+      Guard.auth,
+      Guard.permission_rv
+    ]
+  }
+
 ]
 
 const router = createRouter({

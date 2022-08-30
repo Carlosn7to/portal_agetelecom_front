@@ -320,7 +320,8 @@ export default {
       data: {},
       filter: {
         month: '08',
-        actualMonth: null
+        actualMonth: null,
+        typeUser: Cookie.get('agerv_permission'),
       },
       modal: false,
       dashboard: '',
@@ -338,16 +339,10 @@ export default {
       this.loading = true
       this.filter.month = month
       this.data = null
-      const date = new Date()
-      if(date.getMonth() < 10) {
-        this.filter.actualMonth = '0'+(date.getMonth() + 1)
-      } else {
-        this.filter.actualMonth = (date.getMonth() + 1).toString()
-      }
 
       AXIOS({
         method: 'GET',
-        url: 'agerv/dashboard/seller',
+        url: 'agerv/dashboard/'+this.filter.typeUser,
         headers: {
           'Authorization': 'Bearer '+Cookie.get('token')
         },
@@ -363,12 +358,23 @@ export default {
     modalView: function (dash) {
       this.modal = true
       this.dashboard = dash
-    }
+    },
+    getMonth: function () {
+      const date = new Date()
+      if(date.getMonth() < 10) {
+        this.filter.actualMonth = '0'+(date.getMonth() + 1)
+      } else {
+        this.filter.actualMonth = (date.getMonth() + 1).toString()
+      }
+
+      this.getSellers(this.filter.actualMonth)
+    },
   },
   mounted() {
-    this.getSellers('08')
+    this.getMonth()
     this.projection = true
     this.dashStatus = true
+    console.log(this.filter.typeUser)
   }
 }
 </script>

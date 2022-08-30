@@ -46,7 +46,8 @@ export default {
             headers: {
                 'Authorization': 'Bearer'+TOKEN
             }
-        }).then(() => {
+        }).then((res) => {
+            Cookie.set('agerv_permission', res.data.levelAccess, { expires: 1})
             return next()
         }).catch(() => {
             alert('Você não pode acessar o sistema AgeRv.')

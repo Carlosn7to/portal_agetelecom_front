@@ -87,7 +87,21 @@
     </nav>
     <nav v-if="system === 'ageRv'">
       <ul>
-        <router-link to="/ageRv/comercial/vendas" active-class="active-li" @click="loading = true">
+        <router-link to="/ageRv/home"
+                     active-class="active-li"
+                     @click="loading = true">
+          <li>
+            <div>
+              <i class="fi fi-rr-home"></i>
+            </div>
+            <span>Home</span>
+          </li>
+        </router-link>
+        <router-link to="/ageRv/comercial/vendas/dashboard"
+                     active-class="active-li"
+                     @click="loading = true"
+                     v-if="permissions.agerv === 'seller' ||
+                           permissions.agerv === 'supervisor'">
           <li>
             <div>
               <i class="fi fi-rr-chart-histogram"></i>
@@ -159,12 +173,15 @@ export default {
     system: {
       type: String,
       required: true
-    }
+    },
   },
   data () {
     return {
       menu: Cookie.get('menu'),
       loading: false,
+      permissions: {
+        agerv: Cookie.get('agerv_permission')
+      }
     }
   },
   methods: {
