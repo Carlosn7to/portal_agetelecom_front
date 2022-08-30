@@ -353,6 +353,8 @@ export default {
       }).then((res) => {
         this.data = res.data
         this.loading = false
+        this.projection = true
+        this.dashStatus = true
       })
     },
     modalView: function (dash) {
@@ -372,9 +374,7 @@ export default {
   },
   mounted() {
     this.getMonth()
-    this.projection = true
-    this.dashStatus = true
-    console.log(this.filter.typeUser)
+
   }
 }
 </script>
