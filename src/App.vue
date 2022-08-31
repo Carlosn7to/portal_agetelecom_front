@@ -77,6 +77,20 @@ h1 {
   font-weight: 600;
   font-size: 1.4rem;
 }
+
+/*   SCROLL BAR   */
+::-webkit-scrollbar-track {
+  background-color: #F4F4F4;
+}
+::-webkit-scrollbar {
+  width: 6px;
+  background: #F4F4F4;
+}
+::-webkit-scrollbar-thumb {
+  background: #dad7d7;
+}
+
+
 #app {
   @include container(100vw, 100vh, 0, $back-main);
 
@@ -97,6 +111,12 @@ h1 {
 
         h1 {
           font-size: 2.4rem;
+          font-weight: 500;
+          color: $ml-text-menu;
+        }
+
+        h2 {
+          font-size: 2rem;
           font-weight: 500;
           color: $ml-text-menu;
         }
