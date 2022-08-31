@@ -433,7 +433,10 @@
       </div>
     </div>
   </div>
-  <div id="modal" v-if="modal === true">
+  <div id="modal"
+       v-if="modal === true"
+       :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
+                  'mode-d-p' : mode === 'dark'}">
     <div id="card-modal">
       <div id="close-button">
         <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
@@ -609,7 +612,7 @@ export default {
     .section {
       h2 {
         line-height: 1vh;
-        color: $age-bl !important;
+        color: $age-bl;
       }
 
       p {
@@ -695,6 +698,69 @@ export default {
 .mode-d-p {
   background-color: #161819;
   @include tr;
+
+  .sections {
+    background-color: $md-back-l !important;
+
+    .section {
+      h2 {
+        color: $md-text-h1 !important;
+      }
+
+      p {
+        color: $md-text-light !important;
+      }
+
+      table {
+        @include tr;
+        border: 1px solid $age-or;
+        thead {
+          tr {
+            background-color: #161819 !important;
+            th {
+              color: $md-text-light !important;
+            }
+          }
+        }
+
+        tbody {
+          tr {
+            td {
+              color: $md-text-op !important;
+            }
+
+            &:nth-child(even) {
+              background-color: #1a1a1a !important;
+            }
+            &:nth-child(odd) {
+              background-color: transparent;
+            }
+          }
+        }
+      }
+
+      button {
+        background-color: $age-or !important;
+        border: 1px solid $age-or !important;
+
+        &:hover {
+          border: 1px solid $age-or !important;
+          color: $age-or !important;
+          background-color: $md-back-l !important;
+        }
+      }
+
+      .example {
+        h3 {
+          color: $age-or !important;
+        }
+      }
+    }
+
+    .divisor {
+      background-color: rgba(70, 70, 70, 0.17) !important;
+    }
+  }
 }
 
 </style>
