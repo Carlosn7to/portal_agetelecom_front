@@ -160,8 +160,8 @@
         <router-link to="/ageRv/comercial/vendas/dashboard"
                      active-class="active-li"
                      @click="loading = true"
-                     v-if="permissions.agerv === 'seller' ||
-                           permissions.agerv === 'supervisor'">
+                     v-if="permissions.agerv.function === 'Vendedor' ||
+                           permissions.agerv.function === 'Supervisor'">
           <li>
             <div>
               <i class="fi fi-rr-chart-histogram"></i>
@@ -240,7 +240,10 @@ export default {
       menu: Cookie.get('menu'),
       loading: false,
       permissions: {
-        agerv: Cookie.get('agerv_permission'),
+        agerv: {
+          function: Cookie.get('agerv_function'),
+          level: Cookie.get('agerv_permission')
+        },
         portal: Cookie.get('portal_permission')
       }
     }

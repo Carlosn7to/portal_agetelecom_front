@@ -321,7 +321,7 @@ export default {
       filter: {
         month: '08',
         actualMonth: null,
-        typeUser: Cookie.get('agerv_permission'),
+        typeUser: Cookie.get('agerv_function'),
       },
       modal: false,
       dashboard: '',
@@ -342,7 +342,7 @@ export default {
 
       AXIOS({
         method: 'GET',
-        url: 'agerv/dashboard/'+this.filter.typeUser,
+        url: 'agerv/dashboard/seller',
         headers: {
           'Authorization': 'Bearer '+Cookie.get('token')
         },

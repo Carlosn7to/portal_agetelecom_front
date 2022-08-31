@@ -59,6 +59,7 @@ export default {
             }
         }).then((res) => {
             Cookie.set('agerv_permission', res.data.levelAccess, { expires: 1})
+            Cookie.set('agerv_function', res.data.function, { expires: 1})
             return next()
         }).catch(() => {
             alert('Você não pode acessar o sistema AgeRv.')
