@@ -181,14 +181,14 @@
             <span>Voltar ao portal</span>
           </li>
         </router-link>
-<!--        <router-link to="/ageRv/comercial/analitico" active-class="active-li" @click="loading = true">-->
-<!--          <li>-->
-<!--            <div>-->
-<!--              <i class="fi fi-rr-settings-sliders"></i>-->
-<!--            </div>-->
-<!--            <span>Analítico</span>-->
-<!--          </li>-->
-<!--        </router-link>-->
+        <router-link to="/ageRv/comercial/analitico" active-class="active-li" @click="loading = true">
+          <li>
+            <div>
+              <i class="fi fi-rr-settings-sliders"></i>
+            </div>
+            <span>Analítico</span>
+          </li>
+        </router-link>
         <router-link to="/sistemas"
                      active-class="active-li"
                      style="position: absolute;
