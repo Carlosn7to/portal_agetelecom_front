@@ -339,6 +339,8 @@ export default {
       this.loading = true
       this.filter.month = month
       this.data = null
+      this.projection = false
+      this.dashStatus = false
 
       AXIOS({
         method: 'GET',
