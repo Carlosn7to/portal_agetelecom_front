@@ -58,7 +58,7 @@ export default {
                 'Authorization': 'Bearer'+TOKEN
             }
         }).then((res) => {
-            Cookie.set('agerv_permission', res.data.levelAccess, { expires: 1})
+            Cookie.set('agerv_permission', res.data.levelAccess, {expires: 1})
             Cookie.set('agerv_function', res.data.function, { expires: 1})
             return next()
         }).catch(() => {

@@ -13,7 +13,7 @@
     <nav v-if="system === 'portal'">
       <ul>
         <router-link to="/sistemas" active-class="active-li" @click="loading = true">
-         <li>
+          <li>
             <div>
               <i class="fi fi-rr-apps-add"></i>
             </div>
@@ -32,14 +32,14 @@
             <span>Gerenciamento</span>
           </li>
         </router-link>
-<!--        <router-link to="/minha-conta" active-class="active-li" @click="loading = true">-->
-<!--          <li>-->
-<!--            <div>-->
-<!--              <i class="fi fi-rr-user"></i>-->
-<!--            </div>-->
-<!--            <span>Minha conta</span>-->
-<!--          </li>-->
-<!--        </router-link>-->
+        <!--        <router-link to="/minha-conta" active-class="active-li" @click="loading = true">-->
+        <!--          <li>-->
+        <!--            <div>-->
+        <!--              <i class="fi fi-rr-user"></i>-->
+        <!--            </div>-->
+        <!--            <span>Minha conta</span>-->
+        <!--          </li>-->
+        <!--        </router-link>-->
         <router-link to="/"
                      active-class="active-li"
                      style="position: absolute;
@@ -56,18 +56,18 @@
     </nav>
     <nav v-if="system === 'portal-mng'">
       <ul>
-<!--        <router-link to="/gerenciamento/dashboard"-->
-<!--                     active-class="active-li"-->
-<!--                     @click="loading = true"-->
-<!--                     v-if="permissions.portal === 'admin' ||-->
-<!--                           permissions.portal === 'master'">-->
-<!--          <li>-->
-<!--            <div>-->
-<!--              <i class="fi fi-rr-chart-pie-alt"></i>-->
-<!--            </div>-->
-<!--            <span>Dashboard</span>-->
-<!--          </li>-->
-<!--        </router-link>-->
+        <!--        <router-link to="/gerenciamento/dashboard"-->
+        <!--                     active-class="active-li"-->
+        <!--                     @click="loading = true"-->
+        <!--                     v-if="permissions.portal === 'admin' ||-->
+        <!--                           permissions.portal === 'master'">-->
+        <!--          <li>-->
+        <!--            <div>-->
+        <!--              <i class="fi fi-rr-chart-pie-alt"></i>-->
+        <!--            </div>-->
+        <!--            <span>Dashboard</span>-->
+        <!--          </li>-->
+        <!--        </router-link>-->
         <router-link to="/gerenciamento/usuarios" active-class="active-li" @click="loading = true">
           <li>
             <div>
@@ -113,7 +113,7 @@
     <nav v-if="system === 'report'">
       <ul>
         <router-link to="/ageReport/home" active-class="active-li" @click="loading = true">
-         <li>
+          <li>
             <div>
               <i class="fi fi-rr-document"></i>
             </div>
@@ -169,19 +169,13 @@
             <span>Minhas vendas</span>
           </li>
         </router-link>
-        <router-link to="/sistemas"
+        <router-link to="/ageRv/comercial/analitico"
                      active-class="active-li"
-                     style="position: absolute;
-                            bottom: 7vh"
-                     @click="loading = true">
-          <li>
-            <div>
-              <i class="fi fi-rr-arrow-left"></i>
-            </div>
-            <span>Voltar ao portal</span>
-          </li>
-        </router-link>
-        <router-link to="/ageRv/comercial/analitico" active-class="active-li" @click="loading = true">
+                     @click="loading = true"
+                     v-if="permissions.agerv.function === 'Supervisor' ||
+                           permissions.agerv.function === 'Gerente' ||
+                           permissions.agerv.function === 'Gerente geral' ||
+                           permissions.agerv.function === 'Diretoria'">
           <li>
             <div>
               <i class="fi fi-rr-settings-sliders"></i>
@@ -235,7 +229,7 @@ export default {
       required: true
     },
   },
-  data () {
+  data() {
     return {
       menu: Cookie.get('menu'),
       loading: false,
@@ -252,15 +246,15 @@ export default {
     closeMenu: function () {
       switch (Cookie.get('menu')) {
         case 'decrease':
-          Cookie.set('menu', 'increase', { expires: 7 })
+          Cookie.set('menu', 'increase', {expires: 7})
           this.menu = 'light'
           break
         case 'increase':
-          Cookie.set('menu', 'decrease', { expires: 7 })
+          Cookie.set('menu', 'decrease', {expires: 7})
           this.menu = 'decrease'
           break
         case undefined:
-          Cookie.set('menu', 'decrease', { expires: 7 })
+          Cookie.set('menu', 'decrease', {expires: 7})
           this.menu = 'decrease'
           break
       }
@@ -280,10 +274,12 @@ export default {
   #logo-name {
     @include flex(row, space-between, center, 0);
     padding: 3vh 1vw;
+
     img {
       width: 10vw;
       height: auto;
     }
+
     div {
       @include tr-p;
       @include flex(row, center, center, 1px);
@@ -310,16 +306,19 @@ export default {
       padding: 0 1vw;
       height: 30%;
       @include flex(column, flex-start, initial, 5px);
+
       a {
         padding: .5vh 1.5vw;
         @include flex(row, flex-start, center, 0);
         border-radius: 8px;
+
         li {
           @include flex(row, flex-start, center, 5px);
 
           div {
             padding: 7px 8px 3px 8px;
             border-radius: 5px;
+
             i {
               font-size: 2rem;
               @include tr-p;
@@ -370,6 +369,7 @@ export default {
                 color: $age-or;
               }
             }
+
             span {
               color: $age-bl;
             }
@@ -378,14 +378,17 @@ export default {
       }
 
       .active-li {
-        background-color: $ml-back-li ;
+        background-color: $ml-back-li;
+
         li {
           div {
             background-color: #EFF0F2;
-              i {
-                color: $age-or;
-              }
+
+            i {
+              color: $age-or;
+            }
           }
+
           span {
             color: $age-bl;
           }
@@ -418,6 +421,7 @@ export default {
                 color: $age-or;
               }
             }
+
             span {
               color: $age-or;
             }
@@ -427,12 +431,14 @@ export default {
 
       .active-li {
         background-color: $age-or;
+
         li {
           div {
             i {
               color: $md-text-menu;
             }
           }
+
           span {
             color: $md-text-menu;
           }
@@ -443,6 +449,7 @@ export default {
                 color: $md-text-menu;
               }
             }
+
             span {
               color: $md-text-menu;
             }
@@ -460,9 +467,11 @@ export default {
   #logo-name {
     padding-top: 5vh !important;
     justify-content: center !important;
+
     img {
       display: none;
     }
+
     i:nth-child(1) {
       display: none;
     }
@@ -470,9 +479,11 @@ export default {
 
   nav {
     margin-top: 1.5vh;
+
     ul {
       a {
         padding: .1vh 0 !important;
+
         li {
           span {
             display: none;

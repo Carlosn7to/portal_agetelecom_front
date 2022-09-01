@@ -115,13 +115,13 @@
             </div>
           </div>
           <div class="filters">
-              <span>Selecione o mês</span>
-              <div class="buttons-filter">
-                <span :class="{ 'active' : filter.month === '07'}" @click="getSellers('07')">Julho</span>
-                <span :class="{ 'active' : filter.month === '08'}" @click="getSellers('08')">Agosto</span>
-                <span :class="{ 'active' : filter.month === '09'}" @click="getSellers('09')">Setembro</span>
-              </div>
+            <span>Selecione o mês</span>
+            <div class="buttons-filter">
+              <span :class="{ 'active' : filter.month === '07'}" @click="getSellers('07')">Julho</span>
+              <span :class="{ 'active' : filter.month === '08'}" @click="getSellers('08')">Agosto</span>
+              <span :class="{ 'active' : filter.month === '09'}" @click="getSellers('09')">Setembro</span>
             </div>
+          </div>
         </div>
         <div class="section-2">
           <ProjectionSection
@@ -152,12 +152,12 @@
           </tr>
           </thead>
           <tbody>
-            <tr v-for="item in data.extractStars" :key="item.valueStar">
-              <td style="text-align: left; width: 50%">{{ item.plan }}</td>
-              <td>{{ item.qntd }}</td>
-              <td>{{ item.valueStar }}</td>
-              <td>{{ item.totals }}</td>
-            </tr>
+          <tr v-for="item in data.extractStars" :key="item.valueStar">
+            <td style="text-align: left; width: 50%">{{ item.plan }}</td>
+            <td>{{ item.qntd }}</td>
+            <td>{{ item.valueStar }}</td>
+            <td>{{ item.totals }}</td>
+          </tr>
           </tbody>
         </table>
       </div>
@@ -308,6 +308,7 @@ import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 import {AXIOS} from "../../../../../../../services/api.ts";
 import ProjectionSection from "@/components/ageRv/dashboards/ProjectionSection";
+
 export default {
   name: "SalesPage",
   components: {
@@ -315,7 +316,7 @@ export default {
     HeaderApp,
     ProjectionSection
   },
-  data () {
+  data() {
     return {
       mode: Cookie.get('mode'),
       data: {},
@@ -347,7 +348,7 @@ export default {
         method: 'GET',
         url: 'agerv/dashboard/seller',
         headers: {
-          'Authorization': 'Bearer '+Cookie.get('token')
+          'Authorization': 'Bearer ' + Cookie.get('token')
         },
         params: {
           year: '2022',
@@ -366,8 +367,8 @@ export default {
     },
     getMonth: function () {
       const date = new Date()
-      if(date.getMonth() < 10) {
-        this.filter.actualMonth = '0'+(date.getMonth() + 1)
+      if (date.getMonth() < 10) {
+        this.filter.actualMonth = '0' + (date.getMonth() + 1)
       } else {
         this.filter.actualMonth = (date.getMonth() + 1).toString()
       }
@@ -499,13 +500,16 @@ export default {
 
 .stars {
   width: 60vw;
+
   #table {
     padding: 2vh 2vw 3vh 2vw;
+
     h1 {
       font-size: 3rem;
       text-align: center;
       color: $ml-text-menu;
     }
+
     table {
       @include table;
 
@@ -530,6 +534,7 @@ export default {
         font-size: 1.2rem !important;
         padding: 0 !important;
       }
+
       td {
         font-size: 1rem !important;
         padding: 0 !important;
@@ -596,46 +601,48 @@ export default {
 }
 
 .mode-d-m {
- #card-modal {
-   background-color: $md-back-l !important;
+  #card-modal {
+    background-color: $md-back-l !important;
 
-   #close-button {
-     i {
-       color: #fff !important;
+    #close-button {
+      i {
+        color: #fff !important;
 
-       &:hover {
-         color: $red !important;
-       }
-     }
-   }
+        &:hover {
+          color: $red !important;
+        }
+      }
+    }
 
-   table {
+    table {
 
-     thead {
-       tr {
-         background-color: #161819 !important;
-         th {
-           color: $md-text-light !important;
-         }
-       }
-     }
+      thead {
+        tr {
+          background-color: #161819 !important;
 
-     tbody {
-       tr {
-         td {
-           color: $md-text-op;
-         }
+          th {
+            color: $md-text-light !important;
+          }
+        }
+      }
 
-         &:nth-child(even) {
-           background-color: #1a1a1a !important;
-         }
-         &:nth-child(odd) {
-           background-color: transparent;
-         }
-       }
-     }
-   }
- }
+      tbody {
+        tr {
+          td {
+            color: $md-text-op;
+          }
+
+          &:nth-child(even) {
+            background-color: #1a1a1a !important;
+          }
+
+          &:nth-child(odd) {
+            background-color: transparent;
+          }
+        }
+      }
+    }
+  }
 }
 
 </style>

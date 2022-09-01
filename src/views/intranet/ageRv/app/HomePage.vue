@@ -138,7 +138,7 @@
             </div>
             <div class="example">
               <h3>Assinatura de contrato</h3>
-              <p>Clientes que realizam um compra e sabem o que
+              <p>Clientes que realizam uma compra e sabem o que
                 compraram, nunca se negam a assinar seu contrato,
                 por isso esperamos que 95% dos seus contratos
                 estejam assinados, formalizando o aceite do cliente…</p>
