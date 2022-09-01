@@ -11,6 +11,7 @@
       <div id="content-page"
            :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
                   'mode-d-p' : mode === 'dark'}">
+
       </div>
     </div>
   </div>
