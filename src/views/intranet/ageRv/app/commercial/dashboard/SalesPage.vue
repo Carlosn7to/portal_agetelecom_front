@@ -119,6 +119,7 @@
               <div class="buttons-filter">
                 <span :class="{ 'active' : filter.month === '07'}" @click="getSellers('07')">Julho</span>
                 <span :class="{ 'active' : filter.month === '08'}" @click="getSellers('08')">Agosto</span>
+                <span :class="{ 'active' : filter.month === '09'}" @click="getSellers('09')">Setembro</span>
               </div>
             </div>
         </div>
@@ -440,13 +441,13 @@ export default {
 
     .filters {
       width: 15%;
-      height: 25%;
+      height: 35%;
       background-color: #fff;
       margin-top: 6vh;
       border-radius: 5px;
       @include sh;
       @include flex(column, flex-start, center, 10px);
-      padding: 2vh 2vw;
+      padding: 2vh 1vw;
       border: 1px solid #fff;
 
       span {
@@ -457,6 +458,7 @@ export default {
 
       .buttons-filter {
         @include flex(row, flex-start, center, 10px);
+        flex-wrap: wrap;
 
         span {
           font-size: 1.2rem;

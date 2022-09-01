@@ -699,6 +699,42 @@ export default {
   background-color: #161819;
   @include tr;
 
+
+
+  #card-modal {
+    background-color: $md-back-l !important;
+
+    #close-button {
+      color: #fff !important;
+    }
+    table {
+      @include tr;
+      thead {
+        tr {
+          background-color: #161819 !important;
+          th {
+            color: $md-text-light !important;
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          td {
+            color: $md-text-op !important;
+          }
+
+          &:nth-child(even) {
+            background-color: #1a1a1a !important;
+          }
+          &:nth-child(odd) {
+            background-color: transparent;
+          }
+        }
+      }
+    }
+  }
+
   .sections {
     background-color: $md-back-l !important;
 
