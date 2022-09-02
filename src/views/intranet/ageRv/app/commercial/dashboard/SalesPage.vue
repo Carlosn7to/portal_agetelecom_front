@@ -442,7 +442,7 @@ export default {
 
     .filters {
       width: 15%;
-      height: 35%;
+      height: 50%;
       background-color: #fff;
       margin-top: 6vh;
       border-radius: 5px;
