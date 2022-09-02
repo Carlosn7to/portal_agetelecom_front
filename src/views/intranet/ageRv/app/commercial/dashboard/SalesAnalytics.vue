@@ -22,6 +22,7 @@
 import MenuApp from "@/components/portal/_aux/MenuApp";
 import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
+import {AXIOS} from "../../../../../../../services/api.ts";
 
 export default {
   name: "SalesAnalytics",
@@ -37,9 +38,23 @@ export default {
   methods: {
     modeView: function (mode) {
       this.mode = mode
+    },
+    getAnalytic: function () {
+      AXIOS({
+        method: 'GET',
+        url: 'agerv/analytics',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token')
+        }
+      }).then((res) => {
+        console.log(res.data)
+      }).catch((error) => {
+        console.log(error)
+      })
     }
   },
   mounted() {
+    this.getAnalytic()
   }
 }
 </script>
