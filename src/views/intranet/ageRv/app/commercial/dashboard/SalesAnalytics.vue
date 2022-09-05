@@ -1,4 +1,6 @@
 <template>
+  <div class="loading-bar" v-if="loading === true">
+  </div>
   <div id="content-app">
     <MenuApp
         :mode="mode"
@@ -32,7 +34,8 @@ export default {
   },
   data () {
     return {
-      mode: Cookie.get('mode')
+      mode: Cookie.get('mode'),
+      loading: true
     }
   },
   methods: {
@@ -48,6 +51,7 @@ export default {
         }
       }).then((res) => {
         console.log(res.data)
+        this.loading = false
       }).catch((error) => {
         console.log(error)
       })
@@ -70,6 +74,10 @@ export default {
 .mode-d-p {
   background-color: #161819;
   @include tr;
+}
+
+.loading-bar {
+  @include bar;
 }
 
 </style>
