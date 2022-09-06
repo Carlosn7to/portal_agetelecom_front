@@ -233,6 +233,179 @@
             </div>
           </div>
         </template>
+
+        <template v-if="stage === 'supervisor'">
+          <div class="items-header">
+            <div class="item" style="justify-content: flex-start">
+              <span>Supervisor</span>
+            </div>
+            <div class="item">
+              <span>Vendas</span>
+            </div>
+            <div class="item">
+              <span>Meta</span>
+            </div>
+            <div class="item">
+              <span>Meta atingida</span>
+            </div>
+            <div class="item">
+              <span>Canceladas</span>
+            </div>
+            <div class="item">
+              <span>Estrelas</span>
+            </div>
+            <div class="item">
+              <span>Valor da estrela</span>
+            </div>
+            <div class="item">
+              <span>Acelerador/ <br> Deflator</span>
+            </div>
+            <div class="item">
+              <span>Comissão</span>
+            </div>
+            <div class="item">
+              <span>Ações</span>
+            </div>
+          </div>
+          <div class="container-body">
+            <div class="items-body">
+              <div class="item" style="justify-content: flex-start">
+                <span>{{ dataStage.supervisor }}</span>
+              </div>
+              <div class="item">
+                <span>{{ dataStage.salesTotal.count }}</span>
+              </div>
+              <div class="item">
+                <span>{{ dataStage.meta }}</span>
+              </div>
+              <div class="item">
+                <span>{{ dataStage.metaPercent }}%</span>
+              </div>
+              <div class="item">
+                <span style="background-color: #F44336; color: #fff" v-if="dataStage.salesCancelled.count > 0">
+                  {{ dataStage.salesCancelled.count }}
+                </span>
+                <span v-else>{{ dataStage.salesCancelled.count }}</span>
+              </div>
+              <div class="item">
+                <span style="background-color: #FEA11D; color: #fff" v-if="dataStage.commission !== '0,00'">{{ dataStage.starsTotal }}</span>
+                <span v-else>{{ dataStage.starsTotal }}</span>
+              </div>
+              <div class="item">
+                <span style="background-color: #FECA1D; color: #fff"
+                      v-if="dataStage.commission !== '0,00'">R${{ dataStage.valueStar }}
+                </span>
+                <span v-else>{{ dataStage.valueStar }}</span>
+              </div>
+              <div class="item">
+                <span v-if="dataStage.deflator === 10 && dataStage.commission !== '0,00'"
+                      style="background-color: #24A527; color: #fff;">
+                  {{ dataStage.deflator }}%
+                </span>
+                <span v-else-if="dataStage.deflator === -10 && dataStage.commission !== '0,00'"
+                      style="background-color: #911515; color: #fff;">
+                  {{ dataStage.deflator }}%
+                </span>
+                <span v-else>{{ dataStage.deflator }}%</span>
+              </div>
+              <div class="item">
+                <span style="background-color: #24A527; color: #fff"
+                      v-if="dataStage.commission !== '0,00'">R${{ dataStage.commission }}</span>
+                <span v-else>R${{ dataStage.commission }}</span>
+              </div>
+              <div class="item" style="gap: 5px">
+                <i class="fi fi-rr-info"></i>
+                <i class="fi fi-rr-users" @click="tradeStage(dataStage.sellers, 'sellers-sup')"></i>
+              </div>
+            </div>
+          </div>
+        </template>
+        <template v-if="stage === 'sellers-sup'">
+          <button @click="stage = 'supervisor'">Voltar</button>
+          <div class="items-header">
+            <div class="item" style="justify-content: flex-start">
+              <span>Vendedor</span>
+            </div>
+            <div class="item">
+              <span>Vendas</span>
+            </div>
+            <div class="item">
+              <span>Meta</span>
+            </div>
+            <div class="item">
+              <span>Meta atingida</span>
+            </div>
+            <div class="item">
+              <span>Canceladas</span>
+            </div>
+            <div class="item">
+              <span>Estrelas</span>
+            </div>
+            <div class="item">
+              <span>Valor da estrela</span>
+            </div>
+            <div class="item">
+              <span>Acelerador/ <br> Deflator</span>
+            </div>
+            <div class="item">
+              <span>Comissão</span>
+            </div>
+            <div class="item">
+              <span>Ações</span>
+            </div>
+          </div>
+          <div class="container-body">
+            <div class="items-body" v-for="(item, key) in dataStage.sellers" :key="key">
+              <div class="item" style="justify-content: flex-start">
+                <span>{{ item.seller }}</span>
+              </div>
+              <div class="item">
+                <span>{{ item.salesTotal.count }}</span>
+              </div>
+              <div class="item">
+                <span>{{ item.meta }}</span>
+              </div>
+              <div class="item">
+                <span>{{ item.metaPercent }}%</span>
+              </div>
+              <div class="item">
+                <span style="background-color: #F44336; color: #fff" v-if="item.salesCancelled.count > 0">
+                  {{ item.salesCancelled.count }}
+                </span>
+                <span v-else>{{ item.salesCancelled.count }}</span>
+              </div>
+              <div class="item">
+                <span style="background-color: #FEA11D; color: #fff" v-if="item.commission !== '0,00'">{{ item.starsTotal }}</span>
+                <span v-else>{{ item.starsTotal }}</span>
+              </div>
+              <div class="item">
+                <span style="background-color: #FECA1D; color: #fff"
+                      v-if="item.commission !== '0,00'">R${{ item.valueStar }}
+                </span>
+                <span v-else>{{ item.valueStar }}</span>
+              </div>
+              <div class="item">
+                <span v-if="item.deflator === 10 && item.commission !== '0,00'"
+                      style="background-color: #24A527; color: #fff;">
+                  {{ item.deflator }}%
+                </span>
+                <span v-else-if="item.deflator === -10 && item.commission !== '0,00'"
+                      style="background-color: #911515; color: #fff;">
+                  {{ item.deflator }}%
+                </span>
+                <span v-else>{{ item.deflator }}%</span>
+              </div>
+              <div class="item">
+                <span style="background-color: #24A527; color: #fff"
+                      v-if="item.commission !== '0,00'">R${{ item.commission }}</span>
+                <span v-else>R${{ item.commission }}</span>
+              </div>
+              <div class="item">
+                <i class="fi fi-rr-info"></i>
+              </div>
+            </div>
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -261,7 +434,9 @@ export default {
         supervisors: {},
         sellers: {}
       },
-      stage: ''
+      stage: '',
+      function: null,
+      permission: null
     }
   },
   methods: {
@@ -276,9 +451,24 @@ export default {
           'Authorization': 'Bearer '+Cookie.get('token')
         }
       }).then((res) => {
-        this.data = res.data
-        this.stage = 'channels'
-        this.loading = false
+
+        this.function = Cookie.get('agerv_function')
+        this.permission = Cookie.get('agerv_permission')
+
+        if(this.function === 'Gerente geral' || this.function === 'Diretoria' ||
+            this.permission === 'Master') {
+            this.data = res.data
+            this.stage = 'channels'
+            this.loading = false
+        }
+
+        if(this.function === 'Supervisor') {
+          this.dataStage = res.data
+          this.stage = 'supervisor'
+          this.loading = false
+        }
+
+
       }).catch((error) => {
         console.log(error)
       })
@@ -386,7 +576,9 @@ export default {
           font-size: 1.2rem;
           color: $ml-text-menu;
           padding: 5px 10px;
-          border-radius: 3px;        }
+          border-radius: 3px;
+          user-select: text !important;
+        }
 
         i {
           font-size: 2rem;
