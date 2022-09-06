@@ -70,6 +70,12 @@
               <span>Vendas</span>
             </div>
             <div class="item">
+              <span>Meta</span>
+            </div>
+            <div class="item">
+              <span>Meta atingida</span>
+            </div>
+            <div class="item">
               <span>Canceladas</span>
             </div>
             <div class="item">
@@ -95,6 +101,12 @@
               </div>
               <div class="item">
                 <span>{{ item.salesTotal.count }}</span>
+              </div>
+              <div class="item">
+                <span>{{ item.meta }}</span>
+              </div>
+              <div class="item">
+                <span>{{ item.metaPercent }}%</span>
               </div>
               <div class="item">
                 <span style="background-color: #F44336; color: #fff" v-if="item.salesCancelled.count > 0">
@@ -145,6 +157,12 @@
               <span>Vendas</span>
             </div>
             <div class="item">
+              <span>Meta</span>
+            </div>
+            <div class="item">
+              <span>Meta atingida</span>
+            </div>
+            <div class="item">
               <span>Canceladas</span>
             </div>
             <div class="item">
@@ -170,6 +188,12 @@
               </div>
               <div class="item">
                 <span>{{ item.salesTotal.count }}</span>
+              </div>
+              <div class="item">
+                <span>{{ item.meta }}</span>
+              </div>
+              <div class="item">
+                <span>{{ item.metaPercent }}%</span>
               </div>
               <div class="item">
                 <span style="background-color: #F44336; color: #fff" v-if="item.salesCancelled.count > 0">
