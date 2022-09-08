@@ -16,6 +16,19 @@
 
         <!-- Visão do Diretor/Gerente geral -->
         <template v-if="stage === 'channels'">
+          <div id="filters">
+            <input type="text"
+                   name="search"
+                   id="search"
+                   autocomplete="off"
+                   placeholder="Pesquisar"
+                   v-model="search">
+            <div id="month">
+              <span :class="{ 'selectMonth' : month === '07' }" @click="getAnalytic('07'), month = '07'">Julho</span>
+              <span :class="{ 'selectMonth' : month === '08' }" @click="getAnalytic('08'), month = '08'">Agosto</span>
+              <span :class="{ 'selectMonth' : month === '09' }" @click="getAnalytic('09'), month = '09'">Setembro</span>
+            </div>
+          </div>
           <div class="items-header">
             <div class="item" style="justify-content: flex-start">
               <span>Canal</span>
@@ -37,7 +50,7 @@
             </div>
           </div>
           <div class="container-body">
-            <template v-for="(item, key) in data.channels" :key="key">
+            <template v-for="(item, key) in ChannelsFiltered" :key="key">
               <div class="items-body">
                 <div class="item" style="justify-content: flex-start">
                   <span>{{ item.channel }}</span>
@@ -62,7 +75,15 @@
           </div>
         </template>
         <template v-if="stage === 'supervisors'">
-          <button @click="stage = 'channels'">Voltar</button>
+          <div id="filters">
+            <button @click="stage = 'channels'">Voltar</button>
+            <input type="text"
+                   name="search"
+                   id="search"
+                   autocomplete="off"
+                   placeholder="Pesquisar"
+                   v-model="search">
+          </div>
           <div class="items-header">
             <div class="item" style="justify-content: flex-start">
               <span>Supervisor</span>
@@ -96,7 +117,7 @@
             </div>
           </div>
           <div class="container-body">
-            <div class="items-body" v-for="(item, key) in dataStage.supervisors" :key="key">
+            <div class="items-body" v-for="(item, key) in SupervisorsFiltered" :key="key">
               <div class="item" style="justify-content: flex-start">
                 <span>{{ item.supervisor }}</span>
               </div>
@@ -149,7 +170,15 @@
           </div>
         </template>
         <template v-if="stage === 'sellers'">
-          <button @click="stage = 'supervisors'">Voltar</button>
+          <div id="filters">
+            <button @click="stage = 'supervisors'">Voltar</button>
+            <input type="text"
+                   name="search"
+                   id="search"
+                   autocomplete="off"
+                   placeholder="Pesquisar"
+                   v-model="search">
+          </div>
           <div class="items-header">
             <div class="item" style="justify-content: flex-start">
               <span>Vendedor</span>
@@ -183,7 +212,7 @@
             </div>
           </div>
           <div class="container-body">
-            <div class="items-body" v-for="(item, key) in dataStage.sellers" :key="key">
+            <div class="items-body" v-for="(item, key) in SellersFiltered" :key="key">
               <div class="item" style="justify-content: flex-start">
                 <span>{{ item.seller }}</span>
               </div>
@@ -323,7 +352,15 @@
           </div>
         </template>
         <template v-if="stage === 'sellers-sup'">
-          <button @click="stage = 'supervisor'">Voltar</button>
+          <div id="filters">
+            <button @click="stage = 'supervisor'">Voltar</button>
+            <input type="text"
+                   name="search"
+                   id="search"
+                   autocomplete="off"
+                   placeholder="Pesquisar"
+                   v-model="search">
+          </div>
           <div class="items-header">
             <div class="item" style="justify-content: flex-start">
               <span>Vendedor</span>
@@ -357,7 +394,7 @@
             </div>
           </div>
           <div class="container-body">
-            <div class="items-body" v-for="(item, key) in dataStage.sellers" :key="key">
+            <div class="items-body" v-for="(item, key) in SellersFiltered" :key="key">
               <div class="item" style="justify-content: flex-start">
                 <span>{{ item.seller }}</span>
               </div>
@@ -590,8 +627,8 @@
       <div id="close-button">
         <i class="fi fi-rr-cross-small" @click="extract.status = false"></i>
       </div>
-      <div id="content-card-modal">
-
+      <div id="content-card-modal" style="text-align: center">
+        Em desenvolvimento!
       </div>
     </div>
   </div>
@@ -629,19 +666,29 @@ export default {
         data: {
           sales: null
         }
-      }
+      },
+      search: '',
+      month: null
     }
   },
   methods: {
     modeView: function (mode) {
       this.mode = mode
     },
-    getAnalytic: function () {
+    getAnalytic: function (month) {
+
+      this.loading = true
+      this.data = {}
+      this.stage = ''
+
       AXIOS({
         method: 'GET',
         url: 'agerv/analytics',
         headers: {
           'Authorization': 'Bearer '+Cookie.get('token')
+        },
+        params: {
+          month: month
         }
       }).then((res) => {
 
@@ -691,10 +738,49 @@ export default {
       this.extract.status = true
       this.extract.stage = stage
       this.extract.data.sales = sales
+    },
+    getMonth: function () {
+      const date = new Date()
+      if (date.getMonth() < 10) {
+        this.month = '0' + (date.getMonth() + 1)
+      } else {
+        this.month = (date.getMonth() + 1).toString()
+      }
+
+      this.getAnalytic(this.month)
+    },
+  },
+  computed: {
+    ChannelsFiltered: function () {
+      let values = []
+      values = this.data.channels.filter((value) => {
+        return (
+            value.channel.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        )
+      })
+      return values
+    },
+    SupervisorsFiltered: function () {
+      let values = []
+      values = this.dataStage.supervisors.filter((value) => {
+        return (
+            value.supervisor.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        )
+      })
+      return values
+    },
+    SellersFiltered: function () {
+      let values = []
+      values = this.dataStage.sellers.filter((value) => {
+        return (
+            value.seller.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        )
+      })
+      return values
     }
   },
   mounted() {
-    this.getAnalytic()
+    this.getMonth()
   }
 }
 </script>
@@ -704,21 +790,65 @@ export default {
 #content-page {
   @include flex(column, flex-start, initial, 0vh);
 
-  button {
-    margin-top: 1vh;
-    width: 10%;
-    height: 5%;
-    background-color: $age-bl;
-    color: #fff;
-    border-radius: 3px;
-    font-weight: 600;
-    @include tr-p;
-    border: 1px solid $age-bl;
+  #filters {
+    width: 100%;
+    height: 10%;
+    @include flex(row, flex-start, center, 15px);
 
-    &:hover {
+    button {
+      padding: 7px 30px;
+      background-color: $age-bl;
+      color: #fff;
+      border-radius: 3px;
+      font-weight: 600;
+      @include tr-p;
       border: 1px solid $age-bl;
-      background-color: #fff;
-      color: $age-bl;
+
+      &:hover {
+        border: 1px solid $age-bl;
+        background-color: #fff;
+        color: $age-bl;
+      }
+    }
+
+    input[type=text] {
+      width: 25%;
+      padding: 10px 8px;
+      border-radius: 5px;
+      outline: none;
+      border: none;
+      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+
+      &:focus {
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;      }
+    }
+
+    #month {
+      @include flex(row, flex-start, center, 5px);
+      span {
+        font-size: 1.4rem;
+        border-radius: 5px;
+        background-color: #fff;
+        color: $age-bl;
+        border: 1px solid $age-bl;
+        padding: 5px 10px;
+        @include tr-p;
+
+        &:hover {
+          background-color: $age-bl;
+          color: #fff;
+        }
+      }
+    }
+
+    .selectMonth {
+      color: #fff !important;
+      background-color: $age-bl !important;
+      border: 1px solid $age-bl !important;
+
+      &:hover {
+        opacity: .9;
+      }
     }
   }
 
