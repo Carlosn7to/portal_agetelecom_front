@@ -266,6 +266,13 @@
 
         <!-- Visão do Supervisor -->
         <template v-if="stage === 'supervisor'">
+          <div id="filters">
+            <div id="month">
+              <span :class="{ 'selectMonth' : month === '07' }" @click="getAnalytic('07'), month = '07'">Julho</span>
+              <span :class="{ 'selectMonth' : month === '08' }" @click="getAnalytic('08'), month = '08'">Agosto</span>
+              <span :class="{ 'selectMonth' : month === '09' }" @click="getAnalytic('09'), month = '09'">Setembro</span>
+            </div>
+          </div>
           <div class="items-header">
             <div class="item" style="justify-content: flex-start">
               <span>Supervisor</span>
@@ -448,6 +455,19 @@
 
         <!-- Visão do Gerente -->
         <template v-if="stage === 'management'">
+          <div id="filters">
+            <input type="text"
+                   name="search"
+                   id="search"
+                   autocomplete="off"
+                   placeholder="Pesquisar"
+                   v-model="search">
+            <div id="month">
+              <span :class="{ 'selectMonth' : month === '07' }" @click="getAnalytic('07'), month = '07'">Julho</span>
+              <span :class="{ 'selectMonth' : month === '08' }" @click="getAnalytic('08'), month = '08'">Agosto</span>
+              <span :class="{ 'selectMonth' : month === '09' }" @click="getAnalytic('09'), month = '09'">Setembro</span>
+            </div>
+          </div>
           <div class="items-header">
             <div class="item" style="justify-content: flex-start">
               <span>Supervisor</span>
@@ -481,7 +501,7 @@
             </div>
           </div>
           <div class="container-body">
-            <div class="items-body" v-for="(item, key) in dataStage.supervisors" :key="key">
+            <div class="items-body" v-for="(item, key) in SupervisorsFiltered" :key="key">
               <div class="item" style="justify-content: flex-start">
                 <span>{{ item.supervisor }}</span>
               </div>
@@ -528,13 +548,21 @@
               </div>
               <div class="item" style="gap: 5px">
                 <i class="fi fi-rr-info"></i>
-                <i class="fi fi-rr-users" @click="tradeStage(item.sellers, 'sellers')"></i>
+                <i class="fi fi-rr-users" @click="tradeStage(item.sellers, 'sellers-mng')"></i>
               </div>
             </div>
           </div>
         </template>
         <template v-if="stage === 'sellers-mng'">
-          <button @click="stage = 'management'">Voltar</button>
+          <div id="filters">
+            <button @click="stage = 'management'">Voltar</button>
+            <input type="text"
+                   name="search"
+                   id="search"
+                   autocomplete="off"
+                   placeholder="Pesquisar"
+                   v-model="search">
+          </div>
           <div class="items-header">
             <div class="item" style="justify-content: flex-start">
               <span>Vendedor</span>
@@ -568,7 +596,7 @@
             </div>
           </div>
           <div class="container-body">
-            <div class="items-body" v-for="(item, key) in dataStage.sellers" :key="key">
+            <div class="items-body" v-for="(item, key) in SellersFiltered" :key="key">
               <div class="item" style="justify-content: flex-start">
                 <span>{{ item.seller }}</span>
               </div>
