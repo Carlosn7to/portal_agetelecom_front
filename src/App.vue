@@ -49,10 +49,10 @@ h1 {
 
     #close-button {
       @include flex(row, flex-end, center, 0);
-      @include container(100%, 13%, 1vh 1vw, transparent);
+      @include container(100%, 6%, 1vh 1vw, transparent);
 
       i {
-        font-size: 2rem;
+        font-size: 2.4rem;
         @include tr-p;
         &:hover {
           color: $red;

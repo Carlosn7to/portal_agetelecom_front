@@ -14,6 +14,7 @@
            :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
                   'mode-d-p' : mode === 'dark'}">
 
+        <!-- Visão do Diretor/Gerente geral -->
         <template v-if="stage === 'channels'">
           <div class="items-header">
             <div class="item" style="justify-content: flex-start">
@@ -141,7 +142,7 @@
                 <span v-else>R${{ item.commission }}</span>
               </div>
               <div class="item" style="gap: 5px">
-                <i class="fi fi-rr-info"></i>
+                <i class="fi fi-rr-info" @click="extractView('supervisor', item.salesTotal.extract)"></i>
                 <i class="fi fi-rr-users" @click="tradeStage(item.sellers, 'sellers')"></i>
               </div>
             </div>
@@ -234,6 +235,7 @@
           </div>
         </template>
 
+        <!-- Visão do Supervisor -->
         <template v-if="stage === 'supervisor'">
           <div class="items-header">
             <div class="item" style="justify-content: flex-start">
@@ -407,6 +409,7 @@
           </div>
         </template>
 
+        <!-- Visão do Gerente -->
         <template v-if="stage === 'management'">
           <div class="items-header">
             <div class="item" style="justify-content: flex-start">
@@ -582,6 +585,16 @@
       </div>
     </div>
   </div>
+  <div id="modal" v-if="extract.status === true && extract.stage === 'supervisor'">
+    <div id="card-modal">
+      <div id="close-button">
+        <i class="fi fi-rr-cross-small" @click="extract.status = false"></i>
+      </div>
+      <div id="content-card-modal">
+
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -609,7 +622,14 @@ export default {
       },
       stage: '',
       function: null,
-      permission: null
+      permission: null,
+      extract: {
+        status: false,
+        stage: null,
+        data: {
+          sales: null
+        }
+      }
     }
   },
   methods: {
@@ -666,6 +686,11 @@ export default {
       }
 
       this.stage = type
+    },
+    extractView: function (stage, sales) {
+      this.extract.status = true
+      this.extract.stage = stage
+      this.extract.data.sales = sales
     }
   },
   mounted() {
@@ -792,4 +817,10 @@ export default {
   @include bar;
 }
 
+#modal {
+  #card-modal {
+    width: 95vw;
+    height: 95vh;
+  }
+}
 </style>

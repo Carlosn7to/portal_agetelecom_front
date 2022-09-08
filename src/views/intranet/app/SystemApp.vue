@@ -13,23 +13,7 @@
                   'mode-d-p' : mode === 'dark'}">
         <div class="systems-on">
           <h1>Sistemas</h1>
-          <div id="systems">
-          </div>
-        </div>
-        <div class="systems-on">
-          <h1>Em desenvolvimento</h1>
-          <div id="systems">
-            <router-link to="/ageReport/home" @click="loading = true">
-              <div class="system">
-                <div class="img-title">
-                  <i class="fi fi-rr-document"></i>
-                  <span>Relatórios</span>
-                </div>
-                <p>
-                  Relatórios e planilhas.
-                </p>
-              </div>
-            </router-link>
+          <div class="systems">
             <router-link to="/ageRv/home" @click="loading = true">
               <div class="system">
                 <div class="img-title">
@@ -38,6 +22,22 @@
                 </div>
                 <p>
                   Vendas e comissionamento.
+                </p>
+              </div>
+            </router-link>
+          </div>
+        </div>
+        <div class="systems-on">
+          <h1>Em desenvolvimento</h1>
+          <div class="systems">
+            <router-link to="/ageReport/home" @click="loading = true">
+              <div class="system">
+                <div class="img-title">
+                  <i class="fi fi-rr-document"></i>
+                  <span>Relatórios</span>
+                </div>
+                <p>
+                  Relatórios e planilhas.
                 </p>
               </div>
             </router-link>
@@ -99,7 +99,7 @@ export default {
   .systems-on {
     width: 100%;
     padding: 1vh 1vw;
-    #systems {
+    .systems {
       padding: 1vh 0;
       width: 100%;
       height: 100%;
@@ -184,7 +184,7 @@ export default {
   }
 
   .systems-on {
-    #systems {
+    .systems {
       a {
         background-color: $md-back-l !important;
         border: 2px solid $md-back-l !important;
