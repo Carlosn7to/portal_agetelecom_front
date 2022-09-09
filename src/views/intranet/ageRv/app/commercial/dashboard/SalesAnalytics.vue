@@ -28,6 +28,10 @@
               <span :class="{ 'selectMonth' : month === '08' }" @click="getAnalytic('08'), month = '08'">Agosto</span>
               <span :class="{ 'selectMonth' : month === '09' }" @click="getAnalytic('09'), month = '09'">Setembro</span>
             </div>
+            <div id="month">
+              <span :class="{ 'selectMonth' : rule === 'before' }" @click="getAnalyticRule(this.month), rule = 'before'">Antiga</span>
+              <span :class="{ 'selectMonth' : rule === 'actual' }" @click="getAnalyticRule(this.month), rule = 'actual'">Atual</span>
+            </div>
           </div>
           <div class="items-header">
             <div class="item" style="justify-content: flex-start">
@@ -76,7 +80,7 @@
         </template>
         <template v-if="stage === 'supervisors'">
           <div id="filters">
-            <button @click="stage = 'channels'">Voltar</button>
+            <button @click="stage = 'channels', search = ''">Voltar</button>
             <input type="text"
                    name="search"
                    id="search"
@@ -171,7 +175,7 @@
         </template>
         <template v-if="stage === 'sellers'">
           <div id="filters">
-            <button @click="stage = 'supervisors'">Voltar</button>
+            <button @click="stage = 'supervisors', search = ''">Voltar</button>
             <input type="text"
                    name="search"
                    id="search"
@@ -360,7 +364,7 @@
         </template>
         <template v-if="stage === 'sellers-sup'">
           <div id="filters">
-            <button @click="stage = 'supervisor'">Voltar</button>
+            <button @click="stage = 'supervisor', search = ''">Voltar</button>
             <input type="text"
                    name="search"
                    id="search"
@@ -555,7 +559,7 @@
         </template>
         <template v-if="stage === 'sellers-mng'">
           <div id="filters">
-            <button @click="stage = 'management'">Voltar</button>
+            <button @click="stage = 'management', search = ''">Voltar</button>
             <input type="text"
                    name="search"
                    id="search"
@@ -652,12 +656,10 @@
   </div>
   <div id="modal" v-if="extract.status === true && extract.stage === 'supervisor'">
     <div id="card-modal">
-      <div id="close-button">
-        <i class="fi fi-rr-cross-small" @click="extract.status = false"></i>
-      </div>
-      <div id="content-card-modal" style="text-align: center">
-        Em desenvolvimento!
-      </div>
+      <ExtractView
+        :data="extract.data"
+        @close-page="closePage()"
+      />
     </div>
   </div>
 </template>
@@ -668,12 +670,14 @@ import MenuApp from "@/components/portal/_aux/MenuApp";
 import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 import {AXIOS} from "../../../../../../../services/api.ts";
+import ExtractView from "@/components/ageRv/dashboards/ExtractView";
 
 export default {
   name: "SalesAnalytics",
   components: {
     MenuApp,
-    HeaderApp
+    HeaderApp,
+    ExtractView
   },
   data () {
     return {
@@ -691,12 +695,11 @@ export default {
       extract: {
         status: false,
         stage: null,
-        data: {
-          sales: null
-        }
+        data: {}
       },
       search: '',
-      month: null
+      month: null,
+      rule: 'actual'
     }
   },
   methods: {
@@ -708,6 +711,7 @@ export default {
       this.loading = true
       this.data = {}
       this.stage = ''
+      this.search = ''
 
       AXIOS({
         method: 'GET',
@@ -747,6 +751,52 @@ export default {
         console.log(error)
       })
     },
+    getAnalyticRule: function (month) {
+
+      this.loading = true
+      this.data = {}
+      this.stage = ''
+      this.search = ''
+
+      AXIOS({
+        method: 'GET',
+        url: 'agerv/analytics/rule',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token')
+        },
+        params: {
+          month: month
+        }
+      }).then((res) => {
+
+        this.function = Cookie.get('agerv_function')
+        this.permission = Cookie.get('agerv_permission')
+
+        if(this.function === 'Gerente geral' || this.function === 'Diretoria' ||
+            this.permission === 'Master') {
+          this.data = res.data
+          this.stage = 'channels'
+          this.loading = false
+        }
+
+        if(this.function === 'Supervisor') {
+          this.dataStage = res.data
+          this.stage = 'supervisor'
+          this.loading = false
+        }
+
+        if(this.function === 'Gerente') {
+          this.dataStage = res.data
+          this.stage = 'management'
+          this.loading = false
+        }
+
+
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+
     tradeStage: function (data, type) {
       if(type === 'channels') {
         this.dataStage.channels = data
@@ -777,6 +827,10 @@ export default {
 
       this.getAnalytic(this.month)
     },
+    closePage: function () {
+      this.extract.status = false
+      this.extract.stage = null
+    }
   },
   computed: {
     ChannelsFiltered: function () {
@@ -979,6 +1033,7 @@ export default {
   #card-modal {
     width: 95vw;
     height: 95vh;
+    background-color: $back-main;
   }
 }
 </style>
