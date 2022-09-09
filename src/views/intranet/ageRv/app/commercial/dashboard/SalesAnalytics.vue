@@ -30,7 +30,7 @@
             </div>
             <div id="month">
               <span :class="{ 'selectMonth' : rule === 'before' }" @click="getAnalyticRule(this.month), rule = 'before'">Antiga</span>
-              <span :class="{ 'selectMonth' : rule === 'actual' }" @click="getAnalyticRule(this.month), rule = 'actual'">Atual</span>
+              <span :class="{ 'selectMonth' : rule === 'actual' }" @click="getAnalytic(this.month), rule = 'actual'">Atual</span>
             </div>
           </div>
           <div class="items-header">
