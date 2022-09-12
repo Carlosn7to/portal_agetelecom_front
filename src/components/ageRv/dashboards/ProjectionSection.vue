@@ -38,11 +38,9 @@ export default {
   name: "ProjectionSection",
   props: {
     mode: {
-      required: true
+      type: String
     },
-    projection: {
-      type: Object
-    }
+    projection: {required: true, type: Object}
   }
 }
 </script>

@@ -262,7 +262,7 @@
                 <span v-else>R${{ item.commission }}</span>
               </div>
               <div class="item">
-                <i class="fi fi-rr-info"></i>
+                <i class="fi fi-rr-info" @click="extractView('seller', item.salesTotal.extract)"></i>
               </div>
             </div>
           </div>
@@ -657,8 +657,16 @@
   <div id="modal" v-if="extract.status === true && extract.stage === 'supervisor'">
     <div id="card-modal">
       <ExtractView
-        :data="extract.data"
+        :items="extract.data"
         @close-page="closePage()"
+      />
+    </div>
+  </div>
+  <div id="modal" v-if="extract.status === true && extract.stage === 'seller'">
+    <div id="card-modal">
+      <ExtractView
+          :items="extract.data"
+          @close-page="closePage()"
       />
     </div>
   </div>
@@ -699,7 +707,7 @@ export default {
       },
       search: '',
       month: null,
-      rule: 'actual'
+      rule: 'actual',
     }
   },
   methods: {
@@ -796,7 +804,6 @@ export default {
         console.log(error)
       })
     },
-
     tradeStage: function (data, type) {
       if(type === 'channels') {
         this.dataStage.channels = data
@@ -844,11 +851,13 @@ export default {
     },
     SupervisorsFiltered: function () {
       let values = []
+
       values = this.dataStage.supervisors.filter((value) => {
         return (
             value.supervisor.toLowerCase().indexOf(this.search.toLowerCase()) > -1
         )
       })
+
       return values
     },
     SellersFiltered: function () {
@@ -859,7 +868,7 @@ export default {
         )
       })
       return values
-    }
+    },
   },
   mounted() {
     this.getMonth()
@@ -935,83 +944,11 @@ export default {
   }
 
   .items-header {
-    width: 99.8%;
-    height: 12%;
-    border-bottom: 2px solid #cccccc40;
-    @include flex(row, flex-start, center, 0);
-    margin: 1vh 0;
-
-    .item {
-      width: 15%;
-      height: 80%;
-      @include flex(row, center, center, 0);
-      padding-left: 1vw;
-
-
-      span {
-        font-size: 1.4rem;
-        color: $ml-text-light;
-        font-weight: 300;
-        letter-spacing: .4px;
-      }
-    }
-
-    .item:nth-child(1) {
-      width: 30%;
-    }
+    @include table-card-headers;
   }
 
   .container-body {
-    width: 100%;
-    height: 80%;
-    overflow-y: auto;
-    max-height: 80%;
-    @include flex(column, flex-start, initial, 10px);
-
-    .items-body {
-      width: 100%;
-      min-height: 10%;
-      background-color: #fff;
-      border: 2px solid #fff;
-      border-radius: 3px;
-      @include flex(row, flex-start, center, 0);
-      @include tr;
-      font-weight: 500;
-
-      &:hover {
-        border: 2px solid $age-bl;
-      }
-
-      .item {
-        width: 15%;
-        height: 90%;
-        @include flex(row, center, center, 5px);
-        padding-left: 1vw;
-
-        span {
-          font-size: 1.2rem;
-          color: $ml-text-menu;
-          padding: 5px 10px;
-          border-radius: 3px;
-          user-select: text !important;
-        }
-
-        i {
-          font-size: 2rem;
-          color: $ml-text-menu;
-          @include tr-p;
-
-          &:hover {
-            color: $age-or;
-          }
-        }
-      }
-
-      .item:nth-child(1) {
-        width: 30%;
-      }
-    }
-
+    @include table-card-body;
   }
 }
 

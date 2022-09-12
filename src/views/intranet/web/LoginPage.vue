@@ -1,7 +1,8 @@
 <template>
   <div id="container-login"
        :class="{ 'mode-l' : mode === 'light'   || mode === undefined,
-                 'mode-d' : mode === 'dark' }">
+                 'mode-d' : mode === 'dark' }"
+       v-if="!isMobile">
     <div id="welcome">
       <img :src="require('@/assets/img/logo/age_orange.png')" alt="">
       <h1>Portal Age Telecom</h1>
@@ -116,14 +117,23 @@
     <div class="loading-bar" v-if="loading === true">
     </div>
   </div>
+  <LoginMobile
+    v-if="isMobile"
+    @authenticate-mb="authenticate"
+  />
 </template>
 
 <script>
 import Cookie from "js-cookie";
 import {AXIOS} from "../../../../services/api.ts";
+import { mapGetters, mapMutations, mapActions } from 'vuex';
+import LoginMobile from "@/components/LoginMobile";
 
 export default {
   name: "LoginPage",
+  components: {
+    LoginMobile
+  },
   data () {
     return {
       mode: Cookie.get('mode'),
@@ -137,11 +147,23 @@ export default {
         authenticate: false
       },
       msg: null,
-      error: false
+      error: false,
     }
   },
   methods: {
-    authenticate: function () {
+    ...mapMutations([
+      'CHANGE_DEVICE'
+    ]),
+    ...mapActions([
+      'verifyDevice'
+    ]),
+    authenticate: function (data) {
+
+      if(this.isMobile) {
+        this.inputs.username = data.payload.username
+        this.inputs.password = data.payload.password
+      }
+
       if(this.inputs.username !== null && this.inputs.password !== null && this.functions.authenticate === false) {
         this.loading = true
         this.functions.authenticate = true
@@ -174,7 +196,15 @@ export default {
         })
 
       }
-    }
+    },
+  },
+  created() {
+    this.verifyDevice()
+  },
+  computed: {
+    ...mapGetters([
+        'isMobile'
+    ]),
   }
 }
 </script>

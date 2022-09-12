@@ -1,5 +1,5 @@
 <template>
-  <div id="content-app">
+  <div id="content-app" v-if="!isMobile">
     <MenuApp
       :mode="mode"
       :system="'portal'"
@@ -57,6 +57,10 @@
       </div>
     </div>
   </div>
+  <SystemMobile
+    :routes="routes"
+    v-if="isMobile"
+  />
   <div class="loading-bar" v-if="loading === true">
   </div>
 </template>
@@ -66,25 +70,43 @@
 import MenuApp from "@/components/portal/_aux/MenuApp";
 import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
+import {mapActions, mapGetters} from "vuex";
+import SystemMobile from "@/components/portal/SystemMobile";
+
 
 export default {
   name: "SystemApp",
   components: {
     MenuApp,
-    HeaderApp
+    HeaderApp,
+    SystemMobile
   },
   data () {
     return {
       mode: Cookie.get('mode'),
-      loading: false
+      loading: false,
+      routes: {
+        agerv: '/ageRv/home'
+      }
     }
   },
   methods: {
+    ...mapActions([
+       'verifyDevice'
+    ]),
     modeView: function (mode) {
       this.mode = mode
     }
   },
+  created() {
+    this.verifyDevice()
+  },
   mounted() {
+  },
+  computed: {
+    ...mapGetters([
+      'isMobile'
+    ]),
   }
 }
 </script>

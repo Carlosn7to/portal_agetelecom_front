@@ -1,5 +1,5 @@
 <template>
-  <div id="content-app">
+  <div id="content-app" v-if="!isMobile">
     <MenuApp
         :mode="mode"
         :system="'ageRv'"
@@ -542,6 +542,9 @@
 
     </div>
   </div>
+  <HomeMobile
+    v-if="isMobile"
+  />
 </template>
 
 <script>
@@ -549,12 +552,15 @@
 import MenuApp from "@/components/portal/_aux/MenuApp";
 import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
+import {mapGetters, mapActions} from "vuex";
+import HomeMobile from "@/components/ageRv/HomeMobile";
 
 export default {
   name: "HomePage",
   components: {
     MenuApp,
-    HeaderApp
+    HeaderApp,
+    HomeMobile
   },
   data () {
     return {
@@ -564,6 +570,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+       'verifyDevice'
+    ]),
     modeView: function (mode) {
       this.mode = mode
     },
@@ -576,8 +585,14 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters([
+       'isMobile'
+    ])
+  },
   mounted() {
     this.getMonth()
+    this.verifyDevice()
   }
 }
 </script>
