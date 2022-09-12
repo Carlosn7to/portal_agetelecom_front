@@ -3,7 +3,7 @@
        :class="{'mode-l' : mode === 'light' || mode === undefined,
                 'mode-d' : mode === 'dark'}">
     <div id="profile">
-      <span>Olá, {{ username }}</span>
+      <span>Olá, {{ user.firstName }}</span>
     </div>
     <div id="darkmode" @click="modeView">
       <i class="fi fi-rr-sun" v-if="mode === 'light' || mode === undefined"></i>
@@ -18,13 +18,13 @@
 
 <script>
 import Cookie from "js-cookie";
+import {mapGetters} from "vuex";
 
 export default {
   name: "HeaderApp",
   data () {
     return {
       mode: Cookie.get('mode'),
-      username: Cookie.get('name')
     }
   },
   methods: {
@@ -47,6 +47,9 @@ export default {
           break
       }
     }
+  },
+  computed: {
+    ...mapGetters(['user'])
   }
 }
 </script>
@@ -95,8 +98,6 @@ export default {
 }
 
 .mode-l {
-  background-color: #fff;
-  border-bottom: 2px solid #cccccc90;
   @include tr;
   @include flex(row, center, center, 5px);
 
@@ -121,8 +122,7 @@ export default {
 }
 
 .mode-d {
-  background-color: $age-bl-l;
-  border-bottom: 2px solid rgba(70, 70, 70, 0.17);
+  background-color: #161819;
 
   @include tr;
 

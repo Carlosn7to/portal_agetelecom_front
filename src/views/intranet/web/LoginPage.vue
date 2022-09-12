@@ -139,24 +139,15 @@ export default {
       mode: Cookie.get('mode'),
       page: 'login',
       loading: false,
-      inputs: {
-        username: null,
-        password: null,
-      },
-      functions: {
-        authenticate: false
-      },
+      inputs: {username: null, password: null},
+      functions: {authenticate: false},
       msg: null,
       error: false,
     }
   },
   methods: {
-    ...mapMutations([
-      'CHANGE_DEVICE'
-    ]),
-    ...mapActions([
-      'verifyDevice'
-    ]),
+    ...mapMutations(['CHANGE_DEVICE', 'SAVE_FIRSTNAME']),
+    ...mapActions(['verifyDevice']),
     authenticate: function (data) {
 
       if(this.isMobile) {
@@ -175,16 +166,14 @@ export default {
             'Content-Type': 'application/json',
             'Access': 'application/json',
           },
-          data: {
-            email: this.inputs.username,
-            password: this.inputs.password
-          }
+          data: {email: this.inputs.username, password: this.inputs.password}
         }).then((res) => {
           this.msg = null
           this.error = false
           this.functions.authenticate = false
+          this.SAVE_FIRSTNAME(res.data.name)
           Cookie.set('token', res.data.access_token, {expires: 1} )
-          Cookie.set('name', res.data.name, {expires: 1})
+
           this.$router.replace('/sistemas')
         }).catch((error) => {
           if(error.response.status === 401) {
@@ -198,13 +187,9 @@ export default {
       }
     },
   },
-  created() {
-    this.verifyDevice()
-  },
+  created() {this.verifyDevice()},
   computed: {
-    ...mapGetters([
-        'isMobile'
-    ]),
+    ...mapGetters(['isMobile']),
   }
 }
 </script>

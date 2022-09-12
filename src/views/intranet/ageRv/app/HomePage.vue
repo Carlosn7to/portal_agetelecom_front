@@ -611,6 +611,7 @@ export default {
     h1 {
       line-height: 1vh;
       color: $age-or !important;
+      font-size: 2.4rem !important;
     }
 
     .divisor-block {

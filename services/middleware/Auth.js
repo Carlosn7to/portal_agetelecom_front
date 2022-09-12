@@ -1,5 +1,6 @@
 import Cookie from "js-cookie";
 import {AXIOS} from "../api.ts";
+import store from '@/store/index.js';
 
 export default {
     auth(to, from, next) {
@@ -14,7 +15,7 @@ export default {
         })
             .then((res) => {
                 if(res.data.status === true) {
-                    Cookie.set('portal_permission', res.data.levelAccess, { expires: 1})
+                    sessionStorage.setItem('portal_permission', res.data.levelAccess)
                     return next()
                 }
 
@@ -23,7 +24,7 @@ export default {
         })
     },
     management_portal(to, from, next) {
-        const PERMISSION = Cookie.get('portal_permission')
+        const PERMISSION = sessionStorage.getItem('portal_permission')
 
         if(PERMISSION === 'Admin' || PERMISSION === 'Master') {
             return next()
@@ -58,8 +59,7 @@ export default {
                 'Authorization': 'Bearer'+TOKEN
             }
         }).then((res) => {
-            Cookie.set('agerv_permission', res.data.levelAccess, {expires: 1})
-            Cookie.set('agerv_function', res.data.function, { expires: 1})
+            store.commit('SAVE_PERMISSION', {permission: {system: 'ageRv', level: res.data.level, function: res.data.function}})
             return next()
         }).catch(() => {
             alert('Você não pode acessar o sistema AgeRv.')

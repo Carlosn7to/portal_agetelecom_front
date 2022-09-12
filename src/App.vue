@@ -110,15 +110,15 @@ h1 {
         overflow-y: auto;
 
         h1 {
-          font-size: 2.4rem;
+          font-size: 2rem;
           font-weight: 500;
-          color: $ml-text-menu;
+          color: $age-bl;
         }
 
         h2 {
           font-size: 2rem;
           font-weight: 500;
-          color: $ml-text-menu;
+          color: $age-bl;
         }
       }
     }

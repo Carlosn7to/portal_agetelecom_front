@@ -20,7 +20,7 @@
               <h1>Dashboard de vendas</h1>
               <div class="dashboards">
                 <div class="dashboard"
-                     style="background-color: #FEA11D; cursor: pointer;"
+                     style="cursor: pointer;"
                      @click="modalView('stars')">
                   <div class="type-value">
                     <span>{{ data.stars }}</span>
@@ -29,7 +29,7 @@
                   <i class="fi fi-ss-star"></i>
                 </div>
                 <div class="dashboard"
-                     style="background-color: #2fa1d0; cursor: pointer;"
+                     style="cursor: pointer;"
                      @click="modalView('salesTotals')">
                   <div class="type-value">
                     <span>{{ data.salesTotals }}</span>
@@ -37,21 +37,21 @@
                   </div>
                   <i class="fi fi-ss-rocket-lunch"></i>
                 </div>
-                <div class="dashboard" style="background-color: #932b91">
+                <div class="dashboard">
                   <div class="type-value">
                     <span>{{ data.meta }}</span>
                     <span>Meta</span>
                   </div>
                   <i class="fi fi-rr-chart-histogram"></i>
                 </div>
-                <div class="dashboard" style="background-color: #F44336">
+                <div class="dashboard">
                   <div class="type-value">
                     <span>{{ data.cancelTotals }}</span>
                     <span>Cancelamentos<br>Totais</span>
                   </div>
                   <i class="fi fi-ss-delete-document"></i>
                 </div>
-                <div class="dashboard" style="background-color: #FECA1D">
+                <div class="dashboard">
                   <div class="type-value">
                     <span>R${{ data.valueStars }}</span>
                     <span>Valor da estrela</span>
@@ -59,7 +59,7 @@
                   <i class="fi fi-sr-grin-stars"></i>
                 </div>
                 <div class="dashboard"
-                     style="background-color: #6892d0; cursor: pointer;"
+                     style="cursor: pointer;"
                      @click="modalView('salesAprovation')">
                   <div class="type-value">
                     <span>{{ data.salesAprovation }}</span>
@@ -67,7 +67,7 @@
                   </div>
                   <i class="fi fi-rr-time-twenty-four"></i>
                 </div>
-                <div class="dashboard" style="background-color: #983FB5">
+                <div class="dashboard">
                   <div class="type-value">
                     <span>{{ data.minMeta }}%</span>
                     <span>Meta mínima </span>
@@ -75,7 +75,7 @@
                   <i class="fi fi-sr-chart-line-up"></i>
                 </div>
                 <div class="dashboard"
-                     style="background-color: #911515; cursor: pointer;"
+                     style="cursor: pointer;"
                      @click="modalView('cancelD7')">
                   <div class="type-value">
                     <span>{{ data.cancelD7 }}</span>
@@ -83,7 +83,7 @@
                   </div>
                   <i class="fi fi-sr-ban"></i>
                 </div>
-                <div class="dashboard" style="background-color: #24A527">
+                <div class="dashboard">
                   <div class="type-value">
                     <span>R${{ data.commission }}</span>
                     <span>Comissão</span>
@@ -91,7 +91,7 @@
                   <i class="fi fi-sr-sack-dollar"></i>
                 </div>
                 <div class="dashboard"
-                     style="background-color: #009688; cursor: pointer;"
+                     style="cursor: pointer;"
                      @click="modalView('salesValid')">
                   <div class="type-value">
                     <span>{{ data.sales }}</span>
@@ -99,14 +99,14 @@
                   </div>
                   <i class="fi fi-rr-trophy"></i>
                 </div>
-                <div class="dashboard" style="background-color: #c571e1">
+                <div class="dashboard">
                   <div class="type-value">
                     <span>{{ data.metaPercent }}%</span>
                     <span>Meta atingida</span>
                   </div>
                   <i class="fi fi-sr-chart-line-up"></i>
                 </div>
-                <div class="dashboard" style="background-color: #B3B4B5">
+                <div class="dashboard">
                   <div class="type-value">
                     <span>{{ data.deflator }}%</span>
                     <span>Deflator</span>
@@ -435,26 +435,30 @@ export default {
           @include tr;
           padding: 2vh 1vw;
           @include flex(row, space-between, center, 0px);
+          flex-direction: row-reverse;
 
           .type-value {
             @include flex(column, flex-start, initial, 5px);
             color: #fff;
             font-weight: 600;
+            text-align: right;
 
             span:nth-child(1) {
               font-size: 2rem;
+              color: $age-bl;
             }
 
             span:nth-child(2) {
               font-size: 1.2rem;
               font-weight: 500;
               letter-spacing: .6px;
+              color: $age-bl;
             }
           }
 
           i {
             font-size: 4rem;
-            color: hsla(0, 0%, 100%, .502);
+            color: $age-or;
           }
         }
 
@@ -581,6 +585,19 @@ export default {
   @include tr;
 
   .dashboard {
+    background-color: $md-back-l !important;
+
+    .type-value {
+      span {
+        color: $md-text-light !important;
+      }
+    }
+
+    i {
+      color: $age-or !important;
+    }
+
+
     &:hover {
       opacity: 0.8 !important;
     }

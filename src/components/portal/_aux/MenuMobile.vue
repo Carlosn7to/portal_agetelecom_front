@@ -27,7 +27,12 @@
         <i class="fi fi-rr-home"></i>
       </div>
     </router-link>
-    <router-link to="/ageRv/comercial/vendas/dashboard" active-class="active">
+    <router-link to="/ageRv/comercial/vendas/dashboard"
+                 active-class="active"
+                 v-if="permissions.function !== 'Supervisor' ||
+                       permissions.function !== 'Gerente' ||
+                       permissions.function !== 'Gerente geral' ||
+                       permissions.function !== 'Diretoria'">
       <div>
         <i class="fi fi-rr-chart-histogram"></i>
       </div>
@@ -47,6 +52,8 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: "MenuMobile",
   props: {
@@ -54,6 +61,9 @@ export default {
       type: String,
       required: true
     }
+  },
+  computed: {
+    ...mapGetters(['permissions'])
   }
 }
 </script>

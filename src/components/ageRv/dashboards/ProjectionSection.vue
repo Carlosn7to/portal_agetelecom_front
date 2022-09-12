@@ -13,17 +13,17 @@
           <span>Estrelas:</span>
           <span>{{ projection.stars }}</span>
         </div>
-        <div class="item-table" style="color: #009688;">
+        <div class="item-table">
           <i class="fi fi-ss-rocket-lunch"></i>
           <span>Vendas:</span>
           <span>{{ projection.sales }}</span>
         </div>
-        <div class="item-table" style="color: #C571E1">
+        <div class="item-table">
           <i class="fi fi-sr-chart-line-up"></i>
           <span>Meta atingida:</span>
           <span>{{ projection.metaPercent }}%</span>
         </div>
-        <div class="item-table" style="border: none; color: #24A527">
+        <div class="item-table">
           <i class="fi fi-sr-sack-dollar"></i>
           <span>Comissão:</span>
           <span>R${{ projection.commission }}</span>
@@ -52,21 +52,22 @@ export default {
   @include flex(column, flex-start, initial, 10px);
   .data-projection {
     width: 35%;
-    background-color: #fff;
-    border-radius: 5px;
-    @include sh;
     @include flex(column, flex-start, initial, 10px);
-    padding: 2vh 1vw;
-    border: 1px solid #fff;
+    padding: 2vh 0vw;
 
     p {
       font-size: 1.6rem;
       font-weight: 400;
       color: $ml-text-menu;
+      padding-left: 1vw;
     }
 
     .table-projection {
       @include flex(column, flex-start, initial, 10px);
+      background-color: #fff;
+      border-radius: 5px;
+      @include sh;
+      padding: 0 1vw;
 
       .item-table {
         width: 100%;
@@ -77,9 +78,23 @@ export default {
         font-size: 1.6rem;
         font-weight: 600;
 
-        i {
-          font-size: 2rem;
+        span {
+          color: $age-bl;
+          font-weight: 400;
         }
+
+        span:nth-child(3) {
+          font-weight: 600;
+        }
+
+        i {
+          font-size: 2.4rem;
+          color: $age-or;
+        }
+      }
+
+      .item-table:nth-last-child(1) {
+        border: none;
       }
     }
   }
@@ -91,8 +106,6 @@ export default {
   }
 
   .data-projection {
-    background-color: $md-back-l;
-    border-color: $age-or !important;
     @include tr;
 
     p {
@@ -100,11 +113,16 @@ export default {
     }
 
     .table-projection {
-
+      background-color: $md-back-l;
+      border: 1px solid $age-or !important;
+      @include tr;
 
       .item-table {
-
         border-color: rgba(70, 70, 70, 0.17);
+
+        span {
+          color: $md-text-light !important;
+        }
       }
     }
   }

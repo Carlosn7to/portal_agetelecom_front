@@ -28,10 +28,6 @@
               <span :class="{ 'selectMonth' : month === '08' }" @click="getAnalytic('08'), month = '08'">Agosto</span>
               <span :class="{ 'selectMonth' : month === '09' }" @click="getAnalytic('09'), month = '09'">Setembro</span>
             </div>
-            <div id="month">
-              <span :class="{ 'selectMonth' : rule === 'before' }" @click="getAnalyticRule(this.month), rule = 'before'">Antiga</span>
-              <span :class="{ 'selectMonth' : rule === 'actual' }" @click="getAnalytic(this.month), rule = 'actual'">Atual</span>
-            </div>
           </div>
           <div class="items-header">
             <div class="item" style="justify-content: flex-start">
@@ -80,13 +76,13 @@
         </template>
         <template v-if="stage === 'supervisors'">
           <div id="filters">
-            <button @click="stage = 'channels', search = ''">Voltar</button>
             <input type="text"
                    name="search"
                    id="search"
                    autocomplete="off"
                    placeholder="Pesquisar"
                    v-model="search">
+            <button @click="stage = 'channels', search = ''">Voltar</button>
           </div>
           <div class="items-header">
             <div class="item" style="justify-content: flex-start">
@@ -175,13 +171,13 @@
         </template>
         <template v-if="stage === 'sellers'">
           <div id="filters">
-            <button @click="stage = 'supervisors', search = ''">Voltar</button>
             <input type="text"
                    name="search"
                    id="search"
                    autocomplete="off"
                    placeholder="Pesquisar"
                    v-model="search">
+            <button @click="stage = 'supervisors', search = ''">Voltar</button>
           </div>
           <div class="items-header">
             <div class="item" style="justify-content: flex-start">
@@ -364,13 +360,13 @@
         </template>
         <template v-if="stage === 'sellers-sup'">
           <div id="filters">
-            <button @click="stage = 'supervisor', search = ''">Voltar</button>
             <input type="text"
                    name="search"
                    id="search"
                    autocomplete="off"
                    placeholder="Pesquisar"
                    v-model="search">
+            <button @click="stage = 'supervisor', search = ''">Voltar</button>
           </div>
           <div class="items-header">
             <div class="item" style="justify-content: flex-start">
@@ -559,13 +555,13 @@
         </template>
         <template v-if="stage === 'sellers-mng'">
           <div id="filters">
-            <button @click="stage = 'management', search = ''">Voltar</button>
             <input type="text"
                    name="search"
                    id="search"
                    autocomplete="off"
                    placeholder="Pesquisar"
                    v-model="search">
+            <button @click="stage = 'management', search = ''">Voltar</button>
           </div>
           <div class="items-header">
             <div class="item" style="justify-content: flex-start">
@@ -679,6 +675,7 @@ import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 import {AXIOS} from "../../../../../../../services/api.ts";
 import ExtractView from "@/components/ageRv/dashboards/ExtractView";
+import {mapGetters} from "vuex";
 
 export default {
   name: "SalesAnalytics",
@@ -698,8 +695,6 @@ export default {
         sellers: {}
       },
       stage: '',
-      function: null,
-      permission: null,
       extract: {
         status: false,
         stage: null,
@@ -732,68 +727,20 @@ export default {
         }
       }).then((res) => {
 
-        this.function = Cookie.get('agerv_function')
-        this.permission = Cookie.get('agerv_permission')
-
-        if(this.function === 'Gerente geral' || this.function === 'Diretoria' ||
-            this.permission === 'Master') {
+        if(this.permissions.function === 'Gerente geral' || this.permissions.function === 'Diretoria' ||
+            this.permissions.permission === 'Master') {
             this.data = res.data
             this.stage = 'channels'
             this.loading = false
         }
 
-        if(this.function === 'Supervisor') {
+        if(this.permissions.function === 'Supervisor') {
           this.dataStage = res.data
           this.stage = 'supervisor'
           this.loading = false
         }
 
-        if(this.function === 'Gerente') {
-          this.dataStage = res.data
-          this.stage = 'management'
-          this.loading = false
-        }
-
-
-      }).catch((error) => {
-        console.log(error)
-      })
-    },
-    getAnalyticRule: function (month) {
-
-      this.loading = true
-      this.data = {}
-      this.stage = ''
-      this.search = ''
-
-      AXIOS({
-        method: 'GET',
-        url: 'agerv/analytics/rule',
-        headers: {
-          'Authorization': 'Bearer '+Cookie.get('token')
-        },
-        params: {
-          month: month
-        }
-      }).then((res) => {
-
-        this.function = Cookie.get('agerv_function')
-        this.permission = Cookie.get('agerv_permission')
-
-        if(this.function === 'Gerente geral' || this.function === 'Diretoria' ||
-            this.permission === 'Master') {
-          this.data = res.data
-          this.stage = 'channels'
-          this.loading = false
-        }
-
-        if(this.function === 'Supervisor') {
-          this.dataStage = res.data
-          this.stage = 'supervisor'
-          this.loading = false
-        }
-
-        if(this.function === 'Gerente') {
+        if(this.permissions.function === 'Gerente') {
           this.dataStage = res.data
           this.stage = 'management'
           this.loading = false
@@ -840,6 +787,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['permissions']),
     ChannelsFiltered: function () {
       let values = []
       values = this.data.channels.filter((value) => {

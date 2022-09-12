@@ -120,7 +120,7 @@ export default {
 
     h1 {
       font-size: 2rem;
-      color: $ml-text-h1;
+      color: $age-bl;
     }
 
     .items {
@@ -134,51 +134,57 @@ export default {
         color: #fff;
         @include sh;
         @include flex(row, space-between, center, 10px);
-        padding: 0 8px 0 10px;
+        flex-direction: row-reverse;
+        padding: 0 15px 0 15px;
+        background-color: #fff !important;
 
         .values {
           @include flex(column, flex-start, initial, 0);
+          text-align: right;
 
           span:nth-child(1) {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: 600;
+            color: $age-bl;
           }
 
           span:nth-child(2) {
             font-size: 1.4rem;
+            color: $age-bl;
           }
         }
 
         i {
           font-size: 2.6rem;
-          color: hsla(0, 0%, 100%, .502);
+          //color: hsla(0, 0%, 100%, .502);
+          color: $age-or;
         }
       }
 
-      .item:nth-child(1) {
-        background-color: #FEA11D;
-      }
-      .item:nth-child(2) {
-        background-color: #2fa1d0;
-      }
-      .item:nth-child(3) {
-        background-color: #932b91;
-      }
-      .item:nth-child(4) {
-        background-color: #c571e1;
-      }
-      .item:nth-child(6) {
-        background-color: #FECA1D;
-      }
-      .item:nth-child(7) {
-        background-color: #F44336;
-      }
-      .item:nth-child(8) {
-        background-color: #911515;
-      }
+      //.item:nth-child(1) {
+      //  background-color: #FEA11D;
+      //}
+      //.item:nth-child(2) {
+      //  background-color: #2fa1d0;
+      //}
+      //.item:nth-child(3) {
+      //  background-color: #932b91;
+      //}
+      //.item:nth-child(4) {
+      //  background-color: #c571e1;
+      //}
+      //.item:nth-child(6) {
+      //  background-color: #FECA1D;
+      //}
+      //.item:nth-child(7) {
+      //  background-color: #F44336;
+      //}
+      //.item:nth-child(8) {
+      //  background-color: #911515;
+      //}
       .item:nth-child(9) {
         width: 93%;
-        background-color: #24A527;
+      //  background-color: #24A527;
       }
     }
 
