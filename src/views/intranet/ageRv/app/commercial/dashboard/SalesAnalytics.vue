@@ -24,9 +24,12 @@
                    placeholder="Pesquisar"
                    v-model="search">
             <div id="month">
-              <span :class="{ 'selectMonth' : month === '07' }" @click="getAnalytic('07'), month = '07'">Julho</span>
-              <span :class="{ 'selectMonth' : month === '08' }" @click="getAnalytic('08'), month = '08'">Agosto</span>
-              <span :class="{ 'selectMonth' : month === '09' }" @click="getAnalytic('09'), month = '09'">Setembro</span>
+              <span :class="{ 'selectMonth' : month === '07' && mode === 'light',
+                              'selectMonthDark' : month === '07' && mode === 'dark' }" @click="getAnalytic('07'), month = '07'">Julho</span>
+              <span :class="{ 'selectMonth' : month === '08' && mode === 'light',
+                              'selectMonthDark' : month === '08' && mode === 'dark' }" @click="getAnalytic('08'), month = '08'">Agosto</span>
+              <span :class="{ 'selectMonth' : month === '09' && mode === 'light',
+                              'selectMonthDark' : month === '09' && mode === 'dark' }" @click="getAnalytic('09'), month = '09'">Setembro</span>
             </div>
           </div>
           <div class="items-header">
@@ -59,13 +62,19 @@
                   <span>{{ item.salesTotal.count }}</span>
                 </div>
                 <div class="item">
-                  <span style="background-color: #F44336; color: #fff">{{ item.salesCancelled.count }}</span>
+                  <span style="background-color: #F44336; color: #fff" v-if="item.salesCancelled.count > 0">
+                    {{ item.salesCancelled.count }}
+                  </span>
+                  <span v-else>{{ item.salesCancelled.count }}</span>
                 </div>
                 <div class="item">
-                  <span style="background-color: #FEA11D; color: #fff">{{ item.starsTotal }}</span>
+                  <span style="background-color: #FEA11D; color: #fff" v-if="item.commission !== '0,00'">{{ item.starsTotal }}</span>
+                  <span v-else>{{ item.starsTotal }}</span>
                 </div>
                 <div class="item">
-                  <span style="background-color: #24A527; color: #fff">R${{ item.commission }}</span>
+                  <span style="background-color: #24A527; color: #fff"
+                        v-if="item.commission !== '0,00'">R${{ item.commission }}</span>
+                  <span v-else>R${{ item.commission }}</span>
                 </div>
                 <div class="item">
                   <i class="fi fi-rr-users" @click="tradeStage(item.supervisors, 'supervisors')"></i>
@@ -352,7 +361,7 @@
                 <span v-else>R${{ dataStage.commission }}</span>
               </div>
               <div class="item" style="gap: 5px">
-                <i class="fi fi-rr-info"></i>
+                <i class="fi fi-rr-info" @click="extractView('supervisor', item.salesTotal.extract)"></i>
                 <i class="fi fi-rr-users" @click="tradeStage(dataStage.sellers, 'sellers-sup')"></i>
               </div>
             </div>
@@ -447,7 +456,7 @@
                 <span v-else>R${{ item.commission }}</span>
               </div>
               <div class="item">
-                <i class="fi fi-rr-info"></i>
+                <i class="fi fi-rr-info" @click="extractView('seller', item.salesTotal.extract)"></i>
               </div>
             </div>
           </div>
@@ -547,7 +556,7 @@
                 <span v-else>R${{ item.commission }}</span>
               </div>
               <div class="item" style="gap: 5px">
-                <i class="fi fi-rr-info"></i>
+                <i class="fi fi-rr-info" @click="extractView('supervisor', item.salesTotal.extract)"></i>
                 <i class="fi fi-rr-users" @click="tradeStage(item.sellers, 'sellers-mng')"></i>
               </div>
             </div>
@@ -642,7 +651,7 @@
                 <span v-else>R${{ item.commission }}</span>
               </div>
               <div class="item">
-                <i class="fi fi-rr-info"></i>
+                <i class="fi fi-rr-info" @click="extractView('seller', item.salesTotal.extract)"></i>
               </div>
             </div>
           </div>
@@ -654,6 +663,7 @@
     <div id="card-modal">
       <ExtractView
         :items="extract.data"
+        :mode="mode"
         @close-page="closePage()"
       />
     </div>
@@ -662,6 +672,7 @@
     <div id="card-modal">
       <ExtractView
           :items="extract.data"
+          :mode="mode"
           @close-page="closePage()"
       />
     </div>
@@ -836,18 +847,9 @@ export default {
 
     button {
       padding: 7px 30px;
-      background-color: $age-bl;
-      color: #fff;
       border-radius: 3px;
       font-weight: 600;
       @include tr-p;
-      border: 1px solid $age-bl;
-
-      &:hover {
-        border: 1px solid $age-bl;
-        background-color: #fff;
-        color: $age-bl;
-      }
     }
 
     input[type=text] {
@@ -867,16 +869,9 @@ export default {
       span {
         font-size: 1.4rem;
         border-radius: 5px;
-        background-color: #fff;
-        color: $age-bl;
-        border: 1px solid $age-bl;
         padding: 5px 10px;
         @include tr-p;
 
-        &:hover {
-          background-color: $age-bl;
-          color: #fff;
-        }
       }
     }
 
@@ -903,11 +898,96 @@ export default {
 .mode-l-p {
   background-color: $ml-back-l;
   @include tr;
+
+  button {
+    background-color: $age-bl;
+    color: #fff;
+    border: 1px solid $age-bl;
+
+    &:hover {
+      border: 1px solid $age-bl;
+      background-color: #fff;
+      color: $age-bl;
+    }
+  }
+
+  #month {
+    @include flex(row, flex-start, center, 5px);
+    span {
+      font-size: 1.4rem;
+      border-radius: 5px;
+      background-color: #fff;
+      color: $age-bl;
+      border: 1px solid $age-bl;
+      padding: 5px 10px;
+      @include tr-p;
+
+      &:hover {
+        background-color: $age-bl;
+        color: #fff;
+      }
+    }
+  }
 }
 
 .mode-d-p {
   background-color: #161819;
   @include tr;
+
+  button {
+    background-color: $age-or;
+    color: #fff;
+    border: 1px solid $age-or;
+
+    &:hover {
+      border: 1px solid $age-or;
+      background-color: $md-back-l;
+      color: $age-or;
+    }
+  }
+
+
+  input[type=text] {
+    background-color: $md-back-l !important;
+    border: 1px solid $age-or !important;
+    color: #fff;
+  }
+
+  /*   PLACEHOLDER   */
+  ::-webkit-input-placeholder {
+    color: $ml-text-light !important;
+    font-weight: 600;
+    font-size: 1.4rem;
+  }
+
+
+  .items-body {
+    background-color: $md-back-l !important;
+    border-color: $md-back-l !important;
+
+    &:hover {
+      border-color: $age-or !important;
+    }
+
+    .item {
+      span {
+        color: #fff !important;
+      }
+    }
+  }
+
+  #month {
+    span {
+      background-color: $md-back-l;
+      border: 1px solid $age-or;
+      color: $age-or;
+    }
+  }
+
+  .selectMonthDark {
+    background-color: $age-or !important;
+    color: #fff !important;
+  }
 }
 
 .loading-bar {

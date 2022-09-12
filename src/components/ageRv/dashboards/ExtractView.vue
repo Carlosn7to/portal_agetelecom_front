@@ -1,8 +1,10 @@
 <template>
-  <div class="content-extract">
+  <div class="content-extract"
+       :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
+                  'mode-d-p' : mode === 'dark'}">
     <div class="menu">
         <nav>
-          <p>Menu</p>
+          <p>Menu {{ mode }}</p>
           <ul>
 <!--            <li :class="{ 'selected' : page === 'main' }"-->
 <!--                @click="page = 'main'">-->
@@ -88,6 +90,9 @@ export default {
     type: {
       type: String,
       required: true
+    },
+    mode: {
+      required: true
     }
   },
   data() {
@@ -128,9 +133,7 @@ export default {
 
   .menu {
     width: 12%;
-    border-right: 2px solid #cccccc60;
     height: 100%;
-    background-color: #fff;
     border-radius: 5px 0 0 5px;
     nav{
       margin-top: 7vh;
@@ -138,7 +141,6 @@ export default {
       p {
         margin-bottom: 1vh;
         font-size: 1rem;
-        color: $ml-text-menu;
         padding-left: 1vw;
         font-weight: 600;
       }
@@ -147,11 +149,9 @@ export default {
 
         li {
           @include flex(row, flex-start, center, 5px);
-          height: 5vh;
-          border-bottom: 1px solid #cccccc60;
+          height: 6vh;
           padding-left: 1vw;
           @include tr-p;
-          color: $ml-text-menu;
 
 
           span {
@@ -166,6 +166,46 @@ export default {
             @include tr;
 
           }
+
+        }
+      }
+    }
+  }
+
+  .content {
+    width: 88%;
+    height: 100%;
+    padding: 5vh 2vw;
+    @include flex(column, flex-start, initial, 1vh);
+    .card {
+      height: 100%;
+
+      .items-header {
+        @include table-card-headers;
+      }
+
+      .container-body {
+        @include table-card-body;
+      }
+
+    }
+  }
+}
+
+.mode-l-p {
+  .menu {
+    border-right: 2px solid #cccccc60;
+    background-color: #fff;
+    nav{
+      p {
+        color: $ml-text-menu;
+      }
+
+      ul {
+
+        li {
+          border-bottom: 1px solid #cccccc60;
+          color: $ml-text-menu;
 
           &:hover > span {
             color: $age-bl;
@@ -194,12 +234,8 @@ export default {
   }
 
   .content {
-    width: 88%;
-    height: 100%;
-    padding: 5vh 2vw;
-    @include flex(column, flex-start, initial, 1vh);
+
     .card {
-      height: 100%;
 
       .items-header {
         @include table-card-headers;
@@ -213,4 +249,75 @@ export default {
   }
 }
 
+.mode-d-p {
+  .menu {
+    border-right: 2px solid #cccccc60;
+    background-color: $md-back-l;
+    nav{
+      p {
+        color: $md-text-menu;
+      }
+
+      ul {
+
+        li {
+          border-bottom: 1px solid #cccccc60;
+          color: $md-text-menu;
+
+          &:hover > span {
+            color: $age-or;
+          }
+
+          &:hover > i {
+            color: $age-or;
+          }
+
+          &:hover {
+            background-color: #cccccc20;
+          }
+        }
+
+        .selected {
+          span {
+            color: #fff;
+          }
+
+          i {
+            color: $age-or;
+          }
+        }
+      }
+    }
+  }
+
+  .content {
+
+    .card {
+
+      .items-header {
+        @include table-card-headers;
+      }
+
+      .container-body {
+        @include table-card-body;
+
+        .items-body {
+          background-color: $md-back-l !important;
+          border-color: $md-back-l !important;
+
+          .item {
+            span {
+              color: $md-text-light !important;
+            }
+          }
+
+          &:hover {
+            border-color: $age-or !important;
+          }
+        }
+      }
+
+    }
+  }
+}
 </style>

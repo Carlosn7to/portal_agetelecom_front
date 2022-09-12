@@ -42,7 +42,7 @@ export default {
                 'Authorization': 'Bearer'+TOKEN
             }
         }).then(() => {
-            return next()
+            // return next()
         }).catch(() => {
             alert('Você não pode acessar o sistema AgeReport.')
             return next({ path: '/sistemas'})
