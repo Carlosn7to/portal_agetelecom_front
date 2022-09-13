@@ -18,7 +18,7 @@
       <input type="submit" value="Entrar" v-if="loading === false">
       <span class="loader" v-if="loading === true"></span>
     </form>
-    <span @click="newAccount">Não possui conta? <b>Solicite</b></span>
+<!--    <span @click="newAccount">Não possui conta? <b>Solicite</b></span>-->
   </div>
   <div class="loading" v-if="loading === true">
   </div>
