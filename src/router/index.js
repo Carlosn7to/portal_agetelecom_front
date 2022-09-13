@@ -8,6 +8,7 @@ import SalesAnalytics from "@/views/intranet/ageRv/app/commercial/dashboard/Sale
 import SalesPage from "@/views/intranet/ageRv/app/commercial/dashboard/SalesPage";
 import HomePage from "@/views/intranet/ageRv/app/HomePage";
 import PanelUsers from "@/views/intranet/app/management/PanelUsers";
+import DashboardPage from "@/views/intranet/ageRv/app/commercial/management/DashboardPage";
 
 const routes = [
   {
@@ -72,6 +73,15 @@ const routes = [
     path: '/ageRv/home',
     name: 'HomePage',
     component: HomePage,
+    beforeEnter: [
+      Guard.auth,
+      Guard.permission_rv
+    ]
+  },
+  {
+    path: '/ageRv/comercial/gerenciamento',
+    name: 'DashboardPage',
+    component: DashboardPage,
     beforeEnter: [
       Guard.auth,
       Guard.permission_rv

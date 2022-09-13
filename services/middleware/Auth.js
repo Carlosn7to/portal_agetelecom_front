@@ -59,7 +59,7 @@ export default {
                 'Authorization': 'Bearer'+TOKEN
             }
         }).then((res) => {
-            store.commit('SAVE_PERMISSION', {permission: {system: 'ageRv', level: res.data.level, function: res.data.function}})
+            store.commit('SAVE_PERMISSION', {permission: {system: 'ageRv', level: res.data.levelAccess, function: res.data.function}})
             return next()
         }).catch(() => {
             alert('Você não pode acessar o sistema AgeRv.')
