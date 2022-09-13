@@ -76,6 +76,7 @@
                 <span>{{ item.management }}</span>
               </div>
               <div class="item" style="gap: 5px">
+                <i class="fi fi-rr-edit" @click="editCollaborator(item.id)"></i>
               </div>
             </div>
           </div>
@@ -85,6 +86,64 @@
     </div>
   </div>
   <div class="loading" v-if="loading === true">
+  </div>
+  <div id="modal" v-if="modal === true">
+    <div id="card-modal">
+      <div id="close-button">
+        <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
+      </div>
+      <h1>Edição de usuário</h1>
+      <form action="#">
+        <span>Angela Soares Resende</span>
+        <div class="inputs">
+          <label for="meta">Meta</label>
+          <input type="number" name="meta" id="meta" min="0">
+        </div>
+        <div class="inputs">
+          <label for="meta">Possui usuário?</label>
+          <input type="text" name="" id="" value="Não" disabled>
+        </div>
+        <div class="inputs">
+          <label for="meta">Usuário vinculado</label>
+          <select name="supervisors" id="supervisors">
+            <option selected>--- Nenhum ---</option>
+            <option value="1">Debora</option>
+            <option value="2">Alisson</option>
+          </select>
+        </div>
+        <div class="inputs">
+          <label for="meta">Função</label>
+          <input type="text" name="" id="" value="Vendedor" disabled>
+        </div>
+        <div class="inputs">
+          <label for="meta">Canal</label>
+          <input type="text" name="" id="" value="MCV" disabled>
+        </div>
+        <div class="inputs">
+          <label for="meta">Tipo de comissão</label>
+          <select name="supervisors" id="supervisors">
+            <option value="1">MCV</option>
+            <option value="2">PAP</option>
+            <option value="2">LIDER</option>
+          </select>
+        </div>
+        <div class="inputs">
+          <label for="meta">Supervisor</label>
+          <select name="supervisors" id="supervisors">
+            <option value="1">Debora Rodrigues Acosta</option>
+            <option value="2">Alisson Correia</option>
+          </select>
+        </div>
+        <div class="inputs">
+          <label for="meta">Gerente</label>
+          <select name="supervisors" id="supervisors">
+            <option value="1">Washington</option>
+            <option value="2">Ivaldo</option>
+          </select>
+        </div>
+        <input type="submit" value="Enviar informações">
+      </form>
+    </div>
   </div>
 </template>
 
@@ -108,6 +167,7 @@ export default {
       search: '',
       loading: true,
       list: false,
+      modal: true
     }
   },
   methods: {
@@ -128,6 +188,9 @@ export default {
       }).catch((error) => {
         console.log(error)
       })
+    },
+    editCollaborator(id) {
+      alert(id)
     }
   },
   computed: {
@@ -194,6 +257,53 @@ export default {
 .mode-d-p {
   background-color: #161819;
   @include tr;
+}
+
+#modal {
+  #card-modal {
+    width: 30vw;
+    height: 90vh;
+    padding: 1vh 0;
+
+    h1 {
+      font-size: 2.2rem;
+      text-align: center;
+      color: $age-bl;
+      font-weight: 500;
+    }
+
+    form {
+      @include flex(column, flex-start, center, 2vh);
+      padding: 3vh 1vw;
+
+      span {
+        font-size: 1.4rem;
+        color: $age-or;
+        font-weight: 400;
+      }
+      .inputs {
+        @include flex(column, flex-start, initial, 2px);
+        width: 80%;
+
+        label {
+          font-size: 1.2rem;
+          color: $age-bl;
+          font-weight: 500;
+        }
+
+        input[type=text] {
+          width: 100%;
+
+        }
+
+        input[type=number] {
+          width: 50%;
+        }
+      }
+
+
+    }
+  }
 }
 
 </style>

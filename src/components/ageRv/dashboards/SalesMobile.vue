@@ -39,7 +39,7 @@
           </div>
           <i class="fi fi-rr-arrow-alt-square-down"></i>
         </div>
-        <div class="item" v-if="data.deflator === 10" style="background-color: #009688">
+        <div class="item" v-if="data.deflator >= 0" style="background-color: #009688">
           <div class="values">
             <span>{{ data.deflator }}%</span>
             <span>Acelerador</span>
