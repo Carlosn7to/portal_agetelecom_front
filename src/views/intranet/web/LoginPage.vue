@@ -181,6 +181,11 @@ export default {
             this.error = true
             this.functions.authenticate = false
             this.msg = 'Usuário ou senha incorretos!'
+          } else {
+            this.loading = false
+            this.error = true
+            this.functions.authenticate = false
+            this.msg = error.response.status
           }
         })
 
