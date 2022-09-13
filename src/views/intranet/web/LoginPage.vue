@@ -120,6 +120,8 @@
   <LoginMobile
     v-if="isMobile"
     @authenticate-mb="authenticate"
+    :msg="msg"
+    :loading="loading"
   />
 </template>
 
@@ -151,6 +153,7 @@ export default {
     authenticate: function (data) {
 
       if(this.isMobile) {
+        this.loading = true
         this.inputs.username = data.payload.username
         this.inputs.password = data.payload.password
       }

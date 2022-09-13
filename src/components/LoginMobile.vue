@@ -2,6 +2,7 @@
   <div id="content-login">
     <h1>Portal</h1>
     <img :src="require('@/assets/img/logo/logo_orange.png')" alt="">
+    <span class="msg-alert" v-if="msg">{{ msg }}</span>
     <form action="#" @submit.prevent="authenticate">
       <input type="text"
              name="username"
@@ -27,16 +28,22 @@
 <script>
 export default {
   name: "LoginMobile",
+  props: {
+    msg: {
+      type: String
+    },
+    loading: {
+      type: Boolean
+    }
+  },
   data () {
     return {
       username: '',
       password: '',
-      loading: false
     }
   },
   methods: {
     authenticate: function () {
-      this.loading = true
       this.$emit('authenticate-mb', {
         payload: {
           username: this.username,
@@ -70,6 +77,13 @@ export default {
     img {
       width: 15vw;
       height: auto;
+    }
+
+    .msg-alert {
+      background-color: red;
+      padding: 5px 15px;
+      color: #fff !important;
+      border-radius: 3px;
     }
 
     form {
