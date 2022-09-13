@@ -1,20 +1,20 @@
 <template>
   <div class="menu-mobile" v-if="page === 'portal'">
-    <router-link to="/home" active-class="active">
-      <div>
-        <i class="fi fi-rr-home"></i>
-      </div>
-    </router-link>
+<!--    <router-link to="/home" active-class="active">-->
+<!--      <div>-->
+<!--        <i class="fi fi-rr-home"></i>-->
+<!--      </div>-->
+<!--    </router-link>-->
     <router-link to="/sistemas" active-class="active">
       <div>
         <i class="fi fi-rr-apps-add"></i>
       </div>
     </router-link>
-    <router-link to="/gerenciamento" active-class="active">
-      <div>
-        <i class="fi fi-rr-settings-sliders"></i>
-      </div>
-    </router-link>
+<!--    <router-link to="/gerenciamento" active-class="active">-->
+<!--      <div>-->
+<!--        <i class="fi fi-rr-settings-sliders"></i>-->
+<!--      </div>-->
+<!--    </router-link>-->
     <router-link to="/" active-class="active">
       <div>
         <i class="fi fi-rr-exit"></i>
@@ -22,11 +22,11 @@
     </router-link>
   </div>
   <div class="menu-mobile" v-if="page === 'agerv'">
-    <router-link to="/agerv/home" active-class="active">
-      <div>
-        <i class="fi fi-rr-home"></i>
-      </div>
-    </router-link>
+<!--    <router-link to="/agerv/home" active-class="active">-->
+<!--      <div>-->
+<!--        <i class="fi fi-rr-home"></i>-->
+<!--      </div>-->
+<!--    </router-link>-->
     <router-link to="/ageRv/comercial/vendas/dashboard"
                  active-class="active"
                  v-if="permissions.function !== 'Supervisor' ||
@@ -37,11 +37,11 @@
         <i class="fi fi-rr-chart-histogram"></i>
       </div>
     </router-link>
-    <router-link to="/ageRv/comercial/analitico" active-class="active">
-      <div>
-        <i class="fi fi-rr-settings-sliders"></i>
-      </div>
-    </router-link>
+<!--    <router-link to="/ageRv/comercial/analitico" active-class="active">-->
+<!--      <div>-->
+<!--        <i class="fi fi-rr-settings-sliders"></i>-->
+<!--      </div>-->
+<!--    </router-link>-->
     <router-link to="/sistemas" active-class="active">
       <div>
         <i class="fi fi-rr-arrow-left"></i>
@@ -71,11 +71,11 @@ export default {
 <style scoped lang="scss">
 
   .menu-mobile {
-    @include flex(row, center, center, 15%);
+    @include flex(row, center, center, 60px);
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 10%;
+    height: 70px;
     background-color: #fff;
     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 25px 4px;
 

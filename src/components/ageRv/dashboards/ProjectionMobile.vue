@@ -38,10 +38,8 @@ export default {
 
 <style scoped lang="scss">
   .projection {
-    @include flex(column, flex-start, initial, 10px);
-    p {
-      padding-left: 2vw;
-    }
+    @include flex(column, flex-start, initial, 5px);
+
     .card {
       width: 100%;
       padding: 0 2vw;

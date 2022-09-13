@@ -5,7 +5,7 @@
     <div class="section">
       <h1>Disponíveis</h1>
       <div class="items">
-        <router-link to="/agerv/home" @click="loading = true">
+        <router-link to="/agerv/comercial/vendas/dashboard" @click="loading = true">
           <div class="item">
             <div class="img-title">
               <i class="fi fi-rr-star"></i>

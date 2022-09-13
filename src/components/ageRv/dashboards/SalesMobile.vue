@@ -124,7 +124,7 @@ export default {
     }
 
     .items {
-      @include flex(row, flex-start, initial, 10px);
+      @include flex(row, center, initial, 10px);
       flex-wrap: wrap;
       width: 100%;
       .item {
