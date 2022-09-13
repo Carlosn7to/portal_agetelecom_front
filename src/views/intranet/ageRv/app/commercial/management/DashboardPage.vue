@@ -84,6 +84,8 @@
       </div>
     </div>
   </div>
+  <div class="loading" v-if="loading === true">
+  </div>
 </template>
 
 <script>
@@ -172,6 +174,7 @@ export default {
 
   .items-header {
     @include table-card-headers;
+    text-align: center;
   }
 
   .container-body {
@@ -179,7 +182,9 @@ export default {
   }
 }
 
-
+.loading {
+  @include bar;
+}
 
 .mode-l-p {
   background-color: $ml-back-l;
