@@ -128,7 +128,7 @@ export default {
       flex-wrap: wrap;
       width: 100%;
       .item {
-        width: 45%;
+        width: 48%;
         height: 10vh;
         border-radius: 5px;
         color: #fff;
@@ -183,7 +183,7 @@ export default {
       //  background-color: #911515;
       //}
       .item:nth-child(9) {
-        width: 93%;
+        width: 99%;
       //  background-color: #24A527;
       }
     }
