@@ -130,6 +130,7 @@ export default {
     width: 12%;
     height: 100%;
     border-radius: 5px 0 0 5px;
+
     nav{
       margin-top: 7vh;
 

@@ -76,7 +76,9 @@
                 <span>{{ item.management }}</span>
               </div>
               <div class="item" style="gap: 5px">
-                <i class="fi fi-rr-edit" @click="editCollaborator(item.id, item.collaborator, item.meta)"></i>
+                <i class="fi fi-rr-edit"
+                   @click="editCollaborator(item.id, item.collaborator, item.supervisor, item.meta, item.username,
+                                            item.function, item.channel, item.type_commission, item.management)"></i>
               </div>
             </div>
           </div>
@@ -89,7 +91,8 @@
   </div>
   <div id="modal" v-if="modal === true">
     <EditCollaborator
-        :id="id"
+        :data="dataCollaborator"
+        @close-page="modal = false"
     />
   </div>
 </template>
@@ -116,8 +119,18 @@ export default {
       search: '',
       loading: true,
       list: false,
-      modal: true,
-      id: 0
+      modal: false,
+      dataCollaborator: {
+        id: 0,
+        collaborator: '',
+        sup: '',
+        meta: 0,
+        username: '',
+        function: '',
+        channel: '',
+        typeCommission: '',
+        management: ''
+      }
     }
   },
   methods: {
@@ -139,9 +152,17 @@ export default {
         console.log(error)
       })
     },
-    editCollaborator(id) {
+    editCollaborator(i, c, s, m, u, f, ch, t, mng) {
       this.modal = true
-      this.id = id
+      this.dataCollaborator.id = i
+      this.dataCollaborator.collaborator = c
+      this.dataCollaborator.sup = s
+      this.dataCollaborator.meta = m
+      this.dataCollaborator.username = u
+      this.dataCollaborator.function = f
+      this.dataCollaborator.channel = ch
+      this.dataCollaborator.typeCommission = t
+      this.dataCollaborator.management = mng
     }
   },
   computed: {
