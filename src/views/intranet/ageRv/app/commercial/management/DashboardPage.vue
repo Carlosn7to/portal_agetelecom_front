@@ -88,55 +88,9 @@
   <div class="loading" v-if="loading === true">
   </div>
   <div id="modal" v-if="modal === true">
-    <div id="card-modal">
-      <div id="close-button">
-        <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
-      </div>
-      <h1>Edição de usuário</h1>
-      <form action="#">
-        <span>Angela Soares Resende</span>
-        <div class="inputs">
-          <label for="meta">Meta</label>
-          <input type="number" name="meta" id="meta" min="0">
-        </div>
-        <div class="inputs">
-          <label for="meta">Usuário vinculado</label>
-          <input type="text" name="user_vinc" id="user_vinc" value="Angela" disabled>
-        </div>
-        <div class="inputs">
-          <label for="meta">Função - ERP</label>
-          <input type="text" name="" id="" value="Vendedor" disabled>
-        </div>
-        <div class="inputs">
-          <label for="meta">Supervisor - ERP</label>
-          <input type="text" name="sup-erp" id="sup-erp" value="Debora Rodrigues Acosta" disabled>
-        </div>
-        <div class="inputs">
-          <label for="meta">Canal</label>
-          <select name="supervisors" id="supervisors">
-            <option value="1">MCV</option>
-            <option value="2">PAP</option>
-            <option value="2">LIDER</option>
-          </select>
-        </div>
-        <div class="inputs">
-          <label for="meta">Tipo de comissão</label>
-          <select name="supervisors" id="supervisors">
-            <option value="1">MCV</option>
-            <option value="2">PAP</option>
-            <option value="2">LIDER</option>
-          </select>
-        </div>
-        <div class="inputs">
-          <label for="meta">Supervisor</label>
-          <select name="supervisors" id="supervisors">
-            <option value="1">Debora Rodrigues Acosta</option>
-            <option value="2">Alisson Correia</option>
-          </select>
-        </div>
-        <input type="submit" value="Enviar informações">
-      </form>
-    </div>
+    <EditCollaborator
+        :id="id"
+    />
   </div>
 </template>
 
@@ -146,12 +100,14 @@ import MenuApp from "@/components/portal/_aux/MenuApp";
 import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 import {AXIOS} from "../../../../../../../services/api.ts";
+import EditCollaborator from "@/components/ageRv/management/EditCollaborator";
 
 export default {
   name: "DashboardPage",
   components: {
     MenuApp,
-    HeaderApp
+    HeaderApp,
+    EditCollaborator
   },
   data () {
     return {
@@ -160,7 +116,8 @@ export default {
       search: '',
       loading: true,
       list: false,
-      modal: true
+      modal: true,
+      id: 0
     }
   },
   methods: {
@@ -182,8 +139,9 @@ export default {
         console.log(error)
       })
     },
-    editCollaborator() {
+    editCollaborator(id) {
       this.modal = true
+      this.id = id
     }
   },
   computed: {
@@ -252,51 +210,5 @@ export default {
   @include tr;
 }
 
-#modal {
-  #card-modal {
-    width: 30vw;
-    height: 90vh;
-    padding: 1vh 0;
-
-    h1 {
-      font-size: 2.2rem;
-      text-align: center;
-      color: $age-bl;
-      font-weight: 500;
-    }
-
-    form {
-      @include flex(column, flex-start, center, 2vh);
-      padding: 3vh 1vw;
-
-      span {
-        font-size: 1.4rem;
-        color: $age-or;
-        font-weight: 400;
-      }
-      .inputs {
-        @include flex(column, flex-start, initial, 2px);
-        width: 80%;
-
-        label {
-          font-size: 1.2rem;
-          color: $age-bl;
-          font-weight: 500;
-        }
-
-        input[type=text] {
-          width: 100%;
-
-        }
-
-        input[type=number] {
-          width: 50%;
-        }
-      }
-
-
-    }
-  }
-}
 
 </style>

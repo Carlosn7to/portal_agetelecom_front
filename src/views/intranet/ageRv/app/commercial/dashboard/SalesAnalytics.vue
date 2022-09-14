@@ -767,11 +767,11 @@ export default {
         this.dataStage.channels = data
       }
 
-      if(type === 'supervisors') {
+      if(type === 'supervisors' || type === 'supervisor' || type === 'supervisors-mng') {
         this.dataStage.supervisors = data
       }
 
-      if(type === 'sellers') {
+      if(type === 'sellers' || type === 'sellers-sup' || type === 'sellers-mng') {
         this.dataStage.sellers = data
       }
 

@@ -84,11 +84,6 @@ export default {
   name: "ExtractView",
   props: {
     items: {
-      required: true,
-      type: Object
-    },
-    type: {
-      type: String,
       required: true
     },
     mode: {
