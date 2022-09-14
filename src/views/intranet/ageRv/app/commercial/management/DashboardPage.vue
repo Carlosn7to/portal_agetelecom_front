@@ -76,7 +76,7 @@
                 <span>{{ item.management }}</span>
               </div>
               <div class="item" style="gap: 5px">
-                <i class="fi fi-rr-edit" @click="editCollaborator(item.id)"></i>
+                <i class="fi fi-rr-edit" @click="editCollaborator(item.id, item.collaborator, item.meta)"></i>
               </div>
             </div>
           </div>
@@ -100,24 +100,24 @@
           <input type="number" name="meta" id="meta" min="0">
         </div>
         <div class="inputs">
-          <label for="meta">Possui usuário?</label>
-          <input type="text" name="" id="" value="Não" disabled>
-        </div>
-        <div class="inputs">
           <label for="meta">Usuário vinculado</label>
-          <select name="supervisors" id="supervisors">
-            <option selected>--- Nenhum ---</option>
-            <option value="1">Debora</option>
-            <option value="2">Alisson</option>
-          </select>
+          <input type="text" name="user_vinc" id="user_vinc" value="Angela" disabled>
         </div>
         <div class="inputs">
-          <label for="meta">Função</label>
+          <label for="meta">Função - ERP</label>
           <input type="text" name="" id="" value="Vendedor" disabled>
         </div>
         <div class="inputs">
+          <label for="meta">Supervisor - ERP</label>
+          <input type="text" name="sup-erp" id="sup-erp" value="Debora Rodrigues Acosta" disabled>
+        </div>
+        <div class="inputs">
           <label for="meta">Canal</label>
-          <input type="text" name="" id="" value="MCV" disabled>
+          <select name="supervisors" id="supervisors">
+            <option value="1">MCV</option>
+            <option value="2">PAP</option>
+            <option value="2">LIDER</option>
+          </select>
         </div>
         <div class="inputs">
           <label for="meta">Tipo de comissão</label>
@@ -132,13 +132,6 @@
           <select name="supervisors" id="supervisors">
             <option value="1">Debora Rodrigues Acosta</option>
             <option value="2">Alisson Correia</option>
-          </select>
-        </div>
-        <div class="inputs">
-          <label for="meta">Gerente</label>
-          <select name="supervisors" id="supervisors">
-            <option value="1">Washington</option>
-            <option value="2">Ivaldo</option>
           </select>
         </div>
         <input type="submit" value="Enviar informações">
@@ -189,8 +182,8 @@ export default {
         console.log(error)
       })
     },
-    editCollaborator(id) {
-      alert(id)
+    editCollaborator() {
+      this.modal = true
     }
   },
   computed: {
