@@ -6,11 +6,11 @@
         <nav>
           <p>Menu {{ mode }}</p>
           <ul>
-<!--            <li :class="{ 'selected' : page === 'main' }"-->
-<!--                @click="page = 'main'">-->
-<!--              <i class="fi fi-rr-search"></i>-->
-<!--              <span>Visão geral</span>-->
-<!--            </li>-->
+            <li :class="{ 'selected' : page === 'main' }"
+                @click="page = 'main'">
+              <i class="fi fi-rr-search"></i>
+              <span>Visão geral</span>
+            </li>
             <li :class="{ 'selected' : page === 'sales' }"
                 @click="page = 'sales'">
               <i class="fi fi-rr-search-alt"></i>
@@ -29,7 +29,80 @@
         </nav>
     </div>
     <div class="content">
-      <div class="card">
+      <h1 v-if="data.supervisor !== undefined">{{ data.supervisor }}</h1>
+      <h1 v-if="data.seller !== undefined">{{ data.seller }}</h1>
+      <div class="cards" v-if="page === 'main'">
+        <div class="card">
+          <i class="fi fi-ss-rocket-lunch"></i>
+          <div class="type-value">
+            <span>{{ data.salesTotal.count }}</span>
+            <span>Vendas totais</span>
+          </div>
+        </div>
+        <div class="card">
+          <i class="fi fi-rr-chart-histogram"></i>
+          <div class="type-value">
+            <span>{{ data.meta }}</span>
+            <span>Meta</span>
+          </div>
+        </div>
+        <div class="card">
+          <i class="fi fi-sr-chart-line-up"></i>
+          <div class="type-value">
+            <span>{{ data.metaPercent }}%</span>
+            <span>Meta atingida</span>
+          </div>
+        </div>
+        <div class="card">
+          <i class="fi fi-sr-chart-line-up"></i>
+          <div class="type-value">
+            <span>{{ data.salesCancelled.count }}</span>
+            <span>Canceladas</span>
+          </div>
+        </div>
+        <div class="card">
+          <i class="fi fi-sr-chart-line-up"></i>
+          <div class="type-value">
+            <span>{{ data.starsTotal }}</span>
+            <span>Estrelas</span>
+          </div>
+        </div>
+        <div class="card">
+          <i class="fi fi-sr-chart-line-up"></i>
+          <div class="type-value">
+            <span>R${{ data.valueStar }}</span>
+            <span>Valor da estrela</span>
+          </div>
+        </div>
+        <div class="card" v-if="data.deflator === 10">
+          <i class="fi fi-rr-arrow-alt-square-up"></i>
+          <div class="type-value">
+            <span>{{ data.deflator }}%</span>
+            <span>Acelerador</span>
+          </div>
+        </div>
+        <div class="card" v-if="data.deflator === -10">
+          <i class="fi fi-rr-arrow-alt-square-down"></i>
+          <div class="type-value">
+            <span>{{ data.deflator }}%</span>
+            <span>deflator</span>
+          </div>
+        </div>
+        <div class="card" v-if="data.deflator === 0">
+          <i class="fi fi-rr-arrow-alt-square-right"></i>          <div class="type-value">
+          <span>{{ data.deflator }}%</span>
+          <span>Acelerador</span>
+        </div>
+        </div>
+        <div class="card">
+          <i class="fi fi-sr-sack-dollar"></i>
+          <div class="type-value">
+            <span>{{ data.commission }}</span>
+            <span>Comissão</span>
+          </div>
+        </div>
+      </div>
+      <div class="card" v-if="page === 'sales'">
         <div class="items-header">
           <div class="item" style="justify-content: flex-start; width: 20%">
             <span>Cliente</span>
@@ -92,7 +165,7 @@ export default {
   },
   data() {
     return {
-      page: 'sales',
+      page: 'main',
       data: this.items,
       getSales: false
 
@@ -113,7 +186,7 @@ export default {
         return 0
       }
 
-      return this.data.sales.slice().sort(compare)
+      return this.data.salesTotal.extract.slice().sort(compare)
     }
   }
 }
@@ -184,6 +257,54 @@ export default {
         @include table-card-body;
       }
 
+    }
+
+    h1 {
+      color: $age-bl;
+      font-size: 2rem;
+      margin-bottom: 2vh;
+      font-weight: 500;
+    }
+
+    .cards {
+      width: 100%;
+      @include flex(row, flex-start, initial, 10px);
+      flex-wrap: wrap;
+
+      .card {
+        width: calc((100% / 4) - 20px);
+        height: 13vh;
+        background-color: #fff;
+        border-radius: 5px;
+        @include sh-h;
+        @include tr;
+        padding: 2vh 1vw;
+        @include flex(row, space-between, center, 0px);
+
+        .type-value {
+          @include flex(column, flex-start, initial, 5px);
+          color: #fff;
+          font-weight: 600;
+          text-align: right;
+
+          span:nth-child(1) {
+            font-size: 2rem;
+            color: $age-bl;
+          }
+
+          span:nth-child(2) {
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: .6px;
+            color: $age-bl;
+          }
+        }
+
+        i {
+          font-size: 4rem;
+          color: $age-or;
+        }
+      }
     }
   }
 }
