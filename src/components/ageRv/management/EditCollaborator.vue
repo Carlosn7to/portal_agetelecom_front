@@ -78,13 +78,13 @@
             <span>Nenhum usuário encontrado!</span>
             <br>
             <br>
-            <button>Novo usuário</button>
+            <button @click="newUser(data.id)">Novo usuário</button>
           </div>
           <div class="user" v-if="data.username !== ''">
-            <span>Editar dados</span>
+            <span>Esqueceu a senha?</span>
             <br>
             <br>
-            asiodsoia
+            <button @click="newUser(data.id)">Nova senha</button>
           </div>
         </div>
         <div class="content" v-if="page === 'meta'">
@@ -162,7 +162,6 @@
 
 <script>
 import {AXIOS} from "../../../../services/api.ts";
-import Cookie from "js-cookie";
 
 export default {
   name: "EditCollaborator",
@@ -174,19 +173,33 @@ export default {
   data() {
     return {
       res: {},
-      page: 'overview'
+      page: 'overview',
+      user: {
+        email: '',
+        password: ''
+      }
     }
   },
   methods: {
-    getInfo: function () {
+    getInfo: function (id) {
       AXIOS({
         method: 'GET',
-        url: 'agerv/management/collaborators/'+202,
-        headers: {
-          'Authorization': 'Bearer '+Cookie.get('token')
-        }
+        url: 'agerv/management/collaborators/'+id,
       }).then((res) => {
         this.res = res.data
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    newUser: function (id) {
+      AXIOS({
+        method: 'POST',
+        url: 'agerv/management/new-user',
+        data: {
+          id: id
+        }
+      }).then((res) => {
+        console.log(res)
       }).catch((error) => {
         console.log(error)
       })
