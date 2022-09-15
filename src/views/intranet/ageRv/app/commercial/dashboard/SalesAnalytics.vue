@@ -24,6 +24,8 @@
                    placeholder="Pesquisar"
                    v-model="search">
             <div id="month">
+              <span :class="{ 'selectMonth' : month === '06' && mode === 'light',
+                              'selectMonthDark' : month === '06' && mode === 'dark' }" @click="getAnalytic('06'), month = '06'">Junho</span>
               <span :class="{ 'selectMonth' : month === '07' && mode === 'light',
                               'selectMonthDark' : month === '07' && mode === 'dark' }" @click="getAnalytic('07'), month = '07'">Julho</span>
               <span :class="{ 'selectMonth' : month === '08' && mode === 'light',
