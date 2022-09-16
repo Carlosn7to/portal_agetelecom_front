@@ -86,7 +86,8 @@
             <br>
             <br>
               <div class="info-user">
-                <span><b>E-mail:</b> {{ data.email }}</span>
+                <span v-if="user.email === '' && data.email !== '' "><b>E-mail:</b> {{ data.email }}</span>
+                <span v-if="user.email !== ''"><b>E-mail:</b> {{ user.email }}</span>
                 <span v-if="user.password !== ''">Nova senha: {{ user.password }}</span>
               </div>
             <br>
