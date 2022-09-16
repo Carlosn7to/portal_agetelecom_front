@@ -40,7 +40,7 @@
                 <b>Função:</b> {{ data.function }}
               </span>
               <span>
-                <b>Supervisor:</b> {{ data.sup  }}
+                <b>Supervisor:</b> {{ data.supervisor  }}
               </span>
             </div>
             <div>
@@ -67,24 +67,34 @@
                 <b>Canal:</b> {{ data.channel }}
               </span>
               <span>
-                <b>Tipo de comissão:</b> {{ data.typeCommission }}
+                <b>Tipo de comissão:</b> {{ data.type_commission }}
               </span>
             </div>
           </div>
         </div>
         <div class="content" v-if="page === 'user'">
           <h1>Usuário</h1>
-          <div class="user" v-if="data.username === ''">
+          <div class="user" v-if="data.username === '' && user.email === ''">
             <span>Nenhum usuário encontrado!</span>
             <br>
             <br>
             <button @click="newUser(data.id)">Novo usuário</button>
           </div>
-          <div class="user" v-if="data.username !== ''">
-            <span>Esqueceu a senha?</span>
+          <div class="user" v-if="data.username !== '' || user.email !== ''">
+            <span>Dados de acesso</span>
             <br>
             <br>
-            <button @click="newUser(data.id)">Nova senha</button>
+            <br>
+              <div class="info-user">
+                <span><b>E-mail:</b> {{ data.email }}</span>
+                <span v-if="user.password !== ''">Nova senha: {{ user.password }}</span>
+              </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <button @click="newPassword(data.user_id)">Solicitar nova senha</button>
           </div>
         </div>
         <div class="content" v-if="page === 'meta'">
@@ -173,7 +183,7 @@ export default {
   data() {
     return {
       res: {},
-      page: 'overview',
+      page: 'user',
       user: {
         email: '',
         password: ''
@@ -199,10 +209,23 @@ export default {
           id: id
         }
       }).then((res) => {
-        console.log(res)
+        this.user.email = res.data.email
+        this.user.password = res.data.password
       }).catch((error) => {
         console.log(error)
       })
+    },
+    newPassword: function (id) {
+      AXIOS({
+        method: 'GET',
+        url: 'agerv/management/new-password/'+id
+      }).then((res) => {
+        this.user.email = res.data.email
+        this.user.password = res.data.password
+      }).catch((error) => {
+        console.log(error)
+      })
+
     },
     closePage: function() {
       this.$emit('close-page')
@@ -334,6 +357,15 @@ export default {
               background-color: #fff;
               border-color: $age-bl;
               color: $age-bl;
+            }
+          }
+
+          .info-user {
+            @include flex(column, flex-start, initial, 5px);
+            span {
+              font-size: 1.2rem;
+              color: $ml-text-menu;
+              user-select: text;
             }
           }
         }

@@ -77,8 +77,7 @@
               </div>
               <div class="item" style="gap: 5px">
                 <i class="fi fi-rr-edit"
-                   @click="editCollaborator(item.id, item.collaborator, item.supervisor, item.meta, item.username,
-                                            item.function, item.channel, item.type_commission, item.management)"></i>
+                   @click="editCollaborator(item)"></i>
               </div>
             </div>
           </div>
@@ -120,17 +119,7 @@ export default {
       loading: true,
       list: false,
       modal: false,
-      dataCollaborator: {
-        id: 0,
-        collaborator: '',
-        sup: '',
-        meta: 0,
-        username: '',
-        function: '',
-        channel: '',
-        typeCommission: '',
-        management: ''
-      }
+      dataCollaborator: {}
     }
   },
   methods: {
@@ -152,17 +141,9 @@ export default {
         console.log(error)
       })
     },
-    editCollaborator(i, c, s, m, u, f, ch, t, mng) {
+    editCollaborator(data) {
       this.modal = true
-      this.dataCollaborator.id = i
-      this.dataCollaborator.collaborator = c
-      this.dataCollaborator.sup = s
-      this.dataCollaborator.meta = m
-      this.dataCollaborator.username = u
-      this.dataCollaborator.function = f
-      this.dataCollaborator.channel = ch
-      this.dataCollaborator.typeCommission = t
-      this.dataCollaborator.management = mng
+      this.dataCollaborator = data
     }
   },
   computed: {
