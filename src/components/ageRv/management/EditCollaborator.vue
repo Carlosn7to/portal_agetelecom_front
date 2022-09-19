@@ -10,7 +10,7 @@
                   <i class="fi fi-rr-id-badge"></i>
                 </div>
               </li>
-              <li :class="{ 'page-selected' : page === 'user'}" @click="page = 'user'">
+              <li :class="{ 'page-selected' : page === 'user'}" @click="page = 'user'" v-if="data.isAD === 0 || data.isAD === null">
                 <div>
                   <i class="fi fi-rr-user"></i>
                 </div>
@@ -72,7 +72,7 @@
             </div>
           </div>
         </div>
-        <div class="content" v-if="page === 'user'">
+        <div class="content" v-if="page === 'user' && (data.isAD === 0 || data.isAD === null) ">
           <h1>Usuário</h1>
           <div class="user" v-if="data.username === '' && user.email === ''">
             <span>Nenhum usuário encontrado!</span>
@@ -184,7 +184,7 @@ export default {
   data() {
     return {
       res: {},
-      page: 'user',
+      page: 'overview',
       user: {
         email: '',
         password: ''
