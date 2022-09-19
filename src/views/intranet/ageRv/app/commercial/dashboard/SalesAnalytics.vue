@@ -745,7 +745,7 @@ export default {
           'Authorization': 'Bearer '+Cookie.get('token')
         },
         params: {
-          month: '08',
+          month: '07',
           rule: this.rule
         }
       }).then((res) => {
