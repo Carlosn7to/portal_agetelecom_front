@@ -33,12 +33,6 @@
               <span :class="{ 'selectMonth' : month === '09' && mode === 'light',
                               'selectMonthDark' : month === '09' && mode === 'dark' }" @click="getAnalytic('09'), month = '09'">Setembro</span>
             </div>
-            <div id="month">
-              <span :class="{ 'selectMonth' : rule === '09' && mode === 'light',
-                               'selectMonthDark' : rule === 'old' && mode === 'dark' }" @click="rule = 'old', getAnalytic()">Antiga</span>
-              <span :class="{ 'selectMonth' : rule === 'new' && mode === 'light',
-                               'selectMonthDark' : rule === 'new' && mode === 'dark' }" @click="rule = 'new', getAnalytic()">Nova</span>
-            </div>
           </div>
           <div class="items-header">
             <div class="item" style="justify-content: flex-start">
@@ -724,14 +718,14 @@ export default {
       },
       search: '',
       month: null,
-      rule: 'old',
+      rule: 'actual',
     }
   },
   methods: {
     modeView: function (mode) {
       this.mode = mode
     },
-    getAnalytic: function () {
+    getAnalytic: function (month) {
 
       this.loading = true
       this.data = {}
@@ -745,8 +739,7 @@ export default {
           'Authorization': 'Bearer '+Cookie.get('token')
         },
         params: {
-          month: '07',
-          rule: this.rule
+          month: month
         }
       }).then((res) => {
 
