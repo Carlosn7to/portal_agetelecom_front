@@ -91,7 +91,7 @@
   <div id="modal" v-if="modal === true">
     <EditCollaborator
         :data="dataCollaborator"
-        @close-page="modal = false"
+        @close-page="closePage()"
     />
   </div>
 </template>
@@ -144,6 +144,9 @@ export default {
     editCollaborator(data) {
       this.modal = true
       this.dataCollaborator = data
+    },
+    closePage: function () {
+      this.modal = false
     }
   },
   computed: {

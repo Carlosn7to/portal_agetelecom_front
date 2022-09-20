@@ -100,73 +100,67 @@
         </div>
         <div class="content" v-if="page === 'meta'">
           <h1>Meta</h1>
-          <div class="card-info">
-
+          <button v-if="data.meta === null && newMeta.state === false" @click="newMeta.status = true">Adicionar meta</button>
+          <div class="items-header">
+            <div class="item" style="justify-content: center; width: 10%">
+              <span>ID</span>
+            </div>
+            <div class="item" style="width: 30%">
+              <span>Mês referência</span>
+            </div>
+            <div class="item" style="justify-content: center">
+              <span>Meta</span>
+            </div>
+            <div class="item" style="width: 20%">
+              <span>Alterado por</span>
+            </div>
+            <div class="item" style="width: 20%">
+              <span>Ações</span>
+            </div>
           </div>
-          <form action="#">
-            <div class="inputs">
-              <label for="meta">Nome cadastrado no ERP</label>
-              <input type="text" name="" id="" :value="data.collaborator" disabled>
+          <div class="container-body">
+            <div class="items-body" v-for="meta in this.meta" :key="meta.id">
+              <div class="item" style="justify-content: center; width: 10%">
+                <span>{{ meta.id }}</span>
+              </div>
+              <div class="item" style="width: 30%">
+                <span>{{ meta.mes_competencia }}</span>
+              </div>
+              <div class="item" style="justify-content: center">
+                <span>{{ meta.meta }}</span>
+              </div>
+              <div class="item" style="width: 20%">
+                <span>Carlos Neto</span>
+              </div>
+              <div class="item" style="gap: 5px;width: 20%" v-if="meta.mes_competencia === this.month">
+                <i class="fi fi-rr-edit" @click="actualMeta.status = true"></i>
+              </div>
             </div>
-            <div class="inputs">
-              <label for="meta">Função cadastrada no ERP</label>
-              <input type="text" name="" id="" :value="data.function" disabled>
-            </div>
-            <div class="inputs"  v-if="data.function !== 'Supervisor'" >
-              <label for="meta">Supervisor vinculado no ERP</label>
-              <input type="text" name="sup-erp" id="sup-erp" :value="data.sup" disabled>
-            </div>
-            <div class="inputs">
-              <label for="meta">Usuário vinculado</label>
-              <input type="text" name="user_vinc" id="user_vinc"
-                     :value="data.username" v-if="data.username !== ''" disabled>
-              <select name="channel" id="channel" v-else>
-                <option>--- Nenhum usuário vinculado ---</option>
-                <option  v-for="user in res.usersAvaliable"
-                         :key="user.id"
-                         :value="user.id">
-                  {{ user.name }}
-                </option>
-              </select>
-            </div>
-            <div class="inputs">
-              <label for="channel">Canal</label>
-              <select name="channel" id="channel" >
-                <option  v-for="channel in res.channelsAvaliable"
-                         :key="channel.id"
-                         :value="channel.id"
-                         :selected="data.channel === channel.canal">
-                  {{ channel.canal }}
-                </option>
-              </select>
-            </div>
-            <div class="inputs">
-              <label for="type">Tipo de comissão</label>
-              <select name="type" id="type" >
-                <option  v-for="channel in res.channelsAvaliable"
-                         :key="channel.id"
-                         :value="channel.id"
-                         :selected="data.typeCommission === channel.canal">
-                  {{ channel.canal }}
-                </option>
-              </select>
-            </div>
-            <div class="inputs">
-              <label for="supImmediate">Supervisor imediato</label>
-              <select name="supImmediate" id="supImmediate" >
-                <option>--- Nenhum supervisor vinculado ---</option>
-                <option  v-for="sup in res.supervisorsAvaliable"
-                         :key="sup.id"
-                         :value="sup.id" :selected="data.management === sup.name">
-                  {{ sup.name }}
-                </option>
-              </select>
-            </div>
-            <input type="submit" value="Enviar informações">
-          </form>
+          </div>
         </div>
-
       </div>
+    </div>
+  </div>
+  <div id="modal" v-if="newMeta.status === true">
+    <div id="card-modal" style="width: 20vw; height: 30vh">
+      <div id="close-button">
+        <i class="fi fi-rr-cross-small" @click="newMeta.status = false"></i>
+      </div>
+      <form action="#" id="newMeta" @submit.prevent="addMeta">
+        <input type="number" name="meta" id="meta" placeholder="Meta" v-model="newMeta.value">
+        <input type="submit" value="Salvar meta">
+      </form>
+    </div>
+  </div>
+  <div id="modal" v-if="actualMeta.status === true">
+    <div id="card-modal" style="width: 20vw; height: 30vh">
+      <div id="close-button">
+        <i class="fi fi-rr-cross-small" @click="actualMeta.status = false"></i>
+      </div>
+      <form action="#" id="newMeta" @submit.prevent="editMeta">
+        <input type="number" name="meta" id="meta" placeholder="Meta" v-model="actualMeta.value">
+        <input type="submit" value="Salvar meta">
+      </form>
     </div>
   </div>
 </template>
@@ -184,20 +178,32 @@ export default {
   data() {
     return {
       res: {},
-      page: 'overview',
+      page: 'meta',
       user: {
         email: '',
         password: ''
+      },
+      meta: {},
+      month: '',
+      newMeta: {
+        status: false,
+        value: null,
+        state: false
+      },
+      actualMeta: {
+        status: false,
+        value: this.data.meta,
       }
     }
   },
   methods: {
-    getInfo: function (id) {
+    getInfo: function () {
       AXIOS({
         method: 'GET',
-        url: 'agerv/management/collaborators/'+id,
+        url: 'agerv/management/collaborators/'+this.data.id,
       }).then((res) => {
         this.res = res.data
+        this.getMeta()
       }).catch((error) => {
         console.log(error)
       })
@@ -230,10 +236,60 @@ export default {
     },
     closePage: function() {
       this.$emit('close-page')
+    },
+    getMeta: function () {
+      AXIOS({
+        method: 'GET',
+        url: 'agerv/management/meta/'+this.data.id
+      }).then((res) => {
+        this.meta = res.data
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    addMeta: function () {
+      AXIOS({
+        method: 'POST',
+        url: 'agerv/management/meta',
+        data: {
+          id: this.data.id,
+          meta: this.newMeta.value
+        }
+      }).then(() => {
+        this.newMeta.status = false
+        this.newMeta.state = true
+        this.newMeta.value = 0
+        this.getMeta()
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    editMeta: function () {
+      AXIOS({
+        method: 'PUT',
+        url: `agerv/management/meta/${this.data.id}`,
+        params: {
+          meta: this.actualMeta.value
+        }
+      }).then(() => {
+        this.actualMeta.status = false
+        this.getMeta()
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    getMonth: function () {
+      const date = new Date()
+      if (date.getMonth() < 10) {
+        this.month = '0' + (date.getMonth() + 1)
+      } else {
+        this.month = (date.getMonth() + 1).toString()
+      }
     }
   },
   beforeMount() {
     this.getInfo()
+    this.getMonth()
   }
 }
 </script>
@@ -417,6 +473,68 @@ export default {
               border-radius: 3px;
             }
           }
+        }
+
+        button {
+          background-color: $age-bl;
+          color: #fff;
+          border: 1px solid $age-bl;
+          @include tr-p;
+          padding: 5px 10px;
+          border-radius: 3px;
+          font-weight: 500;
+
+          &:hover {
+            background-color: #fff;
+            color: $age-bl;
+            border-color: $age-bl;
+          }
+        }
+
+        .items-header {
+          @include table-card-headers;
+          text-align: center;
+        }
+
+        .container-body {
+          @include table-card-body;
+          height: 60%;
+        }
+      }
+    }
+
+    #close-button {
+      padding: 0.5vh 0.5vw;
+      height: 20%;
+    }
+
+    #newMeta {
+      @include flex(column, flex-start, initial, 20px);
+      padding: 3vh 5vw;
+
+
+      input[type=number] {
+        border-radius: 5px;
+        width: 100%;
+        border: none;
+        border: 1px solid #cccccc80;
+        height: 5vh;
+        padding: 5px 10px;
+      }
+
+      input[type=submit] {
+        background-color: $age-bl;
+        color: #fff;
+        border: 1px solid $age-bl;
+        @include tr-p;
+        padding: 5px 10px;
+        border-radius: 3px;
+        font-weight: 500;
+
+        &:hover {
+          background-color: #fff;
+          color: $age-bl;
+          border-color: $age-bl;
         }
       }
     }
