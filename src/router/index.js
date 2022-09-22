@@ -9,6 +9,7 @@ import SalesPage from "@/views/intranet/ageRv/app/commercial/dashboard/SalesPage
 import HomePage from "@/views/intranet/ageRv/app/HomePage";
 import PanelUsers from "@/views/intranet/app/management/PanelUsers";
 import DashboardPage from "@/views/intranet/ageRv/app/commercial/management/DashboardPage";
+import SimulatorPage from "@/views/intranet/ageRv/app/commercial/management/SimulatorPage";
 
 const routes = [
   {
@@ -82,6 +83,15 @@ const routes = [
     path: '/ageRv/comercial/gerenciamento',
     name: 'DashboardPage',
     component: DashboardPage,
+    beforeEnter: [
+      Guard.auth,
+      Guard.permission_rv
+    ]
+  },
+  {
+    path: '/ageRv/comercial/simulador',
+    name: 'SimulatorPage',
+    component: SimulatorPage,
     beforeEnter: [
       Guard.auth,
       Guard.permission_rv

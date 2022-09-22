@@ -194,6 +194,17 @@
             <span>Gerenciamento</span>
           </li>
         </router-link>
+        <router-link to="/ageRv/comercial/simulador"
+                     active-class="active-li"
+                     @click="loading = true"
+                     v-if="permissions.function === 'Gerente geral' || permissions.function === 'Diretoria'">
+          <li>
+            <div>
+              <i class="fi fi-rr-head-side-thinking"></i>
+            </div>
+            <span>Simulador</span>
+          </li>
+        </router-link>
         <router-link to="/sistemas"
                      active-class="active-li"
                      style="position: absolute;

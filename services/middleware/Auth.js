@@ -37,12 +37,12 @@ export default {
         const TOKEN = Cookie.get('token')
         AXIOS({
             method: 'get',
-            url: 'agerreport/Access',
+            url: 'agereport/Access',
             headers: {
                 'Authorization': 'Bearer'+TOKEN
             }
         }).then(() => {
-            // return next()
+            return next()
         }).catch(() => {
             alert('Você não pode acessar o sistema AgeReport.')
             return next({ path: '/sistemas'})

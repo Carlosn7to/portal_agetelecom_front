@@ -15,13 +15,12 @@
           Relatórios disponíveis
         </h1>
         <div id="reports">
-          <div class="report" @click="downloadReport('list-connections','lista_conexoes.xlsx')">
+          <div class="report"
+               v-for="(report, key) in reports"
+               :key="key"
+               @click="downloadReport(report.url,report.nome_arquivo)">
             <i class="fi fi-rr-document-signed"></i>
-            <span>Lista de <br> conexões</span>
-          </div>
-          <div class="report" @click="downloadReport('dici','dici.xlsx')">
-            <i class="fi fi-rr-document-signed"></i>
-            <span>DICI</span>
+            <span>{{ report.nome }}</span>
           </div>
         </div>
       </div>
@@ -44,17 +43,29 @@ export default {
   },
   data () {
     return {
-      mode: Cookie.get('mode')
+      mode: Cookie.get('mode'),
+      reports: {}
     }
   },
   methods: {
     modeView: function (mode) {
       this.mode = mode
     },
+    getReports: function() {
+      AXIOS({
+        method: 'GET',
+        url: 'agereport/report/reports'
+
+      }).then((res) => {
+        this.reports = res.data
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
     downloadReport: function (url, name) {
       AXIOS({
         method: 'GET',
-        url: 'report/'+url,
+        url: 'agereport/report/'+url,
         headers: {
           'Authorization': 'Bearer '+Cookie.get('token')
         },
@@ -70,6 +81,7 @@ export default {
     }
   },
   mounted() {
+    this.getReports()
   }
 }
 </script>
