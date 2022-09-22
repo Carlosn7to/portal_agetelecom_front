@@ -18,12 +18,24 @@
           <div class="report"
                v-for="(report, key) in reports"
                :key="key"
-               @click="downloadReport(report.url,report.nome_arquivo)">
+               @click="downloadReport(report.isPeriodo ,report.url,report.nome_arquivo)">
             <i class="fi fi-rr-document-signed"></i>
             <span>{{ report.nome }}</span>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  <div id="modal" v-if="modal === true">
+    <div id="card-modal">
+      <div id="close-button">
+        <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
+      </div>
+      <form action="#" @submit.prevent="downloadReport(0, this.url, this.name)">
+        <input type="date" name="first_period" id="first_period" v-model="firstPeriod">
+        <input type="date" name="last_period" id="last_period" v-model="lastPeriod">
+        <input type="submit" value="Baixar">
+      </form>
     </div>
   </div>
 </template>
@@ -44,7 +56,12 @@ export default {
   data () {
     return {
       mode: Cookie.get('mode'),
-      reports: {}
+      reports: {},
+      url: '',
+      name: '',
+      modal: false,
+      firstPeriod: '',
+      lastPeriod: ''
     }
   },
   methods: {
@@ -62,22 +79,35 @@ export default {
         console.log(error)
       })
     },
-    downloadReport: function (url, name) {
-      AXIOS({
-        method: 'GET',
-        url: 'agereport/report/'+url,
-        headers: {
-          'Authorization': 'Bearer '+Cookie.get('token')
-        },
-        responseType: 'blob',
-      }).then((res) => {
-        let blob = new Blob([res.data],
-            { type: 'vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
-        let link = document.createElement('a')
-        link.href = window.URL.createObjectURL(blob)
-        link.download = name
-        link.click()
-      })
+    downloadReport: function (period, url, name) {
+      if(period === 1) {
+        this.url = url
+        this.name = name
+
+        this.modal = true
+
+      } else {
+        AXIOS({
+          method: 'GET',
+          url: 'agereport/report/'+url,
+          headers: {
+            'Authorization': 'Bearer '+Cookie.get('token')
+          },
+          params: {
+            firstPeriod: this.firstPeriod,
+            lastPeriod: this.lastPeriod
+          },
+          responseType: 'blob',
+        }).then((res) => {
+          let blob = new Blob([res.data],
+              { type: 'vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+          let link = document.createElement('a')
+          link.href = window.URL.createObjectURL(blob)
+          link.download = name
+          link.click()
+          this.modal = false
+        })
+      }
     }
   },
   mounted() {
@@ -128,6 +158,39 @@ export default {
       }
     }
 
+  }
+}
+
+#modal {
+  #card-modal {
+    width: 20vw;
+    padding: 1vh 1vw;
+
+    form {
+      @include flex(column, flex-initial, initial, 10px);
+      padding: 2vh 3vw;
+
+      input[type=date] {
+        border: 2px solid #cccccc90;
+        padding: 10px 3px;
+      }
+
+      input[type=submit] {
+        background-color: $age-bl;
+        border: 1px solid $age-bl;
+        color: #fff;
+        margin-top: 10px;
+        padding: 5px 15px;
+        border-radius: 3px;
+        @include tr-p;
+
+        &:hover {
+          background-color: #fff;
+          border-color: $age-bl;
+          color: $age-bl;
+        }
+      }
+    }
   }
 }
 
