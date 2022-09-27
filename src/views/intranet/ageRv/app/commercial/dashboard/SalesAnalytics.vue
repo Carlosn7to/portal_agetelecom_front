@@ -363,7 +363,7 @@
                 <span v-else>R${{ dataStage.commission }}</span>
               </div>
               <div class="item" style="gap: 5px">
-                <i class="fi fi-rr-info" @click="extractView('supervisor', item.salesTotal.extract)"></i>
+                <i class="fi fi-rr-info" @click="extractView('supervisor', item)"></i>
                 <i class="fi fi-rr-users" @click="tradeStage(dataStage.sellers, 'sellers-sup')"></i>
               </div>
             </div>
@@ -458,7 +458,7 @@
                 <span v-else>R${{ item.commission }}</span>
               </div>
               <div class="item">
-                <i class="fi fi-rr-info" @click="extractView('seller', item.salesTotal.extract)"></i>
+                <i class="fi fi-rr-info" @click="extractView('seller', item)"></i>
               </div>
             </div>
           </div>
@@ -558,7 +558,7 @@
                 <span v-else>R${{ item.commission }}</span>
               </div>
               <div class="item" style="gap: 5px">
-                <i class="fi fi-rr-info" @click="extractView('supervisor', item.salesTotal.extract)"></i>
+                <i class="fi fi-rr-info" @click="extractView('supervisor', item)"></i>
                 <i class="fi fi-rr-users" @click="tradeStage(item.sellers, 'sellers-mng')"></i>
               </div>
             </div>
@@ -653,7 +653,7 @@
                 <span v-else>R${{ item.commission }}</span>
               </div>
               <div class="item">
-                <i class="fi fi-rr-info" @click="extractView('seller', item.salesTotal.extract)"></i>
+                <i class="fi fi-rr-info" @click="extractView('seller', item)"></i>
               </div>
             </div>
           </div>
