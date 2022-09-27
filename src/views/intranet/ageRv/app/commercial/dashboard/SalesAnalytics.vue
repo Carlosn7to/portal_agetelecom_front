@@ -363,7 +363,7 @@
                 <span v-else>R${{ dataStage.commission }}</span>
               </div>
               <div class="item" style="gap: 5px">
-                <i class="fi fi-rr-info" @click="extractView('supervisor', item)"></i>
+                <i class="fi fi-rr-info" @click="extractView('supervisor', dataStage)"></i>
                 <i class="fi fi-rr-users" @click="tradeStage(dataStage.sellers, 'sellers-sup')"></i>
               </div>
             </div>
@@ -783,6 +783,7 @@ export default {
       this.stage = type
     },
     extractView: function (stage, item) {
+      console.log(item)
       this.extract.status = true
       this.extract.stage = stage
       this.extract.data = item
