@@ -15,7 +15,7 @@
           <button @click="modal = true">Filtros</button>
           <button @click="getSimulator">Aplicar filtros</button>
         </div>
-        <template v-if="stage === 'supervisors'">
+        <template v-if="stage === 'channels'">
           <div class="items-header">
             <div class="item" style="justify-content: flex-start; width: 50%">
               <span>Canal</span>
@@ -31,19 +31,51 @@
             </div>
           </div>
           <div class="container-body">
-            <div class="items-body">
+            <div class="items-body" v-for="(item, key) in data.channels" :key="key">
               <div class="item" style="justify-content: flex-start; width: 50%" >
-                <span>MCV</span>
+                <span>{{ item.channel }}</span>
               </div>
               <div class="item">
-                <span>1042</span>
+                <span>{{ item.sales}}</span>
               </div>
               <div class="item">
-                <span>R$35.293,11</span>
+                <span>R${{ item.commission }}</span>
               </div>
               <div class="item" style="gap: 5px">
-                <i class="fi fi-rr-info" @click="extractView('supervisor', item)"></i>
-                <i class="fi fi-rr-users" @click="tradeStage(item.sellers, 'sellers')"></i>
+                <i class="fi fi-rr-users" @click="tradePage(item, 'collaborators')"></i>
+              </div>
+            </div>
+          </div>
+        </template>
+        <template v-if="stage === 'collaborators'">
+          <button id="back" @click="stage = 'channels'">Voltar</button>
+          <div class="items-header">
+            <div class="item" style="justify-content: flex-start; width: 50%">
+              <span>Colaborador</span>
+            </div>
+            <div class="item">
+              <span>Vendas</span>
+            </div>
+            <div class="item">
+              <span>Meta atingida</span>
+            </div>
+            <div class="item">
+              <span>Comissão</span>
+            </div>
+          </div>
+          <div class="container-body">
+            <div class="items-body" v-for="(item, key) in dataCollaborator.collaborators" :key="key">
+              <div class="item" style="justify-content: flex-start; width: 50%" >
+                <span>{{ item.name }}</span>
+              </div>
+              <div class="item">
+                <span>{{ item.sales}}</span>
+              </div>
+              <div class="item">
+                <span>{{ item.metaPercent }}%</span>
+              </div>
+              <div class="item">
+                <span>R${{ item.commission }}</span>
               </div>
             </div>
           </div>
@@ -56,15 +88,15 @@
       <div id="menu-card">
         <nav>
           <ul>
-            <li @click="page = 'mcv'" :class="{'selectLi' : page === 'mcv' }">
+            <li @click="page = 'MCV'" :class="{'selectLi' : page === 'MCV' }">
               <i class="fi fi-rr-filter"></i>
               <span>MCV</span>
             </li>
-            <li @click="page = 'pap'" :class="{'selectLi' : page === 'pap' }">
+            <li @click="page = 'PAP'" :class="{'selectLi' : page === 'PAP' }">
               <i class="fi fi-rr-filter"></i>
               <span>PAP</span>
             </li>
-            <li @click="page = 'lider'" :class="{'selectLi' : page === 'lider' }">
+            <li @click="page = 'LIDER'" :class="{'selectLi' : page === 'LIDER' }">
               <i class="fi fi-rr-filter"></i>
               <span>LÍDER</span>
             </li>
@@ -75,71 +107,80 @@
           </ul>
         </nav>
       </div>
-      <div id="content-card" v-if="page === 'mcv'">
-        <button @click="newRule('mcv')">Add nova faixa</button>
+      <div id="content-card" v-if="page === 'MCV'">
+        <button @click="newRule('MCV')">Add nova faixa</button>
         <br>
         <br>
         <form action="" @submit.prevent="getSimulator" >
-          <template v-for="(field, key) in rulesRange.mcv || []" :key="key">
+          <template v-for="(field, key) in rulesRange.MCV || []" :key="key">
             <div class="double-items">
               <div class="double-item">
                 <label for="">Inicial</label>
-                <input type="number" name="" id="" v-model="rulesRange.mcv[key].first">
+                <input type="number" name="" id="" v-model="rulesRange.MCV[key].first">
               </div>
               <div class="double-item" v-if="field.last !== null">
                 <label for="">Final</label>
-                <input type="number" name="" id="" v-model="rulesRange.mcv[key].last">
+                <input type="number" name="" id="" v-model="rulesRange.MCV[key].last">
               </div>
               <div class="double-item">
                 <label for="">Valor</label>
-                <input type="number" name="" id="" v-model="rulesRange.mcv[key].value">
+                <input type="number" name="" id="" v-model="rulesRange.MCV[key].value">
+              </div>
+              <div v-if="key > 0 && key < (rulesRange.MCV.length - 1)">
+                <i class="fi fi-rr-cross" @click="rmRule('MCV', key)"></i>
               </div>
             </div>
           </template>
           <input type="submit" value="Enviar" v-if="rulesCount > 0">
         </form>
       </div>
-      <div id="content-card" v-if="page === 'pap'">
-        <button @click="newRule('pap')">Add nova faixa</button>
+      <div id="content-card" v-if="page === 'PAP'">
+        <button @click="newRule('PAP')">Add nova faixa</button>
         <br>
         <br>
         <form action="" @submit.prevent="getSimulator" >
-          <template v-for="(field, key) in rulesRange.pap || []" :key="key">
+          <template v-for="(field, key) in rulesRange.PAP || []" :key="key">
             <div class="double-items">
               <div class="double-item">
                 <label for="">Inicial</label>
-                <input type="number" name="" id="" v-model="rulesRange.pap[key].first">
+                <input type="number" name="" id="" v-model="rulesRange.PAP[key].first">
               </div>
               <div class="double-item" v-if="field.last !== null">
                 <label for="">Final</label>
-                <input type="number" name="" id="" v-model="rulesRange.pap[key].last">
+                <input type="number" name="" id="" v-model="rulesRange.PAP[key].last">
               </div>
               <div class="double-item">
                 <label for="">Valor</label>
-                <input type="number" name="" id="" v-model="rulesRange.pap[key].value">
+                <input type="number" name="" id="" v-model="rulesRange.PAP[key].value">
+              </div>
+              <div v-if="key > 0 && key < (rulesRange.PAP.length - 1)">
+                <i class="fi fi-rr-cross" @click="rmRule('PAP', key)"></i>
               </div>
             </div>
           </template>
         </form>
       </div>
-      <div id="content-card" v-if="page === 'lider'">
-        <button @click="newRule('lider')">Add nova faixa</button>
+      <div id="content-card" v-if="page === 'LIDER'">
+        <button @click="newRule('LIDER')">Add nova faixa</button>
         <br>
         <br>
         <form action="" @submit.prevent="getSimulator" >
-          <template v-for="(field, key) in rulesRange.lider || []" :key="key">
+          <template v-for="(field, key) in rulesRange.LIDER || []" :key="key">
             <div class="double-items">
               <div class="double-item">
                 <label for="">Inicial</label>
-                <input type="number" name="" id="" v-model="rulesRange.lider[key].first">
+                <input type="number" name="" id="" v-model="rulesRange.LIDER[key].first">
               </div>
               <div class="double-item" v-if="field.last !== null">
                 <label for="">Final</label>
-                <input type="number" name="" id="" v-model="rulesRange.lider[key].last">
+                <input type="number" name="" id="" v-model="rulesRange.LIDER[key].last">
               </div>
               <div class="double-item">
                 <label for="">Valor</label>
-                <input type="number" name="" id="" v-model="rulesRange.lider[key].value">
+                <input type="number" name="" id="" v-model="rulesRange.LIDER[key].value">
+              </div>
+              <div v-if="key > 0 && key < (rulesRange.LIDER.length - 1)">
+                <i class="fi fi-rr-cross" @click="rmRule('LIDER', key)"></i>
               </div>
             </div>
           </template>
@@ -166,11 +207,11 @@ export default {
   data () {
     return {
       mode: Cookie.get('mode'),
-      stage: 'supervisors',
+      stage: 'channels',
       modal: false,
-      page: 'mcv',
+      page: 'MCV',
       rulesRange: {
-        mcv: [
+        MCV: [
             {
               first: 0,
               last: 0,
@@ -182,7 +223,7 @@ export default {
               value: 0
             },
         ],
-        lider: [
+        LIDER: [
           {
             first: 0,
             last: 0,
@@ -191,10 +232,10 @@ export default {
           {
             first: 0,
             last: null,
-            value: 0
+            value: null
           },
         ],
-        pap: [
+        PAP: [
           {
             first: 0,
             last: 0,
@@ -207,7 +248,9 @@ export default {
           },
         ]
       },
-      rulesCount: 0
+      rulesCount: 0,
+      data: {},
+      dataCollaborator: {}
     }
   },
   methods: {
@@ -216,33 +259,29 @@ export default {
     },
     getSimulator: function () {
 
+      this.stage = 'channels'
+      this.data = {}
+
       AXIOS({
-        method: 'GET',
-        url: '/teste',
-        params: {
-          rulesRange: this.rulesRange
+        method: 'POST',
+        url: '/agerv/analytics/simulator',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token')
+        },
+        data: {
+          rulesRange: this.rulesRange,
+          month: '09'
         }
       }).then((res) => {
-        console.log(res.data)
+        this.data = res.data
       }).catch((error) => {
         console.log(error)
       })
     },
-    // newField: function () {
-    //
-    //     this.rulesRange.push({
-    //       count: `1º - Faixa`,
-    //       first: 0,
-    //       last: 0,
-    //       value: 0
-    //     })
-    //   this.rulesCount++
-    //
-    // },
     newRule: function (type) {
 
-      if(type === 'mcv') {
-        let arr = this.rulesRange.mcv
+      if(type === 'MCV') {
+        let arr = this.rulesRange.MCV
 
         arr.splice(1, 0, {
           first: 0,
@@ -251,8 +290,8 @@ export default {
         })
       }
 
-      if(type === 'pap') {
-        let arr = this.rulesRange.pap
+      if(type === 'PAP') {
+        let arr = this.rulesRange.PAP
 
         arr.splice(1, 0, {
           first: 0,
@@ -261,8 +300,8 @@ export default {
         })
       }
 
-      if(type === 'lider') {
-        let arr = this.rulesRange.lider
+      if(type === 'LIDER') {
+        let arr = this.rulesRange.LIDER
 
         arr.splice(1, 0, {
           first: 0,
@@ -274,8 +313,29 @@ export default {
 
 
     },
-    tradePage: function () {
+    rmRule: function (type, key) {
 
+      if(type === 'MCV') {
+        let arr = this.rulesRange.MCV
+
+        arr.splice(key, 1)
+      }
+
+      if(type === 'PAP') {
+        let arr = this.rulesRange.PAP
+
+        arr.splice(key, 1)
+      }
+
+      if(type === 'LIDER') {
+        let arr = this.rulesRange.LIDER
+
+        arr.splice(key, 1)
+      }
+    },
+    tradePage: function (data, stage) {
+      this.stage = stage
+      this.dataCollaborator = data
     }
 
   },
@@ -285,6 +345,23 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+#back {
+  padding: 5px 15px;
+  background-color: $age-bl;
+  color: #fff;
+  font-weight: 500;
+  border: 1px solid $age-bl;
+  @include tr-p;
+  border-radius: 3px;
+  margin-top: 2vh;
+
+  &:hover {
+    background-color: #fff;
+    color: $age-bl;
+    border-color: $age-bl;
+  }
+}
 
 #filters {
   width: 100%;
@@ -447,6 +524,12 @@ export default {
             }
           }
 
+        }
+
+        i {
+          color: red;
+          @include tr-p;
+          font-size: 1.2rem;
         }
       }
 
