@@ -123,7 +123,7 @@
                 <input type="number" name="" id="" v-model="rulesRange.MCV[key].last">
               </div>
               <div class="double-item">
-                <label for="">Valor</label>
+                <label for="">Valor - Estrela</label>
                 <input type="number" name="" id="" v-model="rulesRange.MCV[key].value">
               </div>
               <div v-if="key > 0 && key < (rulesRange.MCV.length - 1)">
@@ -150,7 +150,7 @@
                 <input type="number" name="" id="" v-model="rulesRange.PAP[key].last">
               </div>
               <div class="double-item">
-                <label for="">Valor</label>
+                <label for="">Valor - Estrela</label>
                 <input type="number" name="" id="" v-model="rulesRange.PAP[key].value">
               </div>
               <div v-if="key > 0 && key < (rulesRange.PAP.length - 1)">
@@ -175,8 +175,8 @@
                 <label for="">Final</label>
                 <input type="number" name="" id="" v-model="rulesRange.LIDER[key].last">
               </div>
-              <div class="double-item">
-                <label for="">Valor</label>
+              <div class="double-item" v-if="key !== (rulesRange.LIDER.length -1)">
+                <label for="">Porcentagem do target</label>
                 <input type="number" name="" id="" v-model="rulesRange.LIDER[key].value">
               </div>
               <div v-if="key > 0 && key < (rulesRange.LIDER.length - 1)">
@@ -213,38 +213,38 @@ export default {
       rulesRange: {
         MCV: [
             {
-              first: 0,
-              last: 0,
-              value: 0
+              first: '',
+              last: '',
+              value: ''
             },
             {
-              first: 0,
+              first: '',
               last: null,
-              value: 0
+              value: ''
             },
         ],
         LIDER: [
           {
-            first: 0,
-            last: 0,
-            value: 0
+            first: '',
+            last: '',
+            value: ''
           },
           {
-            first: 0,
+            first: '',
             last: null,
             value: null
           },
         ],
         PAP: [
           {
-            first: 0,
-            last: 0,
-            value: 0
+            first: '',
+            last: '',
+            value: ''
           },
           {
-            first: 0,
+            first: '',
             last: null,
-            value: 0
+            value: ''
           },
         ]
       },
@@ -283,30 +283,30 @@ export default {
       if(type === 'MCV') {
         let arr = this.rulesRange.MCV
 
-        arr.splice(1, 0, {
-          first: 0,
-          last: 0,
-          value: 0
+        arr.splice((this.rulesRange.MCV.length - 1), 0, {
+          first: '',
+          last: '',
+          value: ''
         })
       }
 
       if(type === 'PAP') {
         let arr = this.rulesRange.PAP
 
-        arr.splice(1, 0, {
-          first: 0,
-          last: 0,
-          value: 0
+        arr.splice((this.rulesRange.PAP.length - 1), 0, {
+          first: '',
+          last: '',
+          value: ''
         })
       }
 
       if(type === 'LIDER') {
         let arr = this.rulesRange.LIDER
 
-        arr.splice(1, 0, {
-          first: 0,
-          last: 0,
-          value: 0
+        arr.splice((this.rulesRange.LIDER.length - 1), 0, {
+          first: '',
+          last: '',
+          value: ''
         })
       }
 
@@ -404,7 +404,7 @@ export default {
 
 #modal {
   #card-modal {
-    width: 50vw;
+    width: 70vw;
     height: 90vh;
     max-height: 90vh;
     background-color: $back-main;
@@ -416,6 +416,7 @@ export default {
       background-color: #fff;
       border-right: 2px solid #cccccc90;
       padding: 4vh 0;
+      border-radius: 5px 0px 0px 5px;
 
       nav {
         ul {
@@ -496,7 +497,6 @@ export default {
           background-color: #fff;
           @include sh;
           padding: 3vh 1vw;
-          width: 60%;
           span {
             font-size: 1.2rem;
             color: $age-bl;
