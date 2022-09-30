@@ -23,8 +23,8 @@
         <router-link to="/gerenciamento/usuarios"
                      active-class="active-li"
                      @click="loading = true"
-                     v-if="permissions.portal === 'Admin' ||
-                           permissions.portal === 'Master'">
+                     v-if="permissions.level === 'Admin' ||
+                           permissions.level === 'Master'">
           <li>
             <div>
               <i class="fi fi-rr-settings-sliders"></i>
@@ -32,14 +32,6 @@
             <span>Gerenciamento</span>
           </li>
         </router-link>
-        <!--        <router-link to="/minha-conta" active-class="active-li" @click="loading = true">-->
-        <!--          <li>-->
-        <!--            <div>-->
-        <!--              <i class="fi fi-rr-user"></i>-->
-        <!--            </div>-->
-        <!--            <span>Minha conta</span>-->
-        <!--          </li>-->
-        <!--        </router-link>-->
         <router-link to="/"
                      active-class="active-li"
                      style="position: absolute;

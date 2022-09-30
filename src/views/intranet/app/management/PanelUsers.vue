@@ -13,13 +13,31 @@
                   'mode-d-p' : mode === 'dark'}">
         <div class="section">
           <h1>Usuários</h1>
-          <table>
-            <thead>
-              <tr>
-                th*5
-              </tr>
-            </thead>
-          </table>
+          <div class="list">
+            <div class="list-header">
+              <div class="item-list-header">
+                Nome
+              </div>
+              <div class="item-list-header">
+                E-mail
+              </div>
+              <div class="item-list-header">
+                AD
+              </div>
+              <div class="item-list-header">
+                Nível de acesso
+              </div>
+              <div class="item-list-header">
+                Status
+              </div>
+              <div class="item-list-header">
+                Primeiro login
+              </div>
+            </div>
+            <div class="list-body">
+
+            </div>
+          </div>
         </div>
       </div>
     </div>
