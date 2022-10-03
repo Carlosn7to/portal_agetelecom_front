@@ -1,4 +1,4 @@
-<template>
+-<template>
   <div class="loading" v-if="loading === true">
   </div>
   <div id="content-page">
