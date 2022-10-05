@@ -69,6 +69,9 @@
       </div>
     </div>
   </div>
+  <div id="modal">
+    <NewUser/>
+  </div>
 </template>
 
 <script>
@@ -77,12 +80,14 @@ import MenuApp from "@/components/portal/_aux/MenuApp";
 import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 import {AXIOS} from "../../../../../services/api.ts";
+import NewUser from "@/components/portal/_aux/management/NewUser";
 
 export default {
   name: "PanelUsers",
   components: {
     MenuApp,
-    HeaderApp
+    HeaderApp,
+    NewUser
   },
   data () {
     return {

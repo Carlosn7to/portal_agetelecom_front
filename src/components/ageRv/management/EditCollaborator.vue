@@ -130,7 +130,7 @@
                 <span>{{ meta.meta }}</span>
               </div>
               <div class="item" style="width: 20%">
-                <span>Carlos Neto</span>
+                <span>{{ meta.modified_by }}</span>
               </div>
               <div class="item" style="gap: 5px;width: 20%" v-if="meta.mes_competencia === this.month">
                 <i class="fi fi-rr-edit" @click="actualMeta.status = true"></i>
@@ -281,7 +281,7 @@ export default {
     getMonth: function () {
       const date = new Date()
       if (date.getMonth() < 10) {
-        this.month = '0' + (date.getMonth() + 1)
+        this.month = (date.getMonth() + 1) + ''
       } else {
         this.month = (date.getMonth() + 1).toString()
       }
