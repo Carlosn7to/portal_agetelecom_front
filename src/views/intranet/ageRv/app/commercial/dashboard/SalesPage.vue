@@ -120,6 +120,7 @@
               <div class="buttons-filter">
                 <span :class="{ 'active' : filter.month === '08'}" @click="getSellers('08')">Agosto</span>
                 <span :class="{ 'active' : filter.month === '09'}" @click="getSellers('09')">Setembro</span>
+                <span :class="{ 'active' : filter.month === '10'}" @click="getSellers('10')">Outubro</span>
               </div>
             </div>
           </div>
@@ -333,7 +334,7 @@ export default {
       mode: Cookie.get('mode'),
       data: {},
       filter: {
-        month: '08',
+        month: '',
         actualMonth: null,
         typeUser: Cookie.get('agerv_function'),
       },
@@ -383,7 +384,7 @@ export default {
     getMonth: function () {
       const date = new Date()
       if (date.getMonth() < 10) {
-        this.filter.actualMonth = '0' + (date.getMonth() + 1)
+        this.filter.actualMonth = (date.getMonth() + 1) + ''
       } else {
         this.filter.actualMonth = (date.getMonth() + 1).toString()
       }
