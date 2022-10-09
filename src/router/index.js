@@ -10,6 +10,7 @@ import HomePage from "@/views/intranet/ageRv/app/HomePage";
 import PanelUsers from "@/views/intranet/app/management/PanelUsers";
 import DashboardPage from "@/views/intranet/ageRv/app/commercial/management/DashboardPage";
 import SimulatorPage from "@/views/intranet/ageRv/app/commercial/management/SimulatorPage";
+import SalesCommission from "@/views/intranet/ageRv/app/commercial/dashboard/SalesCommission";
 
 const routes = [
   {
@@ -56,6 +57,15 @@ const routes = [
     path: '/ageRv/comercial/analitico',
     name: 'SalesAnalytics',
     component: SalesAnalytics,
+    beforeEnter: [
+      Guard.auth,
+      Guard.permission_rv
+    ]
+  },
+  {
+    path: '/ageRv/comercial/comissao',
+    name: 'SalesCommission',
+    component: SalesCommission,
     beforeEnter: [
       Guard.auth,
       Guard.permission_rv

@@ -16,11 +16,6 @@
               <i class="fi fi-rr-search-alt"></i>
               <span>Vendas</span>
             </li>
-<!--            <li :class="{ 'selected' : page === 'mng' }"-->
-<!--                @click="page = 'mng'">-->
-<!--              <i class="fi fi-rr-settings-sliders"></i>-->
-<!--              <span>Gerenciamento</span>-->
-<!--            </li>-->
             <li @click="closePage()">
               <i class="fi fi-rr-enter"></i>
               <span>Voltar</span>
@@ -29,13 +24,12 @@
         </nav>
     </div>
     <div class="content">
-      <h1 v-if="data.supervisor !== undefined">{{ data.supervisor }}</h1>
-      <h1 v-if="data.seller !== undefined">{{ data.seller }}</h1>
+      <h1>{{ data.name }}</h1>
       <div class="cards" v-if="page === 'main'">
         <div class="card">
           <i class="fi fi-ss-rocket-lunch"></i>
           <div class="type-value">
-            <span>{{ data.salesTotal.count }}</span>
+            <span>{{ data.sales.count }}</span>
             <span>Vendas totais</span>
           </div>
         </div>
@@ -54,45 +48,46 @@
           </div>
         </div>
         <div class="card">
-          <i class="fi fi-sr-chart-line-up"></i>
+          <i class="fi fi-sr-ban"></i>
           <div class="type-value">
-            <span>{{ data.salesCancelled.count }}</span>
-            <span>Canceladas</span>
+            <span>{{ data.cancel.count }}</span>
+            <span>Canceladas D-7</span>
           </div>
         </div>
         <div class="card">
-          <i class="fi fi-sr-chart-line-up"></i>
+          <i class="fi fi-ss-star"></i>
           <div class="type-value">
-            <span>{{ data.starsTotal }}</span>
+            <span>{{ data.stars }}</span>
             <span>Estrelas</span>
           </div>
         </div>
         <div class="card">
-          <i class="fi fi-sr-chart-line-up"></i>
+          <i class="fi fi-sr-grin-stars"></i>
           <div class="type-value">
             <span>R${{ data.valueStar }}</span>
             <span>Valor da estrela</span>
           </div>
         </div>
-        <div class="card" v-if="data.deflator === 10">
+        <div class="card" v-if="data.mediator === 10">
           <i class="fi fi-rr-arrow-alt-square-up"></i>
           <div class="type-value">
-            <span>{{ data.deflator }}%</span>
+            <span>{{ data.mediator }}%</span>
             <span>Acelerador</span>
           </div>
         </div>
-        <div class="card" v-if="data.deflator === -10">
+        <div class="card" v-if="data.mediator === -10">
           <i class="fi fi-rr-arrow-alt-square-down"></i>
           <div class="type-value">
-            <span>{{ data.deflator }}%</span>
-            <span>deflator</span>
+            <span>{{ data.mediator }}%</span>
+            <span>Deflator</span>
           </div>
         </div>
-        <div class="card" v-if="data.deflator === 0">
-          <i class="fi fi-rr-arrow-alt-square-right"></i>          <div class="type-value">
-          <span>{{ data.deflator }}%</span>
-          <span>Acelerador</span>
-        </div>
+        <div class="card" v-if="data.mediator === 0">
+          <i class="fi fi-rr-arrow-alt-square-right"></i>
+          <div class="type-value">
+            <span>{{ data.mediator }}%</span>
+            <span>Acelerador</span>
+          </div>
         </div>
         <div class="card">
           <i class="fi fi-sr-sack-dollar"></i>
@@ -186,7 +181,7 @@ export default {
         return 0
       }
 
-      return this.data.salesTotal.extract.slice().sort(compare)
+      return this.data.sales.extract.slice().sort(compare)
     }
   }
 }

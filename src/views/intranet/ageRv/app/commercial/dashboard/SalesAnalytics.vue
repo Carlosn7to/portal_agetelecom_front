@@ -783,7 +783,6 @@ export default {
       this.stage = type
     },
     extractView: function (stage, item) {
-      console.log(item)
       this.extract.status = true
       this.extract.stage = stage
       this.extract.data = item
