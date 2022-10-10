@@ -11,6 +11,7 @@ import PanelUsers from "@/views/intranet/app/management/PanelUsers";
 import DashboardPage from "@/views/intranet/ageRv/app/commercial/management/DashboardPage";
 import SimulatorPage from "@/views/intranet/ageRv/app/commercial/management/SimulatorPage";
 import SalesCommission from "@/views/intranet/ageRv/app/commercial/dashboard/SalesCommission";
+import SalesSupCommission from "@/views/intranet/ageRv/app/commercial/dashboard/SalesSupCommission";
 
 const routes = [
   {
@@ -66,6 +67,15 @@ const routes = [
     path: '/ageRv/comercial/comissao',
     name: 'SalesCommission',
     component: SalesCommission,
+    beforeEnter: [
+      Guard.auth,
+      Guard.permission_rv
+    ]
+  },
+  {
+    path: '/ageRv/comercial/supervisor-comissao',
+    name: 'SalesSupCommission',
+    component: SalesSupCommission,
     beforeEnter: [
       Guard.auth,
       Guard.permission_rv

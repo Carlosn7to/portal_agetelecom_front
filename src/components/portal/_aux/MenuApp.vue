@@ -48,18 +48,6 @@
     </nav>
     <nav v-if="system === 'portal-mng'">
       <ul>
-        <!--        <router-link to="/gerenciamento/dashboard"-->
-        <!--                     active-class="active-li"-->
-        <!--                     @click="loading = true"-->
-        <!--                     v-if="permissions.portal === 'admin' ||-->
-        <!--                           permissions.portal === 'master'">-->
-        <!--          <li>-->
-        <!--            <div>-->
-        <!--              <i class="fi fi-rr-chart-pie-alt"></i>-->
-        <!--            </div>-->
-        <!--            <span>Dashboard</span>-->
-        <!--          </li>-->
-        <!--        </router-link>-->
         <router-link to="/gerenciamento/usuarios" active-class="active-li" @click="loading = true">
           <li>
             <div>
@@ -68,14 +56,6 @@
             <span>Usuários</span>
           </li>
         </router-link>
-        <!--        <router-link to="/minha-conta" active-class="active-li" @click="loading = true">-->
-        <!--          <li>-->
-        <!--            <div>-->
-        <!--              <i class="fi fi-rr-user"></i>-->
-        <!--            </div>-->
-        <!--            <span>Minha conta</span>-->
-        <!--          </li>-->
-        <!--        </router-link>-->
         <router-link to="/sistemas"
                      active-class="active-li"
                      style="position: absolute;
@@ -152,8 +132,7 @@
         <router-link to="/ageRv/comercial/vendas/dashboard"
                      active-class="active-li"
                      @click="loading = true"
-                     v-if="permissions.function === 'Vendedor' ||
-                           permissions.function === 'Supervisor'">
+                     v-if="permissions.function === 'Vendedor'">
           <li>
             <div>
               <i class="fi fi-rr-chart-histogram"></i>
@@ -164,8 +143,7 @@
         <router-link to="/ageRv/comercial/analitico"
                      active-class="active-li"
                      @click="loading = true"
-                     v-if="permissions.function === 'Supervisor' ||
-                           permissions.function === 'Gerente' ||
+                     v-if="permissions.function === 'Gerente' ||
                            permissions.function === 'Gerente geral' ||
                            permissions.function === 'Diretoria'">
           <li>
@@ -179,6 +157,17 @@
                      active-class="active-li"
                      @click="loading = true"
                      v-if="permissions.function === 'Diretoria' || permissions.function === 'Financeiro'">
+          <li>
+            <div>
+              <i class="fi fi-rr-usd-square"></i>
+            </div>
+            <span>Comissão</span>
+          </li>
+        </router-link>
+        <router-link to="/ageRv/comercial/supervisor-comissao"
+                     active-class="active-li"
+                     @click="loading = true"
+                     v-if="permissions.function === 'Supervisor'">
           <li>
             <div>
               <i class="fi fi-rr-usd-square"></i>
