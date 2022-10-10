@@ -178,10 +178,7 @@
         <router-link to="/ageRv/comercial/comissao"
                      active-class="active-li"
                      @click="loading = true"
-                     v-if="permissions.function === 'Supervisor' ||
-                           permissions.function === 'Gerente' ||
-                           permissions.function === 'Gerente geral' ||
-                           permissions.function === 'Diretoria'">
+                     v-if="permissions.function === 'Diretoria' || permissions.function === 'Financeiro'">
           <li>
             <div>
               <i class="fi fi-rr-usd-square"></i>
