@@ -14,6 +14,16 @@
            :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
                   'mode-d-p' : mode === 'dark'}">
         <template v-if="stage === 'supervisor'">
+          <div id="filters">
+            <div id="month">
+              <span :class="{ 'selectMonth' : month === '08' && mode === 'light',
+                              'selectMonthDark' : month === '08' && mode === 'dark' }" @click="getAnalytic('08'), month = '08'">Agosto</span>
+              <span :class="{ 'selectMonth' : month === '09' && mode === 'light',
+                              'selectMonthDark' : month === '09' && mode === 'dark' }" @click="getAnalytic('09'), month = '09'">Setembro</span>
+              <span :class="{ 'selectMonth' : month === '10' && mode === 'light',
+                              'selectMonthDark' : month === '10' && mode === 'dark' }" @click="getAnalytic('10'), month = '10'">Outubro</span>
+            </div>
+          </div>
           <div class="items-header">
             <div class="item" style="justify-content: flex-start">
               <span>Nome</span>
@@ -94,7 +104,7 @@
                   <span v-else>R${{ item.commission }}</span>
                 </div>
                 <div class="item">
-                  <i class="fi fi-rr-users" @click="tradeStage(item.collaborators, 'collaborators')"></i>
+                  <i class="fi fi-rr-users" @click="tradeStage(item.sellers, 'collaborators')"></i>
                 </div>
               </div>
             </template>
@@ -108,7 +118,7 @@
                    autocomplete="off"
                    placeholder="Pesquisar"
                    v-model="search">
-            <button @click="stage = 'channels', search = ''">Voltar</button>
+            <button @click="stage = 'supervisor', search = ''">Voltar</button>
           </div>
           <div class="items-header">
             <div class="item" style="justify-content: flex-start">
@@ -244,7 +254,7 @@ export default {
     modeView: function (mode) {
       this.mode = mode
     },
-    getAnalytic: function () {
+    getAnalytic: function (month) {
 
       this.loading = true
       this.data = {}
@@ -256,7 +266,7 @@ export default {
           'Authorization': 'Bearer '+Cookie.get('token')
         },
         params: {
-          month: this.month,
+          month:  month,
           year: this.year
         }
       }).then((res) => {
@@ -268,7 +278,8 @@ export default {
     },
     getMonth: function () {
       const date = new Date()
-      if (date.getMonth() < 10) {
+
+      if ((date.getMonth() + 1) < 10) {
         this.month = '0' + (date.getMonth() + 1)
       } else {
         this.month = (date.getMonth() + 1).toString()
@@ -302,7 +313,7 @@ export default {
     },
   },
   mounted() {
-    this.getAnalytic()
+    this.getMonth()
   }
 }
 </script>
