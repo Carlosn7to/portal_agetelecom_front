@@ -31,12 +31,15 @@
       <div id="close-button">
         <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
       </div>
+      <h5 style="text-align: center; font-size: 1.4rem">Selecione o período</h5>
       <form action="#" @submit.prevent="downloadReport(0, this.url, this.name)">
         <input type="date" name="first_period" id="first_period" v-model="firstPeriod">
         <input type="date" name="last_period" id="last_period" v-model="lastPeriod">
         <input type="submit" value="Baixar">
       </form>
     </div>
+  </div>
+  <div class="loading-bar" v-if="loading === true">
   </div>
 </template>
 
@@ -61,7 +64,8 @@ export default {
       name: '',
       modal: false,
       firstPeriod: '',
-      lastPeriod: ''
+      lastPeriod: '',
+      loading: false
     }
   },
   methods: {
@@ -69,6 +73,7 @@ export default {
       this.mode = mode
     },
     getReports: function() {
+
       AXIOS({
         method: 'GET',
         url: 'agereport/report/reports'
@@ -87,6 +92,9 @@ export default {
         this.modal = true
 
       } else {
+        this.loading = true
+
+
         AXIOS({
           method: 'GET',
           url: 'agereport/report/'+url,
@@ -99,6 +107,9 @@ export default {
           },
           responseType: 'blob',
         }).then((res) => {
+
+          this.loading = false
+
           let blob = new Blob([res.data],
               { type: 'vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
           let link = document.createElement('a')
@@ -192,6 +203,10 @@ export default {
       }
     }
   }
+}
+
+.loading-bar {
+  @include bar;
 }
 
 
