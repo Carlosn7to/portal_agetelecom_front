@@ -18,7 +18,7 @@
           <div class="report"
                v-for="(report, key) in reports"
                :key="key"
-               @click="downloadReport(report.isPeriodo ,report.url,report.nome_arquivo)">
+               @click="downloadReport(report.isPeriodo ,report.url,report.nome_arquivo, report.isPeriodoHora)">
             <i class="fi fi-rr-document-signed"></i>
             <span>{{ report.nome }}</span>
           </div>
@@ -33,8 +33,8 @@
       </div>
       <h5 style="text-align: center; font-size: 1.4rem">Selecione o período</h5>
       <form action="#" @submit.prevent="downloadReport(0, this.url, this.name)">
-        <input type="date" name="first_period" id="first_period" v-model="firstPeriod">
-        <input type="date" name="last_period" id="last_period" v-model="lastPeriod">
+        <input type="datetime-local" name="first_period" id="first_period" v-model="firstPeriod">
+        <input type="datetime-local" name="last_period" id="last_period" v-model="lastPeriod">
         <input type="submit" value="Baixar">
       </form>
     </div>
@@ -65,6 +65,8 @@ export default {
       modal: false,
       firstPeriod: '',
       lastPeriod: '',
+      firstPeriodHour: '',
+      lastPeriodHour: '',
       loading: false
     }
   },

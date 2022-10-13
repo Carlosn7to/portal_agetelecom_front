@@ -16,7 +16,7 @@
           <div id="options">
             <input type="text" id="search" name="search" placeholder="Buscar e-mail..." autocomplete="off"
                     v-model="search">
-            <button>Novo usuário</button>
+            <button @click="newUser.status = true">Novo usuário</button>
           </div>
           <div class="list">
             <div class="list-header">
@@ -69,8 +69,10 @@
       </div>
     </div>
   </div>
-  <div id="modal">
-    <NewUser/>
+  <div id="modal" v-if="newUser.status === true">
+    <NewUser
+      @close-page="closePage"
+    />
   </div>
 </template>
 
@@ -93,7 +95,10 @@ export default {
     return {
       mode: Cookie.get('mode'),
       data: [],
-      search: ''
+      search: '',
+      newUser: {
+        status: false
+      }
     }
   },
   methods: {
@@ -109,6 +114,9 @@ export default {
       }).catch((error) => {
         console.log(error)
       })
+    },
+    closePage: function () {
+      this.newUser.status = false
     }
   },
   computed: {
