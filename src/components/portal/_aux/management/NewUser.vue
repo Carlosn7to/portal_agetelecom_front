@@ -5,19 +5,19 @@
     </div>
     <div class="header">
       <div class="icons-progress" :class="{ 'select' : step === 0 || step === 1 || step === 2}">
-        <i class="fi fi-rr-id-badge"></i>
+        <i class="fi fi-rr-id-badge" @click="page = 'data'"></i>
       </div>
       <div class="line-progress">
         <div  :class="{ 'select' : step === 1 || step === 2}"></div>
       </div>
       <div class="icons-progress" :class="{ 'select' : step === 1 || step === 2}">
-        <i class="fi fi-rr-apps-add"></i>
+        <i class="fi fi-rr-apps-add" @click="page = 'modules'"></i>
       </div>
       <div class="line-progress">
         <div  :class="{ 'select' : step === 2}"></div>
       </div>
       <div class="icons-progress" :class="{ 'select' : step === 2}">
-        <i class="fi fi-rr-search-alt"></i>
+        <i class="fi fi-rr-search-alt" @click="page = 'revise'"></i>
       </div>
     </div>
     <div class="body" v-if="page === 'data'">
@@ -25,15 +25,15 @@
       <form action="#" @submit.prevent>
         <div class="inputs">
           <label for="name">Nome</label>
-          <input type="text" id="name" name="name" autocomplete="off" placeholder="Exemplo: João da silva...">
+          <input type="text" id="name" name="name" autocomplete="off" v-model="data.name" placeholder="Exemplo: João da silva...">
         </div>
         <div class="inputs">
           <label for="level">Nível de acesso</label>
-          <select name="level">
-            <option selected>--- Nenhum valor selecionado ---</option>
-            <option value="user">Usuário</option>
-            <option value="admin">Administrador</option>
-            <option value="master">Master</option>
+          <select name="level" v-model="data.level">
+            <option disabled selected>--- Nenhum valor selecionado ---</option>
+            <template v-for="item in levelData" :key="item.id">
+              <option :value="item.id">{{ item.nivel }}</option>
+            </template>
           </select>
         </div>
         <button @click="step = 1, page = 'modules'">Próxima</button>
@@ -51,26 +51,82 @@
             <i class="fi fi-rr-arrow-square-right" @click="page = 'agerv'"></i>
           </div>
         </div>
-        <div class="item">
-          <div class="name">
-            <i class="fi fi-rr-stats"></i>
-            <span>AgeBoard</span>
-          </div>
-          <div class="more">
-            <i class="fi fi-rr-arrow-square-right"></i>
-          </div>
-        </div>
+<!--        <div class="item">-->
+<!--          <div class="name">-->
+<!--            <i class="fi fi-rr-stats"></i>-->
+<!--            <span>AgeBoard</span>-->
+<!--          </div>-->
+<!--          <div class="more">-->
+<!--            <i class="fi fi-rr-arrow-square-right" @click="page = 'ageboard'"></i>-->
+<!--          </div>-->
+<!--        </div>-->
         <div class="item">
           <div class="name">
             <i class="fi fi-rr-document"></i>
             <span>AgeReport</span>
           </div>
           <div class="more">
-            <i class="fi fi-rr-arrow-square-right"></i>
+            <i class="fi fi-rr-arrow-square-right" @click="page = 'agereport'"></i>
           </div>
         </div>
         <button @click="step = 2, page = 'revise'">Próxima</button>
       </div>
+    </div>
+    <div class="body animation-left" v-if="page === 'agerv'">
+      <h1>Módulo - AgeRv</h1>
+      <form action="#">
+        <div class="inputs">
+          <label for="level">Nível de acesso</label>
+          <select name="level" v-model="data.systems.agerv.level">
+            <option disabled selected> --- Nenhum nível selecionado ---</option>
+            <template v-for="item in levelData" :key="item.id">
+              <option :value="item.id">{{ item.nivel }}</option>
+            </template>
+          </select>
+        </div>
+        <div class="inputs">
+          <label for="function">Função</label>
+          <select name="function" v-model="data.systems.agerv.function">
+            <option disabled selected> --- Nenhuma função selecionada ---</option>
+            <template v-for="item in functionData" :key="item.id">
+              <option :value="item.id" >{{ item.funcao }}</option>
+            </template>
+          </select>
+        </div>
+        <div class="buttons">
+          <button @click="page = 'modules'">Voltar</button>
+          <button v-if="data.systems.agerv.permmitted === false" @click="data.systems.agerv.permmitted = true, page = 'modules'" style="width: 85%">Liberar permissão</button>
+          <button v-else @click="data.systems.agerv.permmitted = false, page = 'modules'" style="width: 85%">Revogar permissão</button>
+        </div>
+      </form>
+    </div>
+    <div class="body animation-left" v-if="page === 'agereport'">
+      <h1>Módulo - AgeReport</h1>
+      <form action="#">
+        <div class="inputs">
+          <label for="level">Nível de acesso</label>
+          <select name="level"  v-model="data.systems.agereport.level">
+            <option selected disabled> --- Nenhum nível selecionado ---</option>
+            <template v-for="item in levelData" :key="item.id">
+              <option :value="item.id">{{ item.nivel }}</option>
+            </template>
+          </select>
+        </div>
+        <div class="inputs">
+          <label for="function">Função</label>
+          <select name="function" v-model="data.systems.agereport.function">
+            <option selected> --- Nenhuma função selecionada ---</option>
+            <template v-for="item in functionData" :key="item.id">
+              <option :value="item.id">{{ item.funcao }}</option>
+            </template>
+          </select>
+        </div>
+        <div class="buttons">
+          <button @click="page = 'modules'">Voltar</button>
+          <button v-if="data.systems.agereport.permmitted === false" @click="data.systems.agereport.permmitted = true, page = 'modules'" style="width: 85%">Liberar permissão</button>
+          <button v-else @click="data.systems.agereport.permmitted = false, page = 'modules'" style="width: 85%">Revogar permissão</button>
+        </div>
+      </form>
     </div>
     <div class="body animation-left" v-if="page === 'revise'">
       <h1>Revise os dados</h1>
@@ -86,18 +142,65 @@
 </template>
 
 <script>
+import {AXIOS} from "../../../../../services/api.ts";
+
 export default {
   name: "NewUser",
   data () {
     return {
       step: 0,
-      page: 'data'
+      page: 'data',
+      levelData: {},
+      functionData: {},
+      data: {
+        name: '',
+        level: '--- Nenhum valor selecionado ---',
+        systems: {
+          agerv: {
+            level: null,
+            function: null,
+            permmitted: false
+          },
+          agereport: {
+            level: null,
+            function: null,
+            permmitted: false
+          },
+          ageboard: {
+            level: null,
+            function: null,
+            permmitted: false
+          }
+        }
+      }
     }
   },
   methods: {
     closePage: function () {
       this.$emit('close-page')
+    },
+    getLevel: function () {
+      AXIOS({
+        method: 'GET',
+        url: 'agerv/level'
+      })
+      .then((res) => {
+        this.levelData = res.data
+      })
+    },
+    getFunction: function () {
+      AXIOS({
+        method: 'GET',
+        url: 'agerv/function'
+      })
+        .then((res) => {
+          this.functionData = res.data
+        })
     }
+  },
+  beforeMount() {
+    this.getLevel()
+    this.getFunction()
   }
 }
 </script>
@@ -122,6 +225,7 @@ export default {
         i {
           font-size: 2.4rem;
           padding-top: 2px;
+          @include tr-p;
         }
       }
 
@@ -209,6 +313,22 @@ export default {
             background-color: #fff;
             color: $age-bl;
             border-color: $age-bl;
+          }
+        }
+      }
+
+      .buttons {
+        @include flex(row, flex-start, center, 10px);
+
+        button:nth-child(1) {
+          width: 15%;
+          background-color: $age-or;
+          border-color: $age-or;
+
+          &:hover {
+            background-color: #fff;
+            border-color: $age-or;
+            color: $age-or;
           }
         }
       }
