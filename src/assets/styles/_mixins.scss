@@ -78,6 +78,22 @@
   }
 }
 
+@mixin button-pattern {
+  padding: 5px 15px;
+  background-color: $age-bl;
+  color: #fff;
+  font-weight: 500;
+  border: 1px solid $age-bl;
+  @include tr-p;
+  border-radius: 3px;
+
+  &:hover {
+    background-color: #fff;
+    color: $age-bl;
+    border-color: $age-bl;
+  }
+}
+
 /*
   Inputs
   // Campos de entrada especiais
