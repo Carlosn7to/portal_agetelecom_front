@@ -53,7 +53,7 @@ export default {
     return {
       mode: Cookie.get('mode'),
       modal: {
-        status: true,
+        status: false,
         iframe: null
       },
       loading: false
