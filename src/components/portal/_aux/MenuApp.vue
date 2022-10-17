@@ -117,6 +117,41 @@
         </router-link>
       </ul>
     </nav>
+    <nav v-if="system === 'ageBoard'">
+      <ul>
+        <router-link to="/ageBoard/home" active-class="active-li" @click="loading = true">
+          <li>
+            <div>
+              <i class="fi fi-rr-chart-pie"></i>
+            </div>
+            <span>Dashboards</span>
+          </li>
+        </router-link>
+        <router-link to="/sistemas"
+                     active-class="active-li"
+                     style="position: absolute;
+                            bottom: 7vh"
+                     @click="loading = true">
+          <li>
+            <div>
+              <i class="fi fi-rr-arrow-left"></i>
+            </div>
+            <span>Voltar ao portal</span>
+          </li>
+        </router-link>
+        <router-link to="/"
+                     active-class="active-li"
+                     style="position: absolute;
+                            bottom: 1vh">
+          <li>
+            <div>
+              <i class="fi fi-rr-sign-out-alt"></i>
+            </div>
+            <span>Logout</span>
+          </li>
+        </router-link>
+      </ul>
+    </nav>
     <nav v-if="system === 'ageRv'">
       <ul>
         <router-link to="/ageRv/home"

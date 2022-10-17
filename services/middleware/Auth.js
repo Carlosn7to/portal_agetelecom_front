@@ -65,6 +65,23 @@ export default {
             alert('Você não pode acessar o sistema AgeRv.')
             return next({ path: '/sistemas'})
         })
+    },
+    permission_board(to, from, next) {
+        const TOKEN = Cookie.get('token')
+
+        AXIOS({
+            method: 'get',
+            url: 'ageboard/Access',
+            headers: {
+                'Authorization': 'Bearer'+TOKEN
+            }
+        }).then((res) => {
+            store.commit('SAVE_PERMISSION', {permission: {system: 'ageBoard', level: res.data.levelAccess, function: res.data.function}})
+            return next()
+        }).catch(() => {
+            alert('Você não pode acessar o sistema AgeBoard.')
+            return next({ path: '/sistemas'})
+        })
     }
 
 }

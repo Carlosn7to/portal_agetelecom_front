@@ -13,6 +13,7 @@ import SimulatorPage from "@/views/intranet/ageRv/app/commercial/management/Simu
 import SalesCommission from "@/views/intranet/ageRv/app/commercial/dashboard/SalesCommission";
 import SalesSupCommission from "@/views/intranet/ageRv/app/commercial/dashboard/SalesSupCommission";
 import NewUser from "@/views/intranet/app/management/NewUser";
+import HomePageBoard from '@/views/intranet/ageBoard/app/HomePage';
 
 const routes = [
   {
@@ -125,6 +126,15 @@ const routes = [
     beforeEnter: [
       Guard.auth,
       Guard.permission_rv
+    ]
+  },
+  {
+    path: '/ageBoard/home',
+    name: 'HomePage',
+    component: HomePageBoard,
+    beforeEnter: [
+      Guard.auth,
+      Guard.permission_board
     ]
   }
 

@@ -41,7 +41,7 @@
         <div class="systems-on">
           <h1>Em desenvolvimento</h1>
           <div class="systems">
-            <router-link to="/sistemas" @click="loading = true">
+            <router-link to="/ageboard/home" @click="loading = true">
               <div class="system">
                 <div class="img-title">
                   <i class="fi fi-rr-stats"></i>
