@@ -222,6 +222,10 @@ export default {
   background-color: #161819;
   @include tr;
 
+  h1 {
+    color: $md-text-h1 !important;
+  }
+
   #reports {
 
     .report {

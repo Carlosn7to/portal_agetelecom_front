@@ -103,7 +103,7 @@ const routes = [
   },
   {
     path: '/ageRv/home',
-    name: 'HomePage',
+    name: 'HomePageRv',
     component: HomePage,
     beforeEnter: [
       Guard.auth,

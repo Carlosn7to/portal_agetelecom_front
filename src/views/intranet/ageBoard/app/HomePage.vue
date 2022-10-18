@@ -22,15 +22,7 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div id="modal" v-if="modal.status === true">
-    <div id="card-modal">
-      <div id="close-button">
-        <i class="fi fi-rr-cross-small" @click="closePage"></i>
-      </div>
-      <h1>Relatório geral</h1>
-      <iframe width="100%" height="80%" :src="modal.iframe" frameborder="0" allowfullscreen="true" data-v-400bb1ba=""></iframe>
+
     </div>
   </div>
   <div class="loading-bar" v-if="loading === true">
@@ -99,6 +91,7 @@ export default {
   .item {
     padding: 5vh 2vw;
     border-radius: 10px;
+    border: 2px solid transparent;
     background-color: #fff;
     color: $age-bl;
     text-align: center;
@@ -149,6 +142,27 @@ export default {
 .mode-d-p {
   background-color: #161819;
   @include tr;
+  h1 {
+    color: $md-text-h1 !important;
+  }
+
+  .items {
+
+    .item {
+      background-color: $md-back-l;
+
+      span {
+        color: $md-text-light;
+      }
+
+      border: 2px solid $md-back-l;
+
+      &:hover {
+        border: 2px solid $age-or;
+      }
+    }
+  }
+
 }
 
 </style>
