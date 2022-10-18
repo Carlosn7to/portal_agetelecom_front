@@ -11,15 +11,39 @@
       <div id="content-page"
            :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
                   'mode-d-p' : mode === 'dark'}">
-        <h1>TakeBlip</h1>
-        <div class="divisor">
-          <div></div>
-        </div>
-        <div class="items">
-          <div class="item" @click="modalIframe('https://app.powerbi.com/view?r=eyJrIjoiMWY2NjMzMDctYjYzYS00YjI5LWI5OTktNTc0M2FjNGIzODVmIiwidCI6ImNlYWFmNTNlLTM3YzEtNDBjMy04YjNiLTE1ZmU3YjZhMmJmNCJ9')">
-            <i class="fi fi-rr-chart-pie"></i>
-            <span>Relatório Geral</span>
+        <template v-if="page.stage === 'all'">
+          <div :class="{ 'animation-right' : page.back === true}" v-for="item in data" :key="item.id">
+            <h1>{{ item.dashboard }}</h1>
+            <div class="divisor">
+              <div></div>
+            </div>
+            <div class="items">
+              <div class="item"
+                   v-for="item in item.itens" :key="item.id"
+                   @click="pageIframe(item.item, item.iframe)">
+                <div class="name">
+                  <i class="fi fi-rr-chart-pie"></i>
+                  <span>{{ item.item }}</span>
+                </div>
+                <div class="more">
+                  <i class="fi fi-rr-arrow-square-right"></i>
+                </div>
+              </div>
+            </div>
           </div>
+        </template>
+        <div v-if="page.stage === 'view'" class="view animation-left">
+          <div class="header">
+            <i class="fi fi-rr-arrow-square-left" @click="closePage"></i>
+            <h1>{{ page.name }}</h1>
+          </div>
+          <div class="divisor">
+            <div></div>
+          </div>
+          <iframe width="100%"
+                  height="90%"
+                  :src="page.iframe" frameborder="0" allowfullscreen="true">
+          </iframe>
         </div>
       </div>
 
@@ -34,6 +58,7 @@
 import MenuApp from "@/components/portal/_aux/MenuApp";
 import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
+import {AXIOS} from "../../../../../services/api.ts";
 
 export default {
   name: "HomePage",
@@ -44,29 +69,46 @@ export default {
   data () {
     return {
       mode: Cookie.get('mode'),
-      modal: {
+      page: {
         status: false,
-        iframe: null
+        iframe: null,
+        name: '',
+        stage: 'all',
+        back: false,
       },
-      loading: false
+      data: {},
+      loading: false,
     }
   },
   methods: {
     modeView: function (mode) {
       this.mode = mode
     },
-    modalIframe: function (iframe) {
-      this.modal.status = true
-      this.modal.iframe = iframe
+    pageIframe: function (name, iframe) {
+      this.page.status = true
+      this.page.name = name
+      this.page.iframe = iframe
+      this.page.stage = 'view'
       this.loading = false
     },
     closePage: function () {
-      this.modal.status = false
-      this.modal.iframe = null
+      this.page.back = true
+      this.page.stage = 'all'
+      this.page.status = false
+      this.page.iframe = null
       this.loading = false
+    },
+    getBoards: function () {
+      AXIOS({
+        method: 'GET',
+        url: '/ageboard/dashboards',
+      }).then((res) => {
+        this.data = res.data
+      })
     }
   },
   mounted() {
+    this.getBoards()
   }
 }
 </script>
@@ -88,27 +130,66 @@ export default {
 
 .items {
   @include flex(row, flex-start, initia, 2vh);
+  flex-wrap: wrap;
+  padding: 2vh 0;
+  margin-bottom: 2vh;
   .item {
-    padding: 5vh 2vw;
-    border-radius: 10px;
+    padding: 2vh 2vw;
+    width: 100%;
+    border-radius: 5px;
     border: 2px solid transparent;
     background-color: #fff;
     color: $age-bl;
-    text-align: center;
-    word-break: break-word;
-    @include flex(column, center, center, 10px);
+    @include flex(row, space-between, center, 0);
     @include tr-p;
     @include sh-h;
 
 
-    i {
-      font-size: 3rem;
-      color: $age-or;
+    .name {
+      @include flex(row, flex-start, center, 10px);
+
+      i {
+        font-size: 3rem;
+        color: $age-or;
+      }
+
+      span {
+        font-size: 1.4rem;
+        font-weight: 500;
+        padding-bottom: 6px;
+      }
     }
 
-    span {
-      font-size: 1.4rem;
-      font-weight: 500;
+    .more {
+      font-size: 2rem;
+      color: $age-or;
+      @include tr-p;
+
+      &:hover {
+        color: $age-bl;
+      }
+    }
+  }
+}
+
+.view {
+  height: 100%;
+
+  .header {
+    @include flex(row, flex-start, center, 5px);
+
+    i {
+      font-size: 2rem;
+      color: $age-bl;
+      @include tr-p;
+
+      &:hover {
+        color: $age-or;
+      }
+    }
+
+    h1 {
+      padding-bottom: 5px;
     }
   }
 }
@@ -150,19 +231,67 @@ export default {
 
     .item {
       background-color: $md-back-l;
-
-      span {
-        color: $md-text-light;
+      &:hover {
+        border-color: $age-or;
       }
 
-      border: 2px solid $md-back-l;
+      .name {
+        span {
+          color: $md-text-light;
+        }
+      }
 
-      &:hover {
-        border: 2px solid $age-or;
+      .more {
+        i {
+          @include tr-p;
+          &:hover {
+            color: #fff;
+          }
+        }
       }
     }
   }
 
+  .view {
+
+    .header {
+      i {
+        color: $age-or;
+        @include tr-p;
+
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+  }
 }
 
+.animation-left {
+  animation: left forwards ease-in-out .4s;
+}
+
+@keyframes left {
+  from {
+    transform: translateX(200px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+.animation-right {
+  animation: right forwards ease-in-out .4s;
+}
+
+@keyframes right {
+  from {
+    transform: translateX(-200px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
 </style>
