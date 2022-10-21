@@ -20,7 +20,6 @@
               <h1>Dashboard de vendas</h1>
               <div class="dashboards">
                 <div class="dashboard"
-                     style="cursor: pointer;"
                      @click="modalView('stars')">
                   <div class="type-value">
                     <span>{{ data.stars }}</span>
@@ -29,10 +28,9 @@
                   <i class="fi fi-ss-star"></i>
                 </div>
                 <div class="dashboard"
-                     style="cursor: pointer;"
                      @click="modalView('salesTotals')">
                   <div class="type-value">
-                    <span>{{ data.salesTotals }}</span>
+                    <span>{{ data.sales.count }}</span>
                     <span>Vendas totais</span>
                   </div>
                   <i class="fi fi-ss-rocket-lunch"></i>
@@ -46,39 +44,15 @@
                 </div>
                 <div class="dashboard">
                   <div class="type-value">
-                    <span>{{ data.cancelTotals }}</span>
-                    <span>Cancelamentos<br>Totais</span>
-                  </div>
-                  <i class="fi fi-ss-delete-document"></i>
-                </div>
-                <div class="dashboard">
-                  <div class="type-value">
-                    <span>R${{ data.valueStars }}</span>
+                    <span>R${{ data.valueStar }}</span>
                     <span>Valor da estrela</span>
                   </div>
                   <i class="fi fi-sr-grin-stars"></i>
                 </div>
                 <div class="dashboard"
-                     style="cursor: pointer;"
-                     @click="modalView('salesAprovation')">
-                  <div class="type-value">
-                    <span>{{ data.salesAprovation }}</span>
-                    <span>Vendas em <br>Aprovação</span>
-                  </div>
-                  <i class="fi fi-rr-time-twenty-four"></i>
-                </div>
-                <div class="dashboard">
-                  <div class="type-value">
-                    <span>{{ data.minMeta }}%</span>
-                    <span>Meta mínima </span>
-                  </div>
-                  <i class="fi fi-sr-chart-line-up"></i>
-                </div>
-                <div class="dashboard"
-                     style="cursor: pointer;"
                      @click="modalView('cancelD7')">
                   <div class="type-value">
-                    <span>{{ data.cancelD7 }}</span>
+                    <span>{{ data.cancel.count }}</span>
                     <span>Cancelamento <br> -7 Dias</span>
                   </div>
                   <i class="fi fi-sr-ban"></i>
@@ -90,15 +64,6 @@
                   </div>
                   <i class="fi fi-sr-sack-dollar"></i>
                 </div>
-                <div class="dashboard"
-                     style="cursor: pointer;"
-                     @click="modalView('salesValid')">
-                  <div class="type-value">
-                    <span>{{ data.sales }}</span>
-                    <span>Vendas <br> comissionáveis</span>
-                  </div>
-                  <i class="fi fi-rr-trophy"></i>
-                </div>
                 <div class="dashboard">
                   <div class="type-value">
                     <span>{{ data.metaPercent }}%</span>
@@ -107,11 +72,20 @@
                   <i class="fi fi-sr-chart-line-up"></i>
                 </div>
                 <div class="dashboard">
-                  <div class="type-value">
-                    <span>{{ data.deflator }}%</span>
-                    <span>Deflator</span>
-                  </div>
-                  <i class="fi fi-sr-settings-sliders"></i>
+                  <template v-if="data.mediator > 0">
+                    <div class="type-value">
+                      <span>{{ data.mediator }}%</span>
+                      <span>Acelerador</span>
+                    </div>
+                    <i class="fi fi-rr-arrow-square-up"></i>
+                  </template>
+                  <template v-else>
+                    <div class="type-value">
+                      <span>{{ data.mediator }}%</span>
+                      <span>Deflator</span>
+                    </div>
+                    <i class="fi fi-rr-arrow-square-down"></i>
+                  </template>
                 </div>
               </div>
             </div>
@@ -131,172 +105,6 @@
                 v-if="filter.month === filter.actualMonth && projection === true"
             />
           </div>
-        </div>
-      </div>
-    </div>
-    <div id="modal"
-         v-if="modal === true"
-         :class="{'mode-d-m' : mode === 'dark'}">
-      <div id="card-modal" class="stars" v-if="dashboard === 'stars'">
-        <div id="close-button">
-          <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
-        </div>
-        <div id="table">
-          <h1>Extrato de planos e estrelas</h1>
-          <table>
-            <thead>
-            <tr>
-              <th style="text-align: left; width: 50%">Plano</th>
-              <th>Quantidade</th>
-              <th>Valor da estrela</th>
-              <th>Total de estrelas</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="item in data.extractStars" :key="item.valueStar">
-              <td style="text-align: left; width: 50%">{{ item.plan }}</td>
-              <td>{{ item.qntd }}</td>
-              <td>{{ item.valueStar }}</td>
-              <td>{{ item.totals }}</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div id="card-modal" class="stars salesTotals" v-if="dashboard === 'salesTotals'">
-        <div id="close-button">
-          <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
-        </div>
-        <div id="table">
-          <h1>Extrato de todas as vendas realizadas</h1>
-          <table>
-            <thead>
-            <tr>
-              <th>Nº contrato</th>
-              <th>Nome do cliente</th>
-              <th>Plano</th>
-              <th>Status</th>
-              <th>Situação</th>
-              <th>Data do cadastro</th>
-              <th>Data da aprovação</th>
-              <th>Data da vigência</th>
-              <th>Data do cancelamento</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="item in data.extractSalesTotals" :key="item.id">
-              <td>{{ item.id_contrato }}</td>
-              <td>{{ item.nome_cliente }}</td>
-              <td>{{ item.plano }}</td>
-              <td>{{ item.status }}</td>
-              <td>{{ item.situacao }}</td>
-              <td>{{ item.data_contrato }}</td>
-              <td>{{ item.data_ativacao }}</td>
-              <td>{{ item.data_vigencia }}</td>
-              <td>{{ item.data_cancelamento }}</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div id="card-modal" class="stars salesTotals" v-if="dashboard === 'cancelD7'">
-        <div id="close-button">
-          <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
-        </div>
-        <div id="table">
-          <h1>Extrato de cancelamentos antes dos 7 dias</h1>
-          <table>
-            <thead>
-            <tr>
-              <th>Nº contrato</th>
-              <th>Nome do cliente</th>
-              <th>Plano</th>
-              <th>Status</th>
-              <th>Situação</th>
-              <th>Data do cadastro</th>
-              <th>Data da aprovação</th>
-              <th>Data da vigência</th>
-              <th>Data do cancelamento</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="item in data.extractCancelsD7" :key="item.id">
-              <td>{{ item.id_contrato }}</td>
-              <td>{{ item.nome_cliente }}</td>
-              <td>{{ item.plano }}</td>
-              <td>{{ item.status }}</td>
-              <td>{{ item.situacao }}</td>
-              <td>{{ item.data_contrato }}</td>
-              <td>{{ item.data_ativacao }}</td>
-              <td>{{ item.data_vigencia }}</td>
-              <td>{{ item.data_cancelamento }}</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div id="card-modal" class="stars salesAprovation" v-if="dashboard === 'salesAprovation'">
-        <div id="close-button">
-          <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
-        </div>
-        <div id="table">
-          <h1>Extrato de vendas em aprovação</h1>
-          <table>
-            <thead>
-            <tr>
-              <th>Nº contrato</th>
-              <th>Nome do cliente</th>
-              <th>Plano</th>
-              <th>Status</th>
-              <th>Situação</th>
-              <th>Data do cadastro</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="item in data.extractSalesAprovation" :key="item.id">
-              <td>{{ item.id_contrato }}</td>
-              <td>{{ item.nome_cliente }}</td>
-              <td>{{ item.plano }}</td>
-              <td>{{ item.status }}</td>
-              <td>{{ item.situacao }}</td>
-              <td>{{ item.data_contrato }}</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div id="card-modal" class="stars salesTotals" v-if="dashboard === 'salesValid'">
-        <div id="close-button">
-          <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
-        </div>
-        <div id="table">
-          <h1>Extrato de todas as vendas válidas para o comissionamento</h1>
-          <table>
-            <thead>
-            <tr>
-              <th>Nº contrato</th>
-              <th>Nome do cliente</th>
-              <th>Plano</th>
-              <th>Status</th>
-              <th>Situação</th>
-              <th>Data do cadastro</th>
-              <th>Data da aprovação</th>
-              <th>Data da vigência</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="item in data.extractSalesValids" :key="item.id">
-              <td>{{ item.id_contrato }}</td>
-              <td>{{ item.nome_cliente }}</td>
-              <td>{{ item.plano }}</td>
-              <td>{{ item.status }}</td>
-              <td>{{ item.situacao }}</td>
-              <td>{{ item.data_contrato }}</td>
-              <td>{{ item.data_ativacao }}</td>
-              <td>{{ item.data_vigencia }}</td>
-            </tr>
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
@@ -362,7 +170,7 @@ export default {
 
       AXIOS({
         method: 'GET',
-        url: 'agerv/dashboard/seller',
+        url: 'agerv/analytics/payment',
         headers: {
           'Authorization': 'Bearer ' + Cookie.get('token')
         },
@@ -468,12 +276,11 @@ export default {
 
     .filters {
       width: 15%;
-      height: 50%;
       background-color: #fff;
       margin-top: 6vh;
       border-radius: 5px;
       @include sh;
-      @include flex(column, flex-start, center, 10px);
+      @include flex(column, center, center, 10px);
       padding: 2vh 1vw;
       border: 1px solid #fff;
 
@@ -484,7 +291,7 @@ export default {
       }
 
       .buttons-filter {
-        @include flex(row, flex-start, center, 10px);
+        @include flex(row, center, center, 10px);
         flex-wrap: wrap;
 
         span {

@@ -18,7 +18,7 @@
               <div class="system">
                 <div class="img-title">
                   <i class="fi fi-rr-star"></i>
-                  <span>AgeRV</span>
+                  <span>AgeRv</span>
                 </div>
                 <p>
                   Vendas e comissionamento.
@@ -29,7 +29,7 @@
               <div class="system">
                 <div class="img-title">
                   <i class="fi fi-rr-document"></i>
-                  <span>Relatórios</span>
+                  <span>AgeReport</span>
                 </div>
                 <p>
                   Relatórios e planilhas.
@@ -45,10 +45,21 @@
               <div class="system">
                 <div class="img-title">
                   <i class="fi fi-rr-stats"></i>
-                  <span>Indicadores</span>
+                  <span>AgeBoard</span>
                 </div>
                 <p>
-                  Dashboards.
+                  Dashboards e indicadores.
+                </p>
+              </div>
+            </router-link>
+            <router-link to="/sistemas" @click="loading = true">
+              <div class="system">
+                <div class="img-title">
+                  <i class="fi fi-rr-apps-add"></i>
+                  <span>AgeControle</span>
+                </div>
+                <p>
+                  Acessos e colaboradores.
                 </p>
               </div>
             </router-link>

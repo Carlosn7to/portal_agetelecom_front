@@ -17,7 +17,7 @@
           <div class="identify">
             <div class="inputs">
               <label for="name">Nome completo <b>*</b></label>
-              <input type="text" name="name" id="name">
+              <input type="text" name="name" id="name" autocomplete="off" v-model="data.name">
             </div>
             <div class="inputs">
               <label for="level">Nível de acesso ao Portal <b>*</b></label>
@@ -40,23 +40,23 @@
                   <span><b>AgeRv</b> - Remuneração variável</span>
                 </div>
                 <div class="more">
-                  <i class="fi fi-rr-arrow-square-down" v-if="modal.agerv.status === false" @click="modal.agerv.status = true"></i>
-                  <i class="fi fi-rr-arrow-square-up" v-else @click="modal.agerv.status = false"></i>
+                  <i class="fi fi-rr-arrow-square-down" v-if="data.agerv.status === false" @click="data.agerv.status = true"></i>
+                  <i class="fi fi-rr-arrow-square-up" v-else @click="data.agerv.status = false"></i>
                 </div>
               </div>
               <div class="divisor">
                 <div></div>
               </div>
 
-              <template v-if="modal.agerv.status === true">
+              <template v-if="data.agerv.status === true">
                 <div class="form-system animation-down">
                   <div class="inputs-check">
-                    <input type="checkbox" name="agerv-permmitted" id="agerv-permmitted" v-model="modal.agerv.permmitted">
+                    <input type="checkbox" name="agerv-permmitted" id="agerv-permmitted" v-model="data.agerv.permmitted">
                     <label for="agerv-permmitted">Permitir acesso</label>
                   </div>
                   <div class="inputs">
                     <label for="level">Nível de acesso ao AgeRv <b>*</b></label>
-                    <select :disabled="modal.agerv.permmitted === false" name="level" id="level" v-model="modal.agerv.level">
+                    <select :disabled="data.agerv.permmitted === false" name="level" id="level" v-model="data.agerv.level">
                       <option selected>--- Nenhum valor selecionado ---</option>
                       <template v-for="item in levelData" :key="item.id">
                         <option :value="item.id">
@@ -67,7 +67,7 @@
                   </div>
                   <div class="inputs">
                     <label for="level">Função do colaborador <b>*</b></label>
-                    <select :disabled="modal.agerv.permmitted === false" name="function" id="function" v-model="modal.agerv.function">
+                    <select :disabled="data.agerv.permmitted === false" name="function" id="function" v-model="data.agerv.function">
                       <option selected>--- Nenhuma função selecionada ---</option>
                       <template v-for="item in functionData" :key="item.id">
                         <option :value="item.id">
@@ -76,16 +76,16 @@
                       </template>
                     </select>
                   </div>
-                  <div class="inputs animation-down" v-if="modal.agerv.function === 1 || modal.agerv.function === 3">
+                  <div class="inputs animation-down" v-if="data.agerv.function === 1 || data.agerv.function === 3">
                     <label for="collaborator">Vincular colaborador</label>
-                    <input :disabled="modal.agerv.permmitted === false" list="collaborator" type="text" @keyup="getCollaboratorsRv" v-model="collaboratorSearch">
+                    <input :disabled="data.agerv.permmitted === false" list="collaborator" type="text" @keyup="getCollaboratorsRv" v-model="collaboratorSearch">
                     <datalist id="collaborator">
                       <template v-for="item in collaboratorData" :key="item.id">
                         <option :value="item.nome"></option>
                       </template>
                     </datalist>
                   </div>
-                  <button id="vinc-collab" class="animation-down" v-if="modal.agerv.function === 4" @click="vincCollab()">Vincular supervisores</button>
+                  <button id="vinc-collab" class="animation-down" v-if="data.agerv.function === 4" @click="vincCollab()">Vincular supervisores</button>
                 </div>
               </template>
             </div>
@@ -114,7 +114,9 @@ export default {
       mode: Cookie.get('mode'),
       levelData: null,
       functionData: {},
-      modal: {
+      data: {
+        name: '',
+        level: null,
         agerv: {
           status: false,
           permmitted: false,
@@ -196,18 +198,20 @@ form {
     }
 
     input, select {
-      border: 2px solid #fff;
+      border: 2px solid #F4F4F4;
       padding: 10px 5px;
       border-radius: 3px;
       @include tr;
       color: #1a1a1a;
       font-size: 1.2rem;
+      background-color: $b-inp-g-f;
     }
 
     input[type=text] {
 
       &:focus {
         border-color: $age-bl;
+        background-color: #fff;
       }
     }
   }
