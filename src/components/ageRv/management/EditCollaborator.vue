@@ -204,8 +204,6 @@ export default {
       }).then((res) => {
         this.res = res.data
         this.getMeta()
-      }).catch((error) => {
-        console.log(error)
       })
     },
     newUser: function (id) {
@@ -218,8 +216,6 @@ export default {
       }).then((res) => {
         this.user.email = res.data.email
         this.user.password = res.data.password
-      }).catch((error) => {
-        console.log(error)
       })
     },
     newPassword: function (id) {
@@ -229,8 +225,6 @@ export default {
       }).then((res) => {
         this.user.email = res.data.email
         this.user.password = res.data.password
-      }).catch((error) => {
-        console.log(error)
       })
 
     },
@@ -243,8 +237,6 @@ export default {
         url: 'agerv/management/meta/'+this.data.id
       }).then((res) => {
         this.meta = res.data
-      }).catch((error) => {
-        console.log(error)
       })
     },
     addMeta: function () {
@@ -260,8 +252,6 @@ export default {
         this.newMeta.state = true
         this.newMeta.value = 0
         this.getMeta()
-      }).catch((error) => {
-        console.log(error)
       })
     },
     editMeta: function () {
@@ -274,8 +264,6 @@ export default {
       }).then(() => {
         this.actualMeta.status = false
         this.getMeta()
-      }).catch((error) => {
-        console.log(error)
       })
     },
     getMonth: function () {

@@ -262,7 +262,7 @@ export default {
 
 
       .list {
-        height: 75%;
+        height: 60%;
         margin-top: 2vh;
 
         .list-header, .list-body {
