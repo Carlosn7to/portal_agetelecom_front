@@ -82,41 +82,9 @@
         </router-link>
       </ul>
     </nav>
-    <nav v-if="system === 'report'">
-      <ul>
-        <router-link to="/ageReport/home" active-class="active-li" @click="loading = true">
-          <li>
-            <div>
-              <i class="fi fi-rr-document"></i>
-            </div>
-            <span>Relatórios</span>
-          </li>
-        </router-link>
-        <router-link to="/sistemas"
-                     active-class="active-li"
-                     style="position: absolute;
-                            bottom: 7vh"
-                     @click="loading = true">
-          <li>
-            <div>
-              <i class="fi fi-rr-arrow-left"></i>
-            </div>
-            <span>Voltar ao portal</span>
-          </li>
-        </router-link>
-        <router-link to="/"
-                     active-class="active-li"
-                     style="position: absolute;
-                            bottom: 1vh">
-          <li>
-            <div>
-              <i class="fi fi-rr-sign-out-alt"></i>
-            </div>
-            <span>Logout</span>
-          </li>
-        </router-link>
-      </ul>
-    </nav>
+    <AgeReportSubMenu
+        v-if="system === 'report'"
+        :permissions="permissions"/>
     <nav v-if="system === 'ageBoard'">
       <ul>
         <router-link to="/ageBoard/home" active-class="active-li" @click="loading = true">
@@ -267,9 +235,11 @@
 
 import Cookie from "js-cookie";
 import {mapGetters} from "vuex";
+import AgeReportSubMenu from "@/components/portal/_aux/subMenus/AgeReportSubMenu";
 
 export default {
   name: "MenuApp",
+  components: {AgeReportSubMenu},
   props: {
     mode: {
       type: String,
@@ -310,7 +280,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 
 #menu {
   width: 17%;
@@ -347,7 +317,7 @@ export default {
     }
   }
 
-  nav {
+  nav, .nav {
     ul {
       padding: 0 1vw;
       height: 30%;

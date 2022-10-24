@@ -148,13 +148,13 @@ export default {
     flex-wrap: wrap;
 
     .report {
-      @include container(initial, initial, 1vh 2vw, #fff);
-      min-width: 10%;
-      min-height: 15vh;
+      @include container(initial, initial, 1vh 1vw, #fff);
+      width: calc((100% / 3) - 20px);
+      min-height: 5vh;
       border-radius: 5px;
       @include sh-h;
       @include tr-p;
-      @include flex(column, center, center, 5px);
+      @include flex(row, flex-start, center, 5px);
       word-break: break-all;
       border: 2px solid #fff;
 

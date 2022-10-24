@@ -61,6 +61,7 @@ export default {
   height: 8%;
   padding: 0 2vw;
   @include flex(row, flex-end, center, 10px);
+  background-color: transparent;
 
   #profile {
     @include flex(row, center, center, 10px);
@@ -78,7 +79,7 @@ export default {
 
   #darkmode {
     width: 4vw;
-    height: 4vh;
+    height: 30px;
     padding: 4px;
     border-radius: 20px;
     @include flex(row, space-between, center, 0px);
@@ -86,7 +87,7 @@ export default {
 
     div {
       border-radius: 50%;
-      width: 1.3vw;
+      width: 20px;
       height: 100%;
     }
 
@@ -122,7 +123,7 @@ export default {
 }
 
 .mode-d {
-  background-color: #161819;
+  background-color: #161819 !important;
 
   @include tr;
 
