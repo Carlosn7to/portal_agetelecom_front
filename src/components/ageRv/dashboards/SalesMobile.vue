@@ -13,13 +13,6 @@
         </div>
         <div class="item">
           <div class="values">
-            <span>{{ data.salesTotals }}</span>
-            <span>Instaladas</span>
-          </div>
-          <i class="fi fi-ss-rocket-lunch"></i>
-        </div>
-        <div class="item">
-          <div class="values">
             <span>{{ data.meta }}</span>
             <span>Meta</span>
           </div>
@@ -32,40 +25,40 @@
           </div>
           <i class="fi fi-sr-chart-line-up"></i>
         </div>
-        <div class="item" v-if="data.deflator === -10" style="background-color: #B3B4B5;">
+        <div class="item" v-if="data.mediator === -10" style="background-color: #B3B4B5;">
           <div class="values">
-            <span>{{ data.deflator }}%</span>
+            <span>{{ data.mediator }}%</span>
             <span>Deflator</span>
           </div>
           <i class="fi fi-rr-arrow-alt-square-down"></i>
         </div>
-        <div class="item" v-if="data.deflator >= 0" style="background-color: #009688">
+        <div class="item" v-if="data.mediator >= 0" style="background-color: #009688">
           <div class="values">
-            <span>{{ data.deflator }}%</span>
+            <span>{{ data.mediator }}%</span>
             <span>Acelerador</span>
           </div>
           <i class="fi fi-rr-arrow-square-up"></i>
         </div>
         <div class="item">
           <div class="values">
-            <span>R${{ data.valueStars }}</span>
+            <span>R${{ data.valueStar }}</span>
             <span>Valor da <br> estrela</span>
           </div>
           <i class="fi fi-sr-grin-stars"></i>
         </div>
         <div class="item">
           <div class="values">
-            <span>{{ data.cancelTotals }}</span>
-            <span>Canceladas</span>
-          </div>
-          <i class="fi fi-ss-delete-document"></i>
-        </div>
-        <div class="item">
-          <div class="values">
-            <span>{{ data.cancelD7 }}</span>
+            <span>{{ data.cancel.count }}</span>
             <span>Canceladas <br> D-7</span>
           </div>
           <i class="fi fi-sr-ban"></i>
+        </div>
+        <div class="item">
+          <div class="values">
+            <span>{{ data.sales.count }}</span>
+            <span>Instaladas</span>
+          </div>
+          <i class="fi fi-ss-rocket-lunch"></i>
         </div>
         <div class="item">
           <div class="values">
@@ -182,7 +175,7 @@ export default {
       //.item:nth-child(8) {
       //  background-color: #911515;
       //}
-      .item:nth-child(9) {
+      .item:nth-child(7), .item:nth-child(8) {
         width: 99%;
       //  background-color: #24A527;
       }

@@ -59,7 +59,6 @@ export default {
       font-size: 1.6rem;
       font-weight: 400;
       color: $ml-text-menu;
-      padding-left: 1vw;
     }
 
     .table-projection {
@@ -98,6 +97,11 @@ export default {
       }
     }
   }
+}
+
+.mode-l  {
+  background-color: transparent;
+  border: none;
 }
 
 .mode-d {
