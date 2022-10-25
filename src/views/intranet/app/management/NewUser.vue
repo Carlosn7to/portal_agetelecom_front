@@ -155,7 +155,7 @@ export default {
         method: 'GET',
         url: 'agerv/management/collaborator/list/',
         params: {
-          name: this.collaboratorSearch
+          name: JSON.stringify(this.collaboratorSearch)
         }
       })
           .then((res) => {
