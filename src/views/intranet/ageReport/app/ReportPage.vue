@@ -14,7 +14,7 @@
         <h1>
           Relatórios disponíveis
         </h1>
-        <div id="reports">
+        <div id="reports" v-if="status === true">
           <div class="report"
                v-for="(report, key) in reports"
                :key="key"
@@ -67,7 +67,8 @@ export default {
       lastPeriod: '',
       firstPeriodHour: '',
       lastPeriodHour: '',
-      loading: false
+      loading: false,
+      status: false
     }
   },
   methods: {
@@ -78,10 +79,13 @@ export default {
 
       AXIOS({
         method: 'GET',
-        url: 'agereport/report/reports'
-
+        url: 'agereport/report/reports',
+        headers: {
+          'Authorization': 'Bearer' + Cookie.get('token')
+        }
       }).then((res) => {
         this.reports = res.data
+        this.status = true
       }).catch((error) => {
         console.log(error)
       })
@@ -123,7 +127,7 @@ export default {
       }
     }
   },
-  beforeMount() {
+  mounted() {
     this.getReports()
   }
 }

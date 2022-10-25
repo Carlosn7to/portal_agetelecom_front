@@ -153,10 +153,9 @@ export default {
     getCollaboratorsRv: function (){
       AXIOS({
         method: 'GET',
-        url: 'agerv/management/collaborator/list/',
-        params: {
-          name: this.collaboratorSearch
-        },
+        url: 'agerv/management/collaborator/list',
+        params: this.collaboratorSearch
+        ,
 
       })
           .then((res) => {

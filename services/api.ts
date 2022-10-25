@@ -7,7 +7,6 @@ export const AXIOS = VueAxios.create({
     //baseURL: `http://v1.portal.tote.local/api`,
     headers: {
         'Authorization': 'Bearer '+Cookie.get('token'),
-        'Access-Control-Allow-Origin': '*'
     }
 
 })
