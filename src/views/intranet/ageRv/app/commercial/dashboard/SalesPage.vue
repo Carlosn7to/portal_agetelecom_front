@@ -15,96 +15,104 @@
         <div id="content-page"
              :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
                   'mode-d-p' : mode === 'dark'}">
-          <div class="section-1" v-if="dashStatus === true">
-            <div class="dashboard-commercial">
-              <h1>Dashboard de vendas</h1>
-              <div class="dashboards">
-                <div class="dashboard"
-                     @click="modalView('stars')">
-                  <div class="type-value">
-                    <span>{{ data.stars }}</span>
-                    <span>Estrelas</span>
-                  </div>
-                  <i class="fi fi-ss-star"></i>
-                </div>
-                <div class="dashboard"
-                     @click="modalView('salesTotals')">
-                  <div class="type-value">
-                    <span>{{ data.sales.count }}</span>
-                    <span>Vendas totais</span>
-                  </div>
-                  <i class="fi fi-ss-rocket-lunch"></i>
-                </div>
-                <div class="dashboard">
-                  <div class="type-value">
-                    <span>{{ data.meta }}</span>
-                    <span>Meta</span>
-                  </div>
-                  <i class="fi fi-rr-chart-histogram"></i>
-                </div>
-                <div class="dashboard">
-                  <div class="type-value">
-                    <span>R${{ data.valueStar }}</span>
-                    <span>Valor da estrela</span>
-                  </div>
-                  <i class="fi fi-sr-grin-stars"></i>
-                </div>
-                <div class="dashboard"
-                     @click="modalView('cancelD7')">
-                  <div class="type-value">
-                    <span>{{ data.cancel.count }}</span>
-                    <span>Cancelamento <br> -7 Dias</span>
-                  </div>
-                  <i class="fi fi-sr-ban"></i>
-                </div>
-                <div class="dashboard">
-                  <div class="type-value">
-                    <span>R${{ data.commission }}</span>
-                    <span>Comissão</span>
-                  </div>
-                  <i class="fi fi-sr-sack-dollar"></i>
-                </div>
-                <div class="dashboard">
-                  <div class="type-value">
-                    <span>{{ data.metaPercent }}%</span>
-                    <span>Meta atingida</span>
-                  </div>
-                  <i class="fi fi-sr-chart-line-up"></i>
-                </div>
-                <div class="dashboard">
-                  <template v-if="data.mediator > 0">
+          <template v-if="page === 'sales'">
+            <div class="section-1" v-if="dashStatus === true">
+              <div class="dashboard-commercial">
+                <h1>Dashboard de vendas</h1>
+                <div class="dashboards">
+                  <div class="dashboard"
+                       @click="modalView('stars')">
                     <div class="type-value">
-                      <span>{{ data.mediator }}%</span>
-                      <span>Acelerador</span>
+                      <span>{{ data.stars }}</span>
+                      <span>Estrelas</span>
                     </div>
-                    <i class="fi fi-rr-arrow-square-up"></i>
-                  </template>
-                  <template v-else>
+                    <i class="fi fi-ss-star"></i>
+                  </div>
+                  <div class="dashboard"
+                       @click="extractView('Vendas', data.sales.extract)" style="cursor: pointer">
                     <div class="type-value">
-                      <span>{{ data.mediator }}%</span>
-                      <span>Deflator</span>
+                      <span>{{ data.sales.count }}</span>
+                      <span>Vendas totais</span>
                     </div>
-                    <i class="fi fi-rr-arrow-square-down"></i>
-                  </template>
+                    <i class="fi fi-ss-rocket-lunch"></i>
+                  </div>
+                  <div class="dashboard">
+                    <div class="type-value">
+                      <span>{{ data.meta }}</span>
+                      <span>Meta</span>
+                    </div>
+                    <i class="fi fi-rr-chart-histogram"></i>
+                  </div>
+                  <div class="dashboard">
+                    <div class="type-value">
+                      <span>R${{ data.valueStar }}</span>
+                      <span>Valor da estrela</span>
+                    </div>
+                    <i class="fi fi-sr-grin-stars"></i>
+                  </div>
+                  <div class="dashboard"
+                       @click="extractView('Cancelamentos', data.cancel.extract)" style="cursor: pointer">
+                  <div class="type-value">
+                      <span>{{ data.cancel.count }}</span>
+                      <span>Cancelamento <br> -7 Dias</span>
+                    </div>
+                    <i class="fi fi-sr-ban"></i>
+                  </div>
+                  <div class="dashboard">
+                    <div class="type-value">
+                      <span>R${{ data.commission }}</span>
+                      <span>Comissão</span>
+                    </div>
+                    <i class="fi fi-sr-sack-dollar"></i>
+                  </div>
+                  <div class="dashboard">
+                    <div class="type-value">
+                      <span>{{ data.metaPercent }}%</span>
+                      <span>Meta atingida</span>
+                    </div>
+                    <i class="fi fi-sr-chart-line-up"></i>
+                  </div>
+                  <div class="dashboard">
+                    <template v-if="data.mediator > 0">
+                      <div class="type-value">
+                        <span>{{ data.mediator }}%</span>
+                        <span>Acelerador</span>
+                      </div>
+                      <i class="fi fi-rr-arrow-square-up"></i>
+                    </template>
+                    <template v-else>
+                      <div class="type-value">
+                        <span>{{ data.mediator }}%</span>
+                        <span>Deflator</span>
+                      </div>
+                      <i class="fi fi-rr-arrow-square-down"></i>
+                    </template>
+                  </div>
+                </div>
+              </div>
+              <div class="filters">
+                <span>Selecione o mês</span>
+                <div class="buttons-filter">
+                  <span :class="{ 'active' : filter.month === '08'}" @click="getSellers('08')">Agosto</span>
+                  <span :class="{ 'active' : filter.month === '09'}" @click="getSellers('09')">Setembro</span>
+                  <span :class="{ 'active' : filter.month === '10'}" @click="getSellers('10')">Outubro</span>
                 </div>
               </div>
             </div>
-            <div class="filters">
-              <span>Selecione o mês</span>
-              <div class="buttons-filter">
-                <span :class="{ 'active' : filter.month === '08'}" @click="getSellers('08')">Agosto</span>
-                <span :class="{ 'active' : filter.month === '09'}" @click="getSellers('09')">Setembro</span>
-                <span :class="{ 'active' : filter.month === '10'}" @click="getSellers('10')">Outubro</span>
-              </div>
+            <div class="section-2">
+              <ProjectionSection
+                  :mode="mode"
+                  :projection="data.projection"
+                  v-if="filter.month === filter.actualMonth && projection === true"
+              />
             </div>
-          </div>
-          <div class="section-2">
-            <ProjectionSection
-                :mode="mode"
-                :projection="data.projection"
-                v-if="filter.month === filter.actualMonth && projection === true"
-            />
-          </div>
+          </template>
+          <ExtractSales
+            v-if="page === 'extract'"
+            :title="titlePage"
+            :data="dataExtract"
+            @return-page="returnPage"
+          />
         </div>
       </div>
     </div>
@@ -128,6 +136,7 @@ import {AXIOS} from "../../../../../../../services/api.ts";
 import ProjectionSection from "@/components/ageRv/dashboards/ProjectionSection";
 import {mapGetters, mapActions} from "vuex";
 import SalesMobile from "@/components/ageRv/dashboards/SalesMobile";
+import ExtractSales from "@/components/ageRv/dashboards/ExtractSales";
 
 export default {
   name: "SalesPage",
@@ -135,7 +144,8 @@ export default {
     MenuApp,
     HeaderApp,
     ProjectionSection,
-    SalesMobile
+    SalesMobile,
+    ExtractSales
   },
   data() {
     return {
@@ -150,7 +160,10 @@ export default {
       dashboard: '',
       dashStatus: false,
       loading: false,
-      projection: false
+      projection: false,
+      page: 'sales',
+      titlePage: 'Vendas',
+      dataExtract: null
     }
   },
   methods: {
@@ -199,6 +212,14 @@ export default {
 
       this.getSellers(this.filter.actualMonth)
     },
+    extractView: function (title, data) {
+      this.page = 'extract'
+      this.title = title
+      this.dataExtract = data
+    },
+    returnPage: function () {
+      this.page = 'sales'
+    }
   },
   computed: {
     ...mapGetters([
