@@ -1,12 +1,14 @@
 <template>
-  <div class="content-extract">
+  <div class="content-extract"
+       :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
+                  'mode-d-p' : mode === 'dark'}">
     <h1>Extrato - {{ title }}</h1>
     <div id="filters">
       <input type="text"
              name="search"
              id="search"
              autocomplete="off"
-             placeholder="Pesquisar"
+             placeholder="Pesquisar nome..."
              v-model="search">
       <button @click="returnPage()">Voltar</button>
     </div>
@@ -71,6 +73,9 @@ export default {
     },
     data: {
       required: true
+    },
+    mode: {
+      type: String
     }
   },
   data() {
@@ -142,11 +147,63 @@ export default {
 
     .items-body {
       min-height: 15%;
+      padding: 0 .2vw;
 
       span {
         padding: 2vh 0 !important;
       }
     }
+  }
+}
+
+.mode-d-p {
+  h1 {
+    color: $md-text-h1 !important;
+  }
+
+  input[type=text] {
+    background-color: $md-back-l;
+    border: 2px solid $age-or !important;
+    color: $age-or !important;
+  }
+
+  /*   PLACEHOLDER   */
+  ::-webkit-input-placeholder {
+    color: $age-or;
+  }
+
+  button {
+    background-color: $age-or !important;
+    border-color: $age-or !important;
+
+    &:hover {
+      background-color: $md-back-l !important;
+      color: $age-or !important;
+    }
+  }
+
+  .items-body {
+    border-color: $md-back-l !important;
+    background-color: transparent !important;
+
+    &:hover {
+      border-color: $age-or !important;
+    }
+  }
+
+  .item {
+    background-color: $md-back-l !important;
+    span {
+      color: $md-text-light !important;
+    }
+  }
+
+  /*   SCROLL BAR   */
+  ::-webkit-scrollbar-track {
+    background-color: $md-back-l;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: $age-or !important;
   }
 }
 

@@ -112,6 +112,7 @@
             :title="titlePage"
             :data="dataExtract"
             @return-page="returnPage"
+            :mode="mode"
           />
         </div>
       </div>
