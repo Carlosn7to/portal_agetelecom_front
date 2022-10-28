@@ -163,7 +163,7 @@ export default {
       loading: false,
       projection: false,
       page: 'sales',
-      titlePage: 'Vendas',
+      titlePage: '',
       dataExtract: null
     }
   },
@@ -215,7 +215,7 @@ export default {
     },
     extractView: function (title, data) {
       this.page = 'extract'
-      this.title = title
+      this.titlePage = title
       this.dataExtract = data
     },
     returnPage: function () {
