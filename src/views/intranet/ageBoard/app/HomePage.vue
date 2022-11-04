@@ -102,6 +102,9 @@ export default {
       AXIOS({
         method: 'GET',
         url: '/ageboard/dashboards',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token')
+        }
       }).then((res) => {
         this.data = res.data
       })
