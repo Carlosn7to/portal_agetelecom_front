@@ -93,6 +93,7 @@
           v-if="page === 'editReport'"
           :id="id"
           :name="report"
+          @msg="editMsg"
         />
       </div>
     </div>
@@ -165,6 +166,9 @@ export default {
       this.page = 'editReport'
       this.id = id
       this.report = report
+    },
+    editMsg: function (data) {
+      alert(data.msg)
     }
   },
   computed: {
@@ -312,6 +316,7 @@ export default {
     }
 
     .filters {
+      padding: 3vh 0;
       input[type=text] {
         width: 25%;
         padding: 10px 8px;
@@ -327,12 +332,15 @@ export default {
 
     .content-reports {
       width: 86%;
-      padding-top: 2vh;
 
       #reports {
         @include container(100%, initial, 4vh 0vw, transparent);
         @include flex(row, flex-start, initial, 20px);
         flex-wrap: wrap;
+        overflow-y: auto;
+        max-height: 70vh;
+        padding: 2vh 2px;
+
 
         .report {
           @include container(initial, initial, 1vh 1vw, #fff);

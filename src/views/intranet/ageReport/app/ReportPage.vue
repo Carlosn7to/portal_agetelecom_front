@@ -18,7 +18,7 @@
           <div class="report"
                v-for="(report, key) in reports"
                :key="key"
-               @click="downloadReport(report.isPeriodo ,report.url,report.nome_arquivo, report.isPeriodoHora)">
+               @click="downloadReport(report.isPeriodo ,report.url,report.nome_arquivo, report.id)">
             <i class="fi fi-rr-document-signed"></i>
             <span>{{ report.nome }}</span>
           </div>
@@ -90,7 +90,7 @@ export default {
         console.log(error)
       })
     },
-    downloadReport: function (period, url, name) {
+    downloadReport: function (period, url, name, id) {
       if(period === 1) {
         this.url = url
         this.name = name
@@ -100,9 +100,9 @@ export default {
       } else {
         this.loading = true
 
-
         AXIOS({
           method: 'GET',
+          //url: `agereport/report-download/${id}`,
           url: 'agereport/report/'+url,
           headers: {
             'Authorization': 'Bearer '+Cookie.get('token')
@@ -113,6 +113,7 @@ export default {
           },
           responseType: 'blob',
         }).then((res) => {
+          console.log(id)
 
           this.loading = false
 
