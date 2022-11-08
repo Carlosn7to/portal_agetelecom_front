@@ -24,14 +24,14 @@
                    placeholder="Pesquisar"
                    v-model="search">
             <div id="month">
-              <span :class="{ 'selectMonth' : month === '06' && mode === 'light',
-                              'selectMonthDark' : month === '06' && mode === 'dark' }" @click="getAnalytic('06'), month = '06'">Junho</span>
-              <span :class="{ 'selectMonth' : month === '07' && mode === 'light',
-                              'selectMonthDark' : month === '07' && mode === 'dark' }" @click="getAnalytic('07'), month = '07'">Julho</span>
               <span :class="{ 'selectMonth' : month === '08' && mode === 'light',
                               'selectMonthDark' : month === '08' && mode === 'dark' }" @click="getAnalytic('08'), month = '08'">Agosto</span>
               <span :class="{ 'selectMonth' : month === '09' && mode === 'light',
                               'selectMonthDark' : month === '09' && mode === 'dark' }" @click="getAnalytic('09'), month = '09'">Setembro</span>
+              <span :class="{ 'selectMonth' : month === '10' && mode === 'light',
+                              'selectMonthDark' : month === '10' && mode === 'dark' }" @click="getAnalytic('10'), month = '10'">Outubro</span>
+              <span :class="{ 'selectMonth' : month === '11' && mode === 'light',
+                              'selectMonthDark' : month === '11' && mode === 'dark' }" @click="getAnalytic('11'), month = '11'">Novembro</span>
             </div>
           </div>
           <div class="items-header">
