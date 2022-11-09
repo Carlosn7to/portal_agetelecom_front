@@ -10,7 +10,7 @@
         </div>
         <div class="inputs-text">
           <label for="name-archive">Nome do arquivo: </label>
-          <input autocomplete="off" type="text" name="name-archive" id="name-archive" v-model="data.name_archive" required>
+          <input autocomplete="off" type="text" name="name-archive" id="name-archive" v-model="data.namearchive" required>
         </div>
         <div class="inputs-text">
           <label for="query">Query do relatório: </label>
@@ -63,7 +63,7 @@ export default {
     return {
       data: {
         name: '',
-        name_archive: '',
+        namearchive: '',
         query: '',
         database: '',
         isPeriod: 0,
@@ -82,7 +82,7 @@ export default {
           url: 'agereport/reports/'+this.id
         }).then((res) => {
           this.data.name = res.data.data.nome
-          this.data.name_archive = res.data.data.nome_arquivo
+          this.data.namearchive = res.data.data.nome_arquivo
           this.data.query = res.data.data.query
           this.data.database = res.data.data.banco_solicitado
           this.data.isPeriod = res.data.data.isPeriodo
@@ -100,7 +100,7 @@ export default {
       }).then((res) => {
         this.nameReport = res.data.data.nome
         this.data.name = res.data.data.nome
-        this.data.name_archive = res.data.data.nome_arquivo
+        this.data.namearchive = res.data.data.nome_arquivo
         this.data.query = res.data.data.query
         this.data.database = res.data.data.banco_solicitado
         this.data.isPeriod = res.data.data.isPeriodo
