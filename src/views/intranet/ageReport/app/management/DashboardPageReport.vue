@@ -32,6 +32,7 @@
               <div class="filters">
                 <input type="text" id="search" name="search" placeholder="Buscar e-mail..." autocomplete="off"
                        v-model="search">
+                <button @click="newAccess">Liberar acesso</button>
               </div>
               <div class="list">
                 <div class="list-header">
@@ -98,6 +99,9 @@
           @msg="editMsg"
           @close-page="closePage"
         />
+        <NewAccess
+          v-if="page === 'newAccess'"
+        />
       </div>
     </div>
   </div>
@@ -112,13 +116,15 @@ import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 import {AXIOS} from "../../../../../../services/api.ts";
 import EditReport from "@/components/ageReport/EditReport";
+import NewAccess from "@/components/ageReport/NewAccess";
 
 export default {
   name: "DashboardPageReport",
   components: {
     MenuApp,
     HeaderApp,
-    EditReport
+    EditReport,
+    NewAccess
   },
   data () {
     return {
@@ -177,6 +183,9 @@ export default {
       this.page = 'Relatórios'
       this.id = 0
       this.report = ''
+    },
+    newAccess: function () {
+      this.page = 'newAccess'
     }
   },
   computed: {
@@ -339,7 +348,7 @@ export default {
 
       button {
         @include button-pattern;
-        margin-left: 4vw;
+        margin-left: 1vw;
       }
     }
 
