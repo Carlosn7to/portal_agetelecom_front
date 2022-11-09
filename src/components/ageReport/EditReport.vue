@@ -117,9 +117,14 @@ export default {
       AXIOS({
         method: 'POST',
         url: 'agereport/reports/',
-        params: this.data,
-        headers: {
-          "Access-Control-Allow-Origin": "*"
+        data: {
+          name: this.data.name,
+          namearchive: this.data.namearchive,
+          query: this.data.query,
+          database: this.data.database,
+          isPeriodss: this.data.isPeriod,
+          isPeriodHour: this.data.isPeriodHour,
+          headers: this.data.headers
         }
       }).then((res) => {
         alert(res.data.msg)
