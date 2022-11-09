@@ -117,7 +117,7 @@ export default {
       AXIOS({
         method: 'POST',
         url: 'agereport/reports/',
-        data: this.data
+        params: this.data
       }).then((res) => {
         alert(res.data.msg)
       })
