@@ -11,7 +11,7 @@
       </router-link>
       <router-link to="/ageReport/gerenciamento"
                    active-class="active-li"
-                   v-if="permissions.level === 'Admin'">
+                   v-if="permissions.level === 'Admin' || permissions.level === 'Master'">
         <li>
           <div>
             <i class="fi fi-rr-settings-sliders"></i>

@@ -32,9 +32,9 @@
         <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
       </div>
       <h5 style="text-align: center; font-size: 1.4rem">Selecione o período</h5>
-      <form action="#" @submit.prevent="downloadReport(0, this.url, this.name)">
-        <input type="datetime-local" name="first_period" id="first_period" v-model="firstPeriod">
-        <input type="datetime-local" name="last_period" id="last_period" v-model="lastPeriod">
+      <form action="#" @submit.prevent="downloadReport(0, this.url, this.name, this.reportId)">
+        <input type="datetime-local" name="first_period" id="first_period" v-model="firstPeriod" required>
+        <input type="datetime-local" name="last_period" id="last_period" v-model="lastPeriod" required>
         <input type="submit" value="Baixar">
       </form>
     </div>
@@ -62,6 +62,7 @@ export default {
       reports: {},
       url: '',
       name: '',
+      reportId: 0,
       modal: false,
       firstPeriod: '',
       lastPeriod: '',
@@ -91,29 +92,29 @@ export default {
       })
     },
     downloadReport: function (period, url, name, id) {
+
       if(period === 1) {
-        this.url = url
         this.name = name
+        this.reportId = id
 
         this.modal = true
 
       } else {
         this.loading = true
+        this.reportId = id
 
         AXIOS({
           method: 'GET',
-          //url: `agereport/report-download/${id}`,
-          url: 'agereport/report/'+url,
+          url: `agereport/report-download/${this.reportId}`,
           headers: {
             'Authorization': 'Bearer '+Cookie.get('token')
           },
           params: {
             firstPeriod: this.firstPeriod,
-            lastPeriod: this.lastPeriod
+            lastPeriod: this.lastPeriod,
           },
           responseType: 'blob',
         }).then((res) => {
-          console.log(id)
 
           this.loading = false
 

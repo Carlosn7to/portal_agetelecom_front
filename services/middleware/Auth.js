@@ -41,7 +41,8 @@ export default {
             headers: {
                 'Authorization': 'Bearer'+TOKEN
             }
-        }).then(() => {
+        }).then((res) => {
+            store.commit('SAVE_PERMISSION', {permission: {system: 'ageReport', level: res.data.levelAccess, function: res.data.function}})
             return next()
         }).catch(() => {
             alert('Você não pode acessar o sistema AgeReport.')

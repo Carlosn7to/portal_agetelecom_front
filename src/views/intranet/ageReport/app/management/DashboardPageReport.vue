@@ -94,6 +94,7 @@
           :id="id"
           :name="report"
           @msg="editMsg"
+          @close-page="closePage"
         />
       </div>
     </div>
@@ -169,6 +170,11 @@ export default {
     },
     editMsg: function (data) {
       alert(data.msg)
+    },
+    closePage: function () {
+      this.page = 'Relatórios'
+      this.id = 0
+      this.report = ''
     }
   },
   computed: {

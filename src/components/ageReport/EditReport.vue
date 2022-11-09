@@ -1,29 +1,30 @@
 <template>
   <div class="edit-report">
     <h1>Relatório - {{ data.name }}</h1>
-    <button>Voltar</button>
+    <button @click="returnPage">Voltar</button>
     <div class="content-edit">
       <form action="" @submit.prevent="editReport">
         <div class="inputs-text">
           <label for="name">Nome: </label>
-          <input type="text" name="name" id="name" v-model="data.name" required>
+          <input autocomplete="off" type="text" name="name" id="name" v-model="data.name" required>
         </div>
         <div class="inputs-text">
           <label for="name-archive">Nome do arquivo: </label>
-          <input type="text" name="name-archive" id="name-archive" v-model="data.name_archive" required>
+          <input autocomplete="off" type="text" name="name-archive" id="name-archive" v-model="data.name_archive" required>
         </div>
         <div class="inputs-text">
           <label for="query">Query do relatório: </label>
-          <textarea v-model="data.query" name="query" required>
+          <textarea autocomplete="off" v-model="data.query" name="query" required>
 
           </textarea>
         </div>
         <div class="inputs-text">
           <label for="database">Banco de dados disponíveis: </label>
-          <select name="database" id="database" required>
+          <select name="database" id="database" required v-model="data.database">
             <option value="" :selected="data.database !== ''" disabled>--- Nenhuma opção selecionada ---</option>
             <option value="pgsql" :selected="data.database === 'pgsql'">Voalle</option>
             <option value="mysql_take" :selected="data.database === 'mysql_take'">TakeBlip</option>
+            <option value="mysql" :selected="data.database === 'mysql'">Portal</option>
           </select>
         </div>
         <div class="inputs-text">
@@ -37,7 +38,7 @@
         </div>
         <div class="inputs-text">
           <label for="headers">Colunas do arquivo: </label>
-          <input type="text" name="headers" id="headers" v-model="data.headers" required placeholder="separar com ;">
+          <input autocomplete="off" type="text" name="headers" id="headers" v-model="data.headers" required placeholder="separar com ;">
         </div>
         <input type="submit" value="Alterar">
       </form>
@@ -110,7 +111,7 @@ export default {
       })
     },
     returnPage: function () {
-      this.$emit
+      this.$emit('close-page')
     }
   },
   mounted() {
