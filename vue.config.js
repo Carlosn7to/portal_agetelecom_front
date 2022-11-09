@@ -9,8 +9,5 @@ module.exports = defineConfig({
           @import "@/assets/styles/_mixins.scss";`
       }
     }
-  },
-  devServer: {
-    proxy: 'https://v1.ageportal.agetelecom.com.br/api/'
   }
 })

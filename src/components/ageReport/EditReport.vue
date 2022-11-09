@@ -50,6 +50,7 @@
 <script>
 
 import {AXIOS} from "../../../services/api.ts";
+import Cookie from "js-cookie";
 
 export default {
   name: "EditReport",
@@ -116,13 +117,16 @@ export default {
     newReport: function () {
       AXIOS({
         method: 'POST',
-        url: 'agereport/reports/',
+        url: 'agereport/reports',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token')
+        },
         data: {
           name: this.data.name,
           namearchive: this.data.namearchive,
           query: this.data.query,
           database: this.data.database,
-          isPeriodss: this.data.isPeriod,
+          isPeriod: this.data.isPeriod,
           isPeriodHour: this.data.isPeriodHour,
           headers: this.data.headers
         }
