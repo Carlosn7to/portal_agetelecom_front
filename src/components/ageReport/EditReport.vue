@@ -3,7 +3,7 @@
     <h1>Relatório - {{ data.name }}</h1>
     <button @click="returnPage">Voltar</button>
     <div class="content-edit">
-      <form action="" @submit.prevent="editReport">
+      <form action="">
         <div class="inputs-text">
           <label for="name">Nome: </label>
           <input autocomplete="off" type="text" name="name" id="name" v-model="data.name" required>
@@ -40,7 +40,8 @@
           <label for="headers">Colunas do arquivo: </label>
           <input autocomplete="off" type="text" name="headers" id="headers" v-model="data.headers" required placeholder="separar com ;">
         </div>
-        <input type="submit" value="Alterar">
+        <input type="submit" value="Alterar" v-if="this.id !== 0" @click.prevent="editReport">
+        <input type="submit" value="Cadastrar" v-else @click.prevent="newReport">
       </form>
     </div>
   </div>
@@ -75,19 +76,21 @@ export default {
   },
   methods: {
     getReport: function () {
-      AXIOS({
-        method: 'GET',
-        url: 'agereport/reports/'+this.id
-      }).then((res) => {
-        this.data.name = res.data.data.nome
-        this.data.name_archive = res.data.data.nome_arquivo
-        this.data.query = res.data.data.query
-        this.data.database = res.data.data.banco_solicitado
-        this.data.isPeriod = res.data.data.isPeriodo
-        this.data.isPeriodHour = res.data.data.isPeriodoHora
-        this.data.headers = res.data.data.cabecalhos
+      if(this.id !== 0) {
+        AXIOS({
+          method: 'GET',
+          url: 'agereport/reports/'+this.id
+        }).then((res) => {
+          this.data.name = res.data.data.nome
+          this.data.name_archive = res.data.data.nome_arquivo
+          this.data.query = res.data.data.query
+          this.data.database = res.data.data.banco_solicitado
+          this.data.isPeriod = res.data.data.isPeriodo
+          this.data.isPeriodHour = res.data.data.isPeriodoHora
+          this.data.headers = res.data.data.cabecalhos
 
-      })
+        })
+      }
     },
     editReport: function () {
       AXIOS({
@@ -108,6 +111,15 @@ export default {
           status: 'sucess',
           msg: res.data.msg
         })
+      })
+    },
+    newReport: function () {
+      AXIOS({
+        method: 'POST',
+        url: 'agereport/reports/',
+        data: this.data
+      }).then((res) => {
+        alert(res.data.msg)
       })
     },
     returnPage: function () {

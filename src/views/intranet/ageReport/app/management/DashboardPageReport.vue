@@ -76,6 +76,8 @@
               <div class="filters">
                 <input type="text" id="searchReport" name="searchReport" placeholder="Buscar relatório..." autocomplete="off"
                        v-model="searchReport">
+                <button @click="editReport(0, '')">Novo relatório</button>
+
               </div>
               <div id="reports" class="animation-down" v-if="status === true">
                 <div class="report"
@@ -334,6 +336,11 @@ export default {
         &:focus {
           box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;      }
       }
+
+      button {
+        @include button-pattern;
+        margin-left: 4vw;
+      }
     }
 
     .content-reports {
@@ -344,7 +351,7 @@ export default {
         @include flex(row, flex-start, initial, 20px);
         flex-wrap: wrap;
         overflow-y: auto;
-        max-height: 70vh;
+        max-height: 60vh;
         padding: 2vh 2px;
 
 
