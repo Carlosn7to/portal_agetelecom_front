@@ -32,7 +32,6 @@
               <div class="filters">
                 <input type="text" id="search" name="search" placeholder="Buscar e-mail..." autocomplete="off"
                        v-model="search">
-                <button @click="newAccess">Liberar acesso</button>
               </div>
               <div class="list">
                 <div class="list-header">
@@ -42,32 +41,20 @@
                   <div class="item-list-header" style="text-align: left; width: 25%">
                     E-mail
                   </div>
-                  <div class="item-list-header" style="text-align: center; width: 12%">
-                    Função
-                  </div>
-                  <div class="item-list-header" style="text-align: center; width: 12%">
-                    Setor
-                  </div>
-                  <div class="item-list-header"  style="text-align: center; width: 12%">
-                    Nível de acesso
+                  <div class="item-list-header" style="text-align: center; width: 25%">
+                    Acesso
                   </div>
                 </div>
                 <div class="items-list-body animation-down" v-if="status === true">
-                  <div class="list-body" v-for="item in UsersFiltered" :key="item.id">
+                  <div class="list-body" v-for="item in UsersFiltered" :key="item.id" @click="editAccess(item.id, item.name, item.access)">
                     <div class="item-list-body" style="text-align: left; width: 25%">
                       {{ item.name }}
                     </div>
                     <div class="item-list-body" style="text-align: left; width: 25%">
                       {{ item.email }}
                     </div>
-                    <div class="item-list-body" style="text-align: center; width: 12%">
-                      {{ item.funcao }}
-                    </div>
-                    <div class="item-list-body" style="text-align: center; width: 12%">
-                      {{ item.setor }}
-                    </div>
-                    <div class="item-list-body"  style="text-align: center; width: 12%">
-                      {{ item.nivel }}
+                    <div class="item-list-body" style="text-align: center; width: 25%">
+                      {{ item.access ? 'Ativo' : 'Inativo' }}
                     </div>
                   </div>
                 </div>
@@ -97,16 +84,18 @@
           :id="id"
           :name="report"
           @msg="editMsg"
-          @close-page="closePage"
-        />
-        <NewAccess
-          v-if="page === 'newAccess'"
+          @close-page="closePage('reports')"
         />
       </div>
     </div>
   </div>
   <div class="loading-bar" v-if="loading === true">
   </div>
+  <EditAccess
+      v-if="modal === 'editAccess'"
+      @close-page="closePage('users')"
+      :data="dataEdit"
+  />
 </template>
 
 <script>
@@ -116,7 +105,7 @@ import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 import {AXIOS} from "../../../../../../services/api.ts";
 import EditReport from "@/components/ageReport/EditReport";
-import NewAccess from "@/components/ageReport/NewAccess";
+import EditAccess from "@/components/ageReport/EditAccess";
 
 export default {
   name: "DashboardPageReport",
@@ -124,7 +113,7 @@ export default {
     MenuApp,
     HeaderApp,
     EditReport,
-    NewAccess
+    EditAccess
   },
   data () {
     return {
@@ -137,7 +126,13 @@ export default {
       searchReport: '',
       loading: true,
       id: 0,
-      report: ''
+      report: '',
+      modal: '',
+      dataEdit: {
+        name: '',
+        id: 0,
+        access: false
+      }
     }
   },
   methods: {
@@ -149,7 +144,10 @@ export default {
 
       AXIOS({
         method: 'GET',
-        url: 'agereport/users-permiteds'
+        url: 'admin/access-systems',
+        params: {
+          system: 'agereport'
+        }
       }).then((res) => {
         this.data = res.data
         this.status = true
@@ -164,7 +162,6 @@ export default {
       AXIOS({
         method: 'GET',
         url: 'agereport/report/reports'
-
       }).then((res) => {
         this.dataReport = res.data
         this.status = true
@@ -179,13 +176,22 @@ export default {
     editMsg: function (data) {
       alert(data.msg)
     },
-    closePage: function () {
-      this.page = 'Relatórios'
-      this.id = 0
-      this.report = ''
+    closePage: function (type) {
+      if(type === 'reports') {
+        this.page = 'Relatórios'
+        this.id = 0
+        this.report = ''
+      }
+
+      if(type === 'users') {
+        this.modal = ''
+      }
     },
-    newAccess: function () {
-      this.page = 'newAccess'
+    editAccess: function (id, name, access) {
+      this.dataEdit.id = id
+      this.dataEdit.name = name
+      this.dataEdit.access = access
+      this.modal = 'editAccess'
     }
   },
   computed: {
