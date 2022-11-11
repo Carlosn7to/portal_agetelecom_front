@@ -147,6 +147,9 @@ export default {
         url: 'admin/access-systems',
         params: {
           system: 'agereport'
+        },
+        headers: {
+          'Authorization': 'Bearer'+Cookie.get('token')
         }
       }).then((res) => {
         this.data = res.data
@@ -161,7 +164,10 @@ export default {
 
       AXIOS({
         method: 'GET',
-        url: 'agereport/report/reports'
+        url: 'agereport/report/reports',
+        headers: {
+          'Authorization': 'Bearer'+Cookie.get('token')
+        }
       }).then((res) => {
         this.dataReport = res.data
         this.status = true

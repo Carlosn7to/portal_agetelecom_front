@@ -9,10 +9,10 @@
         <div class="filters">
           <input type="text" id="searchReport" name="searchReport" placeholder="Buscar relatório..." autocomplete="off"
                  v-model="searchReport">
-          <button @click="alternateAccess()">{{ data.access ? 'Inativar acesso' : 'Ativar acesso' }}</button>
+          <button @click="alternateUserAccess()">{{ dataUser.access ? 'Inativar acesso' : 'Ativar acesso' }}</button>
         </div>
         <div id="reports" class="animation-down" v-if="status === true">
-          <div class="report" v-for="item in ReportsFiltered" :key="item.id">
+          <div class="report" v-for="item in ReportsFiltered" :key="item.id" @click="alternateReportAccess(dataUser.id,item.id)">
             <div>
               <i class="fi fi-rr-document-signed"></i>
               <span>{{ item.report }}</span>
@@ -27,6 +27,7 @@
 
 <script>
 import {AXIOS} from "../../../services/api.ts";
+import Cookie from "js-cookie";
 
 export default {
   name: "EditAccess",
@@ -48,20 +49,43 @@ export default {
       this.$emit('close-page')
     },
     getReports: function () {
+      this.dataReport = {}
       AXIOS({
         method: 'GET',
-        url: `admin/reports-permitteds/${this.data.id}`
+        url: `admin/reports-permitteds/${this.data.id}`,
+        headers: {
+          'Authorization': 'Bearer'+Cookie.get('token')
+        }
       }).then((res) => {
         this.dataReport = res.data
         this.status = true
       })
     },
-    alternateAccess: function () {
+    alternateUserAccess: function () {
       AXIOS({
         method: 'PUT',
-        url: `admin/reports-permitteds/${this.data.id}`
+        url: `admin/access-systems/alternate/${this.data.id}`,
+        headers: {
+          'Authorization': 'Bearer'+Cookie.get('token')
+        },
+        params: {
+          system: 'agereport'
+        }
       }).then((res) => {
         this.dataUser.access = res.data.access
+        alert(res.data.msg)
+      })
+    },
+    alternateReportAccess: function (idUser, idReport) {
+      AXIOS({
+        method: 'PUT',
+        url: `admin/reports-permitteds/alternate/${idUser}/${idReport}/`,
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token')
+        }
+      }).then((res) => {
+        alert(res.data.msg)
+        this.getReports()
       })
     }
   },

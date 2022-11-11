@@ -80,7 +80,10 @@ export default {
       if(this.id !== 0) {
         AXIOS({
           method: 'GET',
-          url: 'agereport/reports/'+this.id
+          url: 'agereport/reports/'+this.id,
+          headers: {
+            'Authorization': 'Bearer'+Cookie.get('token')
+          }
         }).then((res) => {
           this.data.name = res.data.data.nome
           this.data.namearchive = res.data.data.nome_arquivo
