@@ -52,6 +52,7 @@ export default {
     },
     getReports: function () {
       this.loading = true
+      this.status = false
 
       this.dataReport = {}
       AXIOS({
