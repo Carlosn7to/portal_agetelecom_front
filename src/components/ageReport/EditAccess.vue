@@ -23,6 +23,7 @@
       </div>
     </div>
   </div>
+  <div class="loading-bar" v-if="loading === true"></div>
 </template>
 
 <script>
@@ -41,7 +42,8 @@ export default {
       searchReport: '',
       dataReport: {},
       status: false,
-      dataUser: this.data
+      dataUser: this.data,
+      loading: true
     }
   },
   methods: {
@@ -49,6 +51,8 @@ export default {
       this.$emit('close-page')
     },
     getReports: function () {
+      this.loading = true
+
       this.dataReport = {}
       AXIOS({
         method: 'GET',
@@ -58,10 +62,13 @@ export default {
         }
       }).then((res) => {
         this.dataReport = res.data
+        this.loading = false
         this.status = true
       })
     },
     alternateUserAccess: function () {
+      this.loading = true
+
       AXIOS({
         method: 'PUT',
         url: `admin/access-systems/alternate/${this.data.id}`,
@@ -73,17 +80,21 @@ export default {
         }
       }).then((res) => {
         this.dataUser.access = res.data.access
+        this.loading = false
         alert(res.data.msg)
       })
     },
     alternateReportAccess: function (idUser, idReport) {
+      this.loading = true
+
       AXIOS({
         method: 'PUT',
-        url: `admin/reports-permitteds/alternate/${idUser}/${idReport}/`,
+        url: `admin/reports-permitteds/alternate/${idUser}/${idReport}`,
         headers: {
           'Authorization': 'Bearer '+Cookie.get('token')
         }
       }).then((res) => {
+        this.loading = false
         alert(res.data.msg)
         this.getReports()
       })
@@ -250,6 +261,10 @@ export default {
     }
   }
 
+}
+
+.loading-bar {
+  @include bar;
 }
 
 </style>
