@@ -93,9 +93,9 @@
               <div class="filters">
                 <span>Selecione o mês</span>
                 <div class="buttons-filter">
-                  <span :class="{ 'active' : filter.month === '09'}" @click="getSellers('09')">Setembro</span>
                   <span :class="{ 'active' : filter.month === '10'}" @click="getSellers('10')">Outubro</span>
                   <span :class="{ 'active' : filter.month === '11'}" @click="getSellers('11')">Novembro</span>
+                  <span :class="{ 'active' : filter.month === '12'}" @click="getSellers('12')">Dezembro</span>
                 </div>
               </div>
             </div>

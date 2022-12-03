@@ -15,6 +15,7 @@ import SalesSupCommission from "@/views/intranet/ageRv/app/commercial/dashboard/
 import NewUser from "@/views/intranet/app/management/NewUser";
 import HomePageBoard from '@/views/intranet/ageBoard/app/HomePage';
 import DashboardPageReport from '@/views/intranet/ageReport/app/management/DashboardPageReport.vue';
+import DashboardManagement from "@/views/intranet/ageBoard/app/management/DashboardManagement";
 
 const routes = [
   {
@@ -142,6 +143,15 @@ const routes = [
     path: '/ageBoard/home',
     name: 'HomePage',
     component: HomePageBoard,
+    beforeEnter: [
+      Guard.auth,
+      Guard.permission_board
+    ]
+  },
+  {
+    path: '/ageBoard/gerenciamento/dashboards',
+    name: 'DashboardManagement',
+    component: DashboardManagement,
     beforeEnter: [
       Guard.auth,
       Guard.permission_board
