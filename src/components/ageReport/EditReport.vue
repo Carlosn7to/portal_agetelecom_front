@@ -29,11 +29,10 @@
         </div>
         <div class="inputs-text">
           <label for="period">Tipo de filtro</label>
-          <select name="period" id="period" required>
+          <select name="period" id="period" required v-model="data.type">
             <option value="0" :selected="data.isPeriod === 0 || data.isPeriodHour === 0">--- Nenhum filtro ---</option>
             <option value="1" :selected="data.isPeriod === 1" >Data</option>
             <option value="2" :selected="data.isPeriodHour === 1">Data e hora</option>
-            <option value="3">Competência</option>
           </select>
         </div>
         <div class="inputs-text">
@@ -70,7 +69,8 @@ export default {
         isPeriod: 0,
         isPeriodHour: 0,
         isCompetence: 0,
-        headers: ''
+        headers: '',
+        type: 0
       },
       msg: '',
     }
