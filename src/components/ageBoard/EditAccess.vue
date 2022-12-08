@@ -7,10 +7,35 @@
       <div class="content-card">
         <h1>Editar acesso - {{ data.name }}</h1>
         <div class="filters">
-          <input type="text" id="searchBoard" name="searchBoard" placeholder="Buscar relatório..." autocomplete="off"
+          <input type="text" id="searchBoard" name="searchBoard" placeholder="Buscar dashboard..." autocomplete="off"
                  v-model="searchBoard">
+          <button v-if="page === 'items'" @click="page = 'dashboards', searchBoard = ''">Voltar</button>
           <button @click="alternateUserAccess()">{{ dataUser.access ? 'Inativar acesso' : 'Ativar acesso' }}</button>
         </div>
+        <div id="list-boards" v-if="page === 'dashboards' && status === true">
+          <div class="item" v-for="item in DashboardsFiltered || []" :key="item.id">
+            <span>
+              <i class="fi fi-rr-chart-pie"></i>
+              {{ item.dashboard }}
+            </span>
+            <div class="actions">
+              <i class="fi fi-rr-arrow-square-right" @click="getItems(item.id)" style="font-size: 2rem"></i>
+            </div>
+          </div>
+        </div>
+        <div id="list-boards"  v-if="page === 'items' && status === true">
+          <div class="item" v-for="item in ItemsFiltered || []" :key="item.id">
+            <span>
+              <i class="fi fi-rr-chart-pie"></i>
+              {{ item.item }}
+            </span>
+            <div class="actions">
+              <i class="fi fi-br-check" style="font-size: 1.6rem;" v-if="item.status === false"></i>
+              <i class="fi fi-br-cross" style="font-size: 1.4rem;" v-if="item.status === true"></i>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -34,7 +59,10 @@ export default {
       dataReport: {},
       status: false,
       dataUser: this.data,
-      loading: true
+      loading: true,
+      dataBoards: {},
+      dataItems: {},
+      page: 'dashboards'
     }
   },
   methods: {
@@ -51,7 +79,7 @@ export default {
           'Authorization': 'Bearer'+Cookie.get('token')
         },
         params: {
-          system: 'agereport'
+          system: 'ageboard'
         }
       }).then((res) => {
         this.dataUser.access = res.data.access
@@ -59,19 +87,64 @@ export default {
         alert(res.data.msg)
       })
     },
+    getBoards: function () {
+      this.status = false
+      AXIOS({
+        method: 'GET',
+        url: `ageboard/dashboard`,
+        headers: {
+          'Authorization': 'Bearer'+Cookie.get('token')
+        }
+      }).then((res) => {
+        this.dataBoards = res.data
+        this.loading = false
+        this.status = true
+      })
+    },
+    getItems: function (dashboardId) {
+      this.status = false
+      this.page = 'items'
+      this.loading = true
+      this.searchBoard = ''
+      AXIOS({
+        method: 'GET',
+        url: `ageboard/dashboard-items-management`,
+        headers: {
+          'Authorization': 'Bearer'+Cookie.get('token')
+        },
+        params: {
+          dashboardId: dashboardId,
+          userId: this.data.id
+        }
+      }).then((res) => {
+        this.dataItems = res.data
+        this.loading = false
+        this.status = true
+      })
+    }
   },
   computed: {
-    ReportsFiltered: function () {
+    DashboardsFiltered: function () {
       let values = []
-      values = this.dataReport.filter((value) => {
+      values = this.dataBoards.filter((value) => {
         return (
-            value.report.toLowerCase().indexOf(this.searchBoard.toLowerCase()) > -1
+            value.dashboard.toLowerCase().indexOf(this.searchBoard.toLowerCase()) > -1
+        )
+      })
+      return values
+    },
+    ItemsFiltered: function () {
+      let values = []
+      values = this.dataItems.filter((value) => {
+        return (
+            value.item.toLowerCase().indexOf(this.searchBoard.toLowerCase()) > -1
         )
       })
       return values
     }
   },
   mounted() {
+    this.getBoards()
   }
 }
 </script>
@@ -101,53 +174,6 @@ export default {
 
     }
 
-    .list {
-      height: 60%;
-      margin-top: 2vh;
-
-      .list-header, .list-body {
-        @include flex(row, flex-start, initial, 10px);
-
-        .item-list-header, .item-list-body {
-          width: calc((100% / 6) - 20px);
-        }
-      }
-
-      .list-header {
-        border-bottom: 2px solid #cccccc80;
-        align-items: center;
-        margin-bottom: 2vh;
-        padding: 2vh 10px;
-
-        .item-list-header {
-          color: $ml-text-menu;
-          font-size: 1.6rem;
-          font-weight: 400;
-        }
-      }
-
-      .items-list-body {
-        max-height: 70%;
-        overflow-y: auto;
-        padding: 2px;
-
-        .list-body {
-          background-color: #fff;
-          padding: 2vh 20px;
-          border-radius: 3px;
-          @include sh-h;
-          margin: 2vh 0;
-          @include tr-p;
-
-          .item-list-body {
-            font-size: 1.2rem;
-            color: $ml-text-h1;
-            font-weight: 500;
-          }
-        }
-      }
-    }
-
     .filters {
       padding: 3vh 0;
       input[type=text] {
@@ -162,62 +188,74 @@ export default {
           box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;      }
       }
 
-      button {
+      button:nth-child(2) {
         @include button-pattern;
         margin-left: 1vw;
       }
+
+      button:nth-child(3) {
+        @include button-pattern;
+        background-color: #fff;
+        color: $age-bl;
+        border-color: $age-bl;
+        margin-left: 1vw;
+
+        &:hover {
+          background-color: $age-bl;
+          color: #fff;
+        }
+      }
     }
 
 
-
-    #reports {
-      @include container(100%, initial, 4vh 0vw, transparent);
-      @include flex(row, flex-start, initial, 20px);
-      flex-wrap: wrap;
+    #list-boards {
+      padding: 1vh 3px;
+      display: flex;
+      flex-direction: column;
+      gap: 2vh;
+      max-height: 80%;
       overflow-y: auto;
-      max-height: 60vh;
-      padding: 2vh 2px;
 
-
-      .report {
-        @include container(initial, initial, 1vh 1vw, #fff);
-        width: calc((100% / 2) - 20px);
-        min-height: 5vh;
+      .item {
+        width: 100%;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        justify-content: space-between;
+        border: 2px solid #ffff;
+        transition: .2s ease-in-out;
         border-radius: 5px;
-        @include sh-h;
-        @include tr-p;
-        @include flex(row, space-between, center, 5px);
-        word-break: break-all;
-        border: 2px solid #fff;
 
-
-
-        div {
-          @include flex(row, flex-start, center, 5px);
-
-          i {
-            font-size: 2.4rem;
-            color: $age-or;
-          }
-
-          span {
-            font-size: 1.4rem;
-            text-align: center;
-            font-weight: 600;
-            color: $age-bl;
-          }
-
+        &:hover {
+          border-color: $age-bl;
         }
 
         span {
-          font-size: 1.2rem;
-          text-align: center;
-          font-weight: 600;
           color: $age-bl;
+          font-size: 1.4rem;
+          font-weight: 500;
+          display: flex;
+          align-items: center;
+          gap: 1vw;
+
+          i {
+            color: $age-or;
+            font-size: 2rem;
+          }
+        }
+
+        i {
+          color: $age-bl;
+          @include tr-p;
+
+          &:hover {
+            color: $age-or;
+          }
         }
       }
-
     }
+
   }
 
 }
