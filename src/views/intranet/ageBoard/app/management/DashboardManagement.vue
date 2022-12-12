@@ -12,7 +12,7 @@
            :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
                   'mode-d-p' : mode === 'dark'}">
         <div class="management" v-if="page === 'Usuários' || page === 'Dashboards'">
-          <h1>Gerenciamento - {{ page }}</h1>
+          <h1>Gerenciamentos - {{ page }}</h1>
           <div class="container-mng">
             <div class="menu-mng">
               <nav>
@@ -46,7 +46,7 @@
                   </div>
                 </div>
                 <div class="items-list-body animation-down" v-if="status === true">
-                  <div class="list-body" v-for="item in UsersFiltered" :key="item.id" @click="editAccess(item.id, item.name, item.access)">
+                  <div class="list-body" v-for="(item, index) in UsersFiltered" :key="index" @click="editAccess(item.id, item.name, item.access)">
                     <div class="item-list-body" style="text-align: left; width: 25%">
                       {{ item.name }}
                     </div>

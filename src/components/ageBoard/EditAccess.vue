@@ -24,14 +24,14 @@
           </div>
         </div>
         <div id="list-boards"  v-if="page === 'items' && status === true">
-          <div class="item" v-for="item in ItemsFiltered || []" :key="item.id">
+          <div class="item" v-for="(item, index) in ItemsFiltered || []" :key="item.id">
             <span>
               <i class="fi fi-rr-chart-pie"></i>
               {{ item.item }}
             </span>
             <div class="actions">
-              <i class="fi fi-br-check" style="font-size: 1.6rem;" v-if="item.status === false"></i>
-              <i class="fi fi-br-cross" style="font-size: 1.4rem;" v-if="item.status === true"></i>
+              <i class="fi fi-br-check" style="font-size: 1.6rem;" v-if="item.status === false" @click="alterItemAccess(index)"></i>
+              <i class="fi fi-br-cross" style="font-size: 1.4rem;" v-if="item.status === true" @click="alterItemAccess(index)"></i>
             </div>
           </div>
         </div>
@@ -53,6 +53,7 @@ export default {
       required: true
     }
   },
+  emits: ['close-page'],
   data () {
     return {
       searchBoard: '',
@@ -121,6 +122,28 @@ export default {
         this.loading = false
         this.status = true
       })
+    },
+    alterItemAccess: function (index) {
+       AXIOS({
+         method: 'PUT',
+         url: 'ageboard/dashboard-items-alternate',
+         params: {
+           idUser: this.dataUser.id,
+           idItem: this.dataItems[index].id
+         }
+       }).then((res) => {
+         if(this.dataItems[index].status === true) {
+           this.dataItems[index].status = false
+         } else {
+           this.dataItems[index].status = true
+         }
+
+         alert(res.data.msg)
+
+         if(res.data.access === true) {
+           this.dataUser.access = true
+         }
+       })
     }
   },
   computed: {
@@ -215,6 +238,7 @@ export default {
       gap: 2vh;
       max-height: 80%;
       overflow-y: auto;
+      animation: .2s ease-in-out forwards down;
 
       .item {
         width: 100%;
@@ -258,6 +282,17 @@ export default {
 
   }
 
+}
+
+@keyframes down {
+  from {
+    transform: translateY(-20px);
+    opacity: .6;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
 }
 
 .loading-bar {
