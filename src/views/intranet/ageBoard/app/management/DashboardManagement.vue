@@ -17,11 +17,11 @@
             <div class="menu-mng">
               <nav>
                 <ul>
-                  <li :class="{ 'selected' : page === 'Usuários' }" @click="page = 'Usuários'">
+                  <li :class="{ 'selected' : page === 'Usuários' }" @click="page = 'Usuários', search = ''">
                     <i class="fi fi-rr-users"></i>
                     <span>Usuários</span>
                   </li>
-                  <li :class="{ 'selected' : page === 'Dashboards' }" @click="page = 'Dashboards'">
+                  <li :class="{ 'selected' : page === 'Dashboards' }" @click="page = 'Dashboards', search = ''">
                     <i class="fi fi-rr-search-alt"></i>
                     <span>Dashboards</span>
                   </li>
@@ -60,6 +60,39 @@
                 </div>
               </div>
             </div>
+            <div class="content-users animation-down" v-if="page === 'Dashboards'">
+              <div class="filters">
+                <input type="text" id="search" name="search" placeholder="Buscar Dashboard..." autocomplete="off"
+                       v-model="search">
+                <button>Novo dashboard</button>
+              </div>
+              <div class="list">
+                <div class="list-header">
+                  <div class="item-list-header" style="text-align: left; width: 25%">
+                    Nome
+                  </div>
+                  <div class="item-list-header" style="text-align: left; width: 25%">
+                    Adicionado por
+                  </div>
+                  <div class="item-list-header" style="text-align: center; width: 25%">
+                    Status
+                  </div>
+                </div>
+                <div class="items-list-body animation-down" v-if="status === true">
+                  <div class="list-body" v-for="item in DashFiltered" :key="item.id">
+                    <div class="item-list-body" style="text-align: left; width: 25%">
+                      {{ item.dashboard }}
+                    </div>
+                    <div class="item-list-body" style="text-align: left; width: 25%">
+                      carlos.neto@agetelecom.com.br
+                    </div>
+                    <div class="item-list-body" style="text-align: center; width: 25%">
+                      Ativo
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -72,6 +105,7 @@
       @close-page="closePage('users')"
       :data="dataEdit"
   />
+
 </template>
 
 <script>
@@ -92,7 +126,7 @@ export default {
   data () {
     return {
       mode: Cookie.get('mode'),
-      page: 'Usuários',
+      page: 'Dashboards',
       data: {},
       status: false,
       loading: true,
@@ -102,7 +136,8 @@ export default {
         name: '',
         id: 0,
         access: false
-      }
+      },
+      dataDash: {}
     }
   },
   methods: {
@@ -145,6 +180,17 @@ export default {
         this.modal = ''
       }
     },
+    getDashboards: function() {
+      AXIOS({
+        method: 'GET',
+        url: 'ageboard/dashboards',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token')
+        }
+      }).then((res) => {
+        this.dataDash = res.data
+      })
+    }
   },
   computed: {
     UsersFiltered: function () {
@@ -155,10 +201,20 @@ export default {
         )
       })
       return values
+    },
+    DashFiltered: function () {
+      let values = []
+      values = this.dataDash.filter((value) => {
+        return (
+            value.dashboard.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        )
+      })
+      return values
     }
   },
   mounted() {
     this.getUsers()
+    this.getDashboards()
   }
 }
 </script>
