@@ -64,7 +64,7 @@
               <div class="filters">
                 <input type="text" id="search" name="search" placeholder="Buscar Dashboard..." autocomplete="off"
                        v-model="search">
-                <button>Novo dashboard</button>
+                <button @click="modal = 'newDashboard'">Novo dashboard</button>
               </div>
               <div class="list">
                 <div class="list-header">
@@ -105,6 +105,14 @@
       @close-page="closePage('users')"
       :data="dataEdit"
   />
+  <NewDashboard
+    v-if="modal === 'newDashboard'"
+    @close-page="closePage('Dashboards')"
+
+  />
+  <EditDashboard
+    v-if="modal === 'editDashboard'"
+  />
 
 </template>
 
@@ -115,13 +123,17 @@ import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 import {AXIOS} from "../../../../../../services/api.ts";
 import EditAccess from "@/components/ageBoard/EditAccess";
+import NewDashboard from "@/components/ageBoard/NewDashboard";
+import EditDashboard from "@/components/ageBoard/EditDashboard";
 
 export default {
   name: "DashboardManagement",
   components: {
     MenuApp,
     HeaderApp,
-    EditAccess
+    EditAccess,
+    NewDashboard,
+    EditDashboard
   },
   data () {
     return {
@@ -131,7 +143,7 @@ export default {
       status: false,
       loading: true,
       search: '',
-      modal: '',
+      modal: 'editDashboard',
       dataEdit: {
         name: '',
         id: 0,
@@ -170,10 +182,11 @@ export default {
       this.modal = 'editAccess'
     },
     closePage: function (type) {
-      if(type === 'reports') {
+      if(type === 'Dashboards') {
         this.page = 'Dashboards'
         this.id = 0
-        this.report = ''
+        this.modal = ''
+        this.getDashboards()
       }
 
       if(type === 'users') {
@@ -312,7 +325,7 @@ export default {
         }
 
         .items-list-body {
-          max-height: 70%;
+          height: 70vh;
           overflow-y: auto;
           padding: 2px;
 

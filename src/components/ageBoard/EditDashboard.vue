@@ -5,33 +5,33 @@
         <i class="fi fi-rr-cross-small" @click="closePage"></i>
       </div>
       <div class="content-card">
-        <h1>Editar acesso - {{ data.name }}</h1>
+        <h1>Editar Dashboard - </h1>
         <div class="filters">
-          <input type="text" id="searchBoard" name="searchBoard" placeholder="Buscar dashboard..." autocomplete="off"
+          <input type="text" id="searchBoard" name="searchBoard" placeholder="Buscar item..." autocomplete="off"
                  v-model="searchBoard">
           <button v-if="page === 'items'" @click="page = 'dashboards', searchBoard = ''">Voltar</button>
-          <button @click="alternateUserAccess()">{{ dataUser.access ? 'Inativar acesso' : 'Ativar acesso' }}</button>
+          <button>Inativar dashboard</button>
         </div>
         <div id="list-boards" v-if="page === 'dashboards' && status === true">
-          <div class="item" v-for="item in DashboardsFiltered || []" :key="item.id">
+          <div class="item">
             <span>
               <i class="fi fi-rr-chart-pie"></i>
-              {{ item.dashboard }}
+              dashboard
             </span>
             <div class="actions">
-              <i class="fi fi-rr-arrow-square-right" @click="getItems(item.id)" style="font-size: 2rem"></i>
+              <i class="fi fi-rr-arrow-square-right" style="font-size: 2rem"></i>
             </div>
           </div>
         </div>
         <div id="list-boards"  v-if="page === 'items' && status === true">
-          <div class="item" v-for="(item, index) in ItemsFiltered || []" :key="item.id">
+          <div class="item">
             <span>
               <i class="fi fi-rr-chart-pie"></i>
-              {{ item.item }}
+              item
             </span>
             <div class="actions">
-              <i class="fi fi-br-check" style="font-size: 1.6rem;" v-if="item.status === false" @click="alterItemAccess(index)"></i>
-              <i class="fi fi-br-cross" style="font-size: 1.4rem;" v-if="item.status === true" @click="alterItemAccess(index)"></i>
+              <i class="fi fi-br-check" style="font-size: 1.6rem;"></i>
+              <i class="fi fi-br-cross" style="font-size: 1.4rem;"></i>
             </div>
           </div>
         </div>
@@ -43,8 +43,7 @@
 </template>
 
 <script>
-import {AXIOS} from "../../../services/api.ts";
-import Cookie from "js-cookie";
+
 
 export default {
   name: "EditAccess",
@@ -69,11 +68,14 @@ export default {
   methods: {
     closePage: function () {
       this.$emit('close-page')
+    },
+    getItems: function () {
+      alert('getItems')
     }
   },
   computed: {},
   mounted() {
-    this.getBoards()
+    this.getItems()
   }
 }
 </script>
