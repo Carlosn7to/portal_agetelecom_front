@@ -80,6 +80,12 @@
             <br>
             <button @click="newUser(data.id)">Novo usuário</button>
           </div>
+          <div class="user"  v-if="data.username === '' && user.email === ''">
+            <span>Vincular usuário manualmente</span>
+            <br>
+            <br>
+            <button @click="newUser(data.id)">Vincular usuário</button>
+          </div>
           <div class="user" v-if="data.username !== '' || user.email !== ''">
             <span>Dados de acesso</span>
             <br>
@@ -178,7 +184,7 @@ export default {
   data() {
     return {
       res: {},
-      page: 'overview',
+      page: 'user',
       user: {
         email: '',
         password: ''
@@ -412,6 +418,14 @@ export default {
               color: $ml-text-menu;
               user-select: text;
             }
+          }
+
+          input[type=text] {
+            @include inp-form-text;
+          }
+
+          button {
+            width: 30%;
           }
         }
 
