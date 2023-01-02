@@ -173,7 +173,7 @@ export default {
       loading: true,
       data: {},
       dataStage: {},
-      month: '09',
+      month: '11',
       year: '2022',
       stage: 'channels',
       search: '',

@@ -93,9 +93,9 @@
               <div class="filters">
                 <span>Selecione o mês</span>
                 <div class="buttons-filter">
-                  <span :class="{ 'active' : filter.month === '10'}" @click="getSellers('10')">Outubro</span>
-                  <span :class="{ 'active' : filter.month === '11'}" @click="getSellers('11')">Novembro</span>
-                  <span :class="{ 'active' : filter.month === '12'}" @click="getSellers('12')">Dezembro</span>
+                  <span :class="{ 'active' : filter.month === '11'}" @click="getSellers('11', '2022')">Novembro - 2022</span>
+                  <span :class="{ 'active' : filter.month === '12'}" @click="getSellers('12', '2022')">Dezembro - 2022</span>
+                  <span :class="{ 'active' : filter.month === '1'}" @click="getSellers('1', '2023')">Janeiro - 2023</span>
                 </div>
               </div>
             </div>
@@ -174,7 +174,7 @@ export default {
     modeView: function (mode) {
       this.mode = mode
     },
-    getSellers: function (month) {
+    getSellers: function (month, year) {
 
       this.loading = true
       this.filter.month = month
@@ -189,7 +189,7 @@ export default {
           'Authorization': 'Bearer ' + Cookie.get('token')
         },
         params: {
-          year: '2022',
+          year: year,
           month: this.filter.month
         }
       }).then((res) => {
@@ -211,7 +211,7 @@ export default {
         this.filter.actualMonth = (date.getMonth() + 1).toString()
       }
 
-      this.getSellers(this.filter.actualMonth)
+      this.getSellers(this.filter.actualMonth, '2023')
     },
     extractView: function (title, data) {
       this.page = 'extract'

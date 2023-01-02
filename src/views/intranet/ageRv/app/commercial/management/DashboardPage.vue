@@ -112,6 +112,7 @@ export default {
     HeaderApp,
     EditCollaborator
   },
+  emits: ['closePage'],
   data () {
     return {
       mode: Cookie.get('mode'),

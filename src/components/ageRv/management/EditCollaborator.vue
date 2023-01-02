@@ -10,7 +10,7 @@
                   <i class="fi fi-rr-id-badge"></i>
                 </div>
               </li>
-              <li :class="{ 'page-selected' : page === 'user'}" @click="page = 'user'" v-if="data.isAD === 0 || data.isAD === null">
+              <li :class="{ 'page-selected' : page === 'user'}" @click="page = 'user'" v-if="statusReq === false && (data.isAD === 0 || data.isAD === null)">
                 <div>
                   <i class="fi fi-rr-user"></i>
                 </div>
@@ -84,7 +84,7 @@
             <span>Vincular usuário manualmente</span>
             <br>
             <br>
-            <button @click="newUser(data.id)">Vincular usuário</button>
+            <button @click="modal = 'vinc-user'">Vincular usuário</button>
           </div>
           <div class="user" v-if="data.username !== '' || user.email !== ''">
             <span>Dados de acesso</span>
@@ -169,13 +169,24 @@
       </form>
     </div>
   </div>
+  <VincUser
+    v-if="modal === 'vinc-user'"
+    @close-modal="modal = ''"
+    @close-req="closeReq()"
+    :collab="data"
+  />
 </template>
 
 <script>
 import {AXIOS} from "../../../../services/api.ts";
+import VincUser from "@/components/ageRv/management/VincUser";
 
 export default {
   name: "EditCollaborator",
+  components: {
+    VincUser
+  },
+  emits: ['close-page', 'successReq'],
   props: {
     data: {
       required: true
@@ -184,7 +195,7 @@ export default {
   data() {
     return {
       res: {},
-      page: 'user',
+      page: 'overview',
       user: {
         email: '',
         password: ''
@@ -199,7 +210,9 @@ export default {
       actualMeta: {
         status: false,
         value: this.data.meta,
-      }
+      },
+      modal: '',
+      statusReq: false
     }
   },
   methods: {
@@ -279,6 +292,11 @@ export default {
       } else {
         this.month = (date.getMonth() + 1).toString()
       }
+    },
+    closeReq: function () {
+      this.page = 'overview'
+      this.modal = ''
+      this.statusReq = true
     }
   },
   beforeMount() {

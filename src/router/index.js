@@ -16,12 +16,18 @@ import NewUser from "@/views/intranet/app/management/NewUser";
 import HomePageBoard from '@/views/intranet/ageBoard/app/HomePage';
 import DashboardPageReport from '@/views/intranet/ageReport/app/management/DashboardPageReport.vue';
 import DashboardManagement from "@/views/intranet/ageBoard/app/management/DashboardManagement";
+import TestComponent from "@/views/TestComponent";
 
 const routes = [
   {
     path: '/',
     name: 'login',
     component: LoginPage
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: TestComponent
   },
   {
     path: '/sistemas',
