@@ -16,12 +16,12 @@
         <template v-if="stage === 'supervisor'">
           <div id="filters">
             <div id="month">
-              <span :class="{ 'selectMonth' : month === '08' && mode === 'light',
-                              'selectMonthDark' : month === '08' && mode === 'dark' }" @click="getAnalytic('08'), month = '08'">Agosto</span>
-              <span :class="{ 'selectMonth' : month === '09' && mode === 'light',
-                              'selectMonthDark' : month === '09' && mode === 'dark' }" @click="getAnalytic('09'), month = '09'">Setembro</span>
               <span :class="{ 'selectMonth' : month === '10' && mode === 'light',
                               'selectMonthDark' : month === '10' && mode === 'dark' }" @click="getAnalytic('10'), month = '10'">Outubro</span>
+              <span :class="{ 'selectMonth' : month === '11' && mode === 'light',
+                              'selectMonthDark' : month === '11' && mode === 'dark' }" @click="getAnalytic('11'), month = '11'">Novembro</span>
+              <span :class="{ 'selectMonth' : month === '12' && mode === 'light',
+                              'selectMonthDark' : month === '12' && mode === 'dark' }" @click="getAnalytic('12'), month = '12'">Dezembro</span>
             </div>
           </div>
           <div class="items-header">
@@ -240,7 +240,7 @@ export default {
       loading: true,
       data: {},
       dataStage: {},
-      month: '08',
+      month: '11',
       year: '2022',
       stage: 'supervisor',
       search: '',
