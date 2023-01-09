@@ -173,7 +173,7 @@ export default {
       loading: true,
       data: {},
       dataStage: {},
-      month: '10',
+      month: '11',
       year: '2022',
       stage: 'channels',
       search: '',
@@ -245,6 +245,7 @@ export default {
     },
     CollaboratorsFiltered: function () {
       let values = []
+
       values = this.dataStage.filter((value) => {
         return (
             value.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1

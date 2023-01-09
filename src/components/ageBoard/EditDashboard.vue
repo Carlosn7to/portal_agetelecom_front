@@ -5,37 +5,24 @@
         <i class="fi fi-rr-cross-small" @click="closePage"></i>
       </div>
       <div class="content-card">
-        <h1>Editar Dashboard - </h1>
+        <h1>Editar Dashboard - {{ data.name }}</h1>
         <div class="filters">
           <input type="text" id="searchBoard" name="searchBoard" placeholder="Buscar item..." autocomplete="off"
-                 v-model="searchBoard">
-          <button v-if="page === 'items'" @click="page = 'dashboards', searchBoard = ''">Voltar</button>
-          <button>Inativar dashboard</button>
+                 v-model="search">
+          <button @click="tradeStatusDashboard">Adicionar novo item</button>
+          <button @click="tradeStatusDashboard">{{ data.active === 1 ? 'Inativar Dasboard' : 'Ativar Dashboard' }}</button>
         </div>
-        <div id="list-boards" v-if="page === 'dashboards' && status === true">
-          <div class="item">
+        <div id="list-boards" v-if="status === true && page === 'items'">
+          <div class="item" v-for="item in ItemsFiltered" :key="item.id">
             <span>
               <i class="fi fi-rr-chart-pie"></i>
-              dashboard
+              {{ item.item }}
             </span>
             <div class="actions">
               <i class="fi fi-rr-arrow-square-right" style="font-size: 2rem"></i>
             </div>
           </div>
         </div>
-        <div id="list-boards"  v-if="page === 'items' && status === true">
-          <div class="item">
-            <span>
-              <i class="fi fi-rr-chart-pie"></i>
-              item
-            </span>
-            <div class="actions">
-              <i class="fi fi-br-check" style="font-size: 1.6rem;"></i>
-              <i class="fi fi-br-cross" style="font-size: 1.4rem;"></i>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>
@@ -44,6 +31,9 @@
 
 <script>
 
+
+import {AXIOS} from "../../../services/api.ts";
+import Cookie from "js-cookie";
 
 export default {
   name: "EditAccess",
@@ -55,14 +45,12 @@ export default {
   emits: ['close-page'],
   data () {
     return {
-      searchBoard: '',
-      dataReport: {},
+      search: '',
+      dataBoard: this.data,
       status: false,
-      dataUser: this.data,
       loading: true,
-      dataBoards: {},
       dataItems: {},
-      page: 'dashboards'
+      page: 'items'
     }
   },
   methods: {
@@ -70,10 +58,48 @@ export default {
       this.$emit('close-page')
     },
     getItems: function () {
-      alert('getItems')
+      AXIOS({
+        method: 'GET',
+        url: 'ageboard/dashboard-items',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token')
+        },
+        params: {
+          id: this.data.id
+        }
+      }).then((res) => {
+        this.dataItems = res.data
+        this.status = true
+        this.loading = false
+
+      })
+    },
+    tradeStatusDashboard: function () {
+      this.loading = true
+      AXIOS({
+        method: 'DELETE',
+        url: 'ageboard/dashboard/'+this.data.id,
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token')
+        }
+      }).then((res) => {
+        this.dataBoard.active = this.data.active === 1 ? 0 : 1
+        this.loading = false
+        alert(res.data.msg)
+      })
     }
   },
-  computed: {},
+  computed: {
+    ItemsFiltered: function () {
+      let values = []
+      values = this.dataItems.filter((value) => {
+        return (
+            value.item.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        )
+      })
+      return values
+    }
+  },
   mounted() {
     this.getItems()
   }

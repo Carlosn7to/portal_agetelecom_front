@@ -79,7 +79,7 @@
                   </div>
                 </div>
                 <div class="items-list-body animation-down" v-if="status === true">
-                  <div class="list-body" v-for="item in DashFiltered" :key="item.id">
+                  <div class="list-body" v-for="item in DashFiltered" :key="item.id" @click="editDashboard(item.id, item.dashboard, item.active)">
                     <div class="item-list-body" style="text-align: left; width: 25%">
                       {{ item.dashboard }}
                     </div>
@@ -87,7 +87,7 @@
                       carlos.neto@agetelecom.com.br
                     </div>
                     <div class="item-list-body" style="text-align: center; width: 25%">
-                      Ativo
+                      {{ item.active === 1 ? 'Ativo' : 'Inativo' }}
                     </div>
                   </div>
                 </div>
@@ -112,6 +112,8 @@
   />
   <EditDashboard
     v-if="modal === 'editDashboard'"
+    @close-page="closePage('Dashboards')"
+    :data="dataEditDashboard"
   />
 
 </template>
@@ -143,13 +145,18 @@ export default {
       status: false,
       loading: true,
       search: '',
-      modal: 'editDashboard',
+      modal: '',
       dataEdit: {
         name: '',
         id: 0,
         access: false
       },
-      dataDash: {}
+      dataDash: {},
+      dataEditDashboard: {
+        name: '',
+        active: 0,
+        id: 0
+      }
     }
   },
   methods: {
@@ -202,7 +209,14 @@ export default {
         }
       }).then((res) => {
         this.dataDash = res.data
+        console.table(res.data)
       })
+    },
+    editDashboard: function (id, dashboard, active) {
+      this.dataEditDashboard.id = id
+      this.dataEditDashboard.name = dashboard
+      this.dataEditDashboard.active = active
+      this.modal = 'editDashboard'
     }
   },
   computed: {
