@@ -9,7 +9,7 @@
         <div class="filters">
           <input type="text" id="searchBoard" name="searchBoard" placeholder="Buscar item..." autocomplete="off"
                  v-model="search">
-          <button @click="tradeStatusDashboard">Adicionar novo item</button>
+          <button @click="newItem">Adicionar novo item</button>
           <button @click="tradeStatusDashboard">{{ data.active === 1 ? 'Inativar Dasboard' : 'Ativar Dashboard' }}</button>
         </div>
         <div id="list-boards" v-if="status === true && page === 'items'">
@@ -27,6 +27,11 @@
     </div>
   </div>
   <div class="loading-bar" v-if="loading === true"></div>
+  <NewItem
+    v-if="modal === 'newItem'"
+    @close-page="newItem"
+    :data="data"
+  />
 </template>
 
 <script>
@@ -34,9 +39,11 @@
 
 import {AXIOS} from "../../../services/api.ts";
 import Cookie from "js-cookie";
+import NewItem from "@/components/ageBoard/NewItem";
 
 export default {
   name: "EditAccess",
+  components: { NewItem },
   props: {
     data: {
       required: true
@@ -50,7 +57,8 @@ export default {
       status: false,
       loading: true,
       dataItems: {},
-      page: 'items'
+      page: 'items',
+      modal: ''
     }
   },
   methods: {
@@ -87,6 +95,13 @@ export default {
         this.loading = false
         alert(res.data.msg)
       })
+    },
+    newItem: function () {
+      if(this.modal === 'newItem') {
+        this.modal = 'items'
+      } else {
+        this.modal = 'newItem'
+      }
     }
   },
   computed: {
