@@ -155,23 +155,23 @@
             <span>Minhas vendas</span>
           </li>
         </router-link>
-        <router-link to="/ageRv/comercial/analitico"
-                     active-class="active-li"
-                     @click="loading = true"
-                     v-if="permissions.function === 'Gerente' ||
-                           permissions.function === 'Gerente geral' ||
-                           permissions.function === 'Diretoria'">
-          <li>
-            <div>
-              <i class="fi fi-rr-settings-sliders"></i>
-            </div>
-            <span>Analítico</span>
-          </li>
-        </router-link>
+<!--        <router-link to="/ageRv/comercial/analitico"-->
+<!--                     active-class="active-li"-->
+<!--                     @click="loading = true"-->
+<!--                     v-if="permissions.function === 'Gerente' ||-->
+<!--                           permissions.function === 'Gerente geral' ||-->
+<!--                           permissions.function === 'Diretoria'">-->
+<!--          <li>-->
+<!--            <div>-->
+<!--              <i class="fi fi-rr-settings-sliders"></i>-->
+<!--            </div>-->
+<!--            <span>Analítico</span>-->
+<!--          </li>-->
+<!--        </router-link>-->
         <router-link to="/ageRv/comercial/comissao"
                      active-class="active-li"
                      @click="loading = true"
-                     v-if="permissions.function === 'Diretoria' || permissions.function === 'Financeiro'">
+                     v-if="permissions.function === 'Diretoria' || permissions.function === 'Financeiro' || permissions.function === 'Gerente geral'">
           <li>
             <div>
               <i class="fi fi-rr-usd-square"></i>

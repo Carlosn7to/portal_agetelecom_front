@@ -270,7 +270,8 @@ export default {
         },
         data: {
           rulesRange: this.rulesRange,
-          month: '09'
+          month: '12',
+          year: '2022'
         }
       }).then((res) => {
         this.data = res.data
