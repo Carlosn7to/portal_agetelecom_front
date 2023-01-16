@@ -17,6 +17,8 @@ import HomePageBoard from '@/views/intranet/ageBoard/app/HomePage';
 import DashboardPageReport from '@/views/intranet/ageReport/app/management/DashboardPageReport.vue';
 import DashboardManagement from "@/views/intranet/ageBoard/app/management/DashboardManagement";
 import TestComponent from "@/views/TestComponent";
+import HomeControl from "@/views/intranet/AgeControl/app/HomePage";
+import DashboardControl from "@/views/intranet/AgeControl/app/management/DashboardPage";
 
 const routes = [
   {
@@ -161,6 +163,24 @@ const routes = [
     beforeEnter: [
       Guard.auth,
       Guard.permission_board
+    ]
+  },
+  {
+    path: '/ageControle/home',
+    name: 'HomePageControl',
+    component: HomeControl,
+    beforeEnter: [
+      Guard.auth,
+      Guard.permission_control
+    ]
+  },
+  {
+    path: '/ageControle/gerenciamento/dashboard',
+    name: 'DashboardControl',
+    component: DashboardControl,
+    beforeEnter: [
+      Guard.auth,
+      Guard.permission_control
     ]
   }
 

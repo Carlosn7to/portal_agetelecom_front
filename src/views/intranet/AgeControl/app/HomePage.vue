@@ -1,0 +1,136 @@
+<template>
+  <div id="content-app">
+    <MenuApp
+        :mode="mode"
+        :system="'ageControl'"
+    />
+    <div id="layer-app">
+      <HeaderApp
+          @mode="modeView"
+      />
+      <div id="content-page"
+           :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
+                  'mode-d-p' : mode === 'dark'}">
+        <h1>Painel operacional</h1>
+        <p>Aqui você poderá operar em todos os paineis disponíveis no sistema.</p>
+
+        <div id="content-pages">
+          <div id="menu-pages">
+            <div class="item-menu" @click="menuActive = 'report'" :class="{ 'activeMenu' : menuActive === 'report' }">Relatos</div>
+            <div class="item-menu" @click="menuActive = 'conductors'" :class="{ 'activeMenu' : menuActive === 'conductors' }">Condutores</div>
+            <div class="item-menu" @click="menuActive = 'vehicles'" :class="{ 'activeMenu' : menuActive === 'vehicles' }">Veículos</div>
+            <div class="item-menu" @click="menuActive = 'gas'" :class="{ 'activeMenu' : menuActive === 'gas' }">Postos</div>
+          </div>
+          <div id="items-page">
+            <reportPanel v-if="menuActive === 'report'" />
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+
+import MenuApp from "@/components/portal/_aux/MenuApp";
+import HeaderApp from "@/components/portal/_aux/HeaderApp";
+import Cookie from "js-cookie";
+import reportPanel from "@/components/ageControl/operatingPanel/reportPanel";
+
+export default {
+  name: "HomePage",
+  components: {
+    MenuApp,
+    HeaderApp,
+    reportPanel
+  },
+  data () {
+    return {
+      mode: Cookie.get('mode'),
+      menuActive: 'report'
+    }
+  },
+  methods: {
+    modeView: function (mode) {
+      this.mode = mode
+    }
+  },
+  mounted() {
+  }
+}
+</script>
+
+<style scoped lang="scss">
+
+#content-app {
+  p {
+    font-size: 1.2rem;
+    color: $ml-text-menu;
+    padding: 1vh 0;
+  }
+  #layer-app {
+    #content-page {
+      #content-pages {
+        width: 100%;
+        height: 80vh;
+        @include flex(column, flex-start, initial, 2vh);
+
+        #menu-pages {
+          width: 100%;
+          height: 7vh;
+          border-bottom: 3px solid #cccccc40;
+          @include flex(row, flex-start, center, 0);
+
+
+          .item-menu {
+            width: 15%;
+            height: 100%;
+            position: relative;
+            top: 3px;
+            @include flex(row, center, center, 0);
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: rgb(183, 183, 183);
+            cursor: pointer;
+            border-bottom: 3px solid #cccccc05;
+            transition: color ease-in-out .2s;
+
+            &:hover {
+              color: $ml-text-menu;
+              border-bottom: 3px solid #cccccc90;
+            }
+          }
+
+          .activeMenu {
+            border-bottom: 3px solid #8c8c8c;
+            color: #5d5d5d;
+
+            &:hover {
+              @extend .activeMenu;
+            }
+
+          }
+        }
+
+        #items-page {
+          width: 100%;
+          height: 85%;
+        }
+      }
+    }
+  }
+}
+
+
+.mode-l-p {
+  background-color: $ml-back-l;
+  @include tr;
+}
+
+.mode-d-p {
+  background-color: #161819;
+  @include tr;
+}
+
+</style>

@@ -237,6 +237,139 @@
         </router-link>
       </ul>
     </nav>
+    <nav v-if="system === 'ageControl'">
+      <ul>
+        <router-link to="/ageControle/home" active-class="active-li"
+                     @click="loading = true">
+          <li>
+            <div>
+              <i class="fi fi-rr-home"></i>
+            </div>
+            <span>Home</span>
+          </li>
+        </router-link>
+        <router-link to="/ageControle/gerenciamento/dashboard"
+                     active-class="active-li"
+                     v-if="permissions.level === 'Admin' || permissions.level === 'Master'"
+                     @click="loading = true">
+
+          <li>
+            <div>
+              <i class="fi fi-rr-settings-sliders"></i>
+            </div>
+            <span>Gerenciamento</span>
+          </li>
+        </router-link>
+        <router-link to="/sistemas"
+                     active-class="active-li"
+                     style="position: absolute;
+                            bottom: 7vh"
+                     @click="loading = true">
+          <li>
+            <div>
+              <i class="fi fi-rr-arrow-left"></i>
+            </div>
+            <span>Voltar ao portal</span>
+          </li>
+        </router-link>
+        <router-link to="/"
+                     active-class="active-li"
+                     style="position: absolute;
+                            bottom: 1vh">
+          <li>
+            <div>
+              <i class="fi fi-rr-sign-out-alt"></i>
+            </div>
+            <span>Logout</span>
+          </li>
+        </router-link>
+      </ul>
+    </nav>
+    <nav v-if="system === 'ageControl-mng'">
+      <ul>
+        <router-link to="/ageControle/gerenciamento/dashboard" active-class="active-li"
+                     @click="loading = true">
+          <li>
+            <div>
+              <i class="fi fi-rr-chart-pie"></i>
+            </div>
+            <span>Dashboard</span>
+          </li>
+        </router-link>
+        <router-link to="/ageControle/gerenciamento/colaboradores"
+                     active-class="active-li"
+                     v-if="permissions.level === 'Admin' || permissions.level === 'Master'"
+                     @click="loading = true">
+
+          <li>
+            <div>
+              <i class="fi fi-rr-id-badge"></i>
+            </div>
+            <span>Condutores</span>
+          </li>
+        </router-link>
+        <router-link to="/ageControle/gerenciamento/veiculos"
+                     active-class="active-li"
+                     v-if="permissions.level === 'Admin' || permissions.level === 'Master'"
+                     @click="loading = true">
+
+          <li>
+            <div>
+              <i class="fi fi-rr-cars"></i>
+            </div>
+            <span>Veículos</span>
+          </li>
+        </router-link>
+        <router-link to="/ageControle/gerenciamento/postos"
+                     active-class="active-li"
+                     v-if="permissions.level === 'Admin' || permissions.level === 'Master'"
+                     @click="loading = true">
+
+          <li>
+            <div>
+              <i class="fi fi-rr-gas-pump-alt"></i>
+            </div>
+            <span>Postos</span>
+          </li>
+        </router-link>
+        <router-link to="/ageControle/gerenciamento/relatorios"
+                     active-class="active-li"
+                     v-if="permissions.level === 'Admin' || permissions.level === 'Master'"
+                     @click="loading = true">
+
+          <li>
+            <div>
+              <i class="fi fi-rr-document"></i>
+            </div>
+            <span>Relatórios</span>
+          </li>
+        </router-link>
+        <router-link to="/agecontrole/home"
+                     active-class="active-li"
+                     style="position: absolute;
+                            bottom: 7vh"
+                     @click="loading = true">
+          <li>
+            <div>
+              <i class="fi fi-rr-arrow-left"></i>
+            </div>
+            <span>Voltar</span>
+          </li>
+        </router-link>
+        <router-link to="/"
+                     active-class="active-li"
+                     style="position: absolute;
+                            bottom: 1vh">
+          <li>
+            <div>
+              <i class="fi fi-rr-sign-out-alt"></i>
+            </div>
+            <span>Logout</span>
+          </li>
+        </router-link>
+      </ul>
+    </nav>
+
   </div>
   <div class="loading-bar" v-if="loading === true">
 

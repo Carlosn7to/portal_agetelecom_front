@@ -36,11 +36,6 @@
                 </p>
               </div>
             </router-link>
-          </div>
-        </div>
-        <div class="systems-on">
-          <h1>Em desenvolvimento</h1>
-          <div class="systems">
             <router-link to="/ageboard/home" @click="loading = true">
               <div class="system">
                 <div class="img-title">
@@ -52,14 +47,19 @@
                 </p>
               </div>
             </router-link>
-            <router-link to="/sistemas" @click="loading = true">
+          </div>
+        </div>
+        <div class="systems-on">
+          <h1>Em desenvolvimento</h1>
+          <div class="systems">
+            <router-link to="/ageControle/home" @click="loading = true">
               <div class="system">
                 <div class="img-title">
                   <i class="fi fi-rr-apps-add"></i>
                   <span>AgeControle</span>
                 </div>
                 <p>
-                  Acessos e colaboradores.
+                  Frota e combustível.
                 </p>
               </div>
             </router-link>
