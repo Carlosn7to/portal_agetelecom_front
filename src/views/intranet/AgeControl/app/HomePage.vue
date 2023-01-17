@@ -22,7 +22,7 @@
             <div class="item-menu" @click="menuActive = 'gas'" :class="{ 'activeMenu' : menuActive === 'gas' }">Postos</div>
           </div>
           <div id="items-page">
-            <reportPanel v-if="menuActive === 'report'" />
+            <ReportPanel v-if="menuActive === 'report'" />
           </div>
         </div>
 
@@ -36,14 +36,14 @@
 import MenuApp from "@/components/portal/_aux/MenuApp";
 import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
-import reportPanel from "@/components/ageControl/operatingPanel/reportPanel";
+import ReportPanel from "@/components/ageControl/operatingPanel/ReportPanel";
 
 export default {
   name: "HomePage",
   components: {
     MenuApp,
     HeaderApp,
-    reportPanel
+    ReportPanel
   },
   data () {
     return {

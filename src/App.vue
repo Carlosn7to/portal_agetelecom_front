@@ -39,6 +39,7 @@ h1 {
   background-color: rgba(3,3,3, .3);
   position: absolute;
   top: 0;
+  left: 0;
   @include flex(row, center, center, 0px);
 
   #card-modal {
