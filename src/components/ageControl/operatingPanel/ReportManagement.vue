@@ -102,7 +102,7 @@ export default {
 
     #content-report {
       width: 60%;
-      height: 50%;
+      height: 65%;
       background-color: #fff;
       margin: 2vh auto;
       border: 2px solid #cccccc70;

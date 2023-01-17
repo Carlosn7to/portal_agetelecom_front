@@ -152,7 +152,7 @@ export default {
     @include flex(row, space-between, center, 0);
 
     .dashboard {
-      width: calc((100% / 4) - 20px);
+      width: calc((100% / 4) - 10px);
       background-color: #fff;
       border-radius: 5px;
       @include tr-p;
