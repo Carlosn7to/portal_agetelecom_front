@@ -95,7 +95,7 @@
                 <div class="buttons-filter">
                   <span :class="{ 'active' : filter.month === '11'}" @click="getSellers('11', '2022')">Novembro - 2022</span>
                   <span :class="{ 'active' : filter.month === '12'}" @click="getSellers('12', '2022')">Dezembro - 2022</span>
-                  <span :class="{ 'active' : filter.month === '1'}" @click="getSellers('1', '2023')">Janeiro - 2023</span>
+                  <span :class="{ 'active' : filter.month === '01'}" @click="getSellers('01', '2023')">Janeiro - 2023</span>
                 </div>
               </div>
             </div>
@@ -206,7 +206,7 @@ export default {
     getMonth: function () {
       const date = new Date()
       if (date.getMonth() < 10) {
-        this.filter.actualMonth = (date.getMonth() + 1) + ''
+        this.filter.actualMonth = ('' +date.getMonth() + 1) + ''
       } else {
         this.filter.actualMonth = (date.getMonth() + 1).toString()
       }

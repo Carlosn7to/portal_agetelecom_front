@@ -33,11 +33,14 @@
           <div id="form">
             <div class="inputs">
               <label for="km-conductor">Quilometragem relatada</label>
-              <input type="text" name="km-conductor" id="km-conductor" value="1022">
+              <input type="number" min="1" max="999999" name="km-conductor" id="km-conductor" value="1022">
             </div>
           </div>
           <button>
-            Aprovar
+            <i class="fi fi-rr-check"></i>
+            <span>
+              Aprovar
+            </span>
           </button>
         </div>
         <div id="img-report">
@@ -49,8 +52,11 @@
 </template>
 
 <script>
+
+
 export default {
   name: "ReportManagement",
+  components: {},
   props: {
     data: {
       required: true
@@ -129,7 +135,7 @@ export default {
               font-weight: 600;
             }
 
-            input[type=text] {
+            input[type=number] {
               @include inp-t-g;
               height: initial;
               padding: 10px 5px;
@@ -141,7 +147,18 @@ export default {
 
         button {
           @include button-pattern;
+          @include flex(row, center, center, .5vw);
           width: 100%;
+
+          i {
+            font-size: 1.6rem;
+          }
+
+          span {
+            font-size: 1.4rem;
+            padding-bottom: 2px;
+
+          }
         }
       }
 

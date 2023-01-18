@@ -36,7 +36,7 @@
           Últimos relatos enviados
         </h3>
         <div id="options">
-          <button>
+          <button @click="modal = 'report-new'">
             <i class="fi fi-rr-add-document"></i>
             <span>Incluir relato</span>
           </button>
@@ -74,7 +74,7 @@
                 </span>
               </td>
               <td>
-                <i class="fi fi-rr-menu-dots" @click="modal = true"></i>
+                <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
               </td>
             </tr>
             <tr>
@@ -91,7 +91,7 @@
                 </span>
               </td>
               <td>
-                <i class="fi fi-rr-menu-dots" @click="modal = true"></i>
+                <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
               </td>
             </tr>
           </tbody>
@@ -102,19 +102,25 @@
   </div>
 
   <ReportManagement
-    v-if="modal === true"
+    v-if="modal === 'report-mng'"
     :data="dataReport"
-    @close-modal="modal = false"
+    @close-modal="modal = ''"
+  />
+  <ReportNew
+    v-if="modal === 'report-new'"
+    @close-modal="modal = ''"
   />
 </template>
 
 <script>
 
 import ReportManagement from "@/components/ageControl/operatingPanel/ReportManagement";
+import ReportNew from "@/components/ageControl/operatingPanel/ReportNew";
 
 export default {
   name: "ReportPanel",
-  components: {ReportManagement},
+  components: {ReportManagement, ReportNew},
+  emits: ['close-modal'],
   data() {
     return {
       menuDrop: '',
