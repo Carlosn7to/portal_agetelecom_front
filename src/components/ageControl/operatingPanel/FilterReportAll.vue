@@ -4,11 +4,11 @@
       <div id="close-button">
         <i class="fi fi-rr-cross-small" @click="closePage"></i>
       </div>
-      <h1>Incluir relato manualmente</h1>
+      <h1>Filtros</h1>
 
       <form action="#">
         <div class="inputs">
-          <label for="conductor">Condutor: <b>*</b></label>
+          <label for="conductor">Condutor</label>
           <select required>
             <option value=""
                     style="padding-left: 0"
@@ -30,12 +30,40 @@
           </select>
         </div>
         <div class="inputs">
-          <label for="km-report">Quilometragem relatada: <b>*</b></label>
-          <input type="number" min="1" name="km-report" id="km-report" required>
+          <label for="group">Grupo</label>
+          <select required>
+            <option value=""
+                    style="padding-left: 0"
+                    selected>
+              --- Nenhum grupo selecionado ---
+            </option>
+            <option>
+              Age
+            </option>
+            <option>
+              WT
+            </option>
+          </select>
         </div>
         <div class="inputs">
-          <label for="period">Período relatado: <b>*</b></label>
+          <label for="group">Tipo de veículo</label>
           <select required>
+            <option value=""
+                    style="padding-left: 0"
+                    selected>
+              --- Nenhum tipo de veículo selecionado ---
+            </option>
+            <option>
+              Carro
+            </option>
+            <option>
+              Moto
+            </option>
+          </select>
+        </div>
+        <div class="inputs">
+          <label for="period">Período referente</label>
+          <select required name="reference">
             <option value=""
                     style="padding-left: 0"
                     selected>
@@ -55,22 +83,42 @@
             </option>
           </select>
         </div>
-        <div class="inputs file">
-          <label for="image">Imagem: <i>.PNG, .JPEG</i> <b>*</b></label>
-          <label for="image" id="btn-file">Adicionar arquivo</label>
-          <input type="file" name="image" id="image" style="display: none" required>
+        <div class="inputs">
+          <label for="period">Status</label>
+          <select required name="reference">
+            <option value=""
+                    style="padding-left: 0"
+                    selected>
+              --- Nenhum período selecionado ---
+            </option>
+            <option>
+              Aprovado
+            </option>
+            <option>
+              Pendente
+            </option>
+          </select>
+        </div>
+        <div class="inputs date">
+          <label for="period">Data</label>
+          <div class="inpt-date">
+            <input type="date" name="first-date">
+            <span>à</span>
+            <input type="date" name="last-date">
+          </div>
         </div>
         <button>
           Cadastrar relato
         </button>
       </form>
+
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "ReportNew",
+  name: "FilterReportAll",
   methods: {
     closePage: function () {
       this.$emit('close-modal')
@@ -84,7 +132,10 @@ export default {
 #modal {
   #card-modal {
     width: 30vw;
+    height: 90vh;
     background-color: $back-main;
+
+
     #close-button {
       height: initial;
     }
@@ -102,7 +153,7 @@ export default {
       .inputs {
         @include flex(column, flex-start, initial, 1vh);
         width: 70%;
-        
+
         label {
           font-size: 1.4rem;
           font-weight: 500;
@@ -113,7 +164,7 @@ export default {
 
         select {
           @include inp-t-g;
-          height: 6vh;
+          height: 5vh;
           padding: 0;
           font-size: 1.2rem;
           color: $ml-text-h1;
@@ -144,12 +195,29 @@ export default {
 
       }
 
+      .inpt-date {
+        @include flex(row, flex-start, center, .5vw);
+
+        span {
+          font-size: 1.4rem;
+        }
+
+
+        input {
+          height: 5vh;
+          padding-left: 5px;
+          background-color: #EEEEEE;
+          border: 1px solid #1E1F21;
+        }
+      }
+
       button {
         @include button-pattern;
         margin: 4vh 0;
-        height: 6vh;
+        height: 5vh;
       }
     }
+
   }
 }
 

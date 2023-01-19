@@ -40,60 +40,64 @@
             <i class="fi fi-rr-add-document"></i>
             <span>Incluir relato</span>
           </button>
-          <span>Ver todos</span>
+          <span @click="modal = 'report-all'">Ver todos</span>
         </div>
       </div>
       <div id="content-panel">
 
         <table>
           <thead>
-            <tr>
-              <th>Condutor</th>
-              <th>Grupo</th>
-              <th>Veículo</th>
-              <th>Modelo/Placa</th>
-              <th>Período</th>
-              <th>Km inicial</th>
-              <th>Km final</th>
-              <th>Status</th>
-              <th>Ações</th>
-            </tr>
+          <tr>
+            <th>Condutor</th>
+            <th>Grupo</th>
+            <th>Veículo</th>
+            <th>Modelo/Placa</th>
+            <th>Data</th>
+            <th>Referente</th>
+            <th>Quilometragem <br> relatada</th>
+            <th>Distância <br> Percorrida</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Carlos Netos</td>
-              <td>Age</td>
-              <td>Moto</td>
-              <td>Honda/JSA-2198</td>
-              <td>Manhã</td>
-              <td>1202</td>
-              <td>1259</td>
-              <td class="status pending">
+          <tr>
+            <td>Carlos Netos</td>
+            <td>Age</td>
+            <td>Moto</td>
+            <td>Honda/JSA-2198</td>
+            <td>18/01/2023</td>
+            <td>Entrada</td>
+            <td>1202 | <span class="up" ><i class="fi fi-rr-caret-up"></i> 15,2%</span></td>
+            <td>54</td>
+            <td class="status pending">
                 <span>
                   Pendente
                 </span>
-              </td>
-              <td>
-                <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
-              </td>
-            </tr>
-            <tr>
-              <td>Carlos Netos</td>
-              <td>Age</td>
-              <td>Moto</td>
-              <td>Honda/JSA-2198</td>
-              <td>Manhã</td>
-              <td>1202</td>
-              <td>1259</td>
-              <td class="status approved">
+            </td>
+            <td>
+              <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
+            </td>
+          </tr>
+          <tr>
+            <td>Carlos Netos</td>
+            <td>Age</td>
+            <td>Moto</td>
+            <td>Honda/JSA-2198</td>
+            <td>18/01/2023</td>
+
+            <td>Saída para almoço</td>
+            <td>1202 | <span class="down"><i class="fi fi-rr-caret-down"></i> 4,20%</span></td>
+            <td>87</td>
+            <td class="status approved">
                 <span>
                   Aprovado
                 </span>
-              </td>
-              <td>
-                <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
-              </td>
-            </tr>
+            </td>
+            <td>
+              <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
+            </td>
+          </tr>
           </tbody>
         </table>
 
@@ -110,16 +114,23 @@
     v-if="modal === 'report-new'"
     @close-modal="modal = ''"
   />
+
+  <ReportAll
+    v-if="modal === 'report-all'"
+    @close-modal="modal = ''"
+  />
+
 </template>
 
 <script>
 
 import ReportManagement from "@/components/ageControl/operatingPanel/ReportManagement";
 import ReportNew from "@/components/ageControl/operatingPanel/ReportNew";
+import ReportAll from "@/components/ageControl/operatingPanel/ReportAll";
 
 export default {
   name: "ReportPanel",
-  components: {ReportManagement, ReportNew},
+  components: {ReportManagement, ReportNew, ReportAll},
   emits: ['close-modal'],
   data() {
     return {
