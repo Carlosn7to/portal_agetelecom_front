@@ -180,6 +180,183 @@
   border: 2px solid #cccccc80;
 }
 
+
+@mixin form-label-inputs {
+  max-height: 85%;
+  overflow-y: auto;
+
+  form {
+    @include flex(column, flex-start, initial, 3vh);
+    padding: 2vh 3vw;
+
+
+    .container-inputs {
+      h6 {
+        font-size: 1.4rem;
+        color: $age-bl;
+        font-weight: 500;
+        margin: 2vh 0;
+      }
+
+
+      .items-inputs {
+        @include flex(column, flex-start, initial, 2vh);
+        width: 100%;
+
+        .row-inputs {
+          @include flex(row, space-between, center, 0);
+          width: 100%;
+
+          .item-inputs {
+            width: 100%;
+            @include flex(column, flex-start, initial, .5vh);
+            .content-input {
+              @include flex(row, flex-start, center, 1vw);
+              i {
+                font-size: 1.8rem;
+                color: $ml-text-menu;
+                @include tr;
+              }
+
+              .inputs {
+                @include flex(column, flex-start, initial, .5vh);
+                position: relative;
+                width: 100%;
+
+                label {
+                  color: $ml-text-menu;
+                  font-size: 1.2rem;
+                  font-weight: 500;
+                  background-color: #fff;
+                  position: absolute;
+                  left: 10px;
+                  top: 13px;
+                  @include tr;
+                  cursor: text;
+
+                  b {
+                    color: $red;
+                    font-weight: 600;
+                  }
+                }
+
+                .pattern {
+                  border: 2px solid #cccccc;
+                  outline: none;
+                  padding: 10px 10px;
+                  border-radius: 5px;
+                  @include tr;
+
+                }
+
+                input[type=text], input[type=number] {
+                  @extend .pattern;
+                  background-color: #fff;
+                }
+
+                select {
+                  @extend .pattern;
+                  z-index: 2;
+                  background-color: transparent;
+                }
+
+                input[type=file] {
+                  display: none;
+                }
+              }
+
+              .file {
+                .container-file {
+                  label {
+                    all: unset;
+                    @include button-pattern;
+                  }
+                  margin-bottom: 1vh;
+                }
+              }
+            }
+
+            .active-inpts {
+
+
+              .inputs {
+                label {
+                  background-color: #fff;
+                  padding: 3px 3px;
+                  left: 7px;
+                  top: -10px;
+                  font-size: 1rem;
+                  color: $age-bl;
+                  animation: background-opacity .2s ease-in-out forwards;
+                  font-weight: 600;
+                  z-index: 3;
+                }
+
+
+
+                input[type=text]:focus, input[type=number]:focus, select:focus {
+                  border-color: $age-bl;
+                }
+
+                @keyframes background-opacity {
+                  0% {
+                    background-color: #ffffff00;
+                  }
+                  50% {
+                    background-color: #ffffff00;
+                  }
+                  80% {
+                    background-color: #ffffff30;
+                  }
+                  100% {
+                    background-color: #fff;
+                  }
+                }
+              }
+
+              i {
+                color: $age-or;
+              }
+            }
+
+
+            span {
+              font-size: 1rem;
+              color: $ml-text-light;
+              font-weight: 500;
+              margin-left: 40px;
+            }
+
+
+
+          }
+
+
+
+        }
+        .double {
+          .item-inputs {
+            width: calc((100% / 2) - 20px);
+          }
+        }
+
+        .triple {
+          .item-inputs {
+            width: calc((100% / 3) - 20px);
+          }
+        }
+      }
+    }
+
+    button {
+      @include button-pattern;
+      width: 80%;
+      margin: 2vh auto;
+    }
+  }
+
+}
+
 /*
   Loadings
   // Animações diversas

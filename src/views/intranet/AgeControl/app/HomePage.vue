@@ -16,13 +16,14 @@
 
         <div id="content-pages">
           <div id="menu-pages">
-            <div class="item-menu" @click="menuActive = 'report'" :class="{ 'activeMenu' : menuActive === 'report' }">Relatos</div>
+            <div class="item-menu" @click="menuActive = 'reports'" :class="{ 'activeMenu' : menuActive === 'reports' }">Relatos</div>
             <div class="item-menu" @click="menuActive = 'conductors'" :class="{ 'activeMenu' : menuActive === 'conductors' }">Condutores</div>
-            <div class="item-menu" @click="menuActive = 'vehicles'" :class="{ 'activeMenu' : menuActive === 'vehicles' }">Veículos</div>
-            <div class="item-menu" @click="menuActive = 'gas'" :class="{ 'activeMenu' : menuActive === 'gas' }">Postos</div>
+<!--            <div class="item-menu" @click="menuActive = 'vehicles'" :class="{ 'activeMenu' : menuActive === 'vehicles' }">Veículos</div>-->
+<!--            <div class="item-menu" @click="menuActive = 'gas'" :class="{ 'activeMenu' : menuActive === 'gas' }">Postos</div>-->
           </div>
           <div id="items-page">
-            <ReportPanel v-if="menuActive === 'report'" />
+            <ReportPanel v-if="menuActive === 'reports'" />
+            <ConductorPanel v-if="menuActive === 'conductors'" />
           </div>
         </div>
 
@@ -36,19 +37,21 @@
 import MenuApp from "@/components/portal/_aux/MenuApp";
 import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
-import ReportPanel from "@/components/ageControl/operatingPanel/ReportPanel";
+import ReportPanel from "@/components/ageControl/operatingPanel/reports/ReportPanel";
+import ConductorPanel from "@/components/ageControl/operatingPanel/conductors/ConductorPanel";
 
 export default {
   name: "HomePage",
   components: {
     MenuApp,
     HeaderApp,
-    ReportPanel
+    ReportPanel,
+    ConductorPanel
   },
   data () {
     return {
       mode: Cookie.get('mode'),
-      menuActive: 'report'
+      menuActive: 'reports'
     }
   },
   methods: {
@@ -103,8 +106,8 @@ export default {
           }
 
           .activeMenu {
-            border-bottom: 3px solid #8c8c8c;
-            color: #5d5d5d;
+            border-bottom: 3px solid $age-or;
+            color: $age-bl;
 
             &:hover {
               @extend .activeMenu;

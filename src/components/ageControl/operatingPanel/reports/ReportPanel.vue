@@ -1,28 +1,28 @@
 <template>
   <div class="content-report">
     <div id="dashboards">
-        <div class="dashboard">
+        <div class="dashboard" @click="modal = 'report-all'">
           <i class="fi fi-rr-document-signed"></i>
           <div class="info">
             <h6>51</h6>
             <span>Relatos totais</span>
           </div>
         </div>
-        <div class="dashboard">
+        <div class="dashboard" @click="modal = 'report-status'">
           <i class="fi fi-rs-time-check"></i>
           <div class="info">
             <h6>33</h6>
             <span>Relatos aprovados</span>
           </div>
         </div>
-        <div class="dashboard">
+        <div class="dashboard" @click="modal = 'report-status'">
           <i class="fi fi-rr-time-quarter-to"></i>
           <div class="info">
             <h6>11</h6>
             <span>Relatos pendentes</span>
           </div>
         </div>
-        <div class="dashboard">
+        <div class="dashboard" @click="modal = 'report-notsent'">
           <i class="fi fi-rr-time-delete"></i>
           <div class="info">
             <h6>7</h6>
@@ -51,7 +51,7 @@
             <th>Condutor</th>
             <th>Grupo</th>
             <th>Veículo</th>
-            <th>Modelo/Placa</th>
+            <th>Fabricante/Modelo</th>
             <th>Data</th>
             <th>Referente</th>
             <th>Quilometragem <br> relatada</th>
@@ -120,17 +120,29 @@
     @close-modal="modal = ''"
   />
 
+  <ReportsStatus
+      v-if="modal === 'report-status'"
+      @close-modal="modal = ''"
+  />
+
+  <ReportNotSent
+    v-if="modal === 'report-notsent'"
+    @close-modal="modal = ''"
+  />
+
 </template>
 
 <script>
 
-import ReportManagement from "@/components/ageControl/operatingPanel/ReportManagement";
-import ReportNew from "@/components/ageControl/operatingPanel/ReportNew";
-import ReportAll from "@/components/ageControl/operatingPanel/ReportAll";
+import ReportManagement from "@/components/ageControl/operatingPanel/reports/ReportManagement";
+import ReportNew from "@/components/ageControl/operatingPanel/reports/ReportNew";
+import ReportAll from "@/components/ageControl/operatingPanel/reports/ReportAll";
+import ReportsStatus from "@/components/ageControl/operatingPanel/reports/ReportsStatus";
+import ReportNotSent from "@/components/ageControl/operatingPanel/reports/ReportNotSent";
 
 export default {
   name: "ReportPanel",
-  components: {ReportManagement, ReportNew, ReportAll},
+  components: {ReportManagement, ReportNew, ReportAll, ReportsStatus, ReportNotSent},
   emits: ['close-modal'],
   data() {
     return {
@@ -264,11 +276,11 @@ export default {
 
     #content-panel {
       width: 100%;
-      height: 80%;
-      padding: 2vh 0;
+      padding: 2vh 2vw;
 
       table {
         width: 100%;
+        height: 100%;
         border-collapse: collapse;
 
         thead {
@@ -281,9 +293,12 @@ export default {
           }
         }
 
+
+
         tbody {
           tr {
             @include tr;
+
 
             td:nth-child(1) {
               text-align: left;
@@ -396,7 +411,6 @@ export default {
             }
           }
 
-
           tr:nth-child(even) {
             background-color: #cccccc30;
 
@@ -405,6 +419,15 @@ export default {
             }
           }
 
+        }
+
+        .up {
+          color: $red;
+          font-weight: 600;
+        }
+
+        .down {
+          color: #04DBAC;
         }
       }
     }

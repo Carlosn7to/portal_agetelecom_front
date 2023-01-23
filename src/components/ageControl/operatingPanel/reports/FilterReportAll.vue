@@ -108,7 +108,7 @@
           </div>
         </div>
         <button>
-          Cadastrar relato
+          Filtrar relatos
         </button>
       </form>
 
@@ -132,7 +132,6 @@ export default {
 #modal {
   #card-modal {
     width: 30vw;
-    height: 90vh;
     background-color: $back-main;
 
 

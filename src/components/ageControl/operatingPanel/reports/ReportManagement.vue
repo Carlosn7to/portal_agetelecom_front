@@ -18,7 +18,7 @@
           </tr>
           <tr>
             <th>Grupo</th>
-            <th>Modelo/Placa</th>
+            <th>Fabricante/Modelo</th>
             <th>Status</th>
           </tr>
           <tr>

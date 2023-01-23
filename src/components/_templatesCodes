@@ -1,0 +1,108 @@
+
+Formulário HTML - Classe SCSS form-label-inputs
+
+<form action="#" method="post" enctype="multipart/form-data">
+  <div class="container-inputs">
+    <h6>{{ TITULO }}</h6>
+    <div class="items-inputs">
+      <div class="row-inputs">
+        <div class="item-inputs">
+          <div class="content-input" :class="{ 'active-inpts' : (input.selected === 'conductor.name' || input.data.name !== '') }" >
+            <i class="fi fi-sr-user"></i>
+            <div class="inputs">
+              <label for="name" @click="input.selected = 'conductor.name'">Nome completo <b>*</b></label>
+              <input type="text" name="name" id="name" placeholder=" "
+                     required autocomplete="off"
+                     @focusin="input.selected = 'conductor.name'"
+                     v-model="input.data.name">
+            </div>
+          </div>
+          <span>João da Silva Sousa</span>
+        </div>
+      </div>
+      <div class="row-inputs double">
+        <div class="item-inputs">
+          <div class="content-input" :class="{ 'active-inpts' : (input.selected === 'conductor.address' || input.data.address !== '') }">
+            <i class="fi fi-sr-map-marker-home"></i>
+            <div class="inputs">
+              <label for="address">Endereço <b>*</b></label>
+              <input type="text" name="address" id="address" placeholder=" "
+                     required autocomplete="off"
+                     @focusin="input.selected = 'conductor.address'"
+                     v-model="input.data.address">
+            </div>
+          </div>
+          <span>Av., Rua, Quadra.</span>
+        </div>
+        <div class="item-inputs">
+          <div class="content-input" :class="{ 'active-inpts' : (input.selected === 'conductor.city' || input.data.city !== '') }">
+            <i class="fi fi-sr-map-marker"></i>
+            <div class="inputs">
+              <label for="city">Cidade <b>*</b></label>
+              <select name="city" id="city" v-model="input.data.city"
+                      @focusin="input.selected = 'conductor.city'">
+                <option value="1">Asa Sul</option>
+              </select>
+            </div>
+          </div>
+          <span>  &nbsp;</span>
+        </div>
+      </div>
+      <div class="row-inputs double">
+        <div class="item-inputs">
+          <div class="content-input" :class="{ 'active-inpts' : (input.selected === 'conductor.group' || input.data.group !== '') }">
+            <i class="fi fi-sr-cars"></i>
+            <div class="inputs">
+              <label for="group">Tipo de veículo</label>
+              <select name="group" id="group"
+                      @focusin="input.selected = 'conductor.group'"
+                      v-model="input.data.group">
+                <option value="age">Age</option>
+                <option value="wt">WT</option>
+              </select>
+            </div>
+          </div>
+          <span><i>Informar se o condutor é Age ou terceirizado</i></span>
+        </div>
+        <div class="item-inputs">
+          <div class="content-input" :class="{ 'active-inpts' : (input.selected === 'conductor.group' || input.data.group !== '') }">
+            <i class="fi fi-sr-users-alt"></i>
+            <div class="inputs">
+              <label for="group">Grupo</label>
+              <select name="group" id="group"
+                      @focusin="input.selected = 'conductor.group'"
+                      v-model="input.data.group">
+                <option value="age">Age</option>
+                <option value="wt">WT</option>
+              </select>
+            </div>
+          </div>
+          <span><i>Informar se o condutor é Age ou terceirizado</i></span>
+        </div>
+      </div>
+      <div class="row-inputs">
+        <div class="item-inputs">
+          <div class="content-input" :class="{ 'active-inpts' : (input.selected === 'conductor.group' || input.data.group !== '') }">
+            <i class="fi fi-sr-mode-portrait"></i>
+            <div class="inputs file">
+              <div class="container-file">
+                <label for="image">Adicionar arquivo</label>
+                <input type="file" name="image" accept="image/jpeg, image/png" id="image" @change="uploadImage">
+              </div>
+            </div>
+          </div>
+          <span><i>Arquivos compatíveis: .JPEG, .PNG</i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button>Cadastrar</button>
+    uploadImage: function (e){
+      const image = e.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(image);
+      reader.onload = e =>{
+        this.input.data.image = e.target.result;
+      };
+    }
+</form>

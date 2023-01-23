@@ -19,7 +19,7 @@
             <th>Condutor</th>
             <th>Grupo</th>
             <th>Veículo</th>
-            <th>Modelo/Placa</th>
+            <th>Fabricante/Modelo</th>
             <th>Data</th>
             <th>Referente</th>
             <th>Quilometragem <br> Relatada</th>
@@ -644,7 +644,7 @@
 
 <script>
 
-import FilterReportAll from "@/components/ageControl/operatingPanel/FilterReportAll";
+import FilterReportAll from "@/components/ageControl/operatingPanel/reports/FilterReportAll";
 
 export default {
   name: "ReportAll",
@@ -653,7 +653,7 @@ export default {
   data () {
     return {
       search: '',
-      modal: 'filter'
+      modal: ''
     }
   },
   methods: {
