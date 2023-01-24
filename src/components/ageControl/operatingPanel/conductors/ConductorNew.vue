@@ -7,7 +7,7 @@
       <h1>Adicionar novo condutor</h1>
       <div id="form">
         <form action="#" method="post" enctype="multipart/form-data" @submit.prevent="newConductor">
-            <div class="container-inputs">
+          <div class="container-inputs">
             <h6>Informações do condutor</h6>
             <div class="items-inputs">
               <div class="row-inputs double">
@@ -16,7 +16,7 @@
                     <i class="fi fi-sr-user"></i>
                     <div class="inputs">
                       <label for="first-name" @click="input.selected = 'conductor.first-name'">Primeiro nome <b>*</b></label>
-                      <input type="text" name="first-name" id="first-name" placeholder=" "
+                      <input required  type="text" name="first-name" id="first-name" placeholder=" "
                               autocomplete="off"
                              @focusin="input.selected = 'conductor.first-name'"  @focusout="input.selected = ' '"
                              v-model="input.data.firstName">
@@ -29,8 +29,9 @@
                     <i class="fi fi-sr-user"></i>
                     <div class="inputs">
                       <label for="last-name" @click="input.selected = 'conductor.last-name'">Sobrenome <b>*</b></label>
-                      <input type="text" name="last-name" id="last-name" placeholder=" "
+                      <input required type="text" name="last-name" id="last-name" placeholder=" "
                               autocomplete="off"
+                             minlength="5"
                              @focusin="input.selected = 'conductor.last-name'" @focusout="input.selected = ' '"
                              v-model="input.data.lastName">
                     </div>
@@ -44,7 +45,7 @@
                     <i class="fi fi-sr-map-marker-home"></i>
                     <div class="inputs">
                       <label for="address">Endereço <b>*</b></label>
-                      <input type="text" name="address" id="address" placeholder=" "
+                      <input required type="text" name="address" id="address" placeholder=" "
                               autocomplete="off"
                              @focusin="input.selected = 'conductor.address'"  @focusout="input.selected = ' '"
                              v-model="input.data.address">
@@ -57,16 +58,9 @@
                     <i class="fi fi-sr-map-marker"></i>
                     <div class="inputs">
                       <label for="city">Cidade <b>*</b></label>
-                      <select  name="city" id="city" v-model="input.data.city"
+                      <select  required name="city" id="city" v-model="input.data.city"
                               @focusin="input.selected = 'conductor.city'" @focusout="input.selected = ' '">
-                        <option value="1">Asa Sul</option>
-                        <option value="2">Asa Norte</option>
-                        <option value="3">Ceilândia</option>
-                        <option value="4">Samambaia</option>
-                        <option value="5">Riacho fundo II</option>
-                        <option value="6">ValParaíso</option>
-                        <option value="7">Taguatinga</option>
-                        <option value="8">Riacho I</option>
+                        <option v-for="item in input.formData.city || []" :key="item.id" :value="item.id">{{ item.cidade }}</option>
                       </select>
                     </div>
                   </div>
@@ -79,11 +73,10 @@
                     <i class="fi fi-sr-users-alt"></i>
                     <div class="inputs">
                       <label for="group">Grupo <b>*</b></label>
-                      <select  name="group" id="group"
+                      <select required  name="group" id="group"
                               @focusin="input.selected = 'conductor.group'"  @focusout="input.selected = ' '"
                               v-model="input.data.group">
-                        <option value="age">Age</option>
-                        <option value="wt">WT</option>
+                        <option v-for="item in input.formData.group || []" :key="item.id" :value="item.id">{{ item.grupo }}</option>
                       </select>
                     </div>
                   </div>
@@ -94,11 +87,11 @@
                     <i class="fi fi-sr-mailbox"></i>
                     <div class="inputs">
                       <label for="type-service">Serviço <b>*</b></label>
-                      <select  name="type-service" id="type-service"
+                      <select required  name="type-service" id="type-service"
                               @focusin="input.selected = 'conductor.type-service'"  @focusout="input.selected = ' '"
                               v-model="input.data.typeService">
-                        <option value="1">Logística Reversa</option>
-                        <option value="2">Entrega de cartas</option>
+                        <option v-for="item in input.formData.services || []" :key="item.id" :value="item.id">{{ item.servico }}</option>
+
                       </select>
                     </div>
                   </div>
@@ -108,19 +101,38 @@
             </div>
           </div>
           <div class="container-inputs">
+            <h6>Informações de acesso</h6>
+            <div class="items-inputs">
+              <div class="row-inputs double">
+                <div class="item-inputs">
+                  <div class="content-input" :class="{ 'active-inpts' : (input.selected === 'conductor.email' || input.data.email !== '') }" >
+                    <i class="fi fi-sr-user"></i>
+                    <div class="inputs">
+                      <label for="email" @click="input.selected = 'conductor.email'">E-mail <b>*</b></label>
+                      <input required type="email" name="email" id="email" placeholder=" "
+                              autocomplete="off"
+                             @focusin="input.selected = 'conductor.email'"  @focusout="input.selected = ' '"
+                             v-model="input.data.email">
+                    </div>
+                  </div>
+                  <span>E-mail do condutor para receber a senha de acesso</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container-inputs">
             <h6>Informações do veículo</h6>
             <div class="items-inputs">
               <div class="row-inputs double">
                 <div class="item-inputs">
-                  <div class="content-input" :class="{ 'active-inpts' : (input.selected === 'conductor.vehicle' || input.data.vehicle !== '') }">
+                  <div class="content-input" :class="{ 'active-inpts' : (input.selected === 'conductor.type-vehicle' || input.data.typeVehicle !== '') }">
                     <i class="fi fi-sr-cars"></i>
                     <div class="inputs">
-                      <label for="vehicle">Tipo de veículo <b>*</b></label>
-                      <select  name="vehicle" id="vehicle"
-                              @focusin="input.selected = 'conductor.vehicle'" @focusout="input.selected = ' '"
-                              v-model="input.data.vehicle">
-                        <option value="1">Carro</option>
-                        <option value="2">Moto</option>
+                      <label for="type-vehicle">Tipo de veículo <b>*</b></label>
+                      <select required  name="type-vehicle" id="type-vehicle"
+                              @focusin="input.selected = 'conductor.type-vehicle'" @focusout="input.selected = ' '"
+                              v-model="input.data.typeVehicle">
+                        <option v-for="item in input.formData.vehicleType || []" :key="item.id" :value="item.id">{{ item.tipo }}</option>
                       </select>
                     </div>
                   </div>
@@ -131,11 +143,11 @@
                     <i class="fi fi-sr-form"></i>
                     <div class="inputs">
                       <label for="modality">Modalidade <b>*</b></label>
-                      <select  name="modality" id="modality"
+                      <select required  name="modality" id="modality"
                               @focusin="input.selected = 'conductor.modality'" @focusout="input.selected = ' '"
                               v-model="input.data.modality">
-                        <option value="1">Próprio AGE</option>
-                        <option value="2">Alugado</option>
+                        <option v-for="item in input.formData.vehicleModality || []" :key="item.id" :value="item.id">{{ item.modalidade }}</option>
+
                       </select>
                     </div>
                   </div>
@@ -148,7 +160,7 @@
                     <i class="fi fi-sr-car-building"></i>
                     <div class="inputs">
                       <label for="manufacturer">Fabricante <b>*</b></label>
-                      <input  type="text" name="manufacturer" id="manufacturer" autocomplete="off"
+                      <input required  type="text" name="manufacturer" id="manufacturer" autocomplete="off"
                              @focusin="input.selected = 'conductor.manufacturer'" @focusout="input.selected = ' '"
                              v-model="input.data.manufacturer" />
                     </div>
@@ -160,7 +172,7 @@
                     <i class="fi fi-sr-car-bus"></i>
                     <div class="inputs">
                       <label for="model">Modelo <b>*</b></label>
-                      <input  type="text" name="model" id="model" autocomplete="off"
+                      <input required  type="text" name="model" id="model" autocomplete="off"
                              @focusin="input.selected = 'conductor.model'" @focusout="input.selected = ' '"
                              v-model="input.data.model" />
                     </div>
@@ -174,7 +186,7 @@
                     <i class="fi fi-sr-gas-pump-alt"></i>
                     <div class="inputs">
                       <label for="tank-capacity">Capacidade do tanque <b>*</b></label>
-                      <input  type="number" min="1" max="100" name="tank-capacity" id="tank-capacity"
+                      <input required type="number" min="1" max="100" name="tank-capacity" id="tank-capacity"
                              @focusin="input.selected = 'conductor.tank-capacity'" @focusout="input.selected = ' '"
                              v-model="input.data.tankCapacity" />
                     </div>
@@ -186,7 +198,7 @@
                     <i class="fi fi-sr-oil-can"></i>
                     <div class="inputs">
                       <label for="average-km-l">Média Km/L <b>*</b></label>
-                      <input  type="number" min="1" max="100" name="average-km-l" id="average-km-l"
+                      <input required type="number" min="1" max="100" name="average-km-l" id="average-km-l"
                               @focusin="input.selected = 'conductor.average-km-l'" @focusout="input.selected = ' '"
                               v-model="input.data.averageKmL" />
                     </div>
@@ -200,7 +212,7 @@
                     <i class="fi fi-sr-dashboard"></i>
                     <div class="inputs">
                       <label for="initial-km">Quilometragem inicial <b>*</b></label>
-                      <input  type="number" min="1" max="100" name="initial-km" id="initial-km"
+                      <input required type="number" min="1" max="100000" name="initial-km" id="initial-km"
                               @focusin="input.selected = 'conductor.initial-km'" @focusout="input.selected = ' '"
                               v-model="input.data.initialKm" />
                     </div>
@@ -212,7 +224,7 @@
                     <i class="fi fi-sr-route"></i>
                     <div class="inputs">
                       <label for="distance-base-house">Distância da Sede - Casa <b>*</b></label>
-                      <input  type="number" min="1" max="200" name="distance-base-house" id="distance-base-house"
+                      <input required type="number" min="1" max="200" name="distance-base-house" id="distance-base-house"
                               @focusin="input.selected = 'conductor.distance-base-house'" @focusout="input.selected = ' '"
                               v-model="input.data.distanceBaseHouse" />
                     </div>
@@ -234,21 +246,31 @@
 <script>
 
 import {AXIOS} from "../../../../../services/api.ts";
+import Cookie from 'js-cookie';
 
 export default {
   name: "ConductorNew",
+  emits: ['closeModal'],
   data () {
     return {
       input: {
         selected: '',
+        formData: {
+          city: null,
+          group: null,
+          services: null,
+          vehicleType: null,
+          vehicleModality: null
+        },
         data: {
           firstName: '',
           lastName: '',
+          email: '',
           address: '',
           city: '',
           group: '',
           typeService: '',
-          vehicle: '',
+          typeVehicle: '',
           modality: '',
           manufacturer: '',
           model: '',
@@ -258,6 +280,11 @@ export default {
           distanceBaseHouse: '',
           image: null
         }
+      },
+      alert: {
+        class: 'failed',
+        msg: '',
+        status: false
       }
     }
   },
@@ -268,12 +295,100 @@ export default {
     newConductor: function () {
       AXIOS({
         method: 'POST',
-        url: 'teste',
+        url: 'agecontrol/management/conductor',
+        headers: {"Authorization": "Bearer "+Cookie.get('token')},
         data: this.input.data
       }).then((res) => {
-        console.log(res)
+        this.alert.class = 'success'
+        this.alert.msg = res.data.msg
+        this.alert.status = true
+        this.input.data.firstName = ''
+        this.input.data.lastName = ''
+        this.input.data.email = ''
+        this.input.data.address = ''
+        this.input.data.city = ''
+        this.input.data.group = ''
+        this.input.data.typeService = ''
+        this.input.data.typeVehicle = ''
+        this.input.data.modality = ''
+        this.input.data.manufacturer = ''
+        this.input.data.model = ''
+        this.input.data.tankCapacity = ''
+        this.input.data.averageKmL = ''
+        this.input.data.initialKm = ''
+        this.input.data.distanceBaseHouse = ''
+        this.closePage()
+        this.$emit('form-response', this.alert)
+      }).catch((error) => {
+        this.alert.class = 'failed'
+        this.alert.msg = error.response.data.errors
+        this.alert.status = true
+        this.closePage()
+        this.$emit('form-response', this.alert)
+      })
+    },
+    getCitys: function () {
+      AXIOS({
+        method: 'GET',
+        url: 'city',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token')
+        },
+      }).then((res) => {
+        this.input.formData.city = res.data
+      })
+    },
+    getGroups: function () {
+      AXIOS({
+        method: 'GET',
+        url: 'collaborators/group',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token')
+        },
+      }).then((res) => {
+        this.input.formData.group = res.data
+      })
+    },
+    getServices: function () {
+      AXIOS({
+        method: 'GET',
+        url: 'agecontrol/management/services',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token')
+        },
+      }).then((res) => {
+        this.input.formData.services = res.data
+      })
+    },
+    getVehicleType: function () {
+      AXIOS({
+        method: 'GET',
+        url: 'agecontrol/management/vehicle-type',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token')
+        },
+      }).then((res) => {
+        this.input.formData.vehicleType = res.data
+      })
+    },
+    getVehicleModality: function () {
+      AXIOS({
+        method: 'GET',
+        url: 'agecontrol/management/vehicle-modality',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token')
+        },
+      }).then((res) => {
+        this.input.formData.vehicleModality = res.data
       })
     }
+  },
+  mounted() {
+    this.getCitys()
+    this.getGroups()
+    this.getServices()
+    this.getVehicleType()
+    this.getVehicleModality()
   }
 }
 </script>
@@ -281,6 +396,8 @@ export default {
 <style scoped lang="scss">
 
 #modal {
+  overflow: hidden;
+
   #card-modal {
     width: 70vw;
     height: 95vh;

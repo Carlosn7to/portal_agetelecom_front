@@ -27,6 +27,7 @@
 
 html {
   font-size: 62.5%;
+  overflow: hidden;
 }
 
 h1 {

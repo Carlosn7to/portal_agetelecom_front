@@ -42,6 +42,7 @@ import ConductorPanel from "@/components/ageControl/operatingPanel/conductors/Co
 
 export default {
   name: "HomePage",
+  emits: ['closeModal'],
   components: {
     MenuApp,
     HeaderApp,

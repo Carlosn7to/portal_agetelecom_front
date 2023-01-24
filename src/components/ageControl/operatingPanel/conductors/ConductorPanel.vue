@@ -17,19 +17,24 @@
           <th>Veículo</th>
           <th>Fabricante/Modelo</th>
           <th>Data do cadastro</th>
-          <th>Cadastrado por</th>
           <th>Status</th>
           <th>Ações</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>Carlos Netos</td>
-          <td>Age</td>
-          <td>Moto</td>
-          <td>Honda/JSA-2198</td>
-          <td>18/01/2023</td>
-          <td>Ariele Barros</td>
+        <tr v-for="item in dataConductors" :key="item.id">
+          <td>
+            {{ item.primeiro_nome }}
+            {{ item.segundo_nome }}
+          </td>
+          <td>{{ item.grupo }}</td>
+          <td>{{ item.tipo }}</td>
+          <td>
+            {{ item.fabricante }}/{{ item.modelo }}
+          </td>
+          <td>
+            {{ formatDate(item.created_at) }}
+          </td>
           <td class="status approved">
                 <span>
                   Ativo
@@ -39,215 +44,6 @@
             <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
           </td>
         </tr>
-        <tr>
-          <td>Carlos Netos</td>
-          <td>Age</td>
-          <td>Moto</td>
-          <td>Honda/JSA-2198</td>
-          <td>18/01/2023</td>
-          <td>Ariele Barros</td>
-          <td class="status warning">
-                <span>
-                  Inativo
-                </span>
-          </td>
-          <td>
-            <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
-          </td>
-        </tr>
-        <tr>
-          <td>Carlos Netos</td>
-          <td>Age</td>
-          <td>Moto</td>
-          <td>Honda/JSA-2198</td>
-          <td>18/01/2023</td>
-          <td>Ariele Barros</td>
-          <td class="status approved">
-                <span>
-                  Ativo
-                </span>
-          </td>
-          <td>
-            <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
-          </td>
-        </tr>
-        <tr>
-          <td>Carlos Netos</td>
-          <td>Age</td>
-          <td>Moto</td>
-          <td>Honda/JSA-2198</td>
-          <td>18/01/2023</td>
-          <td>Ariele Barros</td>
-          <td class="status approved">
-                <span>
-                  Ativo
-                </span>
-          </td>
-          <td>
-            <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
-          </td>
-        </tr>
-        <tr>
-          <td>Carlos Netos</td>
-          <td>Age</td>
-          <td>Moto</td>
-          <td>Honda/JSA-2198</td>
-          <td>18/01/2023</td>
-          <td>Ariele Barros</td>
-          <td class="status approved">
-                <span>
-                  Ativo
-                </span>
-          </td>
-          <td>
-            <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
-          </td>
-        </tr>
-        <tr>
-          <td>Carlos Netos</td>
-          <td>Age</td>
-          <td>Moto</td>
-          <td>Honda/JSA-2198</td>
-          <td>18/01/2023</td>
-          <td>Ariele Barros</td>
-          <td class="status approved">
-                <span>
-                  Ativo
-                </span>
-          </td>
-          <td>
-            <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
-          </td>
-        </tr>
-        <tr>
-          <td>Carlos Netos</td>
-          <td>Age</td>
-          <td>Moto</td>
-          <td>Honda/JSA-2198</td>
-          <td>18/01/2023</td>
-          <td>Ariele Barros</td>
-          <td class="status approved">
-                <span>
-                  Ativo
-                </span>
-          </td>
-          <td>
-            <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
-          </td>
-        </tr>
-        <tr>
-          <td>Carlos Netos</td>
-          <td>Age</td>
-          <td>Moto</td>
-          <td>Honda/JSA-2198</td>
-          <td>18/01/2023</td>
-          <td>Ariele Barros</td>
-          <td class="status approved">
-                <span>
-                  Ativo
-                </span>
-          </td>
-          <td>
-            <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
-          </td>
-        </tr>
-        <tr>
-          <td>Carlos Netos</td>
-          <td>Age</td>
-          <td>Moto</td>
-          <td>Honda/JSA-2198</td>
-          <td>18/01/2023</td>
-          <td>Ariele Barros</td>
-          <td class="status approved">
-                <span>
-                  Ativo
-                </span>
-          </td>
-          <td>
-            <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
-          </td>
-        </tr>
-        <tr>
-          <td>Carlos Netos</td>
-          <td>Age</td>
-          <td>Moto</td>
-          <td>Honda/JSA-2198</td>
-          <td>18/01/2023</td>
-          <td>Ariele Barros</td>
-          <td class="status approved">
-                <span>
-                  Ativo
-                </span>
-          </td>
-          <td>
-            <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
-          </td>
-        </tr>
-        <tr>
-          <td>Carlos Netos</td>
-          <td>Age</td>
-          <td>Moto</td>
-          <td>Honda/JSA-2198</td>
-          <td>18/01/2023</td>
-          <td>Ariele Barros</td>
-          <td class="status approved">
-                <span>
-                  Ativo
-                </span>
-          </td>
-          <td>
-            <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
-          </td>
-        </tr>
-        <tr>
-          <td>Carlos Netos</td>
-          <td>Age</td>
-          <td>Moto</td>
-          <td>Honda/JSA-2198</td>
-          <td>18/01/2023</td>
-          <td>Ariele Barros</td>
-          <td class="status approved">
-                <span>
-                  Ativo
-                </span>
-          </td>
-          <td>
-            <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
-          </td>
-        </tr>
-        <tr>
-          <td>Carlos Netos</td>
-          <td>Age</td>
-          <td>Moto</td>
-          <td>Honda/JSA-2198</td>
-          <td>18/01/2023</td>
-          <td>Ariele Barros</td>
-          <td class="status approved">
-                <span>
-                  Ativo
-                </span>
-          </td>
-          <td>
-            <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
-          </td>
-        </tr>
-        <tr>
-          <td>Carlos Netos</td>
-          <td>Age</td>
-          <td>Moto</td>
-          <td>Honda/JSA-2198</td>
-          <td>18/01/2023</td>
-          <td>Ariele Barros</td>
-          <td class="status approved">
-                <span>
-                  Ativo
-                </span>
-          </td>
-          <td>
-            <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
-          </td>
-        </tr>
-
         </tbody>
       </table>
 
@@ -257,22 +53,64 @@
   <ConductorNew
     v-if="modal === 'conductor-new'"
     @close-modal="modal = ''"
+    @form-response="responseForm"
+  />
+
+  <AlertResponse
+      :response="alert"
+      v-if="alert.status === true"
+      @close="alert.status = false"
   />
 </template>
 
 <script>
 
 import ConductorNew from "@/components/ageControl/operatingPanel/conductors/ConductorNew";
+import AlertResponse from "@/components/_aux/AlertResponse";
+import {AXIOS} from "../../../../../services/api.ts";
+import Cookie from 'js-cookie';
+import moment from 'moment'
 
 export default {
   name: "ConductorPanel",
-  components: {ConductorNew},
-  emits: ['close-modal'],
+  components: {ConductorNew, AlertResponse},
+  emits: ['close-modal', 'form-response'],
   data () {
     return {
       search: '',
-      modal: ''
+      modal: '',
+      alert: {
+        msg: '',
+        class: '',
+        status: false
+      },
+      dataConductors: {},
     }
+  },
+  computed: {},
+  methods: {
+    responseForm: function(data) {
+      this.alert = data
+    },
+    getConductors: function () {
+      AXIOS({
+        method: 'get',
+        url: 'agecontrol/management/conductor-complete',
+        headers: {
+          "Authorization": 'Bearer'+Cookie.get('token')
+        }
+      }).then((res) => {
+        this.dataConductors = res.data
+      })
+    },
+    formatDate: function (date) {
+      var newDate = moment.locale('pt-br')
+      newDate = moment(date).format('L')
+      return newDate
+    }
+  },
+  mounted() {
+    this.getConductors()
   }
 }
 </script>
@@ -324,7 +162,6 @@ export default {
 
     table {
       width: 100%;
-      height: 100%;
       border-collapse: collapse;
 
       thead {
