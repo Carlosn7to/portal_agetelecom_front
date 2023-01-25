@@ -39,9 +39,9 @@
             <td>{{ item.periodo }}</td>
             <td>{{ item.quilometragem_aprovada }}  <!--|<span class="down"><i class="fi fi-rr-caret-down"></i> 4,20%</span>--></td>
             <!--            <td>87</td>-->
-            <td class="status approved">
+            <td class="status" :class="{ 'approved' : item.aprovador_id !== null, 'pending' : item.aprovador_id === null }">
                 <span>
-                  Aprovado
+                  {{ item.aprovador_id !== null ? 'Aprovado' : 'Pendente' }}
                 </span>
             </td>
             <!--            <td>-->
@@ -87,7 +87,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.reports)
   }
 }
 </script>

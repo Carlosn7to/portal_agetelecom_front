@@ -4,21 +4,21 @@
         <div class="dashboard" @click="modal = 'report-all'">
           <i class="fi fi-rr-document-signed"></i>
           <div class="info">
-            <h6>51</h6>
+            <h6>{{ dataReports.length }}</h6>
             <span>Relatos totais</span>
           </div>
         </div>
-        <div class="dashboard" @click="modal = 'report-status'">
+        <div class="dashboard" @click="modal = 'report-status', typeStatus = 'approved'">
           <i class="fi fi-rs-time-check"></i>
           <div class="info">
-            <h6>33</h6>
+            <h6>{{ dataReportsApproved.length }}</h6>
             <span>Relatos aprovados</span>
           </div>
         </div>
-        <div class="dashboard" @click="modal = 'report-status'">
+        <div class="dashboard" @click="modal = 'report-status', typeStatus = 'pending'">
           <i class="fi fi-rr-time-quarter-to"></i>
           <div class="info">
-            <h6>11</h6>
+            <h6>{{ dataReportsPending.length }}</h6>
             <span>Relatos pendentes</span>
           </div>
         </div>
@@ -26,7 +26,7 @@
           <i class="fi fi-rr-time-delete"></i>
           <div class="info">
             <h6>7</h6>
-            <span>Relatos não enviados</span>
+            <span>Relatos não enviados <br><b style="color: red">Em desenvolvimento</b></span>
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@
           </tr>
           </thead>
           <tbody v-if="reportsStatus">
-          <tr v-for="item in dataFiveFirst" :key="item.id">
+          <tr v-for="item in dataReports" :key="item.id">
             <td>{{ item.primeiro_nome }} {{ item.segundo_nome }}</td>
             <td>{{ item.grupo }}</td>
             <td>{{ item.tipo }}</td>
@@ -71,9 +71,9 @@
             <td>{{ item.periodo }}</td>
             <td>{{ item.quilometragem_aprovada }}  <!--|<span class="down"><i class="fi fi-rr-caret-down"></i> 4,20%</span>--></td>
 <!--            <td>87</td>-->
-            <td class="status approved">
+            <td class="status" :class="{ 'approved' : item.aprovador_id !== null, 'pending' : item.aprovador_id === null }">
                 <span>
-                  Aprovado
+                  {{ item.aprovador_id !== null ? 'Aprovado' : 'Pendente' }}
                 </span>
             </td>
 <!--            <td>-->
@@ -104,6 +104,8 @@
   />
   <ReportsStatus
       v-if="modal === 'report-status'"
+      :reports="typeStatus === 'approved' ? dataReportsApproved : dataReportsPending "
+      :typeStatus="typeStatus"
       @close-modal="modal = ''"
   />
   <ReportNotSent
@@ -134,7 +136,10 @@ export default {
       modal: false,
       dataReport: {},
       dataReports: {},
+      dataReportsApproved: [],
+      dataReportsPending: [],
       dataFiveFirst: [],
+      typeStatus: '',
       reportsStatus: false
     }
   },
@@ -152,8 +157,9 @@ export default {
         this.dataFiveFirst = this.dataReports.slice(0, 5)
         this.reportsStatus = true
 
-        console.log(this.dataReports)
-        console.log(this.dataFiveFirst)
+        this.dataReportsApproved = this.dataReports.filter(report => (report.aprovador_id !== null))
+        this.dataReportsPending = this.dataReports.filter(report => (report.aprovador_id === null))
+
       })
     }
   },
