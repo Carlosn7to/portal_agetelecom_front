@@ -144,6 +144,7 @@ export default {
         this.input.data.image = null
         this.input.formData.imageName = ''
         this.input.formData.imageStatus = true
+        this.$emit('update-data')
       })
     },
     getConductors: function (){
@@ -169,7 +170,6 @@ export default {
       })
     },
     uploadImage: function (e){
-      console.log('esteve aqui')
       const image = e.target.files[0];
       this.input.formData.imageName = e.target.files[0].name
 

@@ -55,22 +55,22 @@
             <th>Data</th>
             <th>Referente</th>
             <th>Quilometragem <br> relatada</th>
-            <th>Distância <br> Percorrida</th>
+<!--            <th>Distância <br> Percorrida</th>-->
             <th>Status</th>
 <!--            <th>Ações</th>-->
           </tr>
           </thead>
-          <tbody>
-          <tr>
-            <td>Carlos Netos</td>
-            <td>Age</td>
-            <td>Moto</td>
-            <td>Honda/JSA-2198</td>
-            <td>18/01/2023</td>
+          <tbody v-if="reportsStatus">
+          <tr v-for="item in dataFiveFirst" :key="item.id">
+            <td>{{ item.primeiro_nome }} {{ item.segundo_nome }}</td>
+            <td>{{ item.grupo }}</td>
+            <td>{{ item.tipo }}</td>
+            <td>{{ item.fabricante }}/{{ item.modelo }}</td>
+            <td>{{ item.created_at }}</td>
 
-            <td>Saída para almoço</td>
-            <td>1202 | <span class="down"><i class="fi fi-rr-caret-down"></i> 4,20%</span></td>
-            <td>87</td>
+            <td>{{ item.periodo }}</td>
+            <td>{{ item.quilometragem_aprovada }}  <!--|<span class="down"><i class="fi fi-rr-caret-down"></i> 4,20%</span>--></td>
+<!--            <td>87</td>-->
             <td class="status approved">
                 <span>
                   Aprovado
@@ -95,18 +95,17 @@
   <ReportNew
     v-if="modal === 'report-new'"
     @close-modal="modal = ''"
+    @update-data="getReports"
   />
-
   <ReportAll
     v-if="modal === 'report-all'"
+    :reports="dataReports"
     @close-modal="modal = ''"
   />
-
   <ReportsStatus
       v-if="modal === 'report-status'"
       @close-modal="modal = ''"
   />
-
   <ReportNotSent
     v-if="modal === 'report-notsent'"
     @close-modal="modal = ''"
@@ -115,6 +114,10 @@
 </template>
 
 <script>
+
+
+import {AXIOS} from "../../../../../services/api.ts";
+import Cookie from 'js-cookie';
 
 import ReportManagement from "@/components/ageControl/operatingPanel/reports/ReportManagement";
 import ReportNew from "@/components/ageControl/operatingPanel/reports/ReportNew";
@@ -125,27 +128,37 @@ import ReportNotSent from "@/components/ageControl/operatingPanel/reports/Report
 export default {
   name: "ReportPanel",
   components: {ReportManagement, ReportNew, ReportAll, ReportsStatus, ReportNotSent},
-  emits: ['close-modal'],
+  emits: ['close-modal', 'update-data'],
   data() {
     return {
-      menuDrop: '',
       modal: false,
-      dataReport: {}
+      dataReport: {},
+      dataReports: {},
+      dataFiveFirst: [],
+      reportsStatus: false
     }
   },
   methods: {
-    openDropdown: function (id) {
-      const element = this.$el.querySelector('#'+id)
-      const domRect = element.getBoundingClientRect();
-      const space = window.innerHeight - domRect.bottom;
+    getReports: function () {
+      AXIOS({
+        method: 'get',
+        url: 'agecontrol/management/reports-complete',
+        headers: {
+          "Authorization": "Bearer "+Cookie.get('token')
+        }
 
+      }).then((res) => {
+        this.dataReports = res.data
+        this.dataFiveFirst = this.dataReports.slice(0, 5)
+        this.reportsStatus = true
 
-      if(space > 100) {
-        this.menuDrop = 'down'
-      } else {
-        this.menuDrop = 'up'
-      }
+        console.log(this.dataReports)
+        console.log(this.dataFiveFirst)
+      })
     }
+  },
+  mounted() {
+    this.getReports()
   }
 }
 </script>
