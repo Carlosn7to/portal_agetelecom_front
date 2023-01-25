@@ -224,7 +224,7 @@
                     <i class="fi fi-sr-route"></i>
                     <div class="inputs">
                       <label for="distance-base-house">Distância da Sede - Casa <b>*</b></label>
-                      <input required type="number" min="1" max="200" name="distance-base-house" id="distance-base-house"
+                      <input required  type="number" min="1" max="200" name="distance-base-house" id="distance-base-house"
                               @focusin="input.selected = 'conductor.distance-base-house'" @focusout="input.selected = ' '"
                               v-model="input.data.distanceBaseHouse" />
                     </div>

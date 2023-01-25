@@ -249,14 +249,14 @@
 
                 }
 
-                input[type=text], input[type=number], input[type=email] {
+                input[type=text], input[type=number], input[type=email], select {
                   @extend .pattern;
                   background-color: #fff;
                 }
 
                 select {
                   @extend .pattern;
-                  z-index: 2;
+                  z-index: 1;
                   background-color: transparent;
                 }
 

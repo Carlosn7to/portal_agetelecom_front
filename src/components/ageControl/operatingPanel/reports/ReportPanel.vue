@@ -57,28 +57,10 @@
             <th>Quilometragem <br> relatada</th>
             <th>Distância <br> Percorrida</th>
             <th>Status</th>
-            <th>Ações</th>
+<!--            <th>Ações</th>-->
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>Carlos Netos</td>
-            <td>Age</td>
-            <td>Moto</td>
-            <td>Honda/JSA-2198</td>
-            <td>18/01/2023</td>
-            <td>Entrada</td>
-            <td>1202 | <span class="up" ><i class="fi fi-rr-caret-up"></i> 15,2%</span></td>
-            <td>54</td>
-            <td class="status pending">
-                <span>
-                  Pendente
-                </span>
-            </td>
-            <td>
-              <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
-            </td>
-          </tr>
           <tr>
             <td>Carlos Netos</td>
             <td>Age</td>
@@ -94,9 +76,9 @@
                   Aprovado
                 </span>
             </td>
-            <td>
-              <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
-            </td>
+<!--            <td>-->
+<!--              <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>-->
+<!--            </td>-->
           </tr>
           </tbody>
         </table>

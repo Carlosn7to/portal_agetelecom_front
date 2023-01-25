@@ -1,7 +1,7 @@
 <template>
   <div id="content-conductor">
     <div class="filters">
-      <input type="text" id="search" name="search" placeholder="Buscar condutor, placa..." autocomplete="off"
+      <input type="text" id="search" name="search" placeholder="Buscar condutor..." autocomplete="off"
              v-model="search">
       <button @click="modal = 'conductor-new'">
         <i class="fi fi-rr-user-add"></i>
@@ -18,11 +18,11 @@
           <th>Fabricante/Modelo</th>
           <th>Data do cadastro</th>
           <th>Status</th>
-          <th>Ações</th>
+<!--          <th>Ações</th>-->
         </tr>
         </thead>
-        <tbody>
-        <tr v-for="item in dataConductors" :key="item.id">
+        <tbody v-if="dataStatus">
+        <tr v-for="item in ConductorsFiltered" :key="item.id">
           <td>
             {{ item.primeiro_nome }}
             {{ item.segundo_nome }}
@@ -40,9 +40,9 @@
                   Ativo
                 </span>
           </td>
-          <td>
-            <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
-          </td>
+<!--          <td>-->
+<!--            <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>-->
+<!--          </td>-->
         </tr>
         </tbody>
       </table>
@@ -61,6 +61,9 @@
       v-if="alert.status === true"
       @close="alert.status = false"
   />
+
+  <div class="loading-bar" v-if="loading === true">
+  </div>
 </template>
 
 <script>
@@ -85,12 +88,28 @@ export default {
         status: false
       },
       dataConductors: {},
+      dataStatus: false,
+      loading: true
     }
   },
-  computed: {},
+  computed: {
+    ConductorsFiltered: function () {
+      let values = []
+
+      values = this.dataConductors.filter((value) => {
+        return (
+            value.primeiro_nome.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        )
+      })
+
+      return values
+    }
+  },
   methods: {
     responseForm: function(data) {
       this.alert = data
+      this.loading = true
+      this.getConductors()
     },
     getConductors: function () {
       AXIOS({
@@ -101,6 +120,8 @@ export default {
         }
       }).then((res) => {
         this.dataConductors = res.data
+        this.loading = false
+        this.dataStatus = true
       })
     },
     formatDate: function (date) {
@@ -329,5 +350,9 @@ export default {
     opacity: 1;
     transform: translateY(0px);
   }
+}
+
+.loading-bar {
+  @include bar;
 }
 </style>
