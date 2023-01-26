@@ -64,7 +64,7 @@
                     <div class="inputs file">
                       <div class="container-file">
                         <label for="image">Adicionar arquivo <b>*</b></label>
-                        <input v-if="input.formData.imageStatus" required type="file" name="image" accept="image/jpeg, image/png" id="image" @change="uploadImage">
+                        <input v-if="input.formData.imageStatus" type="file" name="image" accept="image/jpeg, image/png" id="image" @change="uploadImage">
                       </div>
                     </div>
                   </div>
