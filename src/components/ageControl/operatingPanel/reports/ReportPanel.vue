@@ -61,7 +61,7 @@
           </tr>
           </thead>
           <tbody v-if="reportsStatus">
-          <tr v-for="item in dataReports" :key="item.id">
+          <tr v-for="item in dataFiveFirst" :key="item.id">
             <td>{{ item.primeiro_nome }} {{ item.segundo_nome }}</td>
             <td>{{ item.grupo }}</td>
             <td>{{ item.tipo }}</td>
