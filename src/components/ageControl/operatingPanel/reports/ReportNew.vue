@@ -44,6 +44,21 @@
               </div>
               <div class="row-inputs">
                 <div class="item-inputs">
+                  <div class="content-input" :class="{ 'active-inpts' : (input.selected === 'date' || input.data.date !== '') }">
+                    <i class="fi fi-sr-calendar"></i>
+                    <div class="inputs">
+                      <label for="date">Data referência <b>*</b></label>
+                      <input type="date" name="date" id="date" placeholder=" "
+                             required autocomplete="off"
+                             @focusin="input.selected = 'date'"
+                             v-model="input.data.date">
+                    </div>
+                  </div>
+                  <span>Informar a data que o relato faz referencia</span>
+                </div>
+              </div>
+              <div class="row-inputs">
+                <div class="item-inputs">
                   <div class="content-input" :class="{ 'active-inpts' : (input.selected === 'period' || input.data.period !== '') }">
                     <i class="fi fi-sr-users-alt"></i>
                     <div class="inputs">
@@ -111,7 +126,8 @@ export default {
           conductor: '',
           kmReport: '',
           period: '',
-          image: null
+          image: null,
+          date: ''
         }
       },
       alert: {
@@ -178,7 +194,6 @@ export default {
       reader.onload = e =>{
         this.input.data.image = e.target.result;
       };
-
     }
   },
   mounted() {

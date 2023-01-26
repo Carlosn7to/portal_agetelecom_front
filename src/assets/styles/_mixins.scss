@@ -249,7 +249,7 @@
 
                 }
 
-                input[type=text], input[type=number], input[type=email], select {
+                input[type=text], input[type=number], input[type=email], input[type=date], select {
                   @extend .pattern;
                   background-color: #fff;
                 }
