@@ -27,7 +27,7 @@
       </div>
     </div>
     <div class="container-body">
-      <div class="items-body" v-for="item in data" :key="item.plan">
+      <div class="items-body" v-for="item in PlansFiltered" :key="item.plan">
         <div class="item" style="width: 40%; justify-content: flex-start">
           <span>{{ item.plan }}</span>
         </div>
@@ -70,7 +70,18 @@ export default {
       this.$emit('return-page');
     }
   },
-  computed: {}
+  computed: {
+    PlansFiltered: function() {
+      let values = []
+
+      values = this.data.filter((value) => {
+        return (
+            value.plan.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        )
+      })
+      return values
+    }
+  }
 }
 </script>
 
