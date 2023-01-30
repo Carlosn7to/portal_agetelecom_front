@@ -55,6 +55,9 @@ export default {
     },
     data: {
       required: true
+    },
+    mode: {
+      type: String
     }
   },
   data() {

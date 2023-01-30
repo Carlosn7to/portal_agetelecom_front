@@ -119,6 +119,7 @@
               :data="dataExtract"
               v-if="page === 'stars'"
               @return-page="returnPage"
+              :mode="mode"
           />
         </div>
       </div>
