@@ -21,7 +21,7 @@
                 <h1>Dashboard de vendas</h1>
                 <div class="dashboards">
                   <div class="dashboard"
-                       @click="modalView('stars')">
+                       @click="extractView('stars','Estrelas', data.extractStars)" style="cursor: pointer">
                     <div class="type-value">
                       <span>{{ data.stars }}</span>
                       <span>Estrelas</span>
@@ -29,7 +29,7 @@
                     <i class="fi fi-ss-star"></i>
                   </div>
                   <div class="dashboard"
-                       @click="extractView('Vendas', data.sales.extract)" style="cursor: pointer">
+                       @click="extractView('extract','Vendas', data.sales.extract)" style="cursor: pointer">
                     <div class="type-value">
                       <span>{{ data.sales.count }}</span>
                       <span>Vendas totais</span>
@@ -51,7 +51,7 @@
                     <i class="fi fi-sr-grin-stars"></i>
                   </div>
                   <div class="dashboard"
-                       @click="extractView('Cancelamentos', data.cancel.extract)" style="cursor: pointer">
+                       @click="extractView('extract', 'Cancelamentos', data.cancel.extract)" style="cursor: pointer">
                   <div class="type-value">
                       <span>{{ data.cancel.count }}</span>
                       <span>Cancelamento <br> -7 Dias</span>
@@ -114,6 +114,12 @@
             @return-page="returnPage"
             :mode="mode"
           />
+          <ExtractStars
+              :title="titlePage"
+              :data="dataExtract"
+              v-if="page === 'stars'"
+              @return-page="returnPage"
+          />
         </div>
       </div>
     </div>
@@ -126,6 +132,7 @@
     :actualMonth="filter.actualMonth"
     :projection="projection"
   />
+
 </template>
 
 <script>
@@ -138,6 +145,7 @@ import ProjectionSection from "@/components/ageRv/dashboards/ProjectionSection";
 import {mapGetters, mapActions} from "vuex";
 import SalesMobile from "@/components/ageRv/dashboards/SalesMobile";
 import ExtractSales from "@/components/ageRv/dashboards/ExtractSales";
+import ExtractStars from "@/components/ageRv/dashboards/ExtractStars";
 
 export default {
   name: "SalesPage",
@@ -146,7 +154,8 @@ export default {
     HeaderApp,
     ProjectionSection,
     SalesMobile,
-    ExtractSales
+    ExtractSales,
+    ExtractStars
   },
   data() {
     return {
@@ -213,8 +222,8 @@ export default {
 
       this.getSellers(this.filter.actualMonth, '2023')
     },
-    extractView: function (title, data) {
-      this.page = 'extract'
+    extractView: function (page, title, data) {
+      this.page = page
       this.titlePage = title
       this.dataExtract = data
     },
