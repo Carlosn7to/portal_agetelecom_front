@@ -42,7 +42,7 @@ export default {
 
       setTimeout(() => {
         this.$emit('close');
-      }, 5000)
+      }, 3000)
     }
   },
   mounted() {

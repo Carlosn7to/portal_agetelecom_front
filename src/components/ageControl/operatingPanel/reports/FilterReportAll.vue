@@ -6,123 +6,157 @@
       </div>
       <h1>Filtros</h1>
 
-      <form action="#">
-        <div class="inputs">
-          <label for="conductor">Condutor</label>
-          <select required>
-            <option value=""
-                    style="padding-left: 0"
-                    selected>
-              --- Nenhum condutor selecionado ---
-            </option>
-            <option>
-              Carlos Neto
-            </option>
-            <option>
-              Regiane
-            </option>
-            <option>
-              Roni
-            </option>
-            <option>
-              Rhuan
-            </option>
-          </select>
-        </div>
-        <div class="inputs">
-          <label for="group">Grupo</label>
-          <select required>
-            <option value=""
-                    style="padding-left: 0"
-                    selected>
-              --- Nenhum grupo selecionado ---
-            </option>
-            <option>
-              Age
-            </option>
-            <option>
-              WT
-            </option>
-          </select>
-        </div>
-        <div class="inputs">
-          <label for="group">Tipo de veículo</label>
-          <select required>
-            <option value=""
-                    style="padding-left: 0"
-                    selected>
-              --- Nenhum tipo de veículo selecionado ---
-            </option>
-            <option>
-              Carro
-            </option>
-            <option>
-              Moto
-            </option>
-          </select>
-        </div>
-        <div class="inputs">
-          <label for="period">Período referente</label>
-          <select required name="reference">
-            <option value=""
-                    style="padding-left: 0"
-                    selected>
-              --- Nenhum período selecionado ---
-            </option>
-            <option>
-              Entrada
-            </option>
-            <option>
-              Saída para almoço
-            </option>
-            <option>
-              Retorno do almoço
-            </option>
-            <option>
-              Saída
-            </option>
-          </select>
-        </div>
-        <div class="inputs">
-          <label for="period">Status</label>
-          <select required name="reference">
-            <option value=""
-                    style="padding-left: 0"
-                    selected>
-              --- Nenhum período selecionado ---
-            </option>
-            <option>
-              Aprovado
-            </option>
-            <option>
-              Pendente
-            </option>
-          </select>
-        </div>
-        <div class="inputs date">
-          <label for="period">Data</label>
-          <div class="inpt-date">
-            <input type="date" name="first-date">
-            <span>à</span>
-            <input type="date" name="last-date">
+      <div id="form">
+        <form action="#" method="post" enctype="multipart/form-data" @submit.prevent="newReport">
+          <div class="container-inputs">
+            <h6>Informações do condutor</h6>
+            <div class="items-inputs">
+              <div class="row-inputs">
+                <div class="item-inputs">
+                  <div class="content-input" :class="{ 'active-inpts' : (input.selected === 'conductor.conductor' || input.data.conductor !== '') }" >
+                    <i class="fi fi-sr-user"></i>
+                    <div class="inputs">
+                      <label for="conductor">Condutor </label>
+                      <select   name="conductor" id="conductor" v-model="input.data.conductor"
+                               @focusin="input.selected = 'conductor.conductor'" @focusout="input.selected = ' '">
+                        <option value=""> </option>
+                        <option v-for="item in input.formData.conductor || []" :value="item.id" :key="item.id">
+                          {{ item.primeiro_nome }} {{ item.segundo_nome }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <span>Selecione o condutor responsável pelo relato</span>
+                </div>
+              </div>
+              <div class="row-inputs">
+                <div class="item-inputs">
+                  <div class="content-input" :class="{ 'active-inpts' : (input.selected === 'period' || input.data.period !== '') }" >
+                    <i class="fi fi-sr-clock"></i>
+                    <div class="inputs">
+                      <label for="period">Periodo referente</label>
+                      <select   name="period" id="period" v-model="input.data.period"
+                               @focusin="input.selected = 'period'" @focusout="input.selected = ' '">
+                        <option value=""> </option>
+                        <option v-for="item in input.formData.period || []" :value="item.id" :key="item.id">
+                         {{ item.periodo }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <span>Selecione o condutor responsável pelo relato</span>
+                </div>
+              </div>
+              <div class="row-inputs double">
+                <div class="item-inputs">
+                  <div class="content-input" :class="{ 'active-inpts' : (input.selected === 'first-period' || input.data.firstPeriod !== '') }" >
+                    <i class="fi fi-sr-calendar"></i>
+                    <div class="inputs">
+                      <label for="first-period">Primeira data </label>
+                      <input type="date" name="first-period" id="first-period"
+                             v-model="input.data.firstPeriod" @focusin="input.selected = 'first-period'" @focusout="input.selected = ''">
+                    </div>
+                  </div>
+                </div>
+                <div class="item-inputs">
+                  <div class="content-input" :class="{ 'active-inpts' : (input.selected === 'last-period' || input.data.lastPeriod !== '') }" >
+                    <i class="fi fi-sr-calendar"></i>
+                    <div class="inputs">
+                      <label for="last-period">Segunda data </label>
+                      <input type="date" name="last-period" id="last-period"
+                      v-model="input.data.lastPeriod" @focusin="input.selected = 'last-period'" @focusout="input.selected = ''">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <button>
-          Filtrar relatos
-        </button>
-      </form>
-
+          <button @click="filterReports">Filtrar</button>
+        </form>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import {AXIOS} from "../../../../../services/api.ts";
+import Cookie from "js-cookie";
+
 export default {
   name: "FilterReportAll",
+  components: {},
+
+  data () {
+    return {
+      search: '',
+      input: {
+        selected: '',
+        formData: {
+          conductor: null,
+          period: null,
+          imageName: '',
+          imageStatus: true
+        },
+        data: {
+          conductor: '',
+          period: '',
+          firstPeriod: '',
+          lastPeriod: ''
+        }
+      },
+      alert: {
+        class: '',
+        status: true,
+        msg: ''
+      }
+    }
+  },
   methods: {
     closePage: function () {
       this.$emit('close-modal')
+    },
+    getConductors: function (){
+      AXIOS({
+        method: 'get',
+        url: 'agecontrol/management/conductor',
+        headers: {
+          "Authorization": "Bearer "+Cookie.get('token')
+        }
+      }).then((res) => {
+        this.input.formData.conductor = res.data
+      })
+    },
+    getPeriods: function () {
+      AXIOS({
+        method: 'get',
+        url: 'agecontrol/management/report-periods',
+        headers: {
+          "Authorization": "Bearer "+Cookie.get('token')
+        }
+      }).then((res) => {
+        this.input.formData.period = res.data
+      })
+    },
+    filterReports: function () {
+
+      const filters = JSON.stringify(this.input.data)
+
+      AXIOS({
+        method: 'get',
+        url: 'agecontrol/management/reports-complete',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token'),
+          'Content-Type': 'application/json'
+        },
+        params: {filters}
+      }).then((res) => {
+        this.$emit('filtered', res.data)
+      })
     }
+  },
+  mounted() {
+    this.getConductors()
+    this.getPeriods()
   }
 }
 </script>
@@ -131,9 +165,8 @@ export default {
 
 #modal {
   #card-modal {
-    width: 30vw;
-    background-color: $back-main;
-
+    width: 50vw;
+    padding-bottom: 4vh;
 
     #close-button {
       height: initial;
@@ -143,80 +176,10 @@ export default {
       text-align: center;
     }
 
-    form {
-      margin-top: 2vh;
-      width: 100%;
-      height: 60%;
-      @include flex(column, flex-start, center, 2vh);
 
-      .inputs {
-        @include flex(column, flex-start, initial, 1vh);
-        width: 70%;
-
-        label {
-          font-size: 1.4rem;
-          font-weight: 500;
-          b {
-            color: $red;
-          }
-        }
-
-        select {
-          @include inp-t-g;
-          height: 5vh;
-          padding: 0;
-          font-size: 1.2rem;
-          color: $ml-text-h1;
-          font-weight: 500;
-          option{
-            padding-left: 2vw;
-          }
-        }
-
-        input[type=number] {
-          @include inp-t-g;
-          background-color: #eaeaea;
-        }
-
-        #btn-file {
-          @include button-pattern;
-          width: 80%;
-          margin: 0 auto;
-          text-align: center;
-          background-color: #fff;
-          color: $age-bl;
-
-          &:hover {
-            background-color: $age-bl;
-            color: #fff;
-          }
-        }
-
-      }
-
-      .inpt-date {
-        @include flex(row, flex-start, center, .5vw);
-
-        span {
-          font-size: 1.4rem;
-        }
-
-
-        input {
-          height: 5vh;
-          padding-left: 5px;
-          background-color: #EEEEEE;
-          border: 1px solid #1E1F21;
-        }
-      }
-
-      button {
-        @include button-pattern;
-        margin: 4vh 0;
-        height: 5vh;
-      }
+    #form {
+      @include form-label-inputs;
     }
-
   }
 }
 

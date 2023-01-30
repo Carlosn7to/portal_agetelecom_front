@@ -11,6 +11,7 @@
           <i class="fi fi-rr-filter"></i>
           <span>Filtro</span>
         </button>
+        <button v-if="filtered === true" @click="getReports" class="clear-filter"><i class="fi fi-sr-filter-slash"></i></button>
       </div>
       <div id="content-panel">
         <table>
@@ -29,7 +30,7 @@
           </tr>
           </thead>
           <tbody>
-            <tr v-for="item in reports" :key="item.id">
+            <tr v-for="item in ConductorsFiltered" :key="item.id">
             <td>{{ item.primeiro_nome }} {{ item.segundo_nome }}</td>
             <td>{{ item.grupo }}</td>
             <td>{{ item.tipo }}</td>
@@ -59,16 +60,27 @@
   <FilterReportAll
     v-if="modal === 'filter'"
     @close-modal="modal = ''"
+    @filtered="reportsFiltered"
+  />
+
+  <AlertResponse
+      :response="alert"
+      v-if="alert.status === true"
+      @close="alert.status = false"
   />
 </template>
 
 <script>
 
 import FilterReportAll from "@/components/ageControl/operatingPanel/reports/FilterReportAll";
+import AlertResponse from "@/components/_aux/AlertResponse";
+import {AXIOS} from "../../../../../services/api.ts";
+import Cookie from "js-cookie";
+
 
 export default {
   name: "ReportAll",
-  components: {FilterReportAll},
+  components: {FilterReportAll, AlertResponse},
   props: {
     reports: {
       required: true
@@ -78,12 +90,58 @@ export default {
   data () {
     return {
       search: '',
-      modal: ''
+      modal: '',
+      data: this.reports,
+      alert: {
+        class: '',
+        msg: '',
+        status: false
+      },
+      filtered: false
     }
   },
   methods: {
     closePage: function () {
       this.$emit('close-modal')
+    },
+    reportsFiltered: function (data) {
+      this.data = data
+      this.modal = ''
+      this.filtered = true
+
+      this.alert.msg = 'Relatório filtrado com sucesso!'
+      this.alert.class = 'success'
+      this.alert.status = true
+    },
+    getReports: function () {
+      this.filtered = false
+      AXIOS({
+        method: 'get',
+        url: 'agecontrol/management/reports-complete',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token'),
+          'Content-Type': 'application/json'
+        }
+      }).then((res) => {
+        this.alert.msg = 'Filtros desfeitos com sucesso!'
+        this.alert.class = 'success'
+        this.alert.status = true
+        this.data = res.data
+      })
+    }
+  },
+  computed: {
+    ConductorsFiltered: function () {
+      let values = []
+
+      values = this.data.filter((value) => {
+        return (
+            value.primeiro_nome.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        )
+      })
+
+      return values
+
     }
   },
   mounted() {
@@ -132,6 +190,23 @@ export default {
           padding-bottom: 2px;
         }
         margin-left: 1vw;
+      }
+
+      .clear-filter {
+        all: unset;
+        margin: 0 1vw;
+        padding: 5px 15px;
+        border-radius: 3px;
+        background-color: $red;
+        color: #fff;
+        border: 1px solid $red;
+        @include tr-p;
+
+        &:hover {
+          background-color: #fff;
+          border-color: $red;
+          color: $red;
+        }
       }
     }
 

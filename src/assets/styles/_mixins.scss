@@ -233,12 +233,15 @@
                   top: 13px;
                   @include tr;
                   cursor: text;
+                  width: 50%;
 
                   b {
                     color: $red;
                     font-weight: 600;
                   }
                 }
+
+
 
                 .pattern {
                   border: 2px solid #cccccc;
@@ -290,6 +293,7 @@
                   animation: background-opacity .2s ease-in-out forwards;
                   font-weight: 600;
                   z-index: 3;
+                  width: initial;
                 }
 
 
