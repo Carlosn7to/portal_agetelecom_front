@@ -35,6 +35,20 @@
   box-shadow: 0 0 4px rgb(0 0 0 / 6%), 0 2px 2px rgb(0 0 0 / 12%);
 }
 
+@mixin sh-pattern {
+  box-shadow: rgba(33, 33, 56, 0.1) 0px 0px 16px;
+
+}
+
+@mixin sh-pattern-hover {
+  @include sh-pattern;
+  @include tr;
+
+  &:hover, &:focus {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+  }
+}
+
 // Adiciona sombras mais escuras ao colocar o mouse encima do elemento.
 @mixin sh-h {
   @include sh;
@@ -570,6 +584,101 @@
 
     .item:nth-child(1) {
       width: 30%;
+    }
+  }
+}
+
+
+@mixin table-pattern {
+  padding: 2vh 2vw;
+  background-color: #fff;
+  border-radius: 10px;
+  @include sh-pattern;
+
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+
+    thead {
+
+      tr {
+        width: 100%;
+
+        th:nth-child(1) {
+          width: 8%;
+          text-align: left;
+        }
+
+        th {
+          text-align: center;
+          color: $table-headers;
+          font-weight: 700;
+          font-size: 1.2rem;
+          border-top: 2px solid $table-headers-border;
+          border-bottom: 2px solid $table-headers-border;
+          padding: 10px 0;
+        }
+
+      }
+
+    }
+    tbody {
+
+      tr {
+
+        td:nth-child(1) {
+          width: 8%;
+          text-align: left;
+
+          :is(.select-id) {
+            @include flex(row, flex-start, center, .5vw);
+          }
+        }
+
+
+
+        td {
+          text-align: center;
+          color: $table-body;
+          font-weight: 600;
+          font-size: 1.2rem;
+          border-top: 1px solid $table-body-border;
+          border-bottom: 1px solid $table-body-border;
+          padding: 20px 0;
+
+          :is(.status) {
+            @include flex(row, center, center, .5vw);
+
+            div {
+              padding: 7px;
+              border-radius: 3px;
+            }
+
+            :is(.success) {
+              background-color: $green;
+            }
+
+            :is(.pending) {
+              background-color: $orange;
+            }
+
+            :is(.warning) {
+              background-color: $red;
+            }
+
+            span {
+              font-weight: 800;
+            }
+
+          }
+
+        }
+
+
+      }
+
     }
   }
 }

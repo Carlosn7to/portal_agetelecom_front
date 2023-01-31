@@ -16,14 +16,15 @@
 
         <div id="content-pages">
           <div id="menu-pages">
+            <div class="item-menu" @click="menuActive = 'dashboards'" :class="{ 'activeMenu' : menuActive === 'dashboards' }">Dashboards</div>
             <div class="item-menu" @click="menuActive = 'reports'" :class="{ 'activeMenu' : menuActive === 'reports' }">Relatos</div>
             <div class="item-menu" @click="menuActive = 'conductors'" :class="{ 'activeMenu' : menuActive === 'conductors' }">Condutores</div>
-<!--            <div class="item-menu" @click="menuActive = 'vehicles'" :class="{ 'activeMenu' : menuActive === 'vehicles' }">Veículos</div>-->
 <!--            <div class="item-menu" @click="menuActive = 'gas'" :class="{ 'activeMenu' : menuActive === 'gas' }">Postos</div>-->
           </div>
           <div id="items-page">
             <ReportPanel v-if="menuActive === 'reports'" />
             <ConductorPanel v-if="menuActive === 'conductors'" />
+            <DashboardPanel v-if="menuActive === 'dashboards'"/>
           </div>
         </div>
 
@@ -39,6 +40,7 @@ import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 import ReportPanel from "@/components/ageControl/operatingPanel/reports/ReportPanel";
 import ConductorPanel from "@/components/ageControl/operatingPanel/conductors/ConductorPanel";
+import DashboardPanel from "@/components/ageControl/operatingPanel/dashboards/DashboardPanel";
 
 export default {
   name: "HomePage",
@@ -47,7 +49,8 @@ export default {
     MenuApp,
     HeaderApp,
     ReportPanel,
-    ConductorPanel
+    ConductorPanel,
+    DashboardPanel
   },
   data () {
     return {

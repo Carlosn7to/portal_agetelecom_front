@@ -1,10 +1,10 @@
 <template>
   <div class="alert" :class="{'alert-on' : alert === true, 'alert-off' : alert === false,
                               'success' : response.class === 'success',
-                               'failed' : response.class === 'failed'} ">
+                               'warning' : response.class === 'warning'} ">
     <div class="icon">
       <i class="fi fi-ss-cloud-check" v-if="response.class === 'success'"></i>
-      <i class="fi fi-sr-bug" v-if="response.class === 'failed'"></i>
+      <i class="fi fi-sr-bug" v-if="response.class === 'warning'"></i>
     </div>
     <p v-if="typeof response.msg !== 'object'">
       {{ response.msg }}
@@ -38,7 +38,7 @@ export default {
     destroyAlert: function () {
       setTimeout(() => {
         this.alert = false
-      }, 3000)
+      }, 2000)
 
       setTimeout(() => {
         this.$emit('close');
@@ -91,7 +91,7 @@ export default {
   background-color: $green;
 }
 
-.failed {
+.warning {
   background-color: $red;
 }
 

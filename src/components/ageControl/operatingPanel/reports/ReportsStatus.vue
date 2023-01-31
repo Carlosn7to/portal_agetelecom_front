@@ -30,7 +30,7 @@
             <td>{{ item.grupo }}</td>
             <td>{{ item.tipo }}</td>
             <td>{{ item.fabricante }}/{{ item.modelo }}</td>
-            <td>{{ item.created_at }}</td>
+            <td>{{ item.data_referencia }}</td>
 
             <td>{{ item.periodo }}</td>
             <td>{{ item.quilometragem_aprovada }}  <!--|<span class="down"><i class="fi fi-rr-caret-down"></i> 4,20%</span>--></td>

@@ -4,55 +4,75 @@
       <div id="close-button">
         <i class="fi fi-rr-cross-small" @click="closePage"></i>
       </div>
-      <div class="filters">
-        <input type="text" id="search" name="search" placeholder="Buscar condutor, placa..." autocomplete="off"
-               v-model="search">
-        <button @click="modal = 'filter'">
-          <i class="fi fi-rr-filter"></i>
-          <span>Filtro</span>
-        </button>
-        <button v-if="filtered === true" @click="getReports" class="clear-filter"><i class="fi fi-sr-filter-slash"></i></button>
-      </div>
-      <div id="content-panel">
-        <table>
-          <thead>
-          <tr>
-            <th>Condutor</th>
-            <th>Grupo</th>
-            <th>Veículo</th>
-            <th>Fabricante/Modelo</th>
-            <th>Data</th>
-            <th>Referente</th>
-            <th>Quilometragem <br> Relatada</th>
-<!--            <th>Distância <br> Percorrida</th>-->
-            <th>Status</th>
-<!--            <th>Ações</th>-->
-          </tr>
-          </thead>
-          <tbody>
+      <div id="content-card">
+        <div class="filters">
+          <input type="text" id="search" name="search" placeholder="Buscar condutor, placa..." autocomplete="off"
+                 v-model="search">
+          <button @click="modal = 'filter'">
+            <i class="fi fi-rr-filter"></i>
+            <span>Filtro</span>
+          </button>
+          <button v-if="filtered === true" @click="getReports" class="clear-filter"><i class="fi fi-sr-filter-slash"></i></button>
+          <button class="download-excel" @click="downloadReport">
+            <i class="fi fi-rr-file excel"></i>
+            <span>Baixar relatório</span>
+          </button>
+        </div>
+        <div id="content-table">
+          <table>
+            <thead>
+            <tr>
+              <th>
+                <input type="checkbox" name="all" id="all" @click="selectAllCheckbox" v-model="checkboxAll">
+                ID
+              </th>
+              <th style="text-align: left">Condutor</th>
+              <th>Grupo</th>
+              <th>Veículo</th>
+              <th>Fabricante/Modelo</th>
+              <th>Data</th>
+              <th>Referente</th>
+              <th>Quilometragem <br> Relatada</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
             <tr v-for="item in ConductorsFiltered" :key="item.id">
-            <td>{{ item.primeiro_nome }} {{ item.segundo_nome }}</td>
-            <td>{{ item.grupo }}</td>
-            <td>{{ item.tipo }}</td>
-            <td>{{ item.fabricante }}/{{ item.modelo }}</td>
-            <td>{{ item.created_at }}</td>
+              <td>
+                <div class="select-id">
+                  <input type="checkbox" name="id" :id="item.id" v-model="checkboxId" :value="item.id">
+                  <span>
+                  # {{ item.id }}
+                </span>
+                </div>
+              </td>
+              <td style="text-align: left">{{ item.primeiro_nome }} {{ item.segundo_nome }}</td>
+              <td>{{ item.grupo }}</td>
+              <td>{{ item.tipo }}</td>
+              <td>{{ item.fabricante }}/{{ item.modelo }}</td>
+              <td>{{ item.data_referencia }}</td>
 
-            <td>{{ item.periodo }}</td>
-            <td>{{ item.quilometragem_aprovada }}  <!--|<span class="down"><i class="fi fi-rr-caret-down"></i> 4,20%</span>--></td>
-            <!--            <td>87</td>-->
-            <td class="status" :class="{ 'approved' : item.aprovador_id !== null, 'pending' : item.aprovador_id === null }">
-                <span>
+              <td>{{ item.periodo }}</td>
+              <td>{{ item.quilometragem_aprovada }}  <!--|<span class="down"><i class="fi fi-rr-caret-down"></i> 4,20%</span>--></td>
+              <td>
+                <div class="status">
+                  <div :class="{ 'success' : item.aprovador_id !== null, 'pending' : item.aprovador_id === null }">
+                  </div>
+                  <span>
                   {{ item.aprovador_id !== null ? 'Aprovado' : 'Pendente' }}
                 </span>
-            </td>
-            <!--            <td>-->
-            <!--              <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>-->
-            <!--            </td>-->
-          </tr>
+                </div>
+              </td>
+                <td>
+                  <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
+                </td>
+            </tr>
 
-          </tbody>
-        </table>
+            </tbody>
+          </table>
 
+        </div>
       </div>
 
     </div>
@@ -76,6 +96,7 @@ import FilterReportAll from "@/components/ageControl/operatingPanel/reports/Filt
 import AlertResponse from "@/components/_aux/AlertResponse";
 import {AXIOS} from "../../../../../services/api.ts";
 import Cookie from "js-cookie";
+import moment from "moment";
 
 
 export default {
@@ -97,7 +118,9 @@ export default {
         msg: '',
         status: false
       },
-      filtered: false
+      filtered: false,
+      checkboxId: [],
+      checkboxAll: false
     }
   },
   methods: {
@@ -108,6 +131,10 @@ export default {
       this.data = data
       this.modal = ''
       this.filtered = true
+      this.checkboxId = []
+      this.checkboxAll = false
+
+
 
       this.alert.msg = 'Relatório filtrado com sucesso!'
       this.alert.class = 'success'
@@ -115,6 +142,9 @@ export default {
     },
     getReports: function () {
       this.filtered = false
+      this.checkboxId = []
+      this.checkboxAll = false
+
       AXIOS({
         method: 'get',
         url: 'agecontrol/management/reports-complete',
@@ -128,7 +158,47 @@ export default {
         this.alert.status = true
         this.data = res.data
       })
+    },
+    selectAllCheckbox: function () {
+      if(! this.checkboxAll) {
+        this.data.forEach((item) => {
+          this.checkboxId.push(item.id)
+        })
+      } else {
+        this.checkboxId = []
+      }
+
+      this.checkboxAll = !this.checkboxAll
+
+    },
+    downloadReport: function () {
+
+      if(this.checkboxId.length === 0) {
+        this.alert.msg = 'Selecione ao menos um relato!'
+        this.alert.class = 'warning'
+        this.alert.status = true
+
+      } else {
+        AXIOS({
+          method: 'GET',
+          url: 'agecontrol/management/reports-complete',
+          headers: {
+            'Authorization': 'Bearer '+Cookie.get('token')
+          },
+          params: {idReports: this.checkboxId},
+          responseType: 'blob',
+        }).then((res) => {
+          let blob = new Blob([res.data],
+              { type: 'vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+          let link = document.createElement('a')
+          link.href = window.URL.createObjectURL(blob)
+          link.download = 'relatorio_relatos_'+`${moment().format('D-MM-YYYY-SSS')}`+'.xlsx'
+          link.click()
+        })
+      }
+
     }
+
   },
   computed: {
     ConductorsFiltered: function () {
@@ -153,220 +223,88 @@ export default {
 
 #modal {
   #card-modal {
-    width: 95vw;
-    height: 95vh;
+    width: 98vw;
+    height: 98vh;
     background-color: $back-main;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px !important;
 
     #close-button {
       height: 8%;
     }
 
-    .filters {
-      padding: 3vh 2vw;
-      width: 100%;
-      @include flex(row, flex-start, center, 0);
-      input[type=text] {
-        width: 25%;
-        padding: 10px 8px;
-        border-radius: 5px;
-        outline: none;
-        border: none;
-        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-
-        &:focus {
-          box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;      }
-      }
-
-      button {
-        @include button-pattern;
-        @include flex(row, center, center, .5vw);
-
-        i {
-          font-size: 1.6rem;
-        }
-
-        span {
-          font-size: 1.4rem;
-          padding-bottom: 2px;
-        }
-        margin-left: 1vw;
-      }
-
-      .clear-filter {
-        all: unset;
-        margin: 0 1vw;
-        padding: 5px 15px;
-        border-radius: 3px;
-        background-color: $red;
-        color: #fff;
-        border: 1px solid $red;
-        @include tr-p;
-
-        &:hover {
-          background-color: #fff;
-          border-color: $red;
-          color: $red;
-        }
-      }
-    }
-
-
-    #content-panel {
-      width: 100%;
-      height: 75%;
-      max-height: 75%;
-      padding: 2vh 2vw;
-      overflow: auto;
-
-      table {
+    #content-card {
+      padding: 0vh 2vw;
+      height: 100%;
+      .filters {
+        padding: 3vh 0vw;
         width: 100%;
-        border-collapse: collapse;
+        @include flex(row, flex-start, center, 0);
+        input[type=text] {
+          width: 25%;
+          padding: 10px 8px;
+          border-radius: 5px;
+          outline: none;
+          border: none;
+          box-shadow: rgba(128, 128, 166, 0.1) 0px 0px 16px;
+          @include sh-pattern-hover;
+        }
 
-        thead {
-          tr {
-            border-bottom: 2px solid #cccccc30;
+        .download-excel {
+          @include flex(row, center, center, .5vw);
+          background-color: $green;
+          border-color: $green;
 
-            th:nth-child(1) {
-              text-align: left;
-            }
+          &:hover {
+            border-color: $green;
+            color: $green;
+          }
+
+          span {
+            padding-bottom: 2px;
           }
         }
 
+        button {
+          @include button-pattern;
+          @include flex(row, center, center, .5vw);
 
-
-          tbody {
-            tr {
-              @include tr;
-
-
-              td:nth-child(1) {
-                text-align: left;
-              }
-
-              td:nth-last-child(1) {
-                i {
-                  @include tr-p;
-                  font-size: 1.6rem;
-
-                  &:hover {
-                    color: $ml-text-h1;
-                  }
-                }
-              }
-
-              &:hover {
-                background-color: #cccccc60;
-              }
-
-
-              .status {
-                span {
-                  color: #fff;
-                  padding: 7px 10px;
-                  font-weight: 400;
-                  font-size: 1.2rem;
-                  border-radius: 2px;
-                }
-              }
-
-              .approved {
-                span {
-                  background-color: #04DBAC;
-                }
-
-              }
-              .pending {
-                span {
-                  background-color: #FDCB1C;
-                }
-              }
-            }
-
+          i {
+            font-size: 1.6rem;
           }
 
-        thead, tbody {
-          tr {
-            th {
-              width: calc((100% / 8) - 10px);
-              font-size: 1.4rem;
-              color: $age-bl;
-              height: 7vh;
-              text-align: center;
-              padding: 0 1vw;
-            }
-            td {
-              width: calc((100% / 8) - 10px);
-              height: 7vh;
-              color: $ml-text-h1;
-              font-size: 1.2rem;
-              font-weight: 500;
-              text-align: center;
-              padding: 0 1vw;
-
-              ul {
-                li {
-                  position: relative;
-
-                  &:hover {
-                    .menu-dropdown {
-                      display: block;
-                    }
-                  }
-
-                  .menu-dropdown {
-                    position: absolute;
-                    right: 4vw;
-                    top: -27vh;
-                    width: 12vw;
-                    background-color: #fff;
-                    border-radius: 3px;
-                    border: 1px solid #cccccc;
-                    @include sh-h;
-
-                    ul {
-                      li {
-                        text-align: left;
-                        padding: 1vh 1vw;
-                        @include flex(row, flex-start, center, .5vw);
-                        border-bottom: 1px solid #cccccc60;
-                        height: 7vh;
-                      }
-
-                      li:nth-last-child(1) {
-                        border: none;
-                      }
-                    }
-                  }
-
-                  .down {
-                    background-color: red;
-                  }
-
-                  .up {
-                    background-color: blue;
-                  }
-                }
-              }
-            }
+          span {
+            font-size: 1.4rem;
+            padding-bottom: 2px;
           }
+          margin-left: 1vw;
+        }
 
-          tr:nth-child(even) {
-            background-color: #cccccc30;
+        .clear-filter {
+          all: unset;
+          margin: 0 1vw;
+          padding: 5px 15px;
+          border-radius: 3px;
+          background-color: $red;
+          color: #fff;
+          border: 1px solid $red;
+          @include tr-p;
 
-            &:hover {
-              background-color: #cccccc60;
-            }
+          &:hover {
+            background-color: #fff;
+            border-color: $red;
+            color: $red;
           }
-
         }
+      }
 
-        .up {
-          color: $red;
-        }
 
-        .down {
-          color: #04DBAC;
-        }
+      #content-table {
+        width: 100%;
+        height: 75%;
+        max-height: 75%;
+        padding: 2vh 2vw;
+        overflow: auto;
+        @include table-pattern;
       }
     }
 

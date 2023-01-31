@@ -4,21 +4,21 @@
         <div class="dashboard" @click="modal = 'report-all'">
           <i class="fi fi-rr-document-signed"></i>
           <div class="info">
-            <h6>{{ dataReports.length }}</h6>
+            <h6>{{ dataReports.length ? dataReports.length : 0 }}</h6>
             <span>Relatos totais</span>
           </div>
         </div>
         <div class="dashboard" @click="modal = 'report-status', typeStatus = 'approved'">
           <i class="fi fi-rs-time-check"></i>
           <div class="info">
-            <h6>{{ dataReportsApproved.length }}</h6>
+            <h6>{{ dataReportsApproved.length ? dataReportsApproved.length : 0 }}</h6>
             <span>Relatos aprovados</span>
           </div>
         </div>
         <div class="dashboard" @click="modal = 'report-status', typeStatus = 'pending'">
           <i class="fi fi-rr-time-quarter-to"></i>
           <div class="info">
-            <h6>{{ dataReportsPending.length }}</h6>
+            <h6>{{ dataReportsPending.length ? dataReportsPending.length : 0 }}</h6>
             <span>Relatos pendentes</span>
           </div>
         </div>
@@ -66,7 +66,7 @@
             <td>{{ item.grupo }}</td>
             <td>{{ item.tipo }}</td>
             <td>{{ item.fabricante }}/{{ item.modelo }}</td>
-            <td>{{ item.created_at }}</td>
+            <td>{{ item.data_referencia }}</td>
 
             <td>{{ item.periodo }}</td>
             <td>{{ item.quilometragem_aprovada }}  <!--|<span class="down"><i class="fi fi-rr-caret-down"></i> 4,20%</span>--></td>
@@ -188,11 +188,7 @@ export default {
       @include tr-p;
       @include flex(row, flex-start, center, 2vw);
       padding: 2vh 2vw;
-      border: 2px solid #cccccc40;
-
-      &:hover {
-        border-color: $age-or;
-      }
+      @include sh-pattern-hover;
 
       i {
         font-size: 3rem;
