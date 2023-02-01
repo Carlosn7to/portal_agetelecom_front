@@ -15,12 +15,6 @@
         <p>Aqui você poderá operar em todos os paineis disponíveis no sistema.</p>
 
         <div id="content-pages">
-          <div id="menu-pages">
-            <div class="item-menu" @click="menuActive = 'dashboards'" :class="{ 'activeMenu' : menuActive === 'dashboards' }">Dashboards</div>
-            <div class="item-menu" @click="menuActive = 'reports'" :class="{ 'activeMenu' : menuActive === 'reports' }">Relatos</div>
-            <div class="item-menu" @click="menuActive = 'conductors'" :class="{ 'activeMenu' : menuActive === 'conductors' }">Condutores</div>
-<!--            <div class="item-menu" @click="menuActive = 'gas'" :class="{ 'activeMenu' : menuActive === 'gas' }">Postos</div>-->
-          </div>
           <div id="items-page">
             <ReportPanel v-if="menuActive === 'reports'" />
             <ConductorPanel v-if="menuActive === 'conductors'" />
@@ -123,6 +117,7 @@ export default {
         #items-page {
           width: 100%;
           height: 85%;
+          padding-top: 2vh;
         }
       }
     }
