@@ -14,7 +14,7 @@
           </button>
           <button v-if="filtered === true" @click="getReports" class="clear-filter"><i class="fi fi-sr-filter-slash"></i></button>
           <button class="download-excel" @click="downloadReport">
-            <i class="fi fi-rr-file excel"></i>
+            <i class="fi fi-sr-folder-download"></i>
             <span>Baixar relatório</span>
           </button>
         </div>
@@ -23,25 +23,89 @@
             <thead>
             <tr>
               <th>
-                <input type="checkbox" name="all" id="all" @click="selectAllCheckbox" v-model="checkboxAll">
-                ID
+                <div>
+                  <label class="container-checkbox">
+                    <input type="checkbox" name="all" id="all" @click="selectAllCheckbox" v-model="checkboxAll">
+                    <span class="checkmark"></span>
+                  </label>
+                  <span>ID</span>
+                </div>
               </th>
-              <th style="text-align: left">Condutor</th>
-              <th>Grupo</th>
-              <th>Veículo</th>
-              <th>Fabricante/Modelo</th>
-              <th>Data</th>
-              <th>Referente</th>
-              <th>Quilometragem <br> Relatada</th>
-              <th>Status</th>
-              <th>Ações</th>
+              <th style="text-align: left">
+                <div class="content">
+                  <span>Condutor</span>
+                  <i class="fi fi-sr-sort-alt" @click="ordenateData('conductor', 'up')" v-if="orders.conductor === 'no-order'"></i>
+                  <i class="fi fi-rs-arrow-alt-up" @click="ordenateData('conductor', 'down')" v-if="orders.conductor === 'up'"></i>
+                  <i class="fi fi-rs-arrow-alt-down" @click="ordenateData('conductor', 'no-order')" v-if="orders.conductor === 'down'"></i>
+                </div>
+              </th>
+              <th>
+                <div class="content">
+                  <span>Grupo</span>
+                  <i class="fi fi-sr-sort-alt" @click="ordenateData('group', 'up')" v-if="orders.group === 'no-order'"></i>
+                  <i class="fi fi-rs-arrow-alt-up" @click="ordenateData('group', 'down')" v-if="orders.group === 'up'"></i>
+                  <i class="fi fi-rs-arrow-alt-down" @click="ordenateData('group', 'no-order')" v-if="orders.group === 'down'"></i>
+                </div>
+              </th>
+              <th>
+                <div class="content">
+                  <span>Veículo</span>
+                  <i class="fi fi-sr-sort-alt" @click="ordenateData('vehicleType', 'up')" v-if="orders.vehicleType === 'no-order'"></i>
+                  <i class="fi fi-rs-arrow-alt-up" @click="ordenateData('vehicleType', 'down')" v-if="orders.vehicleType === 'up'"></i>
+                  <i class="fi fi-rs-arrow-alt-down" @click="ordenateData('vehicleType', 'no-order')" v-if="orders.vehicleType === 'down'"></i>
+                </div>
+              </th>
+              <th>
+                <div class="content">
+                  <span>Fabricante/Modelo</span>
+                  <i class="fi fi-sr-sort-alt" @click="ordenateData('vehicleManufacturer', 'up')" v-if="orders.vehicleManufacturer === 'no-order'"></i>
+                  <i class="fi fi-rs-arrow-alt-up" @click="ordenateData('vehicleManufacturer', 'down')" v-if="orders.vehicleManufacturer === 'up'"></i>
+                  <i class="fi fi-rs-arrow-alt-down" @click="ordenateData('vehicleManufacturer', 'no-order')" v-if="orders.vehicleManufacturer === 'down'"></i>
+                </div>
+              </th>
+              <th>
+                <div class="content">
+                  <span>Data</span>
+                  <i class="fi fi-sr-sort-alt" @click="ordenateData('date', 'up')" v-if="orders.date === 'no-order'"></i>
+                  <i class="fi fi-rs-arrow-alt-up" @click="ordenateData('date', 'down')" v-if="orders.date === 'up'"></i>
+                  <i class="fi fi-rs-arrow-alt-down" @click="ordenateData('date', 'no-order')" v-if="orders.date === 'down'"></i>
+                </div>
+              </th>
+              <th>
+                <div class="content">
+                  <span>Referente</span>
+                  <i class="fi fi-sr-sort-alt" @click="ordenateData('period', 'up')" v-if="orders.period === 'no-order'"></i>
+                  <i class="fi fi-rs-arrow-alt-up" @click="ordenateData('period', 'down')" v-if="orders.period === 'up'"></i>
+                  <i class="fi fi-rs-arrow-alt-down" @click="ordenateData('period', 'no-order')" v-if="orders.period === 'down'"></i>
+                </div>
+              </th>
+              <th>
+                <div class="content">
+                  <span>Quilometragem <br> relatada</span>
+                  <i class="fi fi-sr-sort-alt" @click="ordenateData('kmReport', 'up')" v-if="orders.kmReport === 'no-order'"></i>
+                  <i class="fi fi-rs-arrow-alt-up" @click="ordenateData('kmReport', 'down')" v-if="orders.kmReport === 'up'"></i>
+                  <i class="fi fi-rs-arrow-alt-down" @click="ordenateData('kmReport', 'no-order')" v-if="orders.kmReport === 'down'"></i>
+                </div>
+              </th>
+              <th>
+                <div class="content">
+                  <span>Status</span>
+                  <i class="fi fi-sr-sort-alt" @click="ordenateData('status', 'up')" v-if="orders.status === 'no-order'"></i>
+                  <i class="fi fi-rs-arrow-alt-up" @click="ordenateData('status', 'down')" v-if="orders.status === 'up'"></i>
+                  <i class="fi fi-rs-arrow-alt-down" @click="ordenateData('status', 'no-order')" v-if="orders.status === 'down'"></i>
+                </div>
+              </th>
+              <th style="text-align: center">Ações</th>
             </tr>
             </thead>
             <tbody>
             <tr v-for="item in ConductorsFiltered" :key="item.id">
               <td>
                 <div class="select-id">
-                  <input type="checkbox" name="id" :id="item.id" v-model="checkboxId" :value="item.id">
+                  <label class="container-checkbox">
+                    <input type="checkbox" name="id" :id="item.id" v-model="checkboxId" :value="item.id">
+                    <span class="checkmark"></span>
+                  </label>
                   <span>
                   # {{ item.id }}
                 </span>
@@ -51,7 +115,7 @@
               <td>{{ item.grupo }}</td>
               <td>{{ item.tipo }}</td>
               <td>{{ item.fabricante }}/{{ item.modelo }}</td>
-              <td>{{ item.data_referencia }}</td>
+              <td>{{ formatDate(item.data_referencia) }}</td>
 
               <td>{{ item.periodo }}</td>
               <td>{{ item.quilometragem_aprovada }}  <!--|<span class="down"><i class="fi fi-rr-caret-down"></i> 4,20%</span>--></td>
@@ -64,9 +128,9 @@
                 </span>
                 </div>
               </td>
-                <td>
-                  <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
-                </td>
+              <td style="text-align: center">
+                <i class="fi fi-rr-menu-dots" @click="modal = 'report-mng'"></i>
+              </td>
             </tr>
 
             </tbody>
@@ -105,6 +169,10 @@ export default {
   props: {
     reports: {
       required: true
+    },
+    status: {
+      required: true,
+      default: 'all'
     }
   },
   emits: ['close-modal'],
@@ -120,7 +188,17 @@ export default {
       },
       filtered: false,
       checkboxId: [],
-      checkboxAll: false
+      checkboxAll: false,
+      orders: {
+        conductor: 'no-order',
+        group: 'no-order',
+        vehicleType: 'no-order',
+        vehicleManufacturer: 'no-order',
+        date: 'no-order',
+        period: 'no-order',
+        kmReport: 'no-order',
+        status: 'no-order',
+      }
     }
   },
   methods: {
@@ -197,6 +275,288 @@ export default {
         })
       }
 
+    },
+    formatDate: function (date){
+      let newDate = moment(date).locale('pt-br').format('ll')
+
+      return newDate
+    },
+    ordenateData: function(item, order) {
+
+      let clearOrders = () => {
+        this.orders.conductor = 'no-order'
+        this.orders.group = 'no-order'
+        this.orders.vehicleType = 'no-order'
+        this.orders.vehicleManufacturer = 'no-order'
+        this.orders.date = 'no-order'
+        this.orders.period = 'no-order'
+        this.orders.kmReport = 'no-order'
+        this.orders.status = 'no-order'
+      }
+
+
+      switch (item) {
+        case 'conductor':
+          clearOrders()
+          this.orders.conductor = order
+
+            if(order === 'up' || order === 'down') {
+              this.data.sort((a, b) => {
+                if(a.primeiro_nome > b.primeiro_nome)
+                  if(order === 'up')
+                    return 1;
+                  else
+                    return -1
+
+                if(a.primeiro_nome < b.primeiro_nome)
+                  if(order === 'down')
+                    return 1;
+                  else
+                    return -1
+              })
+            }
+
+          if(order === 'no-order') {
+            this.data.sort((a, b) => {
+              if(a.id > b.id)
+                return -1
+
+              if(a.id < b.id)
+                return 1
+
+            })
+          }
+
+          break
+        case 'group':
+          clearOrders()
+          this.orders.group = order
+
+          if(order === 'up' || order === 'down') {
+            this.data.sort((a, b) => {
+              if(a.grupo > b.grupo)
+                if(order === 'up')
+                  return 1;
+                else
+                  return -1
+
+              if(a.grupo < b.grupo)
+                if(order === 'down')
+                  return 1;
+                else
+                  return -1
+            })
+          }
+
+          if(order === 'no-order') {
+            this.data.sort((a, b) => {
+              if(a.id > b.id)
+                return -1
+
+              if(a.id < b.id)
+                return 1
+
+            })
+          }
+
+          break
+        case 'vehicleType':
+          clearOrders()
+          this.orders.vehicleType = order
+
+          if(order === 'up' || order === 'down') {
+            this.data.sort((a, b) => {
+              if(a.tipo > b.tipo)
+                if(order === 'up')
+                  return 1;
+                else
+                  return -1
+
+              if(a.tipo < b.tipo)
+                if(order === 'down')
+                  return 1;
+                else
+                  return -1
+            })
+          }
+
+          if(order === 'no-order') {
+            this.data.sort((a, b) => {
+              if(a.id > b.id)
+                return -1
+
+              if(a.id < b.id)
+                return 1
+
+            })
+          }
+
+          break
+        case 'vehicleManufacturer':
+          clearOrders()
+          this.orders.vehicleManufacturer = order
+          if(order === 'up' || order === 'down') {
+            this.data.sort((a, b) => {
+              if(a.fabricante > b.fabricante)
+                if(order === 'up')
+                  return 1;
+                else
+                  return -1
+
+              if(a.fabricante < b.fabricante)
+                if(order === 'down')
+                  return 1;
+                else
+                  return -1
+            })
+          }
+          if(order === 'no-order') {
+            this.data.sort((a, b) => {
+              if (a.id > b.id)
+                return -1
+
+              if (a.id < b.id)
+                return 1
+
+            })
+          }
+          break
+        case 'date':
+          clearOrders()
+          this.orders.date = order
+
+          if(order === 'up' || order === 'down') {
+            this.data.sort((a, b) => {
+              if(a.data_referencia > b.data_referencia)
+                if(order === 'up')
+                  return 1;
+                else
+                  return -1
+
+              if(a.data_referencia < b.data_referencia)
+                if(order === 'down')
+                  return 1;
+                else
+                  return -1
+            })
+          }
+          if(order === 'no-order') {
+            this.data.sort((a, b) => {
+              if (a.id > b.id)
+                return -1
+
+              if (a.id < b.id)
+                return 1
+
+            })
+          }
+
+          break
+        case 'period':
+          clearOrders()
+          this.orders.period = order
+
+          if(order === 'up' || order === 'down') {
+            this.data.sort((a, b) => {
+              if(a.periodo > b.periodo)
+                if(order === 'up')
+                  return 1;
+                else
+                  return -1
+
+              if(a.periodo < b.periodo)
+                if(order === 'down')
+                  return 1;
+                else
+                  return -1
+            })
+          }
+          if(order === 'no-order') {
+            this.data.sort((a, b) => {
+              if (a.id > b.id)
+                return -1
+
+              if (a.id < b.id)
+                return 1
+
+            })
+          }
+
+          break
+        case 'kmReport':
+          clearOrders()
+          this.orders.kmReport = order
+
+          if(order === 'up' || order === 'down') {
+            this.data.sort((a, b) => {
+              if(a.quilometragem_aprovada > b.quilometragem_aprovada)
+                if(order === 'up')
+                  return 1;
+                else
+                  return -1
+
+              if(a.quilometragem_aprovada < b.quilometragem_aprovada)
+                if(order === 'down')
+                  return 1;
+                else
+                  return -1
+            })
+          }
+          if(order === 'no-order') {
+            this.data.sort((a, b) => {
+              if (a.id > b.id)
+                return -1
+
+              if (a.id < b.id)
+                return 1
+
+            })
+          }
+
+          break
+        case 'status':
+          clearOrders()
+          this.orders.status = order
+
+          if(order === 'up' || order === 'down') {
+            this.data.sort((a, b) => {
+              if(a.aprovador_id > b.aprovador_id)
+                if(order === 'up')
+                  return 1;
+                else
+                  return -1
+
+              if(a.aprovador_id < b.aprovador_id)
+                if(order === 'down')
+                  return 1;
+                else
+                  return -1
+            })
+          }
+          if(order === 'no-order') {
+            this.data.sort((a, b) => {
+              if (a.id > b.id)
+                return -1
+
+              if (a.id < b.id)
+                return 1
+
+            })
+          }
+
+          break
+      }
+
+    },
+    filterReports: function () {
+      switch (this.status) {
+        case 'pending':
+          this.data = this.reports.filter(report => (report.aprovador_id === null))
+        break
+        case 'approved':
+          this.data = this.reports.filter(report => (report.aprovador_id !== null))
+        break
+      }
     }
 
   },
@@ -215,6 +575,7 @@ export default {
     }
   },
   mounted() {
+    this.filterReports()
   }
 }
 </script>
@@ -238,7 +599,7 @@ export default {
       .filters {
         padding: 3vh 0vw;
         width: 100%;
-        @include flex(row, flex-start, center, 0);
+        @include flex(row, flex-start, center, 1vw);
         input[type=text] {
           width: 25%;
           padding: 10px 8px;
@@ -251,12 +612,14 @@ export default {
 
         .download-excel {
           @include flex(row, center, center, .5vw);
-          background-color: $green;
-          border-color: $green;
+          background-color: $black;
+          border-color: $black;
+          @include tr-p;
+          color: #efefef;
 
           &:hover {
-            border-color: $green;
-            color: $green;
+            background-color: $black-hover;
+            color: #fff;
           }
 
           span {
@@ -265,7 +628,7 @@ export default {
         }
 
         button {
-          @include button-pattern;
+          @include btn-pattern($blue, $white-grey, $blue-hover, $white);
           @include flex(row, center, center, .5vw);
 
           i {
@@ -276,24 +639,10 @@ export default {
             font-size: 1.4rem;
             padding-bottom: 2px;
           }
-          margin-left: 1vw;
         }
 
         .clear-filter {
-          all: unset;
-          margin: 0 1vw;
-          padding: 5px 15px;
-          border-radius: 3px;
-          background-color: $red;
-          color: #fff;
-          border: 1px solid $red;
-          @include tr-p;
-
-          &:hover {
-            background-color: #fff;
-            border-color: $red;
-            color: $red;
-          }
+          @include btn-pattern($red, $white-grey, $red-hover, $white);
         }
       }
 

@@ -85,7 +85,7 @@ h1 {
   background-color: #F4F4F4;
 }
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
   background: #F4F4F4;
 }
 ::-webkit-scrollbar-thumb {

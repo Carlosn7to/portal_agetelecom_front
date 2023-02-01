@@ -1,21 +1,21 @@
 <template>
   <div class="content-report">
     <div id="dashboards">
-        <div class="dashboard" @click="modal = 'report-all'">
+        <div class="dashboard" @click="modal = 'report-all', typeStatus = 'all'">
           <i class="fi fi-rr-document-signed"></i>
           <div class="info">
             <h6>{{ dataReports.length ? dataReports.length : 0 }}</h6>
             <span>Relatos totais</span>
           </div>
         </div>
-        <div class="dashboard" @click="modal = 'report-status', typeStatus = 'approved'">
+        <div class="dashboard" @click="modal = 'report-all', typeStatus = 'approved'">
           <i class="fi fi-rs-time-check"></i>
           <div class="info">
             <h6>{{ dataReportsApproved.length ? dataReportsApproved.length : 0 }}</h6>
             <span>Relatos aprovados</span>
           </div>
         </div>
-        <div class="dashboard" @click="modal = 'report-status', typeStatus = 'pending'">
+        <div class="dashboard" @click="modal = 'report-all', typeStatus = 'pending'">
           <i class="fi fi-rr-time-quarter-to"></i>
           <div class="info">
             <h6>{{ dataReportsPending.length ? dataReportsPending.length : 0 }}</h6>
@@ -101,12 +101,7 @@
     v-if="modal === 'report-all'"
     :reports="dataReports"
     @close-modal="modal = ''"
-  />
-  <ReportsStatus
-      v-if="modal === 'report-status'"
-      :reports="typeStatus === 'approved' ? dataReportsApproved : dataReportsPending "
-      :typeStatus="typeStatus"
-      @close-modal="modal = ''"
+    :status="typeStatus"
   />
   <ReportNotSent
     v-if="modal === 'report-notsent'"
@@ -124,12 +119,11 @@ import Cookie from 'js-cookie';
 import ReportManagement from "@/components/ageControl/operatingPanel/reports/ReportManagement";
 import ReportNew from "@/components/ageControl/operatingPanel/reports/ReportNew";
 import ReportAll from "@/components/ageControl/operatingPanel/reports/ReportAll";
-import ReportsStatus from "@/components/ageControl/operatingPanel/reports/ReportsStatus";
 import ReportNotSent from "@/components/ageControl/operatingPanel/reports/ReportNotSent";
 
 export default {
   name: "ReportPanel",
-  components: {ReportManagement, ReportNew, ReportAll, ReportsStatus, ReportNotSent},
+  components: {ReportManagement, ReportNew, ReportAll, ReportNotSent},
   emits: ['close-modal', 'update-data'],
   data() {
     return {

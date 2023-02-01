@@ -3,9 +3,13 @@
  */
 
 $red: #BA0609;
+$red-hover: #7e0709;
 $green: #08A32B;
 $blue: #2B42CC;
+$blue-hover: #0820b4;
 $orange: #F0A410;
+$black: #333333;
+$black-hover: #111111;
 
 // Backgrounds
 $back-main: #F4F5FA;
@@ -18,6 +22,11 @@ $age-or: #FA8A0C;
 // Botões
 $btn-back-g: #f4f4f4;
 $btn-back-g-h: #ECECEC;
+
+// Cor das letras botoes
+
+$white-grey: #efefef;
+$white: #fff;
 
 // Placeholder
 $pl-g: #ccc;
@@ -52,4 +61,4 @@ $md-button: #e5e5e5;
 $table-headers: #73777A;
 $table-headers-border: rgba(115, 119, 122, .1);
 $table-body: #150F4D;
-$table-body-border: rgba(115, 119, 122, .2);
+$table-body-border: rgba(115, 119, 122, .1);

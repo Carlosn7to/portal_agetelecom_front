@@ -198,6 +198,9 @@ export default {
   created() {this.verifyDevice()},
   computed: {
     ...mapGetters(['isMobile']),
+  },
+  mounted() {
+
   }
 }
 </script>
