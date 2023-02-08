@@ -12,12 +12,45 @@ $black: #333333;
 $black-hover: #111111;
 
 // Backgrounds
-$back-main: #F4F5FA;
+$back-main: #F5F5F9;
 
 // Cores Age
 $age-bl: #0F297D;
 $age-bl-l: #242529;
 $age-or: #FA8A0C;
+
+// Novas cores do sistema
+
+$primary: #6C6EF6;
+$primary-hover: #5d5fec;
+$selected: #E7E7FE;
+$selected-hover: #dcdcfc;
+$title-strong: #595B6A;
+$text-strong: #758192;
+$text-light: #B8BFC7;
+
+$h1-light: #595B6A;
+$h2-light: #595B6A;
+$h3-light: rgba(89, 91, 106, 0.66);
+$h4-light: rgba(89, 91, 106, 0.99);
+$span-light: rgba(89, 91, 106, 0.48);
+
+// Dark mode
+
+$dark-mode-background: #222231;
+$dark-mode-card: #2B2C3E;
+
+// Cor do texto
+
+$dark-mode-text-primary: rgba(255, 255, 255, 0.71);
+$dark-mode-text-secondary: rgba(255, 255, 255, 0.51);
+
+// icones
+
+$icon-box-hover: #f5f5f5;
+$icon-color: #a3a9b0;
+$icon-color-hover: #626e7e;
+
 
 // Botões
 $btn-back-g: #f4f4f4;
@@ -62,3 +95,8 @@ $table-headers: #73777A;
 $table-headers-border: rgba(115, 119, 122, .1);
 $table-body: #150F4D;
 $table-body-border: rgba(115, 119, 122, .1);
+
+// Ícones
+
+$icon-grey: #4c5160;
+$icon-grey-hover: #22242c;

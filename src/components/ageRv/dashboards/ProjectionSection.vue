@@ -47,6 +47,19 @@ export default {
 
 <style scoped lang="scss">
 
+h1 {
+  font-size: 2rem;
+  font-weight: 500;
+  color: $age-bl;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 500;
+  color: $age-bl;
+}
+
+
 .projection {
   padding: 0 1vw;
   @include flex(column, flex-start, initial, 10px);

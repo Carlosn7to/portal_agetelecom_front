@@ -1,8 +1,8 @@
 <template>
   <div id="content-app" v-if="!isMobile">
     <MenuApp
-        :mode="mode"
-        :system="'ageRv'"
+      :mode="mode"
+      :system="'ageRv'"
     />
     <div id="layer-app">
       <HeaderApp
@@ -549,18 +549,19 @@
 
 <script>
 
-import MenuApp from "@/components/portal/_aux/MenuApp";
 import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 import {mapGetters, mapActions} from "vuex";
 import HomeMobile from "@/components/ageRv/HomeMobile";
+import MenuApp from "@/components/portal/_aux/MenuApp";
 
 export default {
   name: "HomePage",
   components: {
     MenuApp,
     HeaderApp,
-    HomeMobile
+    HomeMobile,
+
   },
   data () {
     return {

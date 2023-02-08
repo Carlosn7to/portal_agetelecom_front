@@ -1,5 +1,11 @@
 <template>
   <div class="content-report">
+    <div class="btn-new-report">
+      <button @click="modal = 'report-new'">
+        <i class="fi fi-rr-add-document"></i>
+        <span>Novo relato</span>
+      </button>
+    </div>
     <div id="dashboards">
         <div class="dashboard" @click="modal = 'report-all', typeStatus = 'all'">
           <i class="fi fi-rr-document-signed"></i>
@@ -36,10 +42,6 @@
           Últimos relatos enviados
         </h3>
         <div id="options">
-          <button @click="modal = 'report-new'">
-            <i class="fi fi-rr-add-document"></i>
-            <span>Incluir relato</span>
-          </button>
           <span @click="modal = 'report-all'">Ver todos</span>
         </div>
       </div>
@@ -96,7 +98,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="item in dataFiveFirst" :key="item.id">
+          <tr v-for="item in dataLastReports" :key="item.id">
             <td>
               <div class="select-id">
                 <span>
@@ -179,7 +181,7 @@ export default {
       dataReports: {},
       dataReportsApproved: [],
       dataReportsPending: [],
-      dataFiveFirst: [],
+      dataLastReports: [],
       typeStatus: '',
       reportsStatus: false,
     }
@@ -195,7 +197,7 @@ export default {
 
       }).then((res) => {
         this.dataReports = res.data
-        this.dataFiveFirst = this.dataReports.slice(0, 5)
+        this.dataLastReports = this.dataReports.slice(0, 10)
         this.reportsStatus = true
 
         this.dataReportsApproved = this.dataReports.filter(report => (report.aprovador_id !== null))
@@ -219,8 +221,16 @@ export default {
 
 .content-report {
   width: 100%;
-  height: 100%;
   animation: down forwards .2s ease-in-out;
+
+  .btn-new-report {
+    position: relative;
+    @include flex(row, flex-end, center, 0);
+    button {
+      @include btn-pattern($blue, $white-grey, $blue-hover, $white);
+    }
+    margin-bottom: 2vh;
+  }
 
   #dashboards {
     width: 100%;
@@ -228,7 +238,7 @@ export default {
     @include flex(row, space-between, center, 0);
 
     .dashboard {
-      width: calc((100% / 4) - 10px);
+      width: calc((100% / 4) - 20px);
       background-color: #fff;
       border-radius: 5px;
       @include tr-p;
@@ -262,17 +272,18 @@ export default {
     width: 100%;
     height: 80%;
     border-radius: 5px;
-    padding: 1vh 0vw;
-    @include flex(column, flex-start, initial, 3vh);
+    padding: 4vh 0vw;
+    @include flex(column, flex-start, initial, 1vh);
 
     #info {
       width: 100%;
-      padding: 1vh 0 0 0;
+      padding: 1vh 1vw 0 0vw;
       @include flex(row, space-between, center, 0);
 
       h3 {
-        font-size: 2rem;
-        color: $ml-text-h1;
+        font-size: 1.6rem;
+        font-weight: 500;
+        color: $age-bl;
         width: 80%;
       }
 
@@ -290,29 +301,6 @@ export default {
           }
         }
 
-        button {
-          @include button-pattern;
-          @include flex(row, center, center, .5vw);
-          padding-top: 7px;
-
-          i {
-            font-size: 1.6rem;
-          }
-
-          span {
-            font-size: 1.2rem;
-            color: #fff;
-            font-weight: 500;
-            padding-bottom: 3px;
-
-          }
-
-          &:hover > span {
-            color: $age-bl;
-          }
-
-
-        }
 
       }
     }

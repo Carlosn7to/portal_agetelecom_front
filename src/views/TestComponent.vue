@@ -1,75 +1,87 @@
 <template>
   <div id="container-1">
-    <div id="container-2">
-      <div id="container-3">
-        <div id="column-1">
-          <h1>Texto</h1>
-          <div id="container-item-1">
-            <div id="item-1"></div>
-            <div id="item-2"></div>
-            <div id="item-3"></div>
-          </div>
-        </div>
-        <div id="column-2">
-          <h1>Texto 2</h1>
-          <div id="container-item-2">
-            <div id="item-1"></div>
-            <div id="item-2"></div>
-            <div id="item-3"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <canvas id="myChart" width="300px" height="300px"></canvas>
   </div>
 </template>
 
 <script>
+
+import {Chart} from "chart.js/auto";
+
 export default {
-  name: "TestComponent"
+  name: "TestComponent",
+  components: {},
+  data() {
+    return {
+
+    }
+  },
+  methods: {
+    graphLine: function () {
+      const ctx = document.getElementById('myChart').getContext("2d");
+
+      var gradient = ctx.createLinearGradient(0, 0, 0, 130);
+      gradient.addColorStop(0, 'rgb(43,66,204, .6)');
+      gradient.addColorStop(1, 'rgb(95,116,241, 0.01)');
+
+      const dataConfig = {
+        labels: ['Jan', 'Fev', 'Mar', 'Jan', 'Fev', 'Mar'],
+        datasets: [{
+          data: [12, 39, 180, 12, 539, 2],
+          label: ["# dos votos"],
+          borderWidth: 3,
+          pointRadius: 0,
+          backgroundColor: gradient,
+          fill: true,
+        }],
+      }
+
+
+       const mychart = new Chart(ctx, {
+        type: 'line',
+        data: dataConfig,
+        options: {
+          scales: {
+            y: {
+              display: false
+            },
+            x: {
+              display: false
+            }
+          },
+          plugins: {
+          },
+          elements: {
+            line: {
+              tension: .4,
+              borderColor: "rgba(0,45,187, .3)",
+            },
+            point: {
+              pointStyle: false
+            }
+          }
+        }
+      });
+
+       console.log(mychart)
+      return mychart
+
+
+    }
+  },
+  mounted() {
+    this.graphLine()
+  }
 }
 </script>
 
 <style scoped lang="scss">
 
 #container-1 {
-  width: 100vw;
-  height: 100vh;
-  background-color: red;
+  width: 25vw;
+  height: 25vh;
   @include flex(row, center, center, 0);
 
-
-  #container-2 {
-    width: 90vw;
-    height: 90vh;
-    background-color: white;
-    @include flex(row, center, center, 0);
-
-    #container-3 {
-      width: 80vw;
-      height: 80vh;
-      background-color: greenyellow;
-      @include flex(row, center, center, 5vw);
-      padding: 0 5vw;
-
-
-      #column-1 {
-        width: 40vw;
-        height: 60vh;
-        background-color: blue;
-
-
-      }
-
-      #column-2 {
-        width: 40vw;
-        height: 60vh;
-        background-color: blue;
-      }
-
-
-    }
-  }
 }
 
 </style>

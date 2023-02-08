@@ -1,20 +1,20 @@
 <template>
   <div id="content-app" v-if="!isMobile">
     <MenuApp
-      :mode="mode"
-      :system="'portal'"
+        :mode="mode"
+        :system="'portal'"
     />
     <div id="layer-app">
       <HeaderApp
-        @mode="modeView"
+          @mode="modeView"
       />
       <div id="content-page"
-         :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
+           :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
                   'mode-d-p' : mode === 'dark'}">
         <div class="systems-on">
           <h1>Sistemas</h1>
           <div class="systems">
-            <router-link to="/ageRv/home" @click="loading = true">
+            <router-link to="/ageRv/home" @click="SAVE_MENU({system: 'agerv', selected: 'home'})">
               <div class="system">
                 <div class="img-title">
                   <i class="fi fi-rr-star"></i>
@@ -69,8 +69,8 @@
     </div>
   </div>
   <SystemMobile
-    :routes="routes"
-    v-if="isMobile"
+      :routes="routes"
+      v-if="isMobile"
   />
   <div class="loading-bar" v-if="loading === true">
   </div>
@@ -81,7 +81,7 @@
 import MenuApp from "@/components/portal/_aux/MenuApp";
 import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
-import {mapActions, mapGetters} from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 import SystemMobile from "@/components/portal/SystemMobile";
 
 
@@ -92,7 +92,7 @@ export default {
     HeaderApp,
     SystemMobile
   },
-  data () {
+  data() {
     return {
       mode: Cookie.get('mode'),
       loading: false,
@@ -103,7 +103,10 @@ export default {
   },
   methods: {
     ...mapActions([
-       'verifyDevice'
+      'verifyDevice'
+    ]),
+    ...mapMutations([
+      'SAVE_MENU'
     ]),
     modeView: function (mode) {
       this.mode = mode
@@ -124,14 +127,26 @@ export default {
 
 <style scoped lang="scss">
 
+h1 {
+  font-size: 2rem;
+  font-weight: 500;
+  color: $age-bl;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 500;
+  color: $age-bl;
+}
+
 #content-page {
   @include flex(column, flex-start, initial, 5vh);
-
 
 
   .systems-on {
     width: 100%;
     padding: 1vh 1vw;
+
     .systems {
       padding: 1vh 0;
       width: 100%;
@@ -149,10 +164,12 @@ export default {
         .img-title {
           width: 100%;
           @include flex(row, flex-start, center, 10px);
+
           i {
             font-size: 3rem;
             color: $age-or;
           }
+
           span {
             font-size: 2rem;
             color: $age-bl;
@@ -221,6 +238,7 @@ export default {
       a {
         background-color: $md-back-l !important;
         border: 2px solid $md-back-l !important;
+
         &:hover {
           border: 2px solid $age-or !important;
         }

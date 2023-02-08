@@ -237,54 +237,55 @@
         </router-link>
       </ul>
     </nav>
-    <nav v-if="system === 'ageControl'">
-      <ul>
-        <router-link to="/ageControle/home" active-class="active-li"
-                     @click="loading = true">
-          <li>
-            <div>
-              <i class="fi fi-rr-home"></i>
-            </div>
-            <span>Home</span>
-          </li>
-        </router-link>
-        <router-link to="/ageControle/gerenciamento/dashboard"
-                     active-class="active-li"
-                     v-if="permissions.level === 'Admin' || permissions.level === 'Master'"
-                     @click="loading = true">
+<!--    <nav v-if="system === 'ageControl'">-->
+<!--      <ul>-->
+<!--        <router-link to="/ageControle/home" active-class="active-li"-->
+<!--                     @click="loading = true">-->
+<!--          <li>-->
+<!--            <div>-->
+<!--              <i class="fi fi-rr-home"></i>-->
+<!--            </div>-->
+<!--            <span>Home</span>-->
+<!--          </li>-->
+<!--        </router-link>-->
+<!--        <router-link to="/ageControle/gerenciamento/dashboard"-->
+<!--                     active-class="active-li"-->
+<!--                     v-if="permissions.level === 'Admin' || permissions.level === 'Master'"-->
+<!--                     @click="loading = true">-->
 
-          <li>
-            <div>
-              <i class="fi fi-rr-settings-sliders"></i>
-            </div>
-            <span>Gerenciamento</span>
-          </li>
-        </router-link>
-        <router-link to="/sistemas"
-                     active-class="active-li"
-                     style="position: absolute;
-                            bottom: 7vh"
-                     @click="loading = true">
-          <li>
-            <div>
-              <i class="fi fi-rr-arrow-left"></i>
-            </div>
-            <span>Voltar ao portal</span>
-          </li>
-        </router-link>
-        <router-link to="/"
-                     active-class="active-li"
-                     style="position: absolute;
-                            bottom: 1vh">
-          <li>
-            <div>
-              <i class="fi fi-rr-sign-out-alt"></i>
-            </div>
-            <span>Logout</span>
-          </li>
-        </router-link>
-      </ul>
-    </nav>
+<!--          <li>-->
+<!--            <div>-->
+<!--              <i class="fi fi-rr-settings-sliders"></i>-->
+<!--            </div>-->
+<!--            <span>Gerenciamento</span>-->
+<!--          </li>-->
+<!--        </router-link>-->
+<!--        <router-link to="/sistemas"-->
+<!--                     active-class="active-li"-->
+<!--                     style="position: absolute;-->
+<!--                            bottom: 7vh"-->
+<!--                     @click="loading = true">-->
+<!--          <li>-->
+<!--            <div>-->
+<!--              <i class="fi fi-rr-arrow-left"></i>-->
+<!--            </div>-->
+<!--            <span>Voltar ao portal</span>-->
+<!--          </li>-->
+<!--        </router-link>-->
+<!--        <router-link to="/"-->
+<!--                     active-class="active-li"-->
+<!--                     style="position: absolute;-->
+<!--                            bottom: 1vh">-->
+<!--          <li>-->
+<!--            <div>-->
+<!--              <i class="fi fi-rr-sign-out-alt"></i>-->
+<!--            </div>-->
+<!--            <span>Logout</span>-->
+<!--          </li>-->
+<!--        </router-link>-->
+<!--      </ul>-->
+<!--    </nav>-->
+    <AgeControlMenu v-if="system === 'ageControl'" />
     <nav v-if="system === 'ageControl-mng'">
       <ul>
         <router-link to="/ageControle/gerenciamento/dashboard" active-class="active-li"
@@ -381,10 +382,11 @@
 import Cookie from "js-cookie";
 import {mapGetters} from "vuex";
 import AgeReportSubMenu from "@/components/portal/_aux/subMenus/AgeReportSubMenu";
+import AgeControlMenu from "@/components/ageControl/_menu/AgeControlMenu";
 
 export default {
   name: "MenuApp",
-  components: {AgeReportSubMenu},
+  components: {AgeReportSubMenu, AgeControlMenu},
   props: {
     mode: {
       type: String,

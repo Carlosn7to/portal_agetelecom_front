@@ -104,6 +104,20 @@ export default {
 
 <style scoped lang="scss">
 
+
+h1 {
+  font-size: 2rem;
+  font-weight: 500;
+  color: $age-bl;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 500;
+  color: $age-bl;
+}
+
+
 .content-extract  {
   padding: 2vh 1vw;
   height: 95%;

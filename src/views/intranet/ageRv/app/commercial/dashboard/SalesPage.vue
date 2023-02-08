@@ -138,7 +138,6 @@
 
 <script>
 
-import MenuApp from "@/components/portal/_aux/MenuApp";
 import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 import {AXIOS} from "../../../../../../../services/api.ts";
@@ -147,6 +146,7 @@ import {mapGetters, mapActions} from "vuex";
 import SalesMobile from "@/components/ageRv/dashboards/SalesMobile";
 import ExtractSales from "@/components/ageRv/dashboards/ExtractSales";
 import ExtractStars from "@/components/ageRv/dashboards/ExtractStars";
+import MenuApp from "@/components/portal/_aux/MenuApp";
 
 export default {
   name: "SalesPage",
@@ -215,8 +215,12 @@ export default {
     },
     getMonth: function () {
       const date = new Date()
+
+
       if (date.getMonth() < 10) {
-        this.filter.actualMonth = ('' +date.getMonth() + 1) + ''
+        console.log(this.filter.actualMonth)
+        this.filter.actualMonth = '0' + ( date.getMonth() + 1) + ''
+        console.log(this.filter.actualMonth)
       } else {
         this.filter.actualMonth = (date.getMonth() + 1).toString()
       }
@@ -246,6 +250,19 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+h1 {
+  font-size: 2rem;
+  font-weight: 500;
+  color: $age-bl;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 500;
+  color: $age-bl;
+}
+
 
 .loading-bar {
   @include bar;

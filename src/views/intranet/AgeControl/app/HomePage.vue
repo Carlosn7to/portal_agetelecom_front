@@ -1,8 +1,6 @@
 <template>
   <div id="content-app">
-    <MenuApp
-        :mode="mode"
-        :system="'ageControl'"
+    <NewMenuApp
     />
     <div id="layer-app">
       <HeaderApp
@@ -29,7 +27,7 @@
 
 <script>
 
-import MenuApp from "@/components/portal/_aux/MenuApp";
+import NewMenuApp from "@/components/portal/_aux/NewMenuApp";
 import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 import ReportPanel from "@/components/ageControl/operatingPanel/reports/ReportPanel";
@@ -40,7 +38,7 @@ export default {
   name: "HomePage",
   emits: ['closeModal'],
   components: {
-    MenuApp,
+    NewMenuApp,
     HeaderApp,
     ReportPanel,
     ConductorPanel,
@@ -117,7 +115,6 @@ export default {
         #items-page {
           width: 100%;
           height: 85%;
-          padding-top: 2vh;
         }
       }
     }

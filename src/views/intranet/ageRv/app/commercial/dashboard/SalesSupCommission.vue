@@ -21,7 +21,7 @@
               <span :class="{ 'selectMonth' : month === '12' && mode === 'light',
                               'selectMonthDark' : month === '12' && mode === 'dark' }" @click="getAnalytic('12'), month = '12', year = '2022'">Dezembro</span>
             <span :class="{ 'selectMonth' : month === '01' && mode === 'light',
-                              'selectMonthDark' : month === '01' && mode === 'dark' }" @click="getAnalytic('01'), month = '12', year = '2023'">Janeiro</span>
+                              'selectMonthDark' : month === '01' && mode === 'dark' }" @click="getAnalytic('01'), month = '01', year = '2023'">Janeiro</span>
             </div>
           </div>
           <div class="items-header">

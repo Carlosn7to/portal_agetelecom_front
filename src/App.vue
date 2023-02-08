@@ -76,7 +76,7 @@ h1 {
 /*   PLACEHOLDER   */
 ::-webkit-input-placeholder {
   color: #33333360;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 1.4rem;
 }
 
@@ -98,7 +98,7 @@ h1 {
 
   #content-app {
     @include container(100%, 100%, 0, transparent);
-    @include flex(row, flex-start, initial, 0);
+    @include flex(row, flex-start, initial, 10px);
 
     #layer-app {
       @include container(100%, 100%, 0, transparent);
@@ -107,23 +107,21 @@ h1 {
       #content-page {
         width: 100%;
         height: 92%;
-        padding: 1vh 3vw;
+        padding: 1vh 2vw 1vh 2vw;
         max-height: 92%;
         overflow-y: auto;
 
-        h1 {
-          font-size: 2rem;
-          font-weight: 500;
-          color: $age-bl;
-        }
 
-        h2 {
-          font-size: 2rem;
-          font-weight: 500;
-          color: $age-bl;
-        }
       }
     }
+  }
+}
+
+
+
+@media (min-width: 1800px) {
+  html {
+    font-size: 80%;
   }
 }
 

@@ -1,24 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginPage from "@/views/intranet/web/LoginPage";
-import PanelDashboard from "@/views/intranet/app/management/PanelDashboard";
-import SystemApp from "@/views/intranet/app/SystemApp";
-import ReportPage from "@/views/intranet/ageReport/app/ReportPage";
 import Guard from '/services/middleware/Auth.js'
-import SalesAnalytics from "@/views/intranet/ageRv/app/commercial/dashboard/SalesAnalytics";
-import SalesPage from "@/views/intranet/ageRv/app/commercial/dashboard/SalesPage";
-import HomePage from "@/views/intranet/ageRv/app/HomePage";
-import PanelUsers from "@/views/intranet/app/management/PanelUsers";
-import DashboardPage from "@/views/intranet/ageRv/app/commercial/management/DashboardPage";
-import SimulatorPage from "@/views/intranet/ageRv/app/commercial/management/SimulatorPage";
-import SalesCommission from "@/views/intranet/ageRv/app/commercial/dashboard/SalesCommission";
-import SalesSupCommission from "@/views/intranet/ageRv/app/commercial/dashboard/SalesSupCommission";
-import NewUser from "@/views/intranet/app/management/NewUser";
-import HomePageBoard from '@/views/intranet/ageBoard/app/HomePage';
-import DashboardPageReport from '@/views/intranet/ageReport/app/management/DashboardPageReport.vue';
-import DashboardManagement from "@/views/intranet/ageBoard/app/management/DashboardManagement";
-import TestComponent from "@/views/TestComponent";
-import HomeControl from "@/views/intranet/AgeControl/app/HomePage";
-import DashboardControl from "@/views/intranet/AgeControl/app/management/DashboardPage";
 
 const routes = [
   {
@@ -29,12 +11,12 @@ const routes = [
   {
     path: '/test',
     name: 'test',
-    component: TestComponent
+    component: () => import("@/views/TestComponent")
   },
   {
     path: '/sistemas',
     name: 'SystemApp',
-    component: SystemApp,
+    component: () => import('@/views/intranet/app/SystemApp'),
     beforeEnter: [
       Guard.auth
     ]
@@ -42,7 +24,7 @@ const routes = [
   {
     path: '/gerenciamento/dashboard',
     name: 'PanelDashboard',
-    component: PanelDashboard,
+    component: () => import('@/views/intranet/app/management/PanelDashboard'),
     beforeEnter: [
       Guard.auth,
       Guard.management_portal
@@ -51,7 +33,7 @@ const routes = [
   {
     path: '/gerenciamento/usuarios',
     name: 'PanelUsers',
-    component: PanelUsers,
+    component: () => import("@/views/intranet/app/management/PanelUsers"),
     beforeEnter: [
       Guard.auth,
       Guard.management_portal
@@ -60,7 +42,7 @@ const routes = [
   {
     path: '/gerenciamento/usuarios/novo',
     name: 'NewUser',
-    component: NewUser,
+    component: () => import("@/views/intranet/app/management/NewUser"),
     beforeEnter: [
       Guard.auth,
       Guard.management_portal
@@ -69,7 +51,7 @@ const routes = [
   {
     path: '/ageReport/home',
     name: 'ReportPage',
-    component: ReportPage,
+    component: () => import("@/views/intranet/ageReport/app/ReportPage"),
     beforeEnter: [
       Guard.auth,
       Guard.permission_report
@@ -78,7 +60,7 @@ const routes = [
   {
     path: '/ageReport/gerenciamento',
     name: 'DashboardPageReport',
-    component: DashboardPageReport,
+    component: () => import('@/views/intranet/ageReport/app/management/DashboardPageReport.vue'),
     beforeEnter: [
       Guard.auth,
       Guard.permission_report
@@ -87,7 +69,7 @@ const routes = [
   {
     path: '/ageRv/comercial/analitico',
     name: 'SalesAnalytics',
-    component: SalesAnalytics,
+    component: () => import("@/views/intranet/ageRv/app/commercial/dashboard/SalesAnalytics"),
     beforeEnter: [
       Guard.auth,
       Guard.permission_rv
@@ -96,7 +78,7 @@ const routes = [
   {
     path: '/ageRv/comercial/comissao',
     name: 'SalesCommission',
-    component: SalesCommission,
+    component: () => import("@/views/intranet/ageRv/app/commercial/dashboard/SalesCommission"),
     beforeEnter: [
       Guard.auth,
       Guard.permission_rv
@@ -105,7 +87,7 @@ const routes = [
   {
     path: '/ageRv/comercial/supervisor-comissao',
     name: 'SalesSupCommission',
-    component: SalesSupCommission,
+    component: () => import("@/views/intranet/ageRv/app/commercial/dashboard/SalesSupCommission"),
     beforeEnter: [
       Guard.auth,
       Guard.permission_rv
@@ -114,7 +96,7 @@ const routes = [
   {
     path: '/ageRv/comercial/vendas/dashboard',
     name: 'SalesPage',
-    component: SalesPage,
+    component: () => import("@/views/intranet/ageRv/app/commercial/dashboard/SalesPage"),
     beforeEnter: [
       Guard.auth,
       Guard.permission_rv
@@ -123,7 +105,7 @@ const routes = [
   {
     path: '/ageRv/home',
     name: 'HomePageRv',
-    component: HomePage,
+    component: () => import("@/views/intranet/ageRv/app/HomePage"),
     beforeEnter: [
       Guard.auth,
       Guard.permission_rv
@@ -132,7 +114,7 @@ const routes = [
   {
     path: '/ageRv/comercial/gerenciamento',
     name: 'DashboardPage',
-    component: DashboardPage,
+    component: () => import("@/views/intranet/ageRv/app/commercial/management/DashboardPage"),
     beforeEnter: [
       Guard.auth,
       Guard.permission_rv
@@ -141,7 +123,7 @@ const routes = [
   {
     path: '/ageRv/comercial/simulador',
     name: 'SimulatorPage',
-    component: SimulatorPage,
+    component: () => import("@/views/intranet/ageRv/app/commercial/management/SimulatorPage"),
     beforeEnter: [
       Guard.auth,
       Guard.permission_rv
@@ -150,7 +132,7 @@ const routes = [
   {
     path: '/ageBoard/home',
     name: 'HomePage',
-    component: HomePageBoard,
+    component: () => import('@/views/intranet/ageBoard/app/HomePage'),
     beforeEnter: [
       Guard.auth,
       Guard.permission_board
@@ -159,7 +141,7 @@ const routes = [
   {
     path: '/ageBoard/gerenciamento/dashboards',
     name: 'DashboardManagement',
-    component: DashboardManagement,
+    component: () => import("@/views/intranet/ageBoard/app/management/DashboardManagement"),
     beforeEnter: [
       Guard.auth,
       Guard.permission_board
@@ -168,7 +150,7 @@ const routes = [
   {
     path: '/ageControle/home',
     name: 'HomePageControl',
-    component: HomeControl,
+    component: () => import("@/views/intranet/AgeControl/app/HomePage"),
     beforeEnter: [
       Guard.auth,
       Guard.permission_control
@@ -177,7 +159,7 @@ const routes = [
   {
     path: '/ageControle/gerenciamento/dashboard',
     name: 'DashboardControl',
-    component: DashboardControl,
+    component: () => import("@/views/intranet/AgeControl/app/management/DashboardPage"),
     beforeEnter: [
       Guard.auth,
       Guard.permission_control

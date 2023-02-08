@@ -36,7 +36,7 @@
 }
 
 @mixin sh-pattern {
-  box-shadow: rgba(33, 33, 56, 0.1) 0px 0px 16px;
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
 
 }
 
@@ -45,7 +45,8 @@
   @include tr;
 
   &:hover, &:focus {
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+
   }
 }
 
@@ -116,11 +117,21 @@
   border: 1px solid $back-color;
   @include tr-p;
   border-radius: 3px;
+  @include flex(row, center, center, .5vw);
+  margin: 1vh 0;
 
   &:hover {
     background-color: $back-color-hover;
     color: $color-hover;
     border-color: $back-color-hover;
+  }
+
+  span {
+    padding-bottom: 2px;
+  }
+
+  i {
+    font-size: 1.6rem;
   }
 }
 
