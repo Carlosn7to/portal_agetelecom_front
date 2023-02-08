@@ -173,7 +173,7 @@ export default {
       loading: true,
       data: {},
       dataStage: {},
-      month: '11',
+      month: '12',
       year: '2022',
       stage: 'channels',
       search: '',
@@ -217,7 +217,7 @@ export default {
         this.month = (date.getMonth() + 1).toString()
       }
 
-      this.getAnalytic(this.month)
+      return this.month
     },
     closePage: function () {
       this.extract.status = false
