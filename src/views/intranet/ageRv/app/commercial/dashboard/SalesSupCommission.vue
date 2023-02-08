@@ -17,11 +17,11 @@
           <div id="filters">
             <div id="month">
               <span :class="{ 'selectMonth' : month === '11' && mode === 'light',
-                              'selectMonthDark' : month === '11' && mode === 'dark' }" @click="getAnalytic('11'), month = '11', year = '2022'">Novembro</span>
+                              'selectMonthDark' : month === '11' && mode === 'dark' }" @click="getAnalytic('11', '2022'), month = '11', year = '2022'">Novembro</span>
               <span :class="{ 'selectMonth' : month === '12' && mode === 'light',
-                              'selectMonthDark' : month === '12' && mode === 'dark' }" @click="getAnalytic('12'), month = '12', year = '2022'">Dezembro</span>
+                              'selectMonthDark' : month === '12' && mode === 'dark' }" @click="getAnalytic('12', '2022'), month = '12', year = '2022'">Dezembro</span>
             <span :class="{ 'selectMonth' : month === '01' && mode === 'light',
-                              'selectMonthDark' : month === '01' && mode === 'dark' }" @click="getAnalytic('01'), month = '01', year = '2023'">Janeiro</span>
+                              'selectMonthDark' : month === '01' && mode === 'dark' }" @click="getAnalytic('01', '2023'), month = '01', year = '2023'">Janeiro</span>
             </div>
           </div>
           <div class="items-header">
@@ -254,7 +254,7 @@ export default {
     modeView: function (mode) {
       this.mode = mode
     },
-    getAnalytic: function (month) {
+    getAnalytic: function (month, year) {
 
       this.loading = true
       this.data = {}
@@ -267,7 +267,7 @@ export default {
         },
         params: {
           month:  month,
-          year: this.year
+          year: year ? year: this.year
         }
       }).then((res) => {
         this.loading = false
