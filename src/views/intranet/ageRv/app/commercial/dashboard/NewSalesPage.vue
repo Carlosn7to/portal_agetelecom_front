@@ -11,27 +11,49 @@
       />
       <div id="content-page"
            @click="SAVE_MENU({stage: 'decrease'})">
-        <div class="container-sales">
+        <div class="container-sales" v-if="dashStatus">
           <div id="sales-display" class="card-grid">
             <div class="info">
 
-              <div class="title">
-                <h2>Parabéns {{ user.firstName }}!</h2>
-                <h3>Você atingiu a meta do mês</h3>
+              <div class="title" v-if="data.metaPercent >= 100">
+                <h2>O sucesso vem para aqueles que não se impõem limites e nunca perdem de vista suas metas.</h2>
+                <h3>Parabéns! Meta atingida com sucesso!</h3>
               </div>
 
-              <div class="values">
-                <h4>102 Vendas</h4>
-                <span>Corresponde a 124% da meta</span>
+              <div class="title" v-if="data.metaPercent >= 70 && data.metaPercent < 100">
+                <h2>É o grau do comprometimento que determina o sucesso.</h2>
+                <h3>Obrigado pelo seu esforço e dedicação!</h3>
+              </div>
+
+              <div class="title" v-if="data.metaPercent >= 20 && data.metaPercent < 70">
+                <h2>Sempre há a possibilidade de lutar e crescer!</h2>
+                <h3>Você é capaz de alcançar muito mais! Continue assim!</h3>
+              </div>
+
+              <div class="title" v-if="data.metaPercent >= 0 && data.metaPercent < 20">
+                <h2>O segredo de estar à frente é começar.</h2>
+                <h3>Acreditamos em você!</h3>
+              </div>
+
+              <div class="values" v-if="dashStatus">
+                <h4>{{ data.sales.count }} Vendas</h4>
+                <span>Corresponde a {{ data.metaPercent }}% da meta <b style="color: #6C6EF6">({{ data.meta }})</b></span>
               </div>
 
               <div class="sales">
-                <button>Visualizar vendas</button>
+                <button @click="page = 'extract-sales'">Visualizar vendas</button>
               </div>
 
             </div>
             <div class="img">
-              <img :src="require('@/assets/img/interface/congratulations.png')" alt="">
+              <img :src="require('@/assets/img/interface/congratulations.png')" alt=""
+                   v-if="data.metaPercent > 100">
+              <img :src="require('@/assets/img/interface/running.png')" alt="" style="transform: scaleX(-1)"
+                   v-if="data.metaPercent >= 70 && data.metaPercent < 100">
+              <img :src="require('@/assets/img/interface/running-2.png')" alt="" style="transform: scaleX(-1)"
+                   v-if="data.metaPercent >= 20 && data.metaPercent < 70">
+              <img :src="require('@/assets/img/interface/letsgo.png')" alt=""
+                   v-if="data.metaPercent >= 0 && data.metaPercent < 20">
             </div>
           </div>
           <div id="sales-extract"  class="card-grid">
@@ -42,10 +64,14 @@
               </div>
               <div class="info-graph">
                 <div class="info">
-                  <h4>22</h4>
-                  <div class="percent">
+                  <h4>{{ data.sales.salesInfoLast14Days.lastWeek }}</h4>
+                  <div class="percent" v-if="data.sales.salesInfoLast14Days.diff >= 0">
+                    <i class="fi fi-sr-arrow-small-up" style="color: rgba(151,221,100,1) !important;"></i>
+                    <span style="color: rgba(151,221,100,1) !important;">{{ data.sales.salesInfoLast14Days.diff }}%</span>
+                  </div>
+                  <div class="percent" v-else>
                     <i class="fi fi-sr-arrow-small-down"></i>
-                    <span>-13,45%</span>
+                    <span>{{ data.sales.salesInfoLast14Days.diff }}%</span>
                   </div>
                 </div>
                 <div class="graph min">
@@ -64,10 +90,14 @@
               </div>
               <div class="info-graph">
                 <div class="info">
-                  <h4>324</h4>
-                  <div class="percent">
-                    <i class="fi fi-sr-arrow-small-up"  style="color: rgba(151,221,100,1) !important;"></i>
-                    <span  style="color: rgba(151,221,100,1) !important;">223,18%</span>
+                  <h4>{{ data.stars.starsInfoLast14Days.lastWeek }}</h4>
+                  <div class="percent" v-if="data.stars.starsInfoLast14Days.diff >= 0">
+                    <i class="fi fi-sr-arrow-small-up" style="color: rgba(151,221,100,1) !important;"></i>
+                    <span style="color: rgba(151,221,100,1) !important;">{{ data.stars.starsInfoLast14Days.diff }}%</span>
+                  </div>
+                  <div class="percent" v-else>
+                    <i class="fi fi-sr-arrow-small-down"></i>
+                    <span>{{ data.stars.starsInfoLast14Days.diff }}%</span>
                   </div>
                 </div>
                 <div class="graph">
@@ -81,9 +111,10 @@
               <img :src="require('@/assets/img/interface/comissao2.png')" alt="">
               <div class="info">
                 <h4>Comissão liquida</h4>
-                <h3>R$2014,90</h3>
+                <h3>{{ data.commission.liquid }}</h3>
               </div>
-              <div class="percent-comparative">
+              <span>Valor já com acelerador/deflator aplicado.</span>
+              <div class="percent-comparative" style="display: none">
                 <i class="fi fi-sr-arrow-small-up" style="color: rgba(151,221,100,1) !important;"></i>
                 <span style="color: rgba(151,221,100,1) !important;">31,19%</span>
               </div>
@@ -93,23 +124,29 @@
               <img :src="require('@/assets/img/interface/estrela.png')" alt="">
               <div class="info">
                 <h4>Estrelas</h4>
-                <h3>283</h3>
+                <h3>{{ data.stars.totalStars }}</h3>
               </div>
-              <div class="percent-comparative">
+              <span>Total acumulado</span>
+              <div class="percent-comparative" style="display: none">
                 <i class="fi fi-sr-arrow-small-down"></i>
                 <span>-8,32%</span>
               </div>
               <i class="fi fi-br-menu-dots-vertical options"></i>
             </div>
             <div class="items card-grid">
-              <img :src="require('@/assets/img/interface/acelerador.png')" alt="">
+              <img :src="require('@/assets/img/interface/acelerador.png')" alt="" v-if="data.mediator > 0">
+              <img :src="require('@/assets/img/interface/deflator.png')" alt="" v-else>
               <div class="info">
-                <h4>Acelerador</h4>
-                <h3>R$302,62</h3>
+                <h4>{{ data.mediator > 0 ? 'Acelerador' : 'Deflator' }}</h4>
+                <h3>{{ data.commission.diff }}</h3>
               </div>
-              <div class="percent-comparative">
+              <div class="percent-comparative" v-if="data.mediator > 0">
                 <i class="fi fi-sr-arrow-small-up" style="color: rgba(151,221,100,1) !important;"></i>
                 <span style="color: rgba(151,221,100,1) !important;">10,00%</span>
+              </div>
+              <div class="percent-comparative" v-else>
+                <i class="fi fi-sr-arrow-small-down" style="color: #EC5032 !important;"></i>
+                <span style="color: #EC5032 !important;">-10,00%</span>
               </div>
               <i class="fi fi-br-menu-dots-vertical options"></i>
 
@@ -118,10 +155,10 @@
               <img :src="require('@/assets/img/interface/valor_estrela.png')" alt="">
               <div class="info">
                 <h4>Valor da estrela</h4>
-                <h3>R$2,00</h3>
+                <h3>R${{ data.valueStar.value }}</h3>
               </div>
               <div class="percent-comparative">
-                <span>Faltam <b>22,32%</b> para o próximo nível</span>
+                <span></span>
               </div>
               <i class="fi fi-br-menu-dots-vertical options"></i>
             </div>
@@ -146,49 +183,30 @@
                 <h2>Faixas das estrelas</h2>
                 <span>Quanto maior a porcentagem da meta, mais vale sua estrela</span>
               </div>
-              <div class="items">
-                <div class="item">
-                  <img :src="require('@/assets/img/interface/dinheiro4.png')" alt="">
+              <div class="items" style="flex-direction: column-reverse">
+                <div class="item" v-for="(item, index) in data.valueStar.tracks" :key="index">
+                  <img :src="require(`@/assets/img/interface/dinheiro${index}.png`)" alt="">
                   <div>
-                    <span></span>
-                    <span>141% - R$10,00</span>
-                  </div>
-                </div>
-                <div class="item">
-                  <img :src="require('@/assets/img/interface/dinheiro3.png')" alt="">
-                  <div>
-                    <span></span>
-                    <span>121% - 140% - R$5,00</span>
-                  </div>
-                </div>
-                <div class="item">
-                  <img :src="require('@/assets/img/interface/dinheiro2.png')" alt="">
-                  <div>
-                    <span>Você está aqui</span>
+                    <span>
+                      {{ data.metaPercent >= item.initial && data.metaPercent <= item.final ?
+                        'Você está aqui' : ''}}
+                    </span>
                     <br>
-                    <span>100% - 120% - R$2,00</span>
+                    <span>{{ item.initial }}% - {{ item.final ? item.final+'% - ' : '' }} R${{ item.value }}</span>
                   </div>
                 </div>
-                <div class="item">
-                  <img :src="require('@/assets/img/interface/dinheiro.png')" alt="">
-                  <div>
-                    <span></span>
-                    <span>70% - 99% - R$0,90</span>
-                  </div>
-                </div>
-                <div class="item">
-                  <img :src="require('@/assets/img/interface/sem-dinheiro.png')" alt="">
-                  <div>
-                    <span></span>
-                    <span>0% - 69% - R$0,00</span>
-                  </div>
-                </div>
+
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <ExtractSales
+      v-if="page === 'extract-sales'"
+      @close-page="page = 'sales'"
+      :data="data.sales.extract"
+    />
   </div>
 
 </template>
@@ -201,12 +219,14 @@ import Cookie from "js-cookie";
 import {AXIOS} from "../../../../../../../services/api.ts";
 import {mapGetters, mapMutations} from "vuex";
 import {Chart} from "chart.js/auto";
+import ExtractSales from "@/components/ageRv/modal/sales/ExtractSales";
 
 export default {
   name: "NewSalesPage",
   components: {
     NewMenuApp,
-    NewHeaderApp
+    NewHeaderApp,
+    ExtractSales
   },
   data() {
     return {
@@ -257,6 +277,9 @@ export default {
         this.loading = false
         this.projection = true
         this.dashStatus = true
+        this.graphSalesWeek()
+        this.graphStarsWeek()
+        this.graphSalesStars()
       })
     },
     modalView: function (dash) {
@@ -287,19 +310,29 @@ export default {
 
       const ctx = document.getElementById('graphSalesWeek').getContext("2d");
 
+      const dayName = []
+      const values = []
+
+      this.data.sales.salesLast7Days.forEach((item) => {
+        dayName.push(item.dayName)
+        values.push(item.sales)
+      })
+
       const barCollors = [
+          '#6C6EF6',
           '#F0F0FC',
+          '#6C6EF6',
           '#F0F0FC',
-          '#F0F0FC',
-          '#F0F0FC',
+          '#6C6EF6',
           '#F0F0FC',
           '#6C6EF6'
       ]
 
       const dataConfig = {
-        labels: ['D', 'S', 'T', 'Q', 'Q', 'S'],
+        labels: dayName,
         datasets: [{
-          data: [22, 31, 22, 44, 21, 36, 15],
+          data: values,
+          label: 'Vendas',
           borderWidth: 0,
           pointRadius: 0,
           borderRadius: 30,
@@ -352,14 +385,25 @@ export default {
       gradient.addColorStop(0, 'rgba(151,221,100,0.39)');
       gradient.addColorStop(1, 'rgba(151,221,100,0.01)');
 
+
+      const dayName = []
+      const values = []
+
+      this.data.stars.starsLast7Days.plans.forEach((item) => {
+        dayName.push(item.dayName)
+        values.push(item.stars)
+      })
+
+
       const dataConfig = {
-        labels: ['D', 'S', 'T', 'Q', 'Q', 'S'],
+        labels: dayName,
         datasets: [{
-          data: [40, 47, 17, 33, 30, 53, 25],
+          data: values,
           borderWidth: 2,
           pointRadius: 1,
           backgroundColor: gradient,
           fill: true,
+          label: 'Estrelas'
         }],
       }
 
@@ -458,31 +502,30 @@ export default {
     },
     graphSalesStars: function () {
       const ctx = document.getElementById('graphSalesMonth').getContext("2d");
+      const values = []
+      const week = []
+
+
+      this.data.sales.salesForWeek.forEach((item) => {
+        week.push('Sem '+item.week)
+        values.push(item.sales)
+      })
+
+
 
       const dataConfig = {
-        labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
+        labels: week,
         datasets: [{
           type: 'bar',
-          data: [32, 10, 20, 45],
+          data: values,
           borderWidth: 0,
-          backgroundColor: '#F0F0FC',
+          backgroundColor: '#6C6EF6',
           fill: true,
           order: 1,
           label: 'Vendas',
           borderRadius: 5,
           maxBarThickness: 50,
-        },
-          {
-            type: 'bar',
-            data: [256, 121, 80, 235],
-            borderWidth: 0,
-            backgroundColor: '#6C6EF6',
-            fill: true,
-            order: 2,
-            label: 'Vendas',
-            borderRadius: 5,
-            maxBarThickness: 50,
-          }],
+        }],
       }
 
 
@@ -604,17 +647,13 @@ export default {
   computed: {
     ...mapGetters([
       'user',
-        'system'
+        'system',
+        'permissions'
     ])
   },
   mounted() {
+    this.getSellers()
     this.getMonth()
-    this.graphStarsWeek()
-    this.graphSalesWeek()
-    //this.graphMetaPercent()
-    this.graphSalesStars()
-    //this.graphValueStars()
-
   }
 }
 </script>
@@ -632,8 +671,8 @@ export default {
   .container-sales {
     width: calc(100% - 20px);
     display: grid;
-    grid-template-columns: 30% 70%;
-    grid-template-rows: 29vh 50vh;
+    grid-template-columns: 35% 45%;
+    grid-template-rows: 33vh 50vh;
     gap: 20px;
     padding: 0 0 2vh 0;
     border-radius: 7px;
@@ -646,12 +685,12 @@ export default {
 
       h1 {
         color: $h1-light;
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         font-weight: 500;
       }
 
       h2 {
-        font-size: 1.6rem;
+        font-size: 1.4rem;
         color: $h2-light;
         font-weight: 500;
       }
@@ -1015,7 +1054,7 @@ export default {
 }
 
 
-@media (min-width: 360px) {
+@media (min-width: 260px) and (max-width: 1000px) {
 
   .container-menu {
     display: none;
@@ -1100,6 +1139,24 @@ export default {
       }
 
     }
+  }
+}
+
+@media (min-width: 1000px) {
+
+  .container-menu {
+    display: block;
+  }
+
+  #layer-app {
+
+
+    .container-sales {
+      display: grid;
+      grid-template-columns: 35% 65%;
+      grid-template-rows: 35vh 50vh;
+    }
+
   }
 }
 

@@ -95,8 +95,8 @@ const routes = [
   },
   {
     path: '/ageRv/comercial/vendas/dashboard',
-    name: 'SalesPage',
-    component: () => import("@/views/intranet/ageRv/app/commercial/dashboard/SalesPage"),
+    name: 'NewSalesPage',
+    component: () => import("@/views/intranet/ageRv/app/commercial/dashboard/NewSalesPage"),
     beforeEnter: [
       Guard.auth,
       Guard.permission_rv

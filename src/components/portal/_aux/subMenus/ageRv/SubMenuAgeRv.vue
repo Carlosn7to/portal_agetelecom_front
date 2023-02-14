@@ -29,7 +29,7 @@
           </div>
         </div>
       </li>
-      <li :class="{ 'active-route' : menu.selected === 'management' }">
+      <li :class="{ 'active-route' : menu.selected === 'management' }" v-if="permissions.function === 'Admin' || permissions.function === 'Master'">
         <div class="container-items"
              @click="SAVE_MENU({selected: 'management', stage: 'increase'})">
           <div class="item-menu">
@@ -117,7 +117,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'menu'
+      'menu',
+        'permissions'
     ]),
   },
   mounted() {}

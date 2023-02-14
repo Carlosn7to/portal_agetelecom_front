@@ -98,7 +98,7 @@ h1 {
 
   #content-app {
     @include container(100%, 100%, 0, transparent);
-    @include flex(row, flex-start, initial, 10px);
+    @include flex(row, flex-start, initial, 0);
 
     #layer-app {
       @include container(100%, 100%, 0, transparent);

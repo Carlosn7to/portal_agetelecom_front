@@ -1,16 +1,11 @@
 <template>
-  <div id="content-app" v-if="!isMobile">
-    <MenuApp
-      :mode="mode"
-      :system="'ageRv'"
-    />
+  <div id="content-app" v-if="!isMobile" :class="{'dark-mode' : system.mode === 'dark'}">
+    <NewMenuApp/>
     <div id="layer-app">
-      <HeaderApp
-          @mode="modeView"
-      />
+      <NewHeaderApp/>
       <div id="content-page"
-           :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
-                  'mode-d-p' : mode === 'dark'}">
+           :class="{'mode-l-p' : system.mode === 'light'  || system.mode === undefined,
+                  'mode-d-p' : system.mode === 'dark'}">
         <div class="sections">
           <div class="section">
             <h1>AgeRv</h1>
@@ -435,8 +430,8 @@
   </div>
   <div id="modal"
        v-if="modal === true"
-       :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
-                  'mode-d-p' : mode === 'dark'}">
+       :class="{'mode-l-p' : system.mode === 'light'  || system.mode === undefined,
+                  'mode-d-p' : system.mode === 'dark'}">
     <div id="card-modal">
       <div id="close-button">
         <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
@@ -549,23 +544,21 @@
 
 <script>
 
-import HeaderApp from "@/components/portal/_aux/HeaderApp";
-import Cookie from "js-cookie";
+import NewHeaderApp from "@/components/portal/_aux/NewHeaderApp";
 import {mapGetters, mapActions} from "vuex";
 import HomeMobile from "@/components/ageRv/HomeMobile";
-import MenuApp from "@/components/portal/_aux/MenuApp";
+import NewMenuApp from "@/components/portal/_aux/NewMenuApp";
 
 export default {
   name: "HomePage",
   components: {
-    MenuApp,
-    HeaderApp,
+    NewMenuApp,
+    NewHeaderApp,
     HomeMobile,
 
   },
   data () {
     return {
-      mode: Cookie.get('mode'),
       month: null,
       modal: false
     }
@@ -588,7 +581,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-       'isMobile'
+       'isMobile',
+        'system'
     ])
   },
   mounted() {
@@ -713,13 +707,13 @@ export default {
 }
 
 .mode-d-p {
-  background-color: #161819;
+  background-color: $dark-mode-background;
   @include tr;
 
 
 
   #card-modal {
-    background-color: $md-back-l !important;
+    background-color: $dark-mode-card !important;
 
     #close-button {
       color: #fff !important;
@@ -728,7 +722,7 @@ export default {
       @include tr;
       thead {
         tr {
-          background-color: #161819 !important;
+          background-color: $dark-mode-background !important;
           th {
             color: $md-text-light !important;
           }
@@ -742,7 +736,7 @@ export default {
           }
 
           &:nth-child(even) {
-            background-color: #1a1a1a !important;
+            background-color: $dark-mode-background !important;
           }
           &:nth-child(odd) {
             background-color: transparent;
@@ -753,7 +747,7 @@ export default {
   }
 
   .sections {
-    background-color: $md-back-l !important;
+    background-color: $dark-mode-card !important;
 
     .section {
       h2 {
@@ -769,7 +763,7 @@ export default {
         border: 1px solid $age-or;
         thead {
           tr {
-            background-color: #161819 !important;
+            background-color: $dark-mode-background !important;
             th {
               color: $md-text-light !important;
             }
@@ -783,7 +777,7 @@ export default {
             }
 
             &:nth-child(even) {
-              background-color: #1a1a1a !important;
+              background-color: $dark-mode-background !important;
             }
             &:nth-child(odd) {
               background-color: transparent;

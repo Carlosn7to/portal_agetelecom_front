@@ -95,7 +95,7 @@ export default {
         outline: none;
         width: 90%;
         padding: 1vh 0;
-
+        background-color: transparent;
         font-size: 1.4rem;
         color: $text-strong;
         font-weight: 500;
@@ -169,7 +169,7 @@ export default {
 }
 
 
-@media (min-width: 360px) {
+@media (min-width: 360px) and (max-width: 700px) {
   #container-header {
     padding: 1vh 5vw;
 
