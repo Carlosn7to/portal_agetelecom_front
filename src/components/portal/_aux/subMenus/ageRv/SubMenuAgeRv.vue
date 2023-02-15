@@ -96,6 +96,20 @@
 
         </ul>
       </li>
+      <li :class="{ 'active-route' : menu.selected === 'commission' }">
+        <div class="container-items" @click="SAVE_MENU({selected: 'commission', stage: 'decrease'})" v-if="permissions.function === 'Financeiro' || permissions.function === 'Gerente geral'">
+          <router-link to="/ageRv/comercial/comissao" active-class="active-route">
+            <div class="item-menu">
+              <div class="title-icon">
+                <i class="fi fi-rr-usd-square"></i>
+                <span>Comissão</span>
+              </div>
+            </div>
+          </router-link>
+          <div class="border-nav">
+          </div>
+        </div>
+      </li>
     </ul>
   </nav>
 </template>

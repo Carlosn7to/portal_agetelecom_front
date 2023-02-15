@@ -2,9 +2,7 @@
   <div class="loading-bar" v-if="loading === true">
   </div>
   <div id="content-app">
-    <MenuApp
-        :mode="mode"
-        :system="'ageRv'"
+    <NewMenuApp
     />
     <div id="layer-app">
       <HeaderApp
@@ -153,7 +151,7 @@
 
 <script>
 
-import MenuApp from "@/components/portal/_aux/MenuApp";
+import NewMenuApp from "@/components/portal/_aux/NewMenuApp";
 import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 import {AXIOS} from "../../../../../../../services/api.ts";
@@ -163,7 +161,7 @@ import ExtractView from "@/components/ageRv/dashboards/ExtractView";
 export default {
   name: "SalesAnalytics",
   components: {
-    MenuApp,
+    NewMenuApp,
     HeaderApp,
     ExtractView
   },
