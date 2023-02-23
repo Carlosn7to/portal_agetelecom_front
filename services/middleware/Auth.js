@@ -16,6 +16,7 @@ export default {
             .then((res) => {
                 if(res.data.status === true) {
                     sessionStorage.setItem('portal_permission', res.data.levelAccess)
+                    store.commit('SAVE_SYSTEM', {login: true})
                     return next()
                 }
 
