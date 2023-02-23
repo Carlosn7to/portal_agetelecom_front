@@ -73,6 +73,7 @@ export default {
 
 #container-header {
   padding: 1vh 2vw;
+  z-index: 2;
   .header-top {
     background-color: #ffffff;
     @include sh-pattern;

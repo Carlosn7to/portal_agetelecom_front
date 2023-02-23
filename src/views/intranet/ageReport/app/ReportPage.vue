@@ -1,29 +1,15 @@
 <template>
-  <div id="content-app">
-    <MenuApp
-        :mode="mode"
-        :system="'report'"
-    />
-    <div id="layer-app">
-      <HeaderApp
-          @mode="modeView"
-      />
-      <div id="content-page"
-           :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
-                  'mode-d-p' : mode === 'dark'}">
-        <h1>
-          Relatórios disponíveis
-        </h1>
-        <div id="reports" v-if="status === true">
-          <div class="report"
-               v-for="(report, key) in reports"
-               :key="key"
-               @click="downloadReport(report.isPeriodoHora,report.isPeriodo,report.url,report.nome_arquivo, report.id)">
-            <i class="fi fi-rr-document-signed"></i>
-            <span>{{ report.nome }}</span>
-          </div>
-        </div>
-      </div>
+  <h1>
+    Relatórios disponíveis
+  </h1>
+  <div id="reports" v-if="status === true">
+    <div class="report"
+         v-for="(report, key) in reports"
+         :key="key"
+         :style="'animation-delay: '+key * 0.1+'s'"
+         @click="downloadReport(report.isPeriodoHora,report.isPeriodo,report.url,report.nome_arquivo, report.id)">
+      <i class="fi fi-rr-document-signed"></i>
+      <span>{{ report.nome }}</span>
     </div>
   </div>
   <div id="modal" v-if="modal === true">
@@ -39,22 +25,17 @@
       </form>
     </div>
   </div>
-  <div class="loading-bar" v-if="loading === true">
-  </div>
 </template>
 
 <script>
 
-import MenuApp from "@/components/portal/_aux/MenuApp";
-import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 import {AXIOS} from "../../../../../services/api.ts";
+import {mapGetters, mapMutations} from "vuex";
 
 export default {
   name: "ReportPage",
   components: {
-    MenuApp,
-    HeaderApp
   },
   data () {
     return {
@@ -73,6 +54,10 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+       'SAVE_MENU',
+        'SAVE_SYSTEM'
+    ]),
     modeView: function (mode) {
       this.mode = mode
     },
@@ -129,8 +114,15 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters([
+        'system'
+    ])
+  },
   mounted() {
     this.getReports()
+    this.SAVE_MENU({system: 'agereport', selected: 'home'})
+    this.SAVE_SYSTEM({loading: false})
   }
 }
 </script>
@@ -145,6 +137,8 @@ export default {
     font-weight: 500;
     color: #777;
     padding: 1vh 1vw;
+    animation: up forwards ease-in-out .4s;
+    opacity: 0;
   }
 
 
@@ -163,6 +157,8 @@ export default {
       @include flex(row, flex-start, center, 5px);
       word-break: break-all;
       border: 2px solid #fff;
+      animation: up forwards ease-in-out .4s;
+      opacity: 0;
 
       i {
         font-size: 2.4rem;
@@ -220,13 +216,11 @@ export default {
 
 .mode-l-p {
   background-color: $ml-back-l;
-  @include tr;
 
 }
 
-.mode-d-p {
-  background-color: #161819;
-  @include tr;
+.mode-dark {
+  background-color: $dark-mode-background;
 
   h1 {
     color: $md-text-h1 !important;
@@ -235,8 +229,8 @@ export default {
   #reports {
 
     .report {
-      background-color: $md-back-l !important;
-      border: 2px solid $md-back-l !important;
+      background-color: $dark-mode-card !important;
+      border: 2px solid $dark-mode-card !important;
 
       span {
         color: $md-text-light !important;
@@ -244,6 +238,36 @@ export default {
 
       &:hover {
         border: 2px solid $age-or;
+      }
+    }
+  }
+
+
+  #modal {
+    #card-modal {
+      background-color: $dark-mode-background;
+
+      h5 {
+        color: $dark-mode-text-primary;
+      }
+
+      form {
+        input[type=datetime-local] {
+          background-color: $dark-mode-card !important;
+          color: $dark-mode-text-secondary;
+        }
+
+        input[type=submit] {
+          background-color: $dark-mode-card;
+          border-color: $dark-mode-card;
+          color: $age-or;
+          font-weight: 500;
+
+          &:hover {
+            color: $dark-mode-text-primary;
+            border-color: $age-or;
+          }
+        }
       }
     }
   }

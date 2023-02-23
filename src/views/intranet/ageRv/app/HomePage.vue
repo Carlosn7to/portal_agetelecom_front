@@ -1,12 +1,5 @@
 <template>
-  <div id="content-app" v-if="!isMobile" :class="{'dark-mode' : system.mode === 'dark'}">
-    <NewMenuApp/>
-    <div id="layer-app">
-      <NewHeaderApp/>
-      <div id="content-page"
-           :class="{'mode-l-p' : system.mode === 'light'  || system.mode === undefined,
-                  'mode-d-p' : system.mode === 'dark'}">
-        <div class="sections">
+    <div class="sections">
           <div class="section">
             <h1>AgeRv</h1>
             <br>
@@ -425,13 +418,10 @@
               <b style="color: #FA8A0C">Você ganha sem limites...</b></p>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <div id="modal"
+    <div id="modal"
        v-if="modal === true"
        :class="{'mode-l-p' : system.mode === 'light'  || system.mode === undefined,
-                  'mode-d-p' : system.mode === 'dark'}">
+                  'mode-dark' : system.mode === 'dark'}">
     <div id="card-modal">
       <div id="close-button">
         <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
@@ -537,24 +527,15 @@
 
     </div>
   </div>
-  <HomeMobile
-    v-if="isMobile"
-  />
 </template>
 
 <script>
 
-import NewHeaderApp from "@/components/portal/_aux/NewHeaderApp";
-import {mapGetters, mapActions} from "vuex";
-import HomeMobile from "@/components/ageRv/HomeMobile";
-import NewMenuApp from "@/components/portal/_aux/NewMenuApp";
+import {mapGetters, mapActions, mapMutations} from "vuex";
 
 export default {
   name: "HomePage",
   components: {
-    NewMenuApp,
-    NewHeaderApp,
-    HomeMobile,
 
   },
   data () {
@@ -566,6 +547,10 @@ export default {
   methods: {
     ...mapActions([
        'verifyDevice'
+    ]),
+    ...mapMutations([
+        'SAVE_MENU',
+        'SAVE_SYSTEM'
     ]),
     modeView: function (mode) {
       this.mode = mode
@@ -588,6 +573,8 @@ export default {
   mounted() {
     this.getMonth()
     this.verifyDevice()
+    this.SAVE_MENU({system: 'agerv', selected: 'home'})
+    this.SAVE_SYSTEM({loading: false})
   }
 }
 </script>
@@ -602,6 +589,7 @@ export default {
     @include flex(column, flex-start, initial, 4vh);
     @include sh;
     border-radius: 5px;
+    animation: up forwards .4s ease-in-out;
 
     h1 {
       line-height: 1vh;
@@ -706,7 +694,7 @@ export default {
   @include tr;
 }
 
-.mode-d-p {
+.mode-dark {
   background-color: $dark-mode-background;
   @include tr;
 
@@ -807,6 +795,18 @@ export default {
     .divisor {
       background-color: rgba(70, 70, 70, 0.17) !important;
     }
+  }
+}
+
+
+@keyframes up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
   }
 }
 

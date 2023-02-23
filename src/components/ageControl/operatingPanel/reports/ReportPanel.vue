@@ -1,5 +1,6 @@
 <template>
-  <div class="content-report">
+  <div class="content-report" :class="{'mode-l-p' : system.mode === 'light'  || system.mode === undefined,
+                  'mode-d-p' : system.mode === 'dark'}">
     <div class="btn-new-report">
       <button @click="modal = 'report-new'">
         <i class="fi fi-rr-add-document"></i>
@@ -169,6 +170,7 @@ import ReportNew from "@/components/ageControl/operatingPanel/reports/ReportNew"
 import ReportAll from "@/components/ageControl/operatingPanel/reports/ReportAll";
 import ReportNotSent from "@/components/ageControl/operatingPanel/reports/ReportNotSent";
 import moment from "moment";
+import {mapGetters} from "vuex";
 
 export default {
   name: "ReportPanel",
@@ -213,6 +215,11 @@ export default {
   },
   mounted() {
     this.getReports()
+  },
+  computed: {
+    ...mapGetters([
+        'system'
+    ])
   }
 }
 </script>
@@ -308,7 +315,7 @@ export default {
     #content-table {
       width: 100%;
       padding: 1vh 2vw;
-      @include table-pattern;
+      @include table-pattern(true);
     }
   }
 
@@ -324,6 +331,49 @@ export default {
     opacity: 1;
     transform: translateY(0px);
   }
+}
+
+
+.mode-d-p {
+  background-color: $dark-mode-background;
+
+  #dashboards {
+    .dashboard {
+      background-color: $dark-mode-card;
+
+      i {
+        color: $primary;
+      }
+
+      .info {
+        h6 {
+          color: $dark-mode-text-primary;
+        }
+        span {
+          color: $dark-mode-text-secondary;
+        }
+      }
+    }
+  }
+
+  #panel-reports {
+    #info {
+      h3 {
+        color: $dark-mode-text-primary;
+      }
+
+      #options {
+        span {
+          color: $dark-mode-text-secondary;
+        }
+      }
+    }
+
+    #content-table {
+      @include table-pattern(false);
+    }
+  }
+
 }
 
 </style>

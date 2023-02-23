@@ -1,94 +1,76 @@
 <template>
-  <div id="content-app">
-    <MenuApp
-        :mode="mode"
-        :system="'ageRv'"
-    />
-    <div id="layer-app">
-      <HeaderApp
-          @mode="modeView"
-      />
-      <div id="content-page"
-           :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
-                  'mode-d-p' : mode === 'dark'}">
-        <template v-if="list === true">
-          <div id="filters">
-            <input type="text"
-                   name="search"
-                   id="search"
-                   autocomplete="off"
-                   placeholder="Pesquisar"
-                   v-model="search">
-            <button>Ações</button>
-          </div>
-          <div class="items-header">
-            <div class="item" style="justify-content: flex-start">
-              <span>Colaborador</span>
-            </div>
-            <div class="item">
-              <span>Meta atual</span>
-            </div>
-            <div class="item">
-              <span>Usuário vinculado</span>
-            </div>
-            <div class="item">
-              <span>Função</span>
-            </div>
-            <div class="item">
-              <span>Canal</span>
-            </div>
-            <div class="item">
-              <span>Tipo de comissão</span>
-            </div>
-            <div class="item" style="justify-content: flex-start">
-              <span>Supervisor</span>
-            </div>
-            <div class="item">
-              <span>Gestor</span>
-            </div>
-            <div class="item">
-              <span>Ações</span>
-            </div>
-          </div>
-          <div class="container-body">
-            <div class="items-body" v-for="(item, key) in CollaboratorFiltered" :key="key">
-              <div class="item" style="justify-content: flex-start">
-                <span>{{ item.collaborator }}</span>
-              </div>
-              <div class="item">
-                <span>{{ item.meta }}</span>
-              </div>
-              <div class="item">
-                <span>{{ item.username }}</span>
-              </div>
-              <div class="item">
-                <span>{{ item.function }}</span>
-              </div>
-              <div class="item">
-                <span>{{ item.channel }}</span>
-              </div>
-              <div class="item">
-                <span>{{ item.type_commission }}</span>
-              </div>
-              <div class="item" style="justify-content: flex-start">
-                <span>{{ item.supervisor }}</span>
-              </div>
-              <div class="item">
-                <span>{{ item.management }}</span>
-              </div>
-              <div class="item" style="gap: 5px">
-                <i class="fi fi-rr-edit"
-                   @click="editCollaborator(item)"></i>
-              </div>
-            </div>
-          </div>
-        </template>
-
+  <template v-if="list === true">
+    <div id="filters">
+      <input type="text"
+             name="search"
+             id="search"
+             autocomplete="off"
+             placeholder="Pesquisar"
+             v-model="search">
+      <button>Ações</button>
+    </div>
+    <div class="items-header">
+      <div class="item" style="justify-content: flex-start">
+        <span>Colaborador</span>
+      </div>
+      <div class="item">
+        <span>Meta atual</span>
+      </div>
+      <div class="item">
+        <span>Usuário vinculado</span>
+      </div>
+      <div class="item">
+        <span>Função</span>
+      </div>
+      <div class="item">
+        <span>Canal</span>
+      </div>
+      <div class="item">
+        <span>Tipo de comissão</span>
+      </div>
+      <div class="item" style="justify-content: flex-start">
+        <span>Supervisor</span>
+      </div>
+      <div class="item">
+        <span>Gestor</span>
+      </div>
+      <div class="item">
+        <span>Ações</span>
       </div>
     </div>
-  </div>
-  <div class="loading" v-if="loading === true">
-  </div>
+    <div class="container-body">
+      <div class="items-body" v-for="(item, key) in CollaboratorFiltered" :key="key">
+        <div class="item" style="justify-content: flex-start">
+          <span>{{ item.collaborator }}</span>
+        </div>
+        <div class="item">
+          <span>{{ item.meta }}</span>
+        </div>
+        <div class="item">
+          <span>{{ item.username }}</span>
+        </div>
+        <div class="item">
+          <span>{{ item.function }}</span>
+        </div>
+        <div class="item">
+          <span>{{ item.channel }}</span>
+        </div>
+        <div class="item">
+          <span>{{ item.type_commission }}</span>
+        </div>
+        <div class="item" style="justify-content: flex-start">
+          <span>{{ item.supervisor }}</span>
+        </div>
+        <div class="item">
+          <span>{{ item.management }}</span>
+        </div>
+        <div class="item" style="gap: 5px">
+          <i class="fi fi-rr-edit"
+             @click="editCollaborator(item)"></i>
+        </div>
+      </div>
+    </div>
+  </template>
   <div id="modal" v-if="modal === true">
     <EditCollaborator
         :data="dataCollaborator"
@@ -99,17 +81,14 @@
 
 <script>
 
-import MenuApp from "@/components/portal/_aux/MenuApp";
-import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 import {AXIOS} from "../../../../../../../services/api.ts";
 import EditCollaborator from "@/components/ageRv/management/EditCollaborator";
+import {mapMutations} from "vuex";
 
 export default {
   name: "DashboardPage",
   components: {
-    MenuApp,
-    HeaderApp,
     EditCollaborator
   },
   emits: ['closePage'],
@@ -125,6 +104,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+       'SAVE_SYSTEM'
+    ]),
     modeView: function (mode) {
       this.mode = mode
     },
@@ -138,7 +120,7 @@ export default {
       }).then((res) => {
         this.items = res.data
         this.list = true
-        this.loading = false
+        this.SAVE_SYSTEM({loading:false})
       }).catch((error) => {
         console.log(error)
       })

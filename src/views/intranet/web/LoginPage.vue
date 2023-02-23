@@ -1,7 +1,7 @@
 <template>
   <div id="container-login"
-       :class="{ 'mode-l' : mode === 'light'   || mode === undefined,
-                 'mode-d' : mode === 'dark' }"
+       :class="{ 'mode-l' : system.mode === 'light'   || system.mode === undefined,
+                 'mode-d' : system.mode === 'dark' }"
        v-if="!isMobile">
     <div id="welcome">
       <img :src="require('@/assets/img/logo/age_orange.png')" alt="">
@@ -114,8 +114,6 @@
         </form>
       </div>
     </div>
-    <div class="loading-bar" v-if="loading === true">
-    </div>
   </div>
   <LoginMobile
     v-if="isMobile"
@@ -128,7 +126,7 @@
 <script>
 import Cookie from "js-cookie";
 import {AXIOS} from "../../../../services/api.ts";
-import { mapGetters, mapMutations, mapActions } from 'vuex';
+import {mapGetters, mapMutations, mapActions } from 'vuex';
 import LoginMobile from "@/components/LoginMobile";
 
 export default {
@@ -148,7 +146,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['CHANGE_DEVICE', 'SAVE_FIRSTNAME']),
+    ...mapMutations(['CHANGE_DEVICE', 'SAVE_FIRSTNAME', 'SAVE_MENU', 'SAVE_SYSTEM']),
     ...mapActions(['verifyDevice']),
     authenticate: function (data) {
 
@@ -175,7 +173,9 @@ export default {
           this.error = false
           this.functions.authenticate = false
           this.SAVE_FIRSTNAME(res.data.name)
+          this.SAVE_SYSTEM({login: true, loading: true})
           Cookie.set('token', res.data.access_token, {expires: 1} )
+          this.SAVE_MENU({system: 'portal', selected: 'home'})
 
           this.$router.replace('/sistemas')
         }).catch((error) => {
@@ -197,10 +197,12 @@ export default {
   },
   created() {this.verifyDevice()},
   computed: {
-    ...mapGetters(['isMobile']),
+    ...mapGetters(['isMobile', 'system']),
   },
   mounted() {
-
+    this.SAVE_SYSTEM({loading: false, login: false})
+  },
+  unmounted() {
   }
 }
 </script>
@@ -210,6 +212,9 @@ export default {
 #container-login {
   @include container(100%, 100%, 0, #fff);
   @include flex(row, flex-start, initial, 0);
+  overflow: hidden;
+  border-radius: 0px 5px 5px 0;
+
 
   #welcome {
     @include container(30%, 100%, 0 1vw, transparent);
@@ -243,6 +248,7 @@ export default {
   #content-login {
     @include container(70%, 100%, 0, transparent);
     @include flex(row, center, center, 0);
+
 
     #card-login {
       @include container(65%, 90%, 15vh 1vw, transparent);
@@ -316,7 +322,7 @@ export default {
 
 .mode-d {
   #welcome {
-    background-color: $md-back-l !important;
+    background-color: $dark-mode-background !important;
 
     h1 {
       color: $md-text-h1 !important;
@@ -342,9 +348,6 @@ export default {
   }
 }
 
-.loading-bar {
-  @include bar;
-}
 
 .trigger {
   .inputs {

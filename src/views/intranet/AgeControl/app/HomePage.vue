@@ -1,61 +1,54 @@
 <template>
-  <div id="content-app">
-    <NewMenuApp
-    />
-    <div id="layer-app">
-      <HeaderApp
-          @mode="modeView"
-      />
-      <div id="content-page"
-           :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
-                  'mode-d-p' : mode === 'dark'}">
-        <h1>Painel operacional</h1>
-        <p>Aqui você poderá operar em todos os paineis disponíveis no sistema.</p>
+  <h1>Painel operacional</h1>
+  <p>Aqui você poderá operar em todos os paineis disponíveis no sistema.</p>
 
-        <div id="content-pages">
-          <div id="items-page">
-            <ReportPanel v-if="menuActive === 'reports'" />
-            <ConductorPanel v-if="menuActive === 'conductors'" />
-            <DashboardPanel v-if="menuActive === 'dashboards'"/>
-          </div>
-        </div>
-
-      </div>
+  <div id="content-pages">
+    <div id="items-page">
+      <ReportPanel v-if="menuActive === 'reports'" />
+      <ConductorPanel v-if="menuActive === 'conductors'" />
+      <DashboardPanel v-if="menuActive === 'dashboards'"/>
     </div>
   </div>
 </template>
 
 <script>
 
-import NewMenuApp from "@/components/portal/_aux/NewMenuApp";
-import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 import ReportPanel from "@/components/ageControl/operatingPanel/reports/ReportPanel";
 import ConductorPanel from "@/components/ageControl/operatingPanel/conductors/ConductorPanel";
 import DashboardPanel from "@/components/ageControl/operatingPanel/dashboards/DashboardPanel";
+import {mapGetters, mapMutations} from "vuex";
 
 export default {
   name: "HomePage",
   emits: ['closeModal'],
   components: {
-    NewMenuApp,
-    HeaderApp,
     ReportPanel,
     ConductorPanel,
-    DashboardPanel
+    DashboardPanel,
   },
   data () {
     return {
       mode: Cookie.get('mode'),
-      menuActive: 'reports'
+      menuActive: 'reports',
+      loading: false
     }
   },
   methods: {
+    ...mapMutations([
+        'SAVE_SYSTEM'
+    ]),
     modeView: function (mode) {
       this.mode = mode
     }
   },
   mounted() {
+    this.SAVE_SYSTEM({loading: false})
+  },
+  computed: {
+    ...mapGetters([
+      'system'
+    ])
   }
 }
 </script>
@@ -124,12 +117,20 @@ export default {
 
 .mode-l-p {
   background-color: $ml-back-l;
-  @include tr;
 }
 
 .mode-d-p {
-  background-color: #161819;
-  @include tr;
+  background-color: $dark-mode-background;
+
+  h1 {
+    color: $dark-mode-text-primary;
+  }
+
+  p {
+    color: $dark-mode-text-secondary;
+  }
 }
+
+
 
 </style>

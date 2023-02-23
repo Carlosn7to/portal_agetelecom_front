@@ -148,6 +148,15 @@ const routes = [
     ]
   },
   {
+    path: '/ageBoard/gerenciamento/usuarios',
+    name: 'UsersManagement',
+    component: () => import("@/views/intranet/ageBoard/app/management/UsersManagement"),
+    beforeEnter: [
+      Guard.auth,
+      Guard.permission_board
+    ]
+  },
+  {
     path: '/ageControle/home',
     name: 'HomePageControl',
     component: () => import("@/views/intranet/AgeControl/app/HomePage"),

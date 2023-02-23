@@ -1,6 +1,47 @@
 <template>
-  <router-view/>
+  <div id="content-app">
+    <NewMenuApp
+      v-if="system.login === true"
+    />
+    <div id="layer-app">
+      <NewHeaderApp
+          v-if="system.login === true"
+      />
+      <div id="content-page"
+           :class="{'mode-light' : system.mode === 'light'  || system.mode === undefined,
+            'mode-dark' : system.mode === 'dark'}">
+        <LoadingSpinner
+            v-if="system.loading === true"
+        />
+        <router-view/>
+      </div>
+    </div>
+  </div>
 </template>
+
+<script>
+
+import LoadingSpinner from "@/components/portal/_aux/LoadingSpinner";
+import {mapGetters, mapMutations} from "vuex";
+import NewMenuApp from "@/components/portal/_aux/NewMenuApp";
+import NewHeaderApp from "@/components/portal/_aux/NewHeaderApp";
+
+export default {
+  components: {LoadingSpinner, NewMenuApp, NewHeaderApp},
+  computed: {
+    ...mapGetters([
+        'system'
+    ])
+  },
+  methods: {
+    ...mapMutations([
+        'SAVE_SYSTEM'
+    ])
+  },
+  mounted() {
+  }
+}
+</script>
 
 <style lang="scss">
 
@@ -11,7 +52,7 @@
 ::after{
   padding: 0;
   margin: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-decoration: none !important;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -31,7 +72,39 @@ html {
 }
 
 h1 {
-  font-size: 3.6rem;
+  font-size: 3.2rem;
+  font-weight: 400;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  text-decoration: none solid rgb(245, 244, 243);
+  text-indent: 0px;
+  color: $h1-black;
+  letter-spacing: normal;
+  word-spacing: 0px;
+  vertical-align: baseline;
+}
+
+h2 {
+  font-size: 1.4rem;
+  font-weight: 400;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  text-decoration: none solid rgb(245, 244, 243);
+  text-indent: 0px;
+  color: $h1-black;
+  letter-spacing: normal;
+  word-spacing: 0px;
+  vertical-align: baseline;
+}
+
+.mode-dark {
+
+  h1,h2 {
+    color: $h1-white;
+  }
+
 }
 
 #modal {
@@ -80,6 +153,8 @@ h1 {
   font-size: 1.4rem;
 }
 
+
+
 /*   SCROLL BAR   */
 ::-webkit-scrollbar-track {
   background-color: #F4F4F4;
@@ -103,20 +178,51 @@ h1 {
     #layer-app {
       @include container(100%, 100%, 0, transparent);
       @include flex(column, flex-start, initial, 0);
+      position: relative;
 
       #content-page {
         width: 100%;
-        height: 92%;
-        padding: 1vh 2vw 1vh 2vw;
-        max-height: 92%;
+        height: 100%;
+        max-height: 100%;
         overflow-y: auto;
-
-
+        padding: 2vh 2vw;
       }
     }
   }
 }
 
+.mode-dark {
+  background-color: $dark-mode-background;
+
+  ::-webkit-input-placeholder {
+    color: $text-light;
+    font-weight: 500;
+    font-size: 1.4rem;
+  }
+}
+
+
+@keyframes up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes left {
+  0% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
 
 
 @media (min-width: 1800px) {

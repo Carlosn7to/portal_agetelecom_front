@@ -21,9 +21,56 @@
         <SubMenuAgeControl
             v-if="menu.system === 'agecontrol'"
         />
+
         <SubMenuAgeRv
             v-if="menu.system === 'agerv'"
         />
+        <SubMenuPortal
+            v-if="menu.system === 'portal'"
+        />
+
+        <SubMenuAgeReport
+            v-if="menu.system === 'agereport'"
+        />
+
+        <SubMenuAgeBoard
+            v-if="menu.system === 'ageboard'"
+        />
+
+        <nav>
+          <ul>
+            <li>
+              <div class="container-items">
+                <router-link to="/sistemas" @click="SAVE_SYSTEM({loading: true})">
+                  <div class="item-menu">
+                    <div class="title-icon">
+                      <i class="fi fi-rr-arrow-alt-square-left"></i>
+                      <span>Voltar</span>
+                    </div>
+                  </div>
+                </router-link>
+                <div class="border-nav">
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="container-items">
+                <router-link to="/" @click="[SAVE_MENU({system: 'portal', selected: 'home'}),
+                            SAVE_SYSTEM({login: false})]">
+                  <div class="item-menu">
+                    <div class="title-icon">
+                      <i class="fi fi-rr-exit"></i>
+                      <span>Sair</span>
+                    </div>
+                  </div>
+                </router-link>
+                <div class="border-nav">
+                </div>
+              </div>
+            </li>
+          </ul>
+        </nav>
+
       </div>
     </div>
   </div>
@@ -34,18 +81,28 @@
 import SubMenuAgeControl from "@/components/portal/_aux/subMenus/ageControl/SubMenuAgeControl";
 import SubMenuAgeRv from "@/components/portal/_aux/subMenus/ageRv/SubMenuAgeRv";
 import {mapGetters, mapMutations} from "vuex";
-
+import SubMenuPortal from "@/components/portal/_aux/subMenus/SubMenuPortal";
+import SubMenuAgeReport from "@/components/portal/_aux/subMenus/ageReport/SubMenuAgeReport";
+import SubMenuAgeBoard from "@/components/portal/_aux/subMenus/ageBoard/SubMenuAgeBoard";
 
 export default {
   name: "NewMenuApp",
-  components: {SubMenuAgeRv, SubMenuAgeControl},
+  components: {
+    SubMenuAgeRv,
+    SubMenuAgeControl,
+    SubMenuPortal,
+    SubMenuAgeReport,
+    SubMenuAgeBoard},
 
   data() {
-    return {}
+    return {
+      loading: false
+    }
   },
   methods: {
     ...mapMutations([
-      'SAVE_MENU'
+      'SAVE_MENU',
+        'SAVE_SYSTEM'
     ])
   },
   computed: {
@@ -63,6 +120,7 @@ export default {
   height: 100%;
   @include flex(row, flex-start, initial, 0);
   @include sh-pattern;
+  z-index: 3;
 
   .menu-app {
     height: 100%;
@@ -119,6 +177,8 @@ export default {
 
 
     .items-nav {
+      @include flex(column, space-between, initial, 0);
+      height: 85%;
       nav {
         ul {
           @include flex(column, flex-start, initial, 5px);
@@ -279,6 +339,36 @@ export default {
 
           }
 
+          .active-route-submenu {
+            .item-submenu {
+              .title-icon {
+                .icon-submenu {
+                  div {
+                    background-color: $primary !important;
+                    width: 10px;
+                    height: 10px;
+                    border: 2px solid $text-light;
+                    animation: explode ease-in-out alternate infinite 1s;
+                  }
+
+                  @keyframes explode {
+                    0% {
+                      transform: scale(.5);
+                    }
+                    100% {
+                      transform: scale(1);
+                    }
+                  }
+                }
+                span {
+                  color: $primary !important;
+                  font-weight: 500;
+                }
+              }
+            }
+          }
+
+
         }
       }
     }
@@ -420,6 +510,10 @@ export default {
         border-color: $dark-mode-background;
       }
 
+      #icon-decrease {
+        border-color: $dark-mode-background;
+      }
+
       #logo {
         span {
           color: $dark-mode-text-primary;
@@ -491,6 +585,34 @@ export default {
             }
 
 
+          }
+          .active-route-submenu {
+            .item-submenu {
+              .title-icon {
+                .icon-submenu {
+                  div {
+                    background-color: $primary !important;
+                    width: 10px;
+                    height: 10px;
+                    border: 2px solid #fff;
+                    animation: explode ease-in-out alternate infinite 1s;
+                  }
+
+                  @keyframes explode {
+                    0% {
+                      transform: scale(.5);
+                    }
+                    100% {
+                      transform: scale(1);
+                    }
+                  }
+                }
+                span {
+                  color: #ffffff !important;
+                  font-weight: 500;
+                }
+              }
+            }
           }
 
         }

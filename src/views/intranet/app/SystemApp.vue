@@ -1,96 +1,18 @@
 <template>
-  <div id="content-app" v-if="!isMobile">
-    <MenuApp
-        :mode="mode"
-        :system="'portal'"
+    <WelcomeSystems
     />
-    <div id="layer-app">
-      <HeaderApp
-          @mode="modeView"
-      />
-      <div id="content-page"
-           :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
-                  'mode-d-p' : mode === 'dark'}">
-        <div class="systems-on">
-          <h1>Sistemas</h1>
-          <div class="systems">
-            <router-link to="/ageRv/home" @click="SAVE_MENU({system: 'agerv', selected: 'home'})">
-              <div class="system">
-                <div class="img-title">
-                  <i class="fi fi-rr-star"></i>
-                  <span>AgeRv</span>
-                </div>
-                <p>
-                  Vendas e comissionamento.
-                </p>
-              </div>
-            </router-link>
-            <router-link to="/ageReport/home" @click="loading = true">
-              <div class="system">
-                <div class="img-title">
-                  <i class="fi fi-rr-document"></i>
-                  <span>AgeReport</span>
-                </div>
-                <p>
-                  Relatórios e planilhas.
-                </p>
-              </div>
-            </router-link>
-            <router-link to="/ageboard/home" @click="loading = true">
-              <div class="system">
-                <div class="img-title">
-                  <i class="fi fi-rr-stats"></i>
-                  <span>AgeBoard</span>
-                </div>
-                <p>
-                  Dashboards e indicadores.
-                </p>
-              </div>
-            </router-link>
-          </div>
-        </div>
-        <div class="systems-on">
-          <h1>Em desenvolvimento</h1>
-          <div class="systems">
-            <router-link to="/ageControle/home" @click="loading = true">
-              <div class="system">
-                <div class="img-title">
-                  <i class="fi fi-rr-apps-add"></i>
-                  <span>AgeControle</span>
-                </div>
-                <p>
-                  Frota e combustível.
-                </p>
-              </div>
-            </router-link>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <SystemMobile
-      :routes="routes"
-      v-if="isMobile"
-  />
-  <div class="loading-bar" v-if="loading === true">
-  </div>
 </template>
 
 <script>
 
-import MenuApp from "@/components/portal/_aux/MenuApp";
-import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import SystemMobile from "@/components/portal/SystemMobile";
-
+import WelcomeSystems from "@/components/portal/WelcomeSystems";
 
 export default {
   name: "SystemApp",
   components: {
-    MenuApp,
-    HeaderApp,
-    SystemMobile
+    WelcomeSystems
   },
   data() {
     return {
@@ -106,7 +28,8 @@ export default {
       'verifyDevice'
     ]),
     ...mapMutations([
-      'SAVE_MENU'
+      'SAVE_MENU',
+        'SAVE_SYSTEM'
     ]),
     modeView: function (mode) {
       this.mode = mode
@@ -116,10 +39,13 @@ export default {
     this.verifyDevice()
   },
   mounted() {
+    this.SAVE_MENU({system: 'portal', selected: 'home'})
+    this.SAVE_SYSTEM({loading: false})
   },
   computed: {
     ...mapGetters([
-      'isMobile'
+      'isMobile',
+        'system'
     ]),
   }
 }
@@ -145,7 +71,6 @@ h2 {
 
   .systems-on {
     width: 100%;
-    padding: 1vh 1vw;
 
     .systems {
       padding: 1vh 0;
@@ -222,12 +147,10 @@ h2 {
 
 .mode-l-p {
   background-color: $ml-back-l;
-  @include tr;
 }
 
-.mode-d-p {
-  background-color: #161819;
-  @include tr;
+.mode-dark {
+  background-color: $dark-mode-background;
 
   h1 {
     color: $md-text-light !important;
@@ -236,11 +159,11 @@ h2 {
   .systems-on {
     .systems {
       a {
-        background-color: $md-back-l !important;
-        border: 2px solid $md-back-l !important;
+        background-color: $dark-mode-card !important;
+        border: 1px solid $dark-mode-card !important;
 
         &:hover {
-          border: 2px solid $age-or !important;
+          border: 1px solid $age-or !important;
         }
 
         .img-title {

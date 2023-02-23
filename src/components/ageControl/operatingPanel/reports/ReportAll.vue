@@ -653,7 +653,7 @@ export default {
         max-height: 75%;
         padding: 2vh 2vw;
         overflow: auto;
-        @include table-pattern;
+        @include table-pattern(true);
       }
     }
 

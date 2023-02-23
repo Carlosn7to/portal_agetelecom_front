@@ -20,7 +20,9 @@ export default createStore({
       stage: 'increase'
     },
     system: {
-      mode: 'light'
+      mode: 'light',
+      loading: false,
+      login: false
     }
   },
   getters: {
@@ -57,7 +59,9 @@ export default createStore({
 
     SAVE_SYSTEM(state, payload) {
       return [
-          state.system.mode = payload.mode !== undefined ? payload.mode : state.system.mode
+          state.system.mode = payload.mode !== undefined ? payload.mode : state.system.mode,
+          state.system.loading = payload.loading !== undefined ? payload.loading : state.system.loading,
+          state.system.login = payload.login !== undefined ? payload.login : state.system.login
       ]
     }
   },

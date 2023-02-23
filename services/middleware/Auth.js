@@ -46,6 +46,7 @@ export default {
             return next()
         }).catch(() => {
             alert('Você não pode acessar o sistema AgeReport.')
+            store.commit('SAVE_SYSTEM', {loading: false})
             return next({ path: '/sistemas'})
         })
 
@@ -64,6 +65,7 @@ export default {
             return next()
         }).catch(() => {
             alert('Você não pode acessar o sistema AgeRv.')
+            store.commit('SAVE_SYSTEM', {loading: false})
             return next({ path: '/sistemas'})
         })
     },
@@ -81,6 +83,7 @@ export default {
             return next()
         }).catch(() => {
             alert('Você não pode acessar o sistema AgeBoard.')
+            store.commit('SAVE_SYSTEM', {loading: false})
             return next({ path: '/sistemas'})
         })
     },
@@ -98,6 +101,7 @@ export default {
             return next()
         }).catch(() => {
             alert('Você não pode acessar o sistema AgeControl.')
+            store.commit('SAVE_SYSTEM', {loading: false})
             return next({ path: '/sistemas'})
         })
     }

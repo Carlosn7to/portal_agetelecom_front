@@ -1,17 +1,5 @@
 <template>
-  <div class="loading-bar" v-if="loading === true">
-  </div>
-  <div id="content-app"
-       :class="{'dark-mode' : system.mode === 'dark'}">
-    <NewMenuApp/>
-    <div id="layer-app">
-      <NewHeaderApp
-          @mode="modeView"
-          :mode="system.mode"
-      />
-      <div id="content-page"
-           @click="SAVE_MENU({stage: 'decrease'})">
-        <div class="container-sales" v-if="dashStatus">
+    <div class="container-sales" v-if="dashStatus && page === 'sales'">
           <div id="sales-display" class="card-grid">
             <div class="info">
 
@@ -169,8 +157,8 @@
             <div class="sales-stars">
               <div class="title">
                 <div class="main">
-                  <h2>Vendas e estrelas</h2>
-                  <h3>Compare a quantidade de vendas com as estrelas</h3>
+                  <h2>Vendas</h2>
+                  <h3>Compare a quantidade de vendas.</h3>
                 </div>
                 <span>Por semana</span>
               </div>
@@ -199,22 +187,17 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
     </div>
-    <ExtractSales
+  <ExtractSales
       v-if="page === 'extract-sales'"
       @close-page="page = 'sales'"
       :data="data.sales.extract"
-    />
-  </div>
+  />
 
 </template>
 
 <script>
 
-import NewMenuApp from "@/components/portal/_aux/NewMenuApp";
-import NewHeaderApp from "@/components/portal/_aux/NewHeaderApp";
 import Cookie from "js-cookie";
 import {AXIOS} from "../../../../../../../services/api.ts";
 import {mapGetters, mapMutations} from "vuex";
@@ -224,8 +207,6 @@ import ExtractSales from "@/components/ageRv/modal/sales/ExtractSales";
 export default {
   name: "NewSalesPage",
   components: {
-    NewMenuApp,
-    NewHeaderApp,
     ExtractSales
   },
   data() {
@@ -249,7 +230,8 @@ export default {
   },
   methods: {
     ...mapMutations([
-        'SAVE_MENU'
+        'SAVE_MENU',
+        'SAVE_SYSTEM'
     ]),
     modeView: function (mode) {
       this.mode = mode
@@ -274,12 +256,13 @@ export default {
         }
       }).then((res) => {
         this.data = res.data
-        this.loading = false
         this.projection = true
         this.dashStatus = true
+        this.SAVE_SYSTEM({loading: false})
         this.graphSalesWeek()
         this.graphStarsWeek()
         this.graphSalesStars()
+
       })
     },
     modalView: function (dash) {
@@ -400,7 +383,7 @@ export default {
         datasets: [{
           data: values,
           borderWidth: 2,
-          pointRadius: 1,
+          pointRadius: 3,
           backgroundColor: gradient,
           fill: true,
           label: 'Estrelas'
@@ -676,6 +659,7 @@ export default {
     gap: 20px;
     padding: 0 0 2vh 0;
     border-radius: 7px;
+    animation: up ease-in-out forwards .4s;
 
     .card-grid {
       background-color: #fff;
@@ -1004,14 +988,9 @@ export default {
 }
 
 
-.dark-mode {
+.mode-dark {
 
-  background-color: $dark-mode-background !important;
-
-  #layer-app {
-
-    #content-page {
-      .container-sales {
+   .container-sales {
 
         background-color: $dark-mode-background;
 
@@ -1020,11 +999,11 @@ export default {
           background-color: $dark-mode-card !important;
 
           h1, h2, h3, h4 {
-            color: $dark-mode-text-primary;
+            color: $dark-mode-text-primary !important;
           }
 
           span {
-            color: $dark-mode-text-secondary;
+            color: $dark-mode-text-secondary !important;
           }
         }
 
@@ -1034,7 +1013,7 @@ export default {
               .item {
                 div {
                   span:nth-child(1) {
-                    color: $primary;
+                    color: $primary !important;
                   }
                   span {
                     color: $dark-mode-text-secondary;
@@ -1044,13 +1023,7 @@ export default {
             }
           }
         }
-
-
       }
-
-    }
-
-  }
 }
 
 

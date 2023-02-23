@@ -1,87 +1,84 @@
 <template>
-  <div id="modal">
-    <div id="card-modal">
-      <div id="close-button">
-        <i class="fi fi-rr-cross-small" @click="closePage"></i>
-      </div>
-      <div id="content-table">
-        <table>
-          <thead>
-          <tr>
-            <th>
-              <div>
-                <span>ID</span>
-              </div>
-            </th>
-            <th style="text-align: left">
-              <div class="content">
-                <span>Nome do cliente</span>
-              </div>
-            </th>
-            <th>
-              <div class="content">
-                <span>Data da venda</span>
-              </div>
-            </th>
-            <th>
-              <div class="content">
-                <span>Data da aprovação</span>
-              </div>
-            </th>
-            <th>
-              <div class="content">
-                <span>Data da vigência</span>
-              </div>
-            </th>
-            <th>
-              <div class="content">
-                <span>Data do cancelamento</span>
-              </div>
-            </th>
-            <th>
-              <div class="content">
-                <span>Plano</span>
-              </div>
-            </th>
-            <th>
-              <div class="content">
-                <span>Status</span>
-              </div>
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="item in data" :key="item.id">
-            <td>
-              <div class="select-id">
+  <button @click="closePage">Voltar</button>
+  <div id="content-table">
+
+
+
+    <table>
+      <thead>
+      <tr>
+        <th>
+          <div>
+            <span>ID</span>
+          </div>
+        </th>
+        <th style="text-align: left">
+          <div class="content">
+            <span>Nome do cliente</span>
+          </div>
+        </th>
+        <th>
+          <div class="content">
+            <span>Data da venda</span>
+          </div>
+        </th>
+        <th>
+          <div class="content">
+            <span>Data da aprovação</span>
+          </div>
+        </th>
+        <th>
+          <div class="content">
+            <span>Data da vigência</span>
+          </div>
+        </th>
+        <th>
+          <div class="content">
+            <span>Data do cancelamento</span>
+          </div>
+        </th>
+        <th>
+          <div class="content">
+            <span>Plano</span>
+          </div>
+        </th>
+        <th>
+          <div class="content">
+            <span>Status</span>
+          </div>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="item in data" :key="item.id">
+        <td>
+          <div class="select-id">
                 <span>
                   # {{ item.id_contrato }}
                 </span>
-              </div>
-            </td>
-            <td style="text-align: left; width: 20%">{{ item.nome_cliente }}</td>
-            <td>{{ item.data_contrato }}</td>
-            <td>{{ item.data_ativacao }}</td>
-            <td>{{ item.data_vigencia }}</td>
-            <td>{{ item.data_cancelamento }}</td>
+          </div>
+        </td>
+        <td style="text-align: left; width: 20%">{{ item.nome_cliente }}</td>
+        <td>{{ item.data_contrato }}</td>
+        <td>{{ item.data_ativacao }}</td>
+        <td>{{ item.data_vigencia }}</td>
+        <td>{{ item.data_cancelamento }}</td>
 
-            <td style="width: 20%">{{ item.plano }}</td>
-            <td>
-              <div class="status">
-                <div :class="{ 'success' : item.situacao === 'Normal', 'warning' : item.situacao === 'Cancelada'}">
-                </div>
-                <span>
+        <td style="width: 20%">{{ item.plano }}</td>
+        <td>
+          <div class="status">
+            <div :class="{ 'success' : item.situacao === 'Normal', 'warning' : item.situacao === 'Cancelada'}">
+            </div>
+            <span>
                   {{ item.situacao }}
                 </span>
-              </div>
-            </td>
-          </tr>
+          </div>
+        </td>
+      </tr>
 
-          </tbody>
-        </table>
+      </tbody>
+    </table>
 
-      </div>
-    </div>
   </div>
 </template>
 
@@ -106,20 +103,33 @@ export default {
 
 <style scoped lang="scss">
 
-#modal {
-  #card-modal {
-    width: 95vw;
-    height: 90vh;
-    max-height: 90vh;
 
-    #content-table {
-      width: 100%;
-      height: 90%;
-      max-height: 90%;
-      overflow-y: auto;
-      padding: 1vh 2vw;
-      @include table-pattern;
-    }
+
+button {
+  @include btn-pattern($primary, #fff, $primary, $primary);
+  margin-bottom: 2vh;
+}
+
+#content-table {
+  width: 100%;
+  height: 90%;
+  max-height: 90%;
+  overflow-y: auto;
+  @include table-pattern(true);
+  animation: up ease-in-out forwards .4s;
+
+
+}
+
+.mode-dark {
+
+  button {
+    @include btn-pattern($primary, $white, $primary-hover, $white-grey);
+    margin-bottom: 2vh;
+  }
+
+  #content-table {
+    @include table-pattern(false);
   }
 }
 

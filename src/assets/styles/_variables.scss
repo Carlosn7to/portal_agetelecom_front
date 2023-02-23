@@ -21,8 +21,8 @@ $age-or: #FA8A0C;
 
 // Novas cores do sistema
 
-$primary: #6C6EF6;
-$primary-hover: #5d5fec;
+$primary: #6A6CF6;
+$primary-hover: #5658e5;
 $selected: #E7E7FE;
 $selected-hover: #dcdcfc;
 $title-strong: #595B6A;
@@ -39,6 +39,8 @@ $span-light: rgba(89, 91, 106, 0.48);
 
 $dark-mode-background: #222231;
 $dark-mode-card: #2B2C3E;
+$dark-mode-border: rgba(79, 80, 105, 0.37);
+$dark-mode-border-hover: rgb(79, 80, 105);
 
 // Cor do texto
 
@@ -100,3 +102,9 @@ $table-body-border: rgba(115, 119, 122, .1);
 
 $icon-grey: #4c5160;
 $icon-grey-hover: #22242c;
+
+
+// Cor dos textos
+
+$h1-black: #1e1f21;
+$h1-white: #f5f4f3;

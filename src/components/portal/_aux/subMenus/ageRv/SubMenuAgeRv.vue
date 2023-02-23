@@ -2,8 +2,9 @@
   <nav>
     <ul>
       <li :class="{ 'active-route' : menu.selected === 'home' }">
-        <div class="container-items" @click="SAVE_MENU({selected: 'home', stage: 'decrease'})">
-          <router-link to="/agerv/home" active-class="active-route">
+        <div class="container-items">
+          <router-link @click="[loadingPage(),
+                                SAVE_MENU({selected: 'home', stage: 'decrease'})]" to="/agerv/home" active-class="active-route">
             <div class="item-menu">
               <div class="title-icon">
                 <i class="fi fi-rr-home"></i>
@@ -15,9 +16,10 @@
           </div>
         </div>
       </li>
-      <li :class="{ 'active-route' : menu.selected === 'sales' }">
-        <div class="container-items" @click="SAVE_MENU({selected: 'sales', stage: 'decrease'})">
-          <router-link to="/ageRv/comercial/vendas/dashboard" active-class="active-route">
+      <li :class="{ 'active-route' : menu.selected === 'sales' }"
+          v-if="permissions.function === 'Vendedor' || permissions.function === 'Supervisor'">
+        <div class="container-items">
+          <router-link  @click="[loadingPage(), SAVE_MENU({selected: 'sales', stage: 'decrease'})]" to="/ageRv/comercial/vendas/dashboard" active-class="active-route">
             <div class="item-menu">
               <div class="title-icon">
                 <i class="fi fi-rr-handshake"></i>
@@ -46,8 +48,10 @@
         <ul :class="{ 'selected' : menu.selected === 'management' }">
           <li>
             <div class="container-items">
-              <router-link to="/ageControle" active-class="active-router">
-                <div class="item-submenu">
+              <router-link to="/ageRv/comercial/gerenciamento"
+                           active-class="active-route-submenu"
+                           @click="loadingPage">
+              <div class="item-submenu">
                   <div class="title-icon">
                     <div class="icon-submenu">
                       <div>
@@ -61,44 +65,12 @@
               </router-link>
             </div>
           </li>
-          <li>
-            <div class="container-items">
-              <router-link to="/ageControle/" active-class="active-route">
-                <div class="item-submenu">
-                  <div class="title-icon">
-                    <div class="icon-submenu">
-                      <div>
-
-                      </div>
-                    </div>
-                    <span>Regra de negócio</span>
-                  </div>
-                </div>
-              </router-link>
-            </div>
-          </li>
-          <li>
-            <div class="container-items">
-              <router-link to="/ageControle/" active-class="active-route">
-                <div class="item-submenu">
-                  <div class="title-icon">
-                    <div class="icon-submenu">
-                      <div>
-
-                      </div>
-                    </div>
-                    <span>Permissões</span>
-                  </div>
-                </div>
-              </router-link>
-            </div>
-          </li>
 
         </ul>
       </li>
       <li :class="{ 'active-route' : menu.selected === 'commission' }">
-        <div class="container-items" @click="SAVE_MENU({selected: 'commission', stage: 'decrease'})" v-if="permissions.function === 'Financeiro' || permissions.function === 'Gerente geral'">
-          <router-link to="/ageRv/comercial/comissao" active-class="active-route">
+        <div class="container-items" v-if="permissions.function === 'Financeiro' || permissions.function === 'Gerente geral'">
+          <router-link @click="[loadingPage(), SAVE_MENU({selected: 'commission', stage: 'decrease'})]"  to="/ageRv/comercial/comissao" active-class="active-route">
             <div class="item-menu">
               <div class="title-icon">
                 <i class="fi fi-rr-usd-square"></i>
@@ -126,8 +98,12 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'SAVE_MENU'
-    ])
+      'SAVE_MENU',
+        'SAVE_SYSTEM'
+    ]),
+    loadingPage: function () {
+      this.SAVE_SYSTEM({loading: true})
+    }
   },
   computed: {
     ...mapGetters([

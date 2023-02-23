@@ -264,8 +264,8 @@
 
 // Submit com cor age preta
 @mixin inp-s-cd-d {
-  @include btn-r-w(#fff, $age-bl-l);
-  background-color: $age-bl-l;
+  @include btn-r-w(#fff, $dark-mode-background);
+  background-color: $dark-mode-background;
 
   .loader {
     border-color: #fff;
@@ -273,10 +273,10 @@
   }
 
   &:hover {
-    border: 1px solid $age-bl-l;
+    border: 1px solid $dark-mode-background;
 
     .loader {
-      border-color: $age-bl-l;
+      border-color: $dark-mode-background;
       border-bottom-color: transparent;
     }
   }
@@ -686,7 +686,8 @@
 }
 
 
-@mixin table-pattern {
+@mixin table-pattern($light-theme: true) {
+  @if $light-theme {
   padding: 2vh 2vw;
   background-color: #fff;
   border-radius: 10px;
@@ -800,4 +801,119 @@
 
     }
   }
+  } @else {
+      padding: 2vh 2vw;
+      background-color: $dark-mode-card !important;
+      border-radius: 10px;
+      @include sh-pattern;
+
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+
+
+        thead {
+
+          tr {
+            width: 100%;
+
+            th:nth-child(1) {
+              width: 8%;
+              text-align: left;
+
+              div {
+                @include flex(row, flex-start, center, 0);
+              }
+            }
+
+            th {
+              text-align: left;
+              color: $dark-mode-text-primary;
+              font-weight: 700;
+              font-size: 1.2rem;
+              border-top: 2px solid $table-headers-border;
+              border-bottom: 2px solid $table-headers-border;
+              padding: 10px 0;
+
+              .content {
+                @include flex(row, flex-start, center, .5vw);
+
+                span {
+                  padding-bottom: 2px;
+                }
+
+                i {
+                  font-size: 1.4rem;
+                  @include tr-p;
+
+                  &:hover {
+                    color: $blue;
+                  }
+                }
+
+              }
+            }
+
+          }
+
+        }
+        tbody {
+
+          tr {
+
+            td:nth-child(1) {
+              width: 8%;
+              text-align: left;
+
+              :is(.select-id) {
+                @include flex(row, flex-start, center, .5vw);
+              }
+            }
+
+
+
+            td {
+              text-align: left;
+              color: $dark-mode-text-secondary;
+              font-weight: 600;
+              font-size: 1.2rem;
+              border-top: 1px solid $table-body-border;
+              border-bottom: 1px solid $table-body-border;
+              padding: 20px 0;
+
+              :is(.status) {
+                @include flex(row, flex-start, center, .3vw);
+
+                div {
+                  padding: 8px;
+                  border-radius: 2px;
+                }
+
+                :is(.success) {
+                  background-color: $green;
+                }
+
+                :is(.pending) {
+                  background-color: $orange;
+                }
+
+                :is(.warning) {
+                  background-color: $red;
+                }
+
+                span {
+                  font-weight: 800;
+                }
+
+              }
+
+            }
+
+
+          }
+
+        }
+      }
+    }
 }

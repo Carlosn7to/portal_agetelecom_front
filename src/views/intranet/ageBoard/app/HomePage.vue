@@ -1,70 +1,50 @@
 <template>
-  <div id="content-app">
-    <MenuApp
-        :mode="mode"
-        :system="'ageBoard'"
-    />
-    <div id="layer-app">
-      <HeaderApp
-          @mode="modeView"
-      />
-      <div id="content-page"
-           :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
-                  'mode-d-p' : mode === 'dark'}">
-        <template v-if="page.stage === 'all'">
-          <div :class="{ 'animation-right' : page.back === true}" v-for="item in data" :key="item.id">
-            <h1>{{ item.dashboard }}</h1>
-            <div class="divisor">
-              <div></div>
-            </div>
-            <div class="items">
-              <div class="item"
-                   v-for="item in item.itens" :key="item.id"
-                   @click="pageIframe(item.item, item.iframe)">
-                <div class="name">
-                  <i class="fi fi-rr-chart-pie"></i>
-                  <span>{{ item.item }}</span>
-                </div>
-                <div class="more">
-                  <i class="fi fi-rr-arrow-square-right"></i>
-                </div>
-              </div>
-            </div>
+  <template v-if="page.stage === 'all'">
+    <div v-for="item in data" :key="item.id">
+      <h1>{{ item.dashboard }}</h1>
+      <div class="divisor">
+        <div></div>
+      </div>
+      <div class="items">
+        <div class="item"
+             v-for="(item, index) in item.itens" :key="item.id"
+             @click="pageIframe(item.item, item.iframe)"
+              :style="'animation-delay: '+index * 0.3+'s'">
+          <div class="name">
+            <i class="fi fi-rr-chart-pie"></i>
+            <span>{{ item.item }}</span>
           </div>
-        </template>
-        <div v-if="page.stage === 'view'" class="view animation-left">
-          <div class="header">
-            <i class="fi fi-rr-arrow-square-left" @click="closePage"></i>
-            <h1>{{ page.name }}</h1>
+          <div class="more">
+            <i class="fi fi-rr-arrow-square-right"></i>
           </div>
-          <div class="divisor">
-            <div></div>
-          </div>
-          <iframe width="100%"
-                  height="90%"
-                  :src="page.iframe" frameborder="0" allowfullscreen="true">
-          </iframe>
         </div>
       </div>
-
     </div>
-  </div>
-  <div class="loading-bar" v-if="loading === true">
+  </template>
+  <div v-if="page.stage === 'view'" class="view animation-left">
+    <div class="header">
+      <i class="fi fi-rr-arrow-square-left" @click="closePage"></i>
+      <h1>{{ page.name }}</h1>
+    </div>
+    <div class="divisor">
+      <div></div>
+    </div>
+    <iframe width="100%"
+            height="80%"
+            :src="page.iframe" frameborder="0" allowfullscreen="true">
+    </iframe>
   </div>
 </template>
 
 <script>
 
-import MenuApp from "@/components/portal/_aux/MenuApp";
-import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 import {AXIOS} from "../../../../../services/api.ts";
+import {mapMutations} from "vuex";
 
 export default {
   name: "HomePage",
   components: {
-    MenuApp,
-    HeaderApp
   },
   data () {
     return {
@@ -81,6 +61,10 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+       'SAVE_SYSTEM',
+        'SAVE_MENU'
+    ]),
     modeView: function (mode) {
       this.mode = mode
     },
@@ -107,11 +91,14 @@ export default {
         }
       }).then((res) => {
         this.data = res.data
+        this.SAVE_SYSTEM({loading:false})
       })
     }
   },
   mounted() {
     this.getBoards()
+    this.SAVE_MENU({system: 'ageboard', selected: 'home'})
+    this.SAVE_SYSTEM({loading: false})
   }
 }
 </script>
@@ -123,6 +110,8 @@ export default {
   height: 2px;
   @include flex(row, flex-start, center, 0);
   margin: 2vh 0;
+  animation: up forwards ease-in-out .2s;
+
 
   div {
     background-color: #cccccc90;
@@ -131,11 +120,17 @@ export default {
   }
 }
 
+h1 {
+  animation: up forwards ease-in-out .2s;
+}
+
 .items {
   @include flex(row, flex-start, initia, 2vh);
   flex-wrap: wrap;
-  padding: 2vh 0;
+  padding: 2vh 5px;
   margin-bottom: 2vh;
+  overflow: hidden;
+
   .item {
     padding: 2vh 2vw;
     width: 100%;
@@ -146,6 +141,8 @@ export default {
     @include flex(row, space-between, center, 0);
     @include tr-p;
     @include sh-h;
+    animation: left forwards ease-in-out .5s;
+    opacity: 0;
 
 
     .name {
@@ -177,6 +174,7 @@ export default {
 
 .view {
   height: 100%;
+
 
   .header {
     @include flex(row, flex-start, center, 5px);
@@ -223,8 +221,8 @@ export default {
   @include tr;
 }
 
-.mode-d-p {
-  background-color: #161819;
+.mode-dark {
+  background-color: $dark-mode-background;
   @include tr;
   h1 {
     color: $md-text-h1 !important;
@@ -233,12 +231,18 @@ export default {
   .items {
 
     .item {
-      background-color: $md-back-l;
+      background-color: $dark-mode-card;
+
+
       &:hover {
-        border-color: $age-or;
+        border-color: $primary;
       }
 
       .name {
+        i {
+          color: $primary;
+        }
+
         span {
           color: $md-text-light;
         }
@@ -247,6 +251,7 @@ export default {
       .more {
         i {
           @include tr-p;
+          color: $primary;
           &:hover {
             color: #fff;
           }
@@ -259,7 +264,7 @@ export default {
 
     .header {
       i {
-        color: $age-or;
+        color: $primary;
         @include tr-p;
 
         &:hover {
@@ -270,31 +275,5 @@ export default {
   }
 }
 
-.animation-left {
-  animation: left forwards ease-in-out .4s;
-}
 
-@keyframes left {
-  from {
-    transform: translateX(200px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0px);
-  }
-}
-
-.animation-right {
-  animation: right forwards ease-in-out .4s;
-}
-
-@keyframes right {
-  from {
-    transform: translateX(-200px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0px);
-  }
-}
 </style>
