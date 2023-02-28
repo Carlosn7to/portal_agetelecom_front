@@ -23,6 +23,30 @@
   gap: $g;
 }
 
+
+@mixin card($light-theme: true) {
+  padding: 2vh 1vw;
+  background-color: #fff;
+  border-radius: 7px;
+  border: 1px solid #e1dedd;
+  @include tr;
+
+
+  &:hover {
+    border-color: #b9b6b6;
+  }
+
+  @if($light-theme == false) {
+    background-color: $dark-mode-card !important;
+    border-color: $dark-mode-card;
+
+    &:hover {
+      border-color: $primary;
+    }
+  }
+
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*
@@ -135,6 +159,73 @@
   }
 }
 
+@mixin btn-dashboard ($selected: false, $light-theme: true) {
+  padding: 5px 15px;
+  color: $white;
+  font-weight: 500;
+  @include tr-p;
+  border-radius: 5px;
+  @include flex(row, center, center, .5vw);
+  margin: 1vh 0;
+
+
+  @if ($light-theme) {
+
+    @if ($selected) {
+      border: 1px solid $primary;
+      background-color: $primary;
+
+      &:hover {
+        background-color: $primary-hover;
+        color: $white;
+        border-color: $primary-hover;
+      }
+    } @else {
+      border: 1px solid #edeae9;
+      color: #555;
+      background-color: #fff;
+
+      &:hover {
+        color: $h1-black;
+        border-color: #c9c6c6;
+        background-color: #fff;
+      }
+    }
+
+  } @else {
+
+    @if ($selected) {
+      border: 1px solid $primary;
+      background-color: $primary;
+
+      &:hover {
+        background-color: $primary-hover;
+        color: $white;
+        border-color: $primary-hover;
+      }
+    } @else {
+      border: 1px solid $dark-mode-card;
+      background-color: $dark-mode-card;
+
+      &:hover {
+        color: #fff;
+        border: 1px solid $dark-mode-card-hover;
+        background-color: $dark-mode-card-hover;
+      }
+    }
+
+  }
+
+
+
+  span {
+    padding-bottom: 2px;
+  }
+
+  i {
+    font-size: 1.6rem;
+  }
+}
 /*
   Inputs
   // Campos de entrada especiais

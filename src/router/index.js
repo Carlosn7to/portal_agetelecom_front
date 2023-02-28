@@ -130,6 +130,15 @@ const routes = [
     ]
   },
   {
+    path: '/ageRv/comercial/vendas/dashboard/extrato',
+    name: 'DashboardSales',
+    component: () => import("@/views/intranet/ageRv/app/commercial/dashboard/DashboardSales"),
+    beforeEnter: [
+      Guard.auth,
+      Guard.permission_rv
+    ]
+  },
+  {
     path: '/ageBoard/home',
     name: 'HomePage',
     component: () => import('@/views/intranet/ageBoard/app/HomePage'),

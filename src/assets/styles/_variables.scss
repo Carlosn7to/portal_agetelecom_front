@@ -22,7 +22,7 @@ $age-or: #FA8A0C;
 // Novas cores do sistema
 
 $primary: #6A6CF6;
-$primary-hover: #5658e5;
+$primary-hover: #5d5fec;
 $selected: #E7E7FE;
 $selected-hover: #dcdcfc;
 $title-strong: #595B6A;
@@ -37,8 +37,9 @@ $span-light: rgba(89, 91, 106, 0.48);
 
 // Dark mode
 
-$dark-mode-background: #222231;
-$dark-mode-card: #2B2C3E;
+$dark-mode-background: #111315;
+$dark-mode-card: #1A1C1E;
+$dark-mode-card-hover: rgba(26, 28, 30, 0.38);
 $dark-mode-border: rgba(79, 80, 105, 0.37);
 $dark-mode-border-hover: rgb(79, 80, 105);
 
@@ -60,8 +61,12 @@ $btn-back-g-h: #ECECEC;
 
 // Cor das letras botoes
 
-$white-grey: #efefef;
+$white-grey: #d5d5d5;
 $white: #fff;
+$black-grey: #37383d;
+$h1-black: #1e1f21;
+$h1-white: #f5f4f3;
+
 
 // Placeholder
 $pl-g: #ccc;
@@ -106,5 +111,3 @@ $icon-grey-hover: #22242c;
 
 // Cor dos textos
 
-$h1-black: #1e1f21;
-$h1-white: #f5f4f3;

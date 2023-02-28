@@ -1,143 +1,128 @@
 <template>
-  <div class="loading-bar" v-if="loading === true">
-  </div>
-  <div id="content-app">
-    <NewMenuApp
-    />
-    <div id="layer-app">
-      <HeaderApp
-          @mode="modeView"
-      />
-      <div id="content-page"
-           :class="{'mode-l-p' : mode === 'light'  || mode === undefined,
-                  'mode-d-p' : mode === 'dark'}">
-        <template v-if="stage === 'channels'">
-          <div id="filters">
-            <input type="text"
-                   name="search"
-                   id="search"
-                   autocomplete="off"
-                   placeholder="Pesquisar"
-                   v-model="search">
+  <template v-if="stage === 'channels'">
+    <div id="filters">
+      <input type="text"
+             name="search"
+             id="search"
+             autocomplete="off"
+             placeholder="Pesquisar"
+             v-model="search">
+    </div>
+    <div class="items-header">
+      <div class="item" style="justify-content: flex-start; width: 80%">
+        <span>Canal</span>
+      </div>
+      <div class="item">
+        <span>Ações</span>
+      </div>
+    </div>
+    <div class="container-body" v-if="loading === false">
+      <template v-for="(item, key) in ChannelsFiltered" :key="key">
+        <div class="items-body">
+          <div class="item" style="justify-content: flex-start; width: 80%">
+            <span>{{ item.name }}</span>
           </div>
-          <div class="items-header">
-            <div class="item" style="justify-content: flex-start; width: 80%">
-              <span>Canal</span>
-            </div>
-            <div class="item">
-              <span>Ações</span>
-            </div>
+          <div class="item">
+            <i class="fi fi-rr-users" @click="tradeStage(item.collaborators, 'collaborators')"></i>
           </div>
-          <div class="container-body" v-if="loading === false">
-            <template v-for="(item, key) in ChannelsFiltered" :key="key">
-              <div class="items-body">
-                <div class="item" style="justify-content: flex-start; width: 80%">
-                  <span>{{ item.name }}</span>
-                </div>
-                <div class="item">
-                  <i class="fi fi-rr-users" @click="tradeStage(item.collaborators, 'collaborators')"></i>
-                </div>
-              </div>
-            </template>
-          </div>
-        </template>
-        <template v-if="stage === 'collaborators'">
-          <div id="filters">
-            <input type="text"
-                   name="search"
-                   id="search"
-                   autocomplete="off"
-                   placeholder="Pesquisar"
-                   v-model="search">
-            <button @click="stage = 'channels', search = ''">Voltar</button>
-          </div>
-          <div class="items-header">
-            <div class="item" style="justify-content: flex-start">
-              <span>Colaborador</span>
-            </div>
-            <div class="item">
-              <span>Vendas</span>
-            </div>
-            <div class="item">
-              <span>Meta</span>
-            </div>
-            <div class="item">
-              <span>Meta atingida</span>
-            </div>
-            <div class="item">
-              <span>Canceladas D-7</span>
-            </div>
-            <div class="item">
-              <span>Estrelas</span>
-            </div>
-            <div class="item">
-              <span>Valor da estrela</span>
-            </div>
-            <div class="item">
-              <span>Acelerador/ <br> Deflator</span>
-            </div>
-            <div class="item">
-              <span>Comissão</span>
-            </div>
-            <div class="item">
-              <span>Ações</span>
-            </div>
-          </div>
-          <div class="container-body">
-            <div class="items-body" v-for="(item, key) in CollaboratorsFiltered" :key="key">
-              <div class="item" style="justify-content: flex-start">
-                <span>{{ item.name }}</span>
-              </div>
-              <div class="item">
-                <span>{{ item.sales.count }}</span>
-              </div>
-              <div class="item">
-                <span>{{ item.meta }}</span>
-              </div>
-              <div class="item">
-                <span>{{ item.metaPercent }}%</span>
-              </div>
-              <div class="item">
+        </div>
+      </template>
+    </div>
+  </template>
+  <template v-if="stage === 'collaborators'">
+    <div id="filters">
+      <input type="text"
+             name="search"
+             id="search"
+             autocomplete="off"
+             placeholder="Pesquisar"
+             v-model="search">
+      <button @click="stage = 'channels', search = ''">Voltar</button>
+    </div>
+    <div class="items-header">
+      <div class="item" style="justify-content: flex-start">
+        <span>Colaborador</span>
+      </div>
+      <div class="item">
+        <span>Vendas</span>
+      </div>
+      <div class="item">
+        <span>Meta</span>
+      </div>
+      <div class="item">
+        <span>Meta atingida</span>
+      </div>
+      <div class="item">
+        <span>Canceladas D-7</span>
+      </div>
+      <div class="item">
+        <span>Estrelas</span>
+      </div>
+      <div class="item">
+        <span>Valor da estrela</span>
+      </div>
+      <div class="item">
+        <span>Acelerador/ <br> Deflator</span>
+      </div>
+      <div class="item">
+        <span>Comissão</span>
+      </div>
+      <div class="item">
+        <span>Ações</span>
+      </div>
+    </div>
+    <div class="container-body">
+      <div class="items-body" v-for="(item, key) in CollaboratorsFiltered" :key="key">
+        <div class="item" style="justify-content: flex-start">
+          <span>{{ item.name }}</span>
+        </div>
+        <div class="item">
+          <span>{{ item.sales.count }}</span>
+        </div>
+        <div class="item">
+          <span>{{ item.meta }}</span>
+        </div>
+        <div class="item">
+          <span>{{ item.metaPercent }}%</span>
+        </div>
+        <div class="item">
                 <span style="background-color: #F44336; color: #fff" v-if="item.cancel.count > 0">
                   {{ item.cancel.count }}
                 </span>
-                <span v-else>{{ item.cancel.count }}</span>
-              </div>
-              <div class="item">
-                <span style="background-color: #FEA11D; color: #fff" v-if="item.commission !== '0,00'">{{ item.stars }}</span>
-                <span v-else>{{ item.stars }}</span>
-              </div>
-              <div class="item">
+          <span v-else>{{ item.cancel.count }}</span>
+        </div>
+        <div class="item">
+          <span style="background-color: #FEA11D; color: #fff" v-if="item.commission !== '0,00'">{{ item.stars }}</span>
+          <span v-else>{{ item.stars }}</span>
+        </div>
+        <div class="item">
                 <span style="background-color: #FECA1D; color: #fff"
                       v-if="item.commission !== '0,00'">R${{ item.valueStar }}
                 </span>
-                <span v-else>{{ item.valueStar }}</span>
-              </div>
-              <div class="item">
+          <span v-else>{{ item.valueStar }}</span>
+        </div>
+        <div class="item">
                 <span v-if="item.mediator === 10 && item.commission !== '0,00'"
                       style="background-color: #24A527; color: #fff;">
                   {{ item.mediator }}%
                 </span>
-                <span v-else-if="item.mediator === -10 && item.commission !== '0,00'"
-                      style="background-color: #911515; color: #fff;">
+          <span v-else-if="item.mediator === -10 && item.commission !== '0,00'"
+                style="background-color: #911515; color: #fff;">
                   {{ item.mediator }}%
                 </span>
-                <span v-else>{{ item.mediator }}%</span>
-              </div>
-              <div class="item">
+          <span v-else>{{ item.mediator }}%</span>
+        </div>
+        <div class="item">
                 <span style="background-color: #24A527; color: #fff"
                       v-if="item.commission !== '0,00'">R${{ item.commission }}</span>
-                <span v-else>R${{ item.commission }}</span>
-              </div>
-              <div class="item">
-                <i class="fi fi-rr-info" @click="extractView( item)"></i>
-              </div>
-            </div>
-          </div>
-        </template>
+          <span v-else>R${{ item.commission }}</span>
+        </div>
+        <div class="item">
+          <i class="fi fi-rr-info" @click="extractView( item)"></i>
+        </div>
       </div>
     </div>
-  </div>
+  </template>
   <div id="modal" v-if="extract.status === true">
     <div id="card-modal">
       <ExtractView
@@ -151,18 +136,14 @@
 
 <script>
 
-import NewMenuApp from "@/components/portal/_aux/NewMenuApp";
-import HeaderApp from "@/components/portal/_aux/HeaderApp";
 import Cookie from "js-cookie";
 import {AXIOS} from "../../../../../../../services/api.ts";
-import {mapGetters} from "vuex";
+import {mapGetters, mapMutations} from "vuex";
 import ExtractView from "@/components/ageRv/dashboards/ExtractView";
 
 export default {
   name: "SalesAnalytics",
   components: {
-    NewMenuApp,
-    HeaderApp,
     ExtractView
   },
   data () {
@@ -182,6 +163,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+      'SAVE_SYSTEM'
+    ]),
     modeView: function (mode) {
       this.mode = mode
     },
@@ -254,6 +238,7 @@ export default {
   },
   mounted() {
     this.getAnalytic()
+    this.SAVE_SYSTEM({loading:false})
   }
 }
 </script>
@@ -353,7 +338,7 @@ export default {
   }
 }
 
-.mode-d-p {
+.mode-dark {
   background-color: #161819;
   @include tr;
 

@@ -71,8 +71,7 @@ html {
   overflow: hidden;
 }
 
-h1 {
-  font-size: 3.2rem;
+h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
   font-style: normal;
   font-variant: normal;
@@ -83,25 +82,19 @@ h1 {
   letter-spacing: normal;
   word-spacing: 0px;
   vertical-align: baseline;
+}
+
+h1 {
+  font-size: 3.6rem;
 }
 
 h2 {
   font-size: 1.4rem;
-  font-weight: 400;
-  font-style: normal;
-  font-variant: normal;
-  text-transform: none;
-  text-decoration: none solid rgb(245, 244, 243);
-  text-indent: 0px;
-  color: $h1-black;
-  letter-spacing: normal;
-  word-spacing: 0px;
-  vertical-align: baseline;
 }
 
 .mode-dark {
 
-  h1,h2 {
+  h1,h2,h3, h4, h5, h6 {
     color: $h1-white;
   }
 
