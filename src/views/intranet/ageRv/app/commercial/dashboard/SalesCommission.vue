@@ -152,8 +152,8 @@ export default {
       loading: true,
       data: {},
       dataStage: {},
-      month: '12',
-      year: '2022',
+      month: '01',
+      year: '2023',
       stage: 'channels',
       search: '',
       extract: {

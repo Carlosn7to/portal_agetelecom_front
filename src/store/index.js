@@ -22,7 +22,8 @@ export default createStore({
     system: {
       mode: 'light',
       loading: false,
-      login: false
+      login: false,
+      cache: true
     }
   },
   getters: {
