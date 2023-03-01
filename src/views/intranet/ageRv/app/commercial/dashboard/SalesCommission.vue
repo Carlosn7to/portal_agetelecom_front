@@ -187,6 +187,8 @@ export default {
       }).then((res) => {
         this.loading = false
         this.data = res.data
+        this.SAVE_SYSTEM({loading:false})
+
       }).catch((error) => {
         console.log(error)
       })
@@ -238,7 +240,6 @@ export default {
   },
   mounted() {
     this.getAnalytic()
-    this.SAVE_SYSTEM({loading:false})
   }
 }
 </script>
