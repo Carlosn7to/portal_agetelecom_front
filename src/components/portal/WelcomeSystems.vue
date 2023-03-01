@@ -32,7 +32,7 @@ export default {
           system: 'Agerv',
           icon: 'fi fi-rr-star',
           legend: 'Vendas, comissionamento e planejamento.',
-          route: 'agerv/home'
+          route: '/ageRv/comercial/vendas/dashboard'
         },
         {
           system: 'AgeBoard',
@@ -117,7 +117,8 @@ export default {
 
   .systems {
     @include flex(column, flex-start, center, 4vh);
-    width: 50%;
+    min-width: 50%;
+    max-width: 90%;
     padding: 2vh 2vw;
 
     .system {
@@ -131,7 +132,7 @@ export default {
       border: 1px solid #edeae9;
       @include tr-p;
       @include flex(row, flex-start, center, 2vw);
-      padding: 1vh 1vw;
+      padding: 2vh 2vw;
 
       &:hover {
         border-color: #c9c6c6;
@@ -234,5 +235,7 @@ export default {
     transform: translateY(0);
   }
 }
+
+
 
 </style>

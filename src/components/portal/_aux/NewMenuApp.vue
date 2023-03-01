@@ -622,4 +622,16 @@ export default {
 
 }
 
+@media (min-width: 300px) {
+  .container-menu {
+    display: none;
+  }
+}
+
+@media (min-width: 1000px) {
+  .container-menu {
+    display: block;
+  }
+}
+
 </style>

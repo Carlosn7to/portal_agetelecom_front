@@ -637,6 +637,7 @@ export default {
   mounted() {
     this.getSellers()
     this.getMonth()
+    this.SAVE_MENU({system: 'agerv', selected: 'sales'})
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <template v-if="list === true">
+  <template v-if="list === true && page === 'users'">
     <div id="filters">
       <input type="text"
              name="search"
@@ -7,7 +7,6 @@
              autocomplete="off"
              placeholder="Pesquisar"
              v-model="search">
-      <button>Ações</button>
     </div>
     <div class="items-header">
       <div class="item" style="justify-content: flex-start">
@@ -71,12 +70,11 @@
       </div>
     </div>
   </template>
-  <div id="modal" v-if="modal === true">
-    <EditCollaborator
-        :data="dataCollaborator"
-        @close-page="closePage()"
-    />
-  </div>
+  <EditCollaborator
+      v-if="page === 'edit-user'"
+      :data="dataCollaborator"
+      @close-page="closePage()"
+  />
 </template>
 
 <script>
@@ -100,7 +98,8 @@ export default {
       loading: true,
       list: false,
       modal: false,
-      dataCollaborator: {}
+      dataCollaborator: {},
+      page: 'users'
     }
   },
   methods: {
@@ -126,11 +125,11 @@ export default {
       })
     },
     editCollaborator(data) {
-      this.modal = true
+      this.page = 'edit-user'
       this.dataCollaborator = data
     },
     closePage: function () {
-      this.modal = false
+      this.page = 'users'
     }
   },
   computed: {
@@ -167,11 +166,9 @@ export default {
       border-radius: 5px;
       outline: none;
       border: none;
-      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-
-      &:focus {
-        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;      }
+      @include card(true);
     }
+
 
     button {
       @include button-pattern;
@@ -198,9 +195,32 @@ export default {
   @include tr;
 }
 
-.mode-d-p {
-  background-color: #161819;
+.mode-dark {
+  background-color: $dark-mode-card;
   @include tr;
+
+  #filters {
+    input[type=text] {
+      @include card(false);
+      color: #fff;
+
+      &:focus {
+        border-color: $primary !important;
+      }
+    }
+
+
+  }
+
+  .container-body {
+
+    .items-body {
+      background-color: $dark-mode-card !important;
+      border-color: $dark-mode-card !important;
+      color: #fff !important;
+    }
+  }
+
 }
 
 

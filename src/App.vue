@@ -217,11 +217,43 @@ h2 {
   }
 }
 
+@media (min-width: 300px) {
+  html {
+    font-size: 45%;
+  }
+}
+
+@media (min-width: 600px) {
+  html {
+    font-size: 50%;
+  }
+}
+
+@media (min-width: 600px) {
+  html {
+    font-size: 60%;
+  }
+}
+
+@media (min-width: 1000px) {
+  html {
+    font-size: 65%;
+  }
+}
+
+@media (min-width: 1500px) {
+  html {
+    font-size: 70%;
+  }
+}
+
+
 
 @media (min-width: 1800px) {
   html {
     font-size: 80%;
   }
 }
+
 
 </style>
