@@ -72,6 +72,7 @@ export default {
       }).then((res) => {
         this.reports = res.data
         this.status = true
+        this.SAVE_SYSTEM({loading: false})
       }).catch((error) => {
         console.log(error)
       })
@@ -87,6 +88,9 @@ export default {
       } else {
         this.loading = true
         this.reportId = id
+
+        this.SAVE_SYSTEM({loading: true})
+
 
         AXIOS({
           method: 'GET',
@@ -110,6 +114,7 @@ export default {
           link.download = name
           link.click()
           this.modal = false
+          this.SAVE_SYSTEM({loading: false})
         })
       }
     }
@@ -122,7 +127,6 @@ export default {
   mounted() {
     this.getReports()
     this.SAVE_MENU({system: 'agereport', selected: 'home'})
-    this.SAVE_SYSTEM({loading: false})
   }
 }
 </script>
