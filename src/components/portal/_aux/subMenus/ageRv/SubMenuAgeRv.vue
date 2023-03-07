@@ -31,22 +31,22 @@
           </div>
         </div>
       </li>
-<!--      <li :class="{ 'active-route' : menu.selected === 'dashboard-sales' }"-->
-<!--          v-if="permissions.function === 'Vendedor' || permissions.function === 'Supervisor'">-->
-<!--        <div class="container-items">-->
-<!--          <router-link  @click="[loadingPage(), SAVE_MENU({selected: 'dashboard-sales', stage: 'decrease'})]" to="/ageRv/comercial/vendas/dashboard/extrato"-->
-<!--                        active-class="active-route">-->
-<!--            <div class="item-menu">-->
-<!--              <div class="title-icon">-->
-<!--                <i class="fi fi-rr-chart-histogram"></i>-->
-<!--                <span>Dashboard</span>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </router-link>-->
-<!--          <div class="border-nav">-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </li>-->
+      <li :class="{ 'active-route' : menu.selected === 'dashboard-sales' }"
+          v-if="permissions.function === 'Vendedor' || permissions.function === 'Supervisor'">
+        <div class="container-items">
+          <router-link  @click="[loadingPage(), SAVE_MENU({selected: 'dashboard-sales', stage: 'decrease'})]" to="/ageRv/comercial/vendas/dashboard/extrato"
+                        active-class="active-route">
+            <div class="item-menu">
+              <div class="title-icon">
+                <i class="fi fi-rr-chart-histogram"></i>
+                <span>Dashboard</span>
+              </div>
+            </div>
+          </router-link>
+          <div class="border-nav">
+          </div>
+        </div>
+      </li>
       <li :class="{ 'active-route' : menu.selected === 'management' }" v-if="permissions.function === 'Admin' || permissions.function === 'Master'">
         <div class="container-items"
              @click="SAVE_MENU({selected: 'management', stage: 'increase'})">
