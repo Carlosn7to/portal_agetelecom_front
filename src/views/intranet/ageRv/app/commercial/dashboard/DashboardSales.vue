@@ -5,6 +5,13 @@
 
       <div class="buttons">
         <button :disabled="filters.pending === true"
+                :class="{ 'selected' : filters.dataType === 'penultimate-month'  }"
+                @click="getData('penultimate-month')">
+        <span>
+          Penúltimo mês
+        </span>
+        </button>
+        <button :disabled="filters.pending === true"
                 :class="{ 'selected' : filters.dataType === 'month'  }"
                 @click="getData('month')">
         <span>
@@ -92,8 +99,17 @@ export default {
       setTimeout(() => {
         this.filters.pending = false
       }, 5000)
+
+      this.getSellers()
     },
     getSellers: function () {
+
+      if(this.filters.dataType === 'penultimate-month') {
+        this.filters.month = this.filters.month - 1;
+        this.filters.month = '0' + this.filters.month + ''
+      } else {
+        this.getMonth()
+      }
 
       AXIOS({
         method: 'GET',
@@ -121,8 +137,6 @@ export default {
       } else {
         this.filters.month = (date.getMonth() + 1).toString()
       }
-
-      this.getSellers()
     },
   },
   computed: {
@@ -132,6 +146,8 @@ export default {
   },
   mounted() {
     this.getMonth()
+    this.getSellers()
+
   }
 }
 </script>
