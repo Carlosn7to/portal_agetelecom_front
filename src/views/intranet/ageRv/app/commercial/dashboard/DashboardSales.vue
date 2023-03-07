@@ -96,13 +96,11 @@ export default {
       this.filters.dataType = type
       this.filters.pending = true
 
-      setTimeout(() => {
-        this.filters.pending = false
-      }, 5000)
-
       this.getSellers()
     },
     getSellers: function () {
+
+      this.SAVE_SYSTEM({loading: true})
 
       if(this.filters.dataType === 'penultimate-month') {
         this.filters.month = this.filters.month - 1;
@@ -126,6 +124,7 @@ export default {
         this.data = res.data
         this.SAVE_SYSTEM({loading: false})
         this.status = true
+        this.filters.pending = false
       })
     },
     getMonth: function () {
