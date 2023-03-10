@@ -46,12 +46,12 @@ export default {
           legend: 'Relatórios e planilhas.',
           route: 'ageReport/home'
         },
-        {
-          system: 'AgeControle',
-          icon: 'fi fi-rr-apps-add',
-          legend: 'Frota e combustível.',
-          route: 'ageControle/home'
-        },
+        // {
+        //   system: 'AgeControle',
+        //   icon: 'fi fi-rr-apps-add',
+        //   legend: 'Frota e combustível.',
+        //   route: 'ageControle/home'
+        // },
       ],
       animationDelay: .3,
       loading: false,

@@ -154,7 +154,9 @@ export default {
 
   button {
     margin: 2vh 0 0 0;
-    @include button-pattern;
+    @include btn-dashboard();
+    background-color: $primary;
+    color: #ffffff;
   }
 
   .content-edit {
@@ -186,7 +188,9 @@ export default {
       input[type=submit] {
         width: 50%;
         padding: 15px 10px;
-        @include button-pattern;
+        @include btn-dashboard();
+        background-color: $primary;
+        color: #ffffff;
       }
     }
   }

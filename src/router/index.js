@@ -67,6 +67,25 @@ const routes = [
     ]
   },
   {
+    path: '/ageReport/gerenciamento/usuarios',
+    name: 'ReportUsersManagement',
+    component: () => import("@/views/intranet/ageReport/app/management/ReportUsersManagement"),
+    beforeEnter: [
+      Guard.auth,
+      Guard.permission_board
+    ]
+  },
+  {
+    path: '/ageReport/gerenciamento/relatorios',
+    name: 'ReportReportsManagement',
+    component: () => import("@/views/intranet/ageReport/app/management/ReportReportsManagement"),
+    beforeEnter: [
+      Guard.auth,
+      Guard.permission_board
+    ]
+  }
+  ,
+  {
     path: '/ageRv/comercial/analitico',
     name: 'SalesAnalytics',
     component: () => import("@/views/intranet/ageRv/app/commercial/dashboard/SalesAnalytics"),
