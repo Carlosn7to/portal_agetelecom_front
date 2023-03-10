@@ -27,6 +27,7 @@
       <GraphSales
           :data_sales="data.sales"
           :data_stars="data.stars"
+          v-if="updateChart === false"
       />
       <div class="group-third">
         <div class="card"></div>
@@ -85,7 +86,8 @@ export default {
         year: null
       },
       data: {},
-      status: false
+      status: false,
+      updateChart: false
     }
   },
   methods: {
@@ -96,6 +98,7 @@ export default {
       this.filters.dataType = type
       this.filters.pending = true
 
+      this.updateChart = true
       this.getSellers()
     },
     getSellers: function () {
@@ -125,6 +128,8 @@ export default {
         this.SAVE_SYSTEM({loading: false})
         this.status = true
         this.filters.pending = false
+        this.updateChart = false
+
       })
     },
     getMonth: function () {
