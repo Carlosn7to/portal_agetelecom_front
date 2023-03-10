@@ -152,7 +152,7 @@ export default {
       loading: true,
       data: {},
       dataStage: {},
-      month: '01',
+      month: '',
       year: '2023',
       stage: 'channels',
       search: '',
@@ -173,6 +173,7 @@ export default {
 
       this.loading = true
       this.data = {}
+      this.getMonth()
 
       AXIOS({
         method: 'GET',
@@ -196,7 +197,7 @@ export default {
     getMonth: function () {
       const date = new Date()
       if (date.getMonth() < 10) {
-        this.month = '0' + (date.getMonth() + 1)
+        this.month = '0' + (date.getMonth() - 1)
       } else {
         this.month = (date.getMonth() + 1).toString()
       }
