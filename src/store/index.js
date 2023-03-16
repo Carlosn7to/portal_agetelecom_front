@@ -23,7 +23,12 @@ export default createStore({
       mode: 'light',
       loading: false,
       login: false,
-      cache: true
+      cache: true,
+      alert: {
+        type: 'attenttion',
+        msg: 'Você não tem permissão para acessar o sistema AgeBoard!',
+        display: false
+      }
     }
   },
   getters: {
@@ -64,7 +69,17 @@ export default createStore({
           state.system.loading = payload.loading !== undefined ? payload.loading : state.system.loading,
           state.system.login = payload.login !== undefined ? payload.login : state.system.login
       ]
-    }
+    },
+
+    SAVE_ALERT(state, payload) {
+
+
+      return [
+        state.system.alert.type = payload.type !== undefined ? payload.type : state.system.type,
+        state.system.alert.msg = payload.msg !== undefined ? payload.msg : state.system.msg,
+        state.system.alert.display = payload.display !== undefined ? payload.display : state.system.display
+      ]
+    },
   },
   actions: {
     verifyDevice: function (context) {

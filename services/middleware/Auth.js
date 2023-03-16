@@ -46,7 +46,7 @@ export default {
             store.commit('SAVE_PERMISSION', {permission: {system: 'ageReport', level: res.data.levelAccess, function: res.data.function}})
             return next()
         }).catch(() => {
-            alert('Você não pode acessar o sistema AgeReport.')
+            store.commit('SAVE_ALERT', {msg: 'Você não pode acessar o sistema AgeReport.', type: 'warning', display: true})
             store.commit('SAVE_SYSTEM', {loading: false})
             return next({ path: '/sistemas'})
         })
@@ -65,7 +65,7 @@ export default {
             store.commit('SAVE_PERMISSION', {permission: {system: 'ageRv', level: res.data.levelAccess, function: res.data.function}})
             return next()
         }).catch(() => {
-            alert('Você não pode acessar o sistema AgeRv.')
+            store.commit('SAVE_ALERT', {msg: 'Você não pode acessar o sistema AgeRv.', type: 'warning', display: true})
             store.commit('SAVE_SYSTEM', {loading: false})
             return next({ path: '/sistemas'})
         })
@@ -83,7 +83,7 @@ export default {
             store.commit('SAVE_PERMISSION', {permission: {system: 'ageBoard', level: res.data.levelAccess, function: res.data.function}})
             return next()
         }).catch(() => {
-            alert('Você não pode acessar o sistema AgeBoard.')
+            store.commit('SAVE_ALERT', {msg: 'Você não pode acessar o sistema AgeBoard.', type: 'warning', display: true})
             store.commit('SAVE_SYSTEM', {loading: false})
             return next({ path: '/sistemas'})
         })
@@ -101,7 +101,7 @@ export default {
             store.commit('SAVE_PERMISSION', {permission: {system: 'ageBoard', level: res.data.levelAccess, function: res.data.function}})
             return next()
         }).catch(() => {
-            alert('Você não pode acessar o sistema AgeControl.')
+            store.commit('SAVE_ALERT', {msg: 'Você não pode acessar o sistema AgeControl.', type: 'warning', display: true})
             store.commit('SAVE_SYSTEM', {loading: false})
             return next({ path: '/sistemas'})
         })

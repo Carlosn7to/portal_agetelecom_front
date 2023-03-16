@@ -2,14 +2,38 @@
   <h1>
     Relatórios disponíveis
   </h1>
+  <div id="filters">
+    <input type="text"
+           name="search"
+           id="search"
+           autocomplete="off"
+           placeholder="Pesquisar relatório..."
+           v-model="search">
+  </div>
+
   <div id="reports" v-if="status === true">
     <div class="report"
-         v-for="(report, key) in reports"
+         v-for="(report, key) in ReportsFiltered"
          :key="key"
-         :style="'animation-delay: '+key * 0.1+'s'"
-         @click="downloadReport(report.isPeriodoHora,report.isPeriodo,report.url,report.nome_arquivo, report.id)">
-      <i class="fi fi-rr-document-signed"></i>
-      <span>{{ report.nome }}</span>
+         :style="'animation-delay: '+key * 0.1+'s'">
+      <div class="title">
+        <i class="fi fi-rr-document-signed"></i>
+        <span>{{ report.nome }}</span>
+      </div>
+      <div class="actions">
+        <button @click="viewReport(report.id)">
+          <i class="fi fi-rr-eye"></i>
+          <span>Visualizar prévia</span>
+        </button>
+        <button @click="downloadReport(report.isPeriodoHora,report.isPeriodo,report.url,report.nome_arquivo, report.id)">
+          <i class="fi fi-rr-download"></i>
+          <span>Baixar relatório</span>
+        </button>
+        <button>
+          <i class="fi fi-rr-envelope"></i>
+          <span>Enviar E-mail</span>
+        </button>
+      </div>
     </div>
   </div>
   <div id="modal" v-if="modal === true">
@@ -50,7 +74,8 @@ export default {
       firstPeriodHour: '',
       lastPeriodHour: '',
       loading: false,
-      status: false
+      status: false,
+      search: ''
     }
   },
   methods: {
@@ -76,6 +101,9 @@ export default {
       }).catch((error) => {
         console.log(error)
       })
+    },
+    viewReport: function (id) {
+      alert(id)
     },
     downloadReport: function (periodHour, period, url, name, id) {
 
@@ -122,7 +150,18 @@ export default {
   computed: {
     ...mapGetters([
         'system'
-    ])
+    ]),
+    ReportsFiltered: function () {
+
+      let values = []
+
+      values = this.reports.filter((value) => {
+        return (
+            value.nome.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        )
+      })
+      return values
+    }
   },
   mounted() {
     this.getReports()
@@ -145,6 +184,27 @@ export default {
     opacity: 0;
   }
 
+  #filters {
+    width: 100%;
+    padding: 2vh 1vw;
+    @include flex(row, flex-start, center, 15px);
+
+    input[type=text] {
+      width: 25%;
+      padding: 10px 8px;
+      border-radius: 5px;
+      outline: none;
+      border: 1px solid $border;
+      transition: border ease-in-out .2s;
+
+      &:focus {
+        border-color: $border-hover;
+      }
+
+    }
+  }
+
+
 
   #reports {
     @include container(100%, initial, 1vh 1vw, transparent);
@@ -152,28 +212,66 @@ export default {
     flex-wrap: wrap;
 
     .report {
-      @include container(initial, initial, 1vh 1vw, #fff);
-      width: calc((100% / 3) - 20px);
-      min-height: 5vh;
+      @include container(initial, initial, 3px 1vw, #fff);
+      width: 100%;
       border-radius: 5px;
-      @include sh-h;
-      @include tr-p;
-      @include flex(row, flex-start, center, 5px);
+      @include flex(row, space-between, center, 5px);
       word-break: break-all;
-      border: 2px solid #fff;
+      border: 1px solid $border;
       animation: up forwards ease-in-out .4s;
       opacity: 0;
 
-      i {
-        font-size: 2.4rem;
-        color: $age-or;
+
+      .title {
+        @include flex(row, flex-start, center, 1vw);
+
+        i {
+          font-size: 2.2rem;
+          color: $primary;
+        }
+
+        span {
+          font-size: 1.4rem;
+          text-align: center;
+          font-weight: 600;
+          color: $h1-light;
+        }
       }
 
-      span {
-        font-size: 1.4rem;
-        text-align: center;
-        font-weight: 600;
-        color: $age-bl;
+
+      .actions {
+        @include flex(row, flex-start, center, 1vw);
+
+        button {
+          @include flex(row, flex-start, center, 0.5vw);
+          span {
+            padding-bottom: 3px;
+          }
+
+
+        }
+
+        button:nth-child(1) {
+          @include btn-dashboard()
+        }
+
+        button:nth-child(2) {
+          @include btn-dashboard();
+          background-color: $black;
+          color: #f1f1f1;
+          font-weight: 400;
+
+          &:hover {
+            background-color: $black-hover;
+            color: #fff;
+          }
+        }
+
+        button:nth-child(3) {
+          @include btn-dashboard(true);
+          font-weight: 400;
+        }
+
       }
     }
 

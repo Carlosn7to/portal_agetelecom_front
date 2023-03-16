@@ -62,7 +62,7 @@ export default {
 
     h1 {
       font-size: 2rem;
-      color: $age-bl;
+      color: $h1-light;
       text-align: center;
     }
 
@@ -90,7 +90,9 @@ export default {
 
       input[type=submit] {
         width: 100%;
-        @include button-pattern;
+        @include btn-dashboard();
+        background-color: $primary;
+        color: #fff;
       }
     }
   }

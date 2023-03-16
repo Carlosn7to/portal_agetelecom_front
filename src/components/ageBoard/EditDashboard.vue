@@ -134,6 +134,7 @@ export default {
 
   .filters {
     padding: 3vh 0;
+    @include flex(row, flex-start, center, 1vw);
     input[type=text] {
       width: 45%;
       padding: 8px 8px;
@@ -147,21 +148,14 @@ export default {
     }
 
     button:nth-child(2) {
-      @include button-pattern;
+      @include btn-dashboard();
+      background-color: $primary;
+      color: #fff;
       margin-left: 1vw;
     }
 
     button:nth-child(3) {
-      @include button-pattern;
-      background-color: #fff;
-      color: $age-bl;
-      border-color: $age-bl;
-      margin-left: 1vw;
-
-      &:hover {
-        background-color: $age-bl;
-        color: #fff;
-      }
+      @include btn-dashboard();
     }
   }
 
@@ -187,11 +181,11 @@ export default {
       border-radius: 5px;
 
       &:hover {
-        border-color: $age-bl;
+        border-color: $primary;
       }
 
       span {
-        color: $age-bl;
+        color: $h1-light;
         font-size: 1.4rem;
         font-weight: 500;
         display: flex;
@@ -199,17 +193,17 @@ export default {
         gap: 1vw;
 
         i {
-          color: $age-or;
+          color: $primary;
           font-size: 2rem;
         }
       }
 
       i {
-        color: $age-bl;
+        color: $primary;
         @include tr-p;
 
         &:hover {
-          color: $age-or;
+          color: $primary-hover;
         }
       }
     }
@@ -246,6 +240,10 @@ export default {
       .item {
         background-color: $dark-mode-card;
         border-color: $dark-mode-card;
+
+        span {
+          color: #fff;
+        }
 
         &:hover {
           border-color: $primary;

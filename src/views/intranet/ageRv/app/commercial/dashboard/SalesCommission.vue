@@ -1,5 +1,5 @@
 <template>
-  <template v-if="stage === 'channels'">
+  <template v-if="stage === 'channels' && !extract.status">
     <div id="filters">
       <input type="text"
              name="search"
@@ -29,7 +29,7 @@
       </template>
     </div>
   </template>
-  <template v-if="stage === 'collaborators'">
+  <template v-if="stage === 'collaborators'  && !extract.status">
     <div id="filters">
       <input type="text"
              name="search"
@@ -123,15 +123,12 @@
       </div>
     </div>
   </template>
-  <div id="modal" v-if="extract.status === true">
-    <div id="card-modal">
-      <ExtractView
-          :items="extract.data"
-          :mode="mode"
-          @close-page="closePage()"
-      />
-    </div>
-  </div>
+  <ExtractView
+      :items="extract.data"
+      :mode="mode"
+      @close-page="closePage()"
+      v-if="extract.status"
+  />
 </template>
 
 <script>
@@ -182,8 +179,8 @@ export default {
           'Authorization': 'Bearer '+Cookie.get('token')
         },
         params: {
-          month: this.month,
-          year: this.year
+          month: '12',
+          year: '2022'
         }
       }).then((res) => {
         this.loading = false

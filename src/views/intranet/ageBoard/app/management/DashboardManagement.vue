@@ -252,14 +252,14 @@ export default {
 
           i {
             font-size: 2.4rem;
-            color: $age-or;
+            color: $primary;
           }
 
           span {
             font-size: 1.4rem;
             text-align: center;
             font-weight: 600;
-            color: $age-bl;
+            color: $h1-light;
           }
         }
 

@@ -17,6 +17,7 @@
       </div>
     </div>
   </div>
+  <CardAlert v-if="system.alert.display === true"/>
 </template>
 
 <script>
@@ -25,9 +26,10 @@ import LoadingSpinner from "@/components/portal/_aux/LoadingSpinner";
 import {mapGetters, mapMutations} from "vuex";
 import NewMenuApp from "@/components/portal/_aux/NewMenuApp";
 import NewHeaderApp from "@/components/portal/_aux/NewHeaderApp";
+import CardAlert from "@/components/portal/_aux/alerts/CardAlert";
 
 export default {
-  components: {LoadingSpinner, NewMenuApp, NewHeaderApp},
+  components: {LoadingSpinner, NewMenuApp, NewHeaderApp, CardAlert},
   computed: {
     ...mapGetters([
         'system'

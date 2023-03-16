@@ -122,6 +122,8 @@ export default {
 
 h1 {
   animation: up forwards ease-in-out .2s;
+  font-size: 2.4rem;
+  color: $h1-light;
 }
 
 .items {
@@ -137,7 +139,7 @@ h1 {
     border-radius: 5px;
     border: 2px solid transparent;
     background-color: #fff;
-    color: $age-bl;
+    color: $h1-light;
     @include flex(row, space-between, center, 0);
     @include tr-p;
     @include sh-h;
@@ -150,7 +152,7 @@ h1 {
 
       i {
         font-size: 3rem;
-        color: $age-or;
+        color: $primary;
       }
 
       span {
@@ -162,11 +164,11 @@ h1 {
 
     .more {
       font-size: 2rem;
-      color: $age-or;
+      color: $primary;
       @include tr-p;
 
       &:hover {
-        color: $age-bl;
+        color: $primary-hover;
       }
     }
   }
