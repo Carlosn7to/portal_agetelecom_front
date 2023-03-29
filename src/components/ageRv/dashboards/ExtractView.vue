@@ -43,7 +43,7 @@
         <div class="card">
           <i class="fi fi-sr-chart-line-up"></i>
           <div class="type-value">
-            <span>{{ data.metaPercent }}%</span>
+            <span>{{ data.metaPercent.toFixed(2) }}%</span>
             <span>Meta atingida</span>
           </div>
         </div>
@@ -64,7 +64,7 @@
         <div class="card">
           <i class="fi fi-sr-grin-stars"></i>
           <div class="type-value">
-            <span>R${{ data.valueStar }}</span>
+            <span>R${{ data.valueStar.toFixed(2) }}</span>
             <span>Valor da estrela</span>
           </div>
         </div>
@@ -92,7 +92,7 @@
         <div class="card">
           <i class="fi fi-sr-sack-dollar"></i>
           <div class="type-value">
-            <span>{{ data.commission }}</span>
+            <span>R$ {{ data.commission.toFixed(2) }}</span>
             <span>Comissão</span>
           </div>
         </div>

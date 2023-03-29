@@ -29,7 +29,9 @@ import NewHeaderApp from "@/components/portal/_aux/NewHeaderApp";
 import CardAlert from "@/components/portal/_aux/alerts/CardAlert";
 
 export default {
-  components: {LoadingSpinner, NewMenuApp, NewHeaderApp, CardAlert},
+  components: {LoadingSpinner, NewMenuApp,
+    NewHeaderApp,
+    CardAlert},
   computed: {
     ...mapGetters([
         'system'

@@ -53,7 +53,7 @@
         <span>Meta atingida</span>
       </div>
       <div class="item">
-        <span>Canceladas D-7</span>
+        <span>Canceladas</span>
       </div>
       <div class="item">
         <span>Estrelas</span>
@@ -83,7 +83,7 @@
           <span>{{ item.meta }}</span>
         </div>
         <div class="item">
-          <span>{{ item.metaPercent }}%</span>
+          <span>{{ item.metaPercent.toFixed(2) }}%</span>
         </div>
         <div class="item">
                 <span style="background-color: #F44336; color: #fff" v-if="item.cancel.count > 0">
@@ -92,21 +92,21 @@
           <span v-else>{{ item.cancel.count }}</span>
         </div>
         <div class="item">
-          <span style="background-color: #FEA11D; color: #fff" v-if="item.commission !== '0,00'">{{ item.stars }}</span>
+          <span style="background-color: #FEA11D; color: #fff" v-if="item.commission > 0">{{ item.stars }}</span>
           <span v-else>{{ item.stars }}</span>
         </div>
         <div class="item">
                 <span style="background-color: #FECA1D; color: #fff"
-                      v-if="item.commission !== '0,00'">R${{ item.valueStar }}
+                      v-if="item.commission > 0">R${{ item.valueStar }}
                 </span>
-          <span v-else>{{ item.valueStar }}</span>
+          <span v-else>{{ item.valueStar.toFixed(2) }}</span>
         </div>
         <div class="item">
-                <span v-if="item.mediator === 10 && item.commission !== '0,00'"
+                <span v-if="item.mediator === 10 && item.commission > 0"
                       style="background-color: #24A527; color: #fff;">
                   {{ item.mediator }}%
                 </span>
-          <span v-else-if="item.mediator === -10 && item.commission !== '0,00'"
+          <span v-else-if="item.mediator === -10 && item.commission > 0"
                 style="background-color: #911515; color: #fff;">
                   {{ item.mediator }}%
                 </span>
@@ -114,8 +114,8 @@
         </div>
         <div class="item">
                 <span style="background-color: #24A527; color: #fff"
-                      v-if="item.commission !== '0,00'">R${{ item.commission }}</span>
-          <span v-else>R${{ item.commission }}</span>
+                      v-if="item.commission > 0">R${{ item.commission.toFixed(2) }}</span>
+          <span v-else>R$ {{ item.commission.toFixed(2) }}</span>
         </div>
         <div class="item">
           <i class="fi fi-rr-info" @click="extractView( item)"></i>
@@ -233,6 +233,25 @@ export default {
             value.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1
         )
       })
+
+      values = values.sort((a, b) => {
+        if (a.isCommissionable && !b.isCommissionable) {
+          return -1;
+        } else if (!a.isCommissionable && b.isCommissionable) {
+          return 1;
+        } else {
+          if (a.name < b.name) {
+            return -1;
+          } else if (a.name > b.name) {
+            return 1;
+          }
+        }
+
+        return 0
+      })
+
+      console.log(values)
+
       return values
     },
   },

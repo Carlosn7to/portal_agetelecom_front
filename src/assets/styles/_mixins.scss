@@ -709,6 +709,7 @@
     height: 80%;
     @include flex(row, center, center, 0);
     padding-left: 1vw;
+    text-align: center;
 
 
     span {
@@ -773,6 +774,8 @@
     .item:nth-child(1) {
       width: 30%;
     }
+
+
   }
 }
 
