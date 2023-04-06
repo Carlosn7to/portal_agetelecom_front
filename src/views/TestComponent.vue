@@ -1,86 +1,96 @@
 <template>
-  <div id="container-1">
-    <canvas id="myChart" width="300px" height="300px"></canvas>
-  </div>
+  <div class="container">
+
+    <template v-if="page === 'ok'">
+      <h1>Hoje as 20h, tmj</h1>
+
+    </template>
+
+      <template v-else>
+        <h1>Coé gata, bora se pegar?</h1>
+
+        <div class="buttons">
+          <button @click="page = 'ok'">Sim, bora</button>
+          <button :class="classButton" @mouseover="lostButton">Não, Deus me livre</button>
+
+        </div>
+      </template>
+    </div>
 </template>
 
 <script>
 
-import {Chart} from "chart.js/auto";
 
 export default {
   name: "TestComponent",
   components: {},
   data() {
     return {
-
+      classButton: 'start',
+      page: ''
     }
   },
   methods: {
-    graphLine: function () {
-      const ctx = document.getElementById('myChart').getContext("2d");
-
-      var gradient = ctx.createLinearGradient(0, 0, 0, 130);
-      gradient.addColorStop(0, 'rgb(43,66,204, .6)');
-      gradient.addColorStop(1, 'rgb(95,116,241, 0.01)');
-
-      const dataConfig = {
-        labels: ['Jan', 'Fev', 'Mar', 'Jan', 'Fev', 'Mar'],
-        datasets: [{
-          data: [12, 39, 180, 12, 539, 2],
-          label: ["# dos votos"],
-          borderWidth: 3,
-          pointRadius: 0,
-          backgroundColor: gradient,
-          fill: true,
-        }],
+    lostButton: function () {
+      switch (this.classButton) {
+        case 'start':
+          this.classButton = 'middle'
+          break
+        case 'middle':
+          this.classButton = 'end'
+              break
+        case 'end':
+          this.classButton = 'end2'
+              break
+        case 'end2':
+          this.classButton = 'start'
+              break
       }
 
-
-       const mychart = new Chart(ctx, {
-        type: 'line',
-        data: dataConfig,
-        options: {
-          scales: {
-            y: {
-              display: false
-            },
-            x: {
-              display: false
-            }
-          },
-          plugins: {
-          },
-          elements: {
-            line: {
-              tension: .4,
-              borderColor: "rgba(0,45,187, .3)",
-            },
-            point: {
-              pointStyle: false
-            }
-          }
-        }
-      });
-
-       console.log(mychart)
-      return mychart
-
-
     }
+
   },
   mounted() {
-    this.graphLine()
   }
 }
 </script>
 
 <style scoped lang="scss">
 
-#container-1 {
-  width: 25vw;
-  height: 25vh;
-  @include flex(row, center, center, 0);
+.container {
+  width: 100vw;
+  height: 100vh;
+  @include flex(column, center, center, 4vh);
+
+  .buttons {
+    @include flex(row, flex-start, center, 2vw);
+
+    .middle {
+      position: absolute;
+      top: 50%;
+      right: 10%;
+    }
+
+    .end {
+      position: absolute;
+      top: 20%;
+      left: 10%;
+    }
+
+    .end2 {
+      position: absolute;
+      top: 90%;
+      right: 10%;
+    }
+
+    button {
+      all: unset;
+
+      @include btn-dashboard(true);
+    }
+  }
+
+
 
 }
 
