@@ -41,7 +41,7 @@
           </div>
         </div>
         <div class="card">
-          <template v-if="data.commission.diff > 0">
+          <template v-if="parseFloat(data.commission.diff) > 0">
             <div class="icon">
               <i class="fi fi-rr-chevron-double-up"></i>
             </div>
