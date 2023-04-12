@@ -85,7 +85,7 @@
       </li>
       <li :class="{ 'active-route' : menu.selected === 'commission' }">
         <div class="container-items" v-if="permissions.function === 'Financeiro' || permissions.function === 'Gerente geral'">
-          <router-link @click="[loadingPage(), SAVE_MENU({selected: 'commission', stage: 'decrease'})]"  to="/ageRv/comercial/comissao" active-class="active-route">
+          <router-link @click="[loadingPage(), SAVE_MENU({selected: 'commission', stage: 'decrease'})]"  to="/ageRv/comercial/comissao/auditoria" active-class="active-route">
             <div class="item-menu">
               <div class="title-icon">
                 <i class="fi fi-rr-usd-square"></i>

@@ -1,7 +1,21 @@
 <template>
-  <div>
-    aa
-  </div>
+  <div class="container">
+
+    <template v-if="page === 'ok'">
+      <h1>Hoje as 20h, tmj</h1>
+
+    </template>
+
+      <template v-else>
+        <h1>Coé gata, bora se pegar?</h1>
+
+        <div class="buttons">
+          <button @click="page = 'ok'">Sim, bora</button>
+          <button :class="classButton" @mouseover="lostButton">Não, Deus me livre</button>
+
+        </div>
+      </template>
+    </div>
 </template>
 
 <script>

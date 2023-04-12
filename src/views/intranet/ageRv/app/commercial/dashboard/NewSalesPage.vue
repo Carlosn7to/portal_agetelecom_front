@@ -35,7 +35,7 @@
             </div>
             <div class="img">
               <img :src="require('@/assets/img/interface/congratulations.png')" alt=""
-                   v-if="data.metaPercent > 100">
+                   v-if="data.metaPercent >= 100">
               <img :src="require('@/assets/img/interface/running.png')" alt="" style="transform: scaleX(-1)"
                    v-if="data.metaPercent >= 70 && data.metaPercent < 100">
               <img :src="require('@/assets/img/interface/running-2.png')" alt="" style="transform: scaleX(-1)"

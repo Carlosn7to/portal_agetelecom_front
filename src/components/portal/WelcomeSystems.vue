@@ -45,7 +45,13 @@ export default {
           icon: 'fi fi-rr-document',
           legend: 'Relatórios e planilhas.',
           route: 'ageReport/home'
-        },
+        }
+        // {
+        //   system: 'AgeTools',
+        //   icon: 'fi fi-rr-bulb',
+        //   legend: 'Ferramentas',
+        //   route: 'ageTools/home'
+        // },
         // {
         //   system: 'AgeControle',
         //   icon: 'fi fi-rr-apps-add',

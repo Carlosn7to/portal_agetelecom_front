@@ -210,6 +210,22 @@ const routes = [
       Guard.auth,
       Guard.permission_control
     ]
+  },
+  {
+    path: '/ageTools/home',
+    name: 'HomeTools',
+    component: () => import("@/views/intranet/ageTools/app/HomePage"),
+    beforeEnter: [
+      Guard.auth
+    ]
+  },
+  {
+    path: '/ageTools/antifraude',
+    name: 'HomeAntiFraud',
+    component: () => import("@/views/intranet/ageTools/app/tools/antifraud/HomeAntiFraud"),
+    beforeEnter: [
+      Guard.auth
+    ]
   }
 
 ]
