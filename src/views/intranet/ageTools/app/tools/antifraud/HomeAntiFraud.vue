@@ -59,6 +59,9 @@
               <th>Endereço</th>
               <th>Número</th>
               <th>Cep</th>
+              <th>Situação</th>
+              <th>Status</th>
+              <th>Conexão</th>
             </tr>
             </thead>
             <tbody>
@@ -70,6 +73,9 @@
               <td>{{ item.street }}</td>
               <td>{{ item.number }}</td>
               <td>{{ item.postal_code }}</td>
+              <td>{{ item.v_stage }}</td>
+              <td>{{ item.v_status }}</td>
+              <td>{{ item.user }}</td>
             </tr>
             </tbody>
           </table>
