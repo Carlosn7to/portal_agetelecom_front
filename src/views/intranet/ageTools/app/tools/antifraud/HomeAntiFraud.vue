@@ -1,64 +1,59 @@
 <template>
   <div class="container-tools">
     <div class="searchs">
-
+        <h2>
+          Filtros
+        </h2>
       <div class="inputs large">
         <label for="name">Nome:</label>
-        <input type="text" name="name" id="name"  autocomplete="off" v-model="inputs.name" @keyup="getInfo">
+        <input type="text" name="name" id="name"  autocomplete="off" v-model="fields.name" @keypress.enter="getInfo">
       </div>
       <div class="inputs large">
         <label for="email">Email:</label>
-        <input type="email" name="email" id="email"  autocomplete="off" v-model="inputs.email" @keyup="getInfo">
+        <input type="email" name="email" id="email"  autocomplete="off" v-model="fields.email" @keypress.enter="getInfo">
       </div>
       <div class="inputs small">
         <label for="number">Número:</label>
-        <input type="number" name="number" id="number"  autocomplete="off" v-model="inputs.number" @keyup="getInfo">
+        <input type="text" name="number" id="number"  autocomplete="off" v-model="fields.number" @keypress.enter="getInfo">
       </div>
       <div class="inputs small">
         <label for="cep">Cep:</label>
-        <input type="text" name="cep" id="cep"  autocomplete="off" v-model="inputs.cep" @keyup="getInfo">
+        <input type="text" name="cep" id="cep"  autocomplete="off" v-model="fields.cep" @keypress.enter="getInfo">
       </div>
       <div class="inputs large">
         <label for="address">Endereço:</label>
-        <input type="text" name="address" id="address"  autocomplete="off" v-model="inputs.address" @keyup="getInfo">
+        <input type="text" name="address" id="address"  autocomplete="off" v-model="fields.address" @keypress.enter="getInfo">
       </div>
       <div class="inputs medium">
         <label for="neighborhood">Bairro:</label>
-        <input type="text" name="neighborhood" id="neighborhood"  autocomplete="off" v-model="inputs.neighborhood" @keyup="getInfo">
+        <input type="text" name="neighborhood" id="neighborhood"  autocomplete="off" v-model="fields.neighborhood" @keypress.enter="getInfo">
       </div>
 
       <div class="inputs medium">
         <label for="document">Documento:</label>
-        <input type="text" name="document" id="document"  autocomplete="off" v-model="inputs.document" @keyup="getInfo">
+        <input type="text" name="document" id="document"  autocomplete="off" v-model="fields.document" @keypress.enter="getInfo">
       </div>
       <div class="inputs medium">
         <label for="tel">Telefone:</label>
-        <input type="text" name="tel" id="tel" v-model="inputs.tel" @keyup="getInfo">
+        <input type="text" name="tel" id="tel" v-model="fields.tel" @keypress.enter="getInfo">
       </div>
       <div class="inputs medium">
         <label for="cel">Celular:</label>
-        <input type="text" name="cel" id="cel" v-model="inputs.cel" @keyup="getInfo">
+        <input type="text" name="cel" id="cel" v-model="fields.cel" @keypress.enter="getInfo">
       </div>
 
     </div>
     <div class="results">
 
-      <div class="item contracts">
-        <h1>Contratos</h1>
+      <div class="item peoples">
+        <h1>Pessoas</h1>
 
-
-
-        <div class="table">
+        <div class="table"  v-if="data.length > 0 && !loading">
           <table>
             <thead>
             <tr>
-              <th>
-                id
-              </th>
               <th>Nome</th>
               <th>Bairro</th>
-              <th>Status</th>
-              <th>Estágio</th>
               <th>Celular</th>
               <th>Email</th>
               <th>Endereço</th>
@@ -67,171 +62,27 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>10</td>
-              <td>Carlos Alberto M da f Neto</td>
-              <td>Riacho fundo 1</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>619847700440</td>
-              <td>carlos.neto@agetelecom.com.br</td>
-              <td>Qn 1 conjunto 26 casa xxxxxx</td>
-              <td>XXXXX</td>
-              <td>XXXXX-XXX</td>
+            <tr v-for="(item, index) in data || []" :key="index">
+              <td>{{ item.name }}</td>
+              <td>{{ item.neighborhood }}</td>
+              <td>{{ item.cell_phone_1 }}</td>
+              <td>{{ item.email }}</td>
+              <td>{{ item.street }}</td>
+              <td>{{ item.number }}</td>
+              <td>{{ item.postal_code }}</td>
             </tr>
-            <tr>
-              <td>10</td>
-              <td>Carlos Alberto M da f Neto</td>
-              <td>Riacho fundo 1</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>619847700440</td>
-              <td>carlos.neto@agetelecom.com.br</td>
-              <td>Qn 1 conjunto 26 casa xxxxxx</td>
-              <td>XXXXX</td>
-              <td>XXXXX-XXX</td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td>Carlos Alberto M da f Neto</td>
-              <td>Riacho fundo 1</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>619847700440</td>
-              <td>carlos.neto@agetelecom.com.br</td>
-              <td>Qn 1 conjunto 26 casa xxxxxx</td>
-              <td>XXXXX</td>
-              <td>XXXXX-XXX</td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td>Carlos Alberto M da f Neto</td>
-              <td>Riacho fundo 1</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>619847700440</td>
-              <td>carlos.neto@agetelecom.com.br</td>
-              <td>Qn 1 conjunto 26 casa xxxxxx</td>
-              <td>XXXXX</td>
-              <td>XXXXX-XXX</td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td>Carlos Alberto M da f Neto</td>
-              <td>Riacho fundo 1</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>619847700440</td>
-              <td>carlos.neto@agetelecom.com.br</td>
-              <td>Qn 1 conjunto 26 casa xxxxxx</td>
-              <td>XXXXX</td>
-              <td>XXXXX-XXX</td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td>Carlos Alberto M da f Neto</td>
-              <td>Riacho fundo 1</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>619847700440</td>
-              <td>carlos.neto@agetelecom.com.br</td>
-              <td>Qn 1 conjunto 26 casa xxxxxx</td>
-              <td>XXXXX</td>
-              <td>XXXXX-XXX</td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td>Carlos Alberto M da f Neto</td>
-              <td>Riacho fundo 1</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>619847700440</td>
-              <td>carlos.neto@agetelecom.com.br</td>
-              <td>Qn 1 conjunto 26 casa xxxxxx</td>
-              <td>XXXXX</td>
-              <td>XXXXX-XXX</td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td>Carlos Alberto M da f Neto</td>
-              <td>Riacho fundo 1</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>619847700440</td>
-              <td>carlos.neto@agetelecom.com.br</td>
-              <td>Qn 1 conjunto 26 casa xxxxxx</td>
-              <td>XXXXX</td>
-              <td>XXXXX-XXX</td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td>Carlos Alberto M da f Neto</td>
-              <td>Riacho fundo 1</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>619847700440</td>
-              <td>carlos.neto@agetelecom.com.br</td>
-              <td>Qn 1 conjunto 26 casa xxxxxx</td>
-              <td>XXXXX</td>
-              <td>XXXXX-XXX</td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td>Carlos Alberto M da f Neto</td>
-              <td>Riacho fundo 1</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>619847700440</td>
-              <td>carlos.neto@agetelecom.com.br</td>
-              <td>Qn 1 conjunto 26 casa xxxxxx</td>
-              <td>XXXXX</td>
-              <td>XXXXX-XXX</td>
-            </tr>
-
             </tbody>
           </table>
 
         </div>
 
-      </div>
+        <div class="not-data" v-if="!data.length && !loading">
+          <i class="fi fi-rr-search"></i>
+          <h1>Nenhum valor retornado, utilize os campos de filtro.</h1>
+        </div>
 
-      <div class="item peoples">
-        <h1>Pessoas</h1>
-
-        <div class="table">
-          <table>
-            <thead>
-            <tr>
-              <th>
-                id
-              </th>
-              <th>Nome</th>
-              <th>Bairro</th>
-              <th>Status</th>
-              <th>Estágio</th>
-              <th>Celular</th>
-              <th>Email</th>
-              <th>Endereço</th>
-              <th>Número</th>
-              <th>Cep</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td>10</td>
-              <td>Carlos Alberto M da f Neto</td>
-              <td>Riacho fundo 1</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>619847700440</td>
-              <td>carlos.neto@agetelecom.com.br</td>
-              <td>Qn 1 conjunto 26 casa xxxxxx</td>
-              <td>XXXXX</td>
-              <td>XXXXX-XXX</td>
-            </tr>
-            </tbody>
-          </table>
-
+        <div class="loading" v-if="loading">
+            <LoadingSpinner/>
         </div>
 
       </div>
@@ -244,12 +95,15 @@
 import {mapMutations} from "vuex";
 import {AXIOS} from "../../../../../../../services/api.ts";
 import Cookies from 'js-cookie';
+import LoadingSpinner from "@/components/portal/_aux/LoadingSpinner";
 
 export default {
   name: "HomeAntiFraud",
+  components: {LoadingSpinner},
+
   data () {
     return {
-      inputs: {
+      fields: {
         name: '',
         email: '',
         number: null,
@@ -259,7 +113,9 @@ export default {
         document: '',
         tel: '',
         cel: '',
-      }
+      },
+      data: {},
+      loading: false
     }
   },
   methods: {
@@ -267,17 +123,19 @@ export default {
       'SAVE_SYSTEM'
     ]),
     getInfo: function () {
+      this.loading = true
       AXIOS({
         method: 'GET',
-        url: '',
+        url: '/agetools/tools/antifraud',
         headers: {
           'Authorization': 'Bearer' + Cookies.get('token')
         },
-        params: {fields: this.inputs}
+        params: this.fields
       })
-          .then((res) => {
-            console.log(res)
-          })
+      .then((res) => {
+        this.loading = false
+        this.data = res.data[0]
+      })
     }
   },
   beforeMount() {
@@ -290,19 +148,22 @@ export default {
 
 
 .container-tools {
-  @include flex(column, flex-start, initial, 1vh);
+  @include flex(row, space-between, initial, 2vw);
+  height: 100%;
 
 
   .searchs {
-    width: 100%;
-    background-color: #6A6CF610;
+    width: 20%;
+    height: 100%;
+    @include card();
     border-radius: 5px;
-    @include flex(row, flex-start, initia, .5vw);
+    @include flex(column, center, center, .5vh);
     flex-wrap: wrap;
     padding: 2vh 2vw 3vh 2vw;
 
     .inputs {
       @include flex(column, flex-start, initial, .5vh);
+      width: 100%;
 
       label {
         font-size: 1rem;
@@ -310,39 +171,25 @@ export default {
       }
 
       input {
-        @include inp-form-text;
+        @include inp-t-g();
         height: 5vh;
+        width: 100%;
       }
     }
 
-    .small {
-      width: 12%;
-    }
-
-    .medium {
-      width: 17%;
-    }
-
-    .large {
-      width: 25%;
-    }
 
   }
 
   .results {
-    width: 100%;
-    border-radius: 5px;
-    height: 60vh;
+    width: 80%;
+    max-width: 80%;
+    height: 100%;
     @include flex(column, center, initial, 2vh);
-    padding: 1vh 0vw;
 
     .item {
-      height: 45%;
-      border: 2px solid $border;
-      border-radius: 10px;
-      border-top: 5px solid $primary;
+      height: 100%;
       padding: 1vh 1vw;
-      background-color: #fff;
+      @include card();
 
       h1 {
         font-size: 2rem;
@@ -350,21 +197,24 @@ export default {
       }
 
       .table {
-        max-height: 80%;
+        max-height: 100%;
         overflow-y: auto;
         table {
           width: 100%;
           border-collapse: collapse;
+          border-spacing: 10px;
+          table-layout: fixed;
 
 
           th, td {
             text-align: left;
           }
 
-          th:nth-child(1), td:nth-child(1) {
-            width: 5%;
+          th:nth-child(3), th:nth-child(6),th:nth-child(7),
+          td:nth-child(3), td:nth-child(6),td:nth-child(7),{
             text-align: center;
           }
+
 
           th {
             font-size: 1.2rem;
@@ -379,6 +229,12 @@ export default {
             font-size: 1rem;
             color: $h1-black;
             font-weight: 500;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            text-transform: capitalize;
+            user-select: text;
+
           }
         }
 
@@ -386,11 +242,37 @@ export default {
 
     }
 
-    .contracts {
+
+    .peoples {
+      overflow: hidden !important;
 
     }
 
-    .peoples {
+
+    .not-data {
+      height: 80%;
+      @include flex(column, center, center, 0);
+
+
+      i {
+        font-size: 6rem;
+        color: $h1-light;
+      }
+
+      h1 {
+        font-size: 2rem;
+        color: $h1-black;
+        font-weight: 500;
+      }
+    }
+
+    .loading {
+      width: 100%;
+      height: 80%;
+      @include flex(row, center, center, 0);
+      position: relative;
+
+
     }
 
   }
