@@ -3,14 +3,14 @@
       <h2>{{ getDate() }}</h2>
       <h1>{{ getMessage() }}, {{ user.firstName }}</h1>
       <div class="systems">
-          <div class="system" v-for="(item, index) in systems" :key="index"
-               @click="tradePage(item.route)"
+          <div class="system" v-for="(item, index) in modules" :key="item.id"
+               @click="tradePage(item.rota)"
                :style="'animation-delay: '+(index * 0.3)+'s'">
             <div class="title">
-              <i :class="item.icon"></i>
-              <h2>{{ item.system }}</h2>
+              <i :class="item.icone"></i>
+              <h2>{{ item.modulo }}</h2>
             </div>
-            <span>{{ item.legend }}</span>
+            <span>{{ item.descricao }}</span>
           </div>
       </div>
     </div>
@@ -19,6 +19,8 @@
 <script>
 import {mapGetters, mapMutations} from "vuex";
 import moment from "moment";
+import {AXIOS} from "../../../services/api.ts";
+import Cookie from 'js-cookie';
 
 export default {
   name: "WelcomeSystems",
@@ -27,38 +29,7 @@ export default {
   data () {
     return {
       screen: 'loading',
-      systems:[
-        {
-          system: 'Agerv',
-          icon: 'fi fi-rr-star',
-          legend: 'Vendas, comissionamento e planejamento.',
-          route: '/ageRv/comercial/vendas/dashboard'
-        },
-        {
-          system: 'AgeBoard',
-          icon: 'fi fi-rr-stats',
-          legend: 'Dashboards e indicadores.',
-          route: 'ageBoard/home'
-        },
-        {
-          system: 'AgeReport',
-          icon: 'fi fi-rr-document',
-          legend: 'Relatórios e planilhas.',
-          route: 'ageReport/home'
-        },
-        // {
-        //   system: 'AgeTools',
-        //   icon: 'fi fi-rr-bulb',
-        //   legend: 'Ferramentas',
-        //   route: 'ageTools/home'
-        // },
-        // {
-        //   system: 'AgeControle',
-        //   icon: 'fi fi-rr-apps-add',
-        //   legend: 'Frota e combustível.',
-        //   route: 'ageControle/home'
-        // },
-      ],
+      modules: {},
       animationDelay: .3,
       loading: false,
 
@@ -102,9 +73,21 @@ export default {
       }
 
       return msg
+    },
+    getModules: function () {
+      AXIOS({
+        method: 'GET',
+        url: 'portal/aux/modules/access',
+        headers: {
+          'Authorization': 'Bearer'+Cookie.get('token')
+        }
+      }).then((res) => {
+            this.modules = res.data
+          })
     }
   },
   mounted() {
+    this.getModules()
   }
 }
 </script>

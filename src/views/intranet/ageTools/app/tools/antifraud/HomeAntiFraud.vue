@@ -106,7 +106,6 @@ import LoadingSpinner from "@/components/portal/_aux/LoadingSpinner";
 export default {
   name: "HomeAntiFraud",
   components: {LoadingSpinner},
-
   data () {
     return {
       fields: {

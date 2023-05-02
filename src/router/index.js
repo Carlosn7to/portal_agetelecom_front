@@ -113,6 +113,15 @@ const routes = [
     ]
   },
   {
+    path: '/ageRv/comercial/comissao/gerente',
+    name: 'ManagerCommission',
+    component: () => import("@/views/intranet/ageRv/app/commercial/commission/ManagerCommission"),
+    beforeEnter: [
+      Guard.auth,
+      Guard.permission_rv
+    ]
+  },
+  {
     path: '/ageRv/comercial/supervisor-comissao',
     name: 'SalesSupCommission',
     component: () => import("@/views/intranet/ageRv/app/commercial/dashboard/SalesSupCommission"),

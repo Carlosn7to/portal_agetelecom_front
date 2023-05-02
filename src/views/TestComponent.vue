@@ -1,51 +1,108 @@
 <template>
-  <div class="container">
+  <a href="#" @click="downloadPrintScreen">Download</a>
+  <div id="container" style="width: 100vw; background-color: #e0e1e7">
+    <div id="card" style="width: 40%; height: 100%; background-color: #fff; margin: 0 auto">
+      <div id="header" style="width: 100%; height: 23vh; background-image: url('https://agenotifica.s3.sa-east-1.amazonaws.com/age/Prancheta+1+copiar+5.jpg'); background-size: cover; background-repeat: no-repeat">
 
-    <template v-if="page === 'ok'">
-      <h1>Hoje as 20h, tmj</h1>
-
-    </template>
-
-      <template v-else>
-        <h1>Coé gata, bora se pegar?</h1>
-
-        <div class="buttons">
-          <button @click="page = 'ok'">Sim, bora</button>
-          <button :class="classButton" @mouseover="lostButton">Não, Deus me livre</button>
-
+      </div>
+      <div id="main" style="padding: 3vh 2vw 3vh 4vw; margin: 0 auto">
+        <div id="section">
+          <h1 style="font-size: 1.4rem; color: #104176; font-weight: 600">Prezado {{ $client }}, como vai?</h1>
         </div>
-      </template>
+        <br>
+        <div id="section-2">
+          <p style="color: #82b4ff; font-weight: 500; font-size: .9rem">
+            Primeiramente, gostariámos de lhe dar as boas-vindas pela <br>
+            sua inclusão no nosso portfólio de clientes <b style="color: #104176">Age Empresas.</b>
+          </p>
+          <br>
+          <p style="color: #82b4ff; font-weight: 500; font-size: .9rem">
+            A partir de agora, você terá acesso a uma experiência incrível <br>
+            na utilização da nossa <b style="color: #104176">solução de link dedicado</b> ou <b style="color: #104176">banda larga</b> <br>
+            <b style="color: #104176">de alta capacidade.</b>
+          </p>
+        </div>
+        <div id="section-3" style="margin: 4vh 0">
+          <div id="card-info" style="margin: 0 auto; width: 80%; background-color: #B8D1F6; padding: 2vh 1vw">
+            <p style="color: #104176; font-weight: 700; font-size: .8rem">Estes são seus dados: </p>
+            <br>
+            <p style="color: #104176; font-weight: 700; font-size: .8rem">Razão Social: {{ $client }}</p>
+            <br>
+            <p style="color: #104176; font-weight: 700; font-size: .8rem">Número do Contrato do cliente: {{ $contract }}</p>
+            <br>
+            <p style="color: #104176; font-weight: 700; font-size: .8rem">Vigência do Contrato até: {{ $vigence  }} </p>
+          </div>
+        </div>
+        <div id="section-4" style="display: flex; flex-direction: row; gap: 1vw; align-items: center">
+          <img src="https://agenotifica.s3.sa-east-1.amazonaws.com/age/Prancheta+1+copiar.jpg" alt="seta" style="width: 2.5vw; height: auto">
+          <p style="color: #104176; font-weight: 500; font-size: .8rem">&nbsp;Caso necessite de atendimento, estaremos <br> &nbsp;sempre prontos para atendê-lo através de nossos canais:</p>
+        </div>
+        <div id="section-5" style="width: 100%; margin: 3vh 0">
+          <div id="card-2" style="width: 80%; margin: 0 auto; border: 2px solid #B8D1F6; padding: 2vh 1vw">
+            <div id="item" style="margin-bottom: 2vh; display: flex; flex-direction: row; gap: 1vw; align-items: center">
+              <img src="https://agenotifica.s3.sa-east-1.amazonaws.com/age/Prancheta+1+copiar+4.jpg" alt="suporte" style="width: 2vw; height: auto">
+              <span style="color: #B8D1F6; font-size: .8rem">&nbsp;<b>suporte.empresas@agetelecom.com.br</b></span>
+            </div>
+            <div id="item" style="margin-bottom: 2vh; display: flex; flex-direction: row; gap: 1vw; align-items: center">
+              <img src="https://agenotifica.s3.sa-east-1.amazonaws.com/age/Prancheta+1+copiar+3.jpg" alt="email" style="width: 2vw; height: auto">
+              <span style="color: #B8D1F6; font-size: .8rem">&nbsp;<b>noc@agetelecom.com.br</b></span>
+            </div>
+            <div id="item" style="display: flex; flex-direction: row; gap: 1vw; align-items: center">
+              <img src="https://agenotifica.s3.sa-east-1.amazonaws.com/age/Prancheta+1+copiar+2.jpg" alt="whatsapp" style="width: 2vw; height: auto">
+              <span style="color: #B8D1F6; font-size: .8rem">&nbsp;<b>Telefone: 4040-4498</b></span>
+            </div>
+          </div>
+        </div>
+        <div id="section-6" style="margin: 8vh 0 12vh 0">
+          <p style="color: #B8D1F6; text-align: center">Atenciosamente,</p>
+          <p style="color: #B8D1F6; text-align: center"><b>Age Empresas</b></p>
+        </div>
+
+      </div>
+      <div id="footer"
+           style="background-image: url('https://agenotifica.s3.sa-east-1.amazonaws.com/age/rodap%C3%A9+(1).jpg');
+                 background-repeat: no-repeat; background-size: cover; width: 100%; height: 6vh ">
+
+      </div>
     </div>
+
+  </div>
+
 </template>
 
 <script>
 
+
+import html2canvas from "html2canvas";
 
 export default {
   name: "TestComponent",
   components: {},
   data() {
     return {
-      classButton: 'start',
-      page: ''
     }
   },
   methods: {
-    lostButton: function () {
-      switch (this.classButton) {
-        case 'start':
-          this.classButton = 'middle'
-          break
-        case 'middle':
-          this.classButton = 'end'
-              break
-        case 'end':
-          this.classButton = 'end2'
-              break
-        case 'end2':
-          this.classButton = 'start'
-              break
-      }
+    downloadPrintScreen: function (name) {
+
+      // Obtém a div com o id "printscreen"
+      const element = document.getElementById('container');
+
+
+      // Usa html2canvas para criar uma imagem PNG da div
+      html2canvas(element).then(canvas => {
+        // Cria uma URL para a imagem
+        const url = canvas.toDataURL('image/png');
+
+        // Cria um link para o download da imagem
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${name}.png`;
+
+        // Dispara um clique no link para iniciar o download
+        link.dispatchEvent(new MouseEvent('click'));
+      });
+
 
     }
 
@@ -61,34 +118,6 @@ export default {
   width: 100vw;
   height: 100vh;
   @include flex(column, center, center, 4vh);
-
-  .buttons {
-    @include flex(row, flex-start, center, 2vw);
-
-    .middle {
-      position: absolute;
-      top: 50%;
-      right: 10%;
-    }
-
-    .end {
-      position: absolute;
-      top: 20%;
-      left: 10%;
-    }
-
-    .end2 {
-      position: absolute;
-      top: 90%;
-      right: 10%;
-    }
-
-    button {
-      all: unset;
-
-      @include btn-dashboard(true);
-    }
-  }
 
 
 
