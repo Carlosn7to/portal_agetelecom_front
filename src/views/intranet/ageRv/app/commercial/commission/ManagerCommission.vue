@@ -106,6 +106,7 @@
             <template
                 v-for="(item, index) in supervisorData" :key="index">
               <div class="row-item"
+                   v-if="item.supervisorData.length > 0"
                    @click="viewSellers(item.sellersData)">
                 <div class="data-item">
                   {{ item.supervisorData[0].colaborador }}
@@ -206,7 +207,8 @@
           <div class="body">
             <template
                 v-for="(item, index) in sellerData" :key="index">
-              <div class="row-item" style="cursor: default">
+              <div class="row-item" style="cursor: default" v-if="item.data.length > 0"
+              >
                 <div class="data-item">
                   {{ item.data[0].colaborador }}
                 </div>
