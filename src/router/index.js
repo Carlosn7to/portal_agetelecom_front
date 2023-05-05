@@ -235,6 +235,14 @@ const routes = [
     beforeEnter: [
       Guard.auth
     ]
+  },
+  {
+    path: '/ageTools/envio-email',
+    name: 'HomeMailer',
+    component: () => import("@/views/intranet/ageTools/app/tools/mailer/HomeMailer"),
+    beforeEnter: [
+      Guard.auth
+    ]
   }
 
 ]

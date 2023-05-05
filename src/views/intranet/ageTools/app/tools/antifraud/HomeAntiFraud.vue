@@ -273,7 +273,7 @@ export default {
 
     .loading {
       width: 100%;
-      height: 80%;
+      height: 95%;
       @include flex(row, center, center, 0);
       position: relative;
 
@@ -282,6 +282,76 @@ export default {
 
   }
 
+}
+
+.mode-dark {
+  .container-tools {
+
+
+    .searchs {
+      background-color: $dark-mode-card;
+      border-color: $dark-mode-border;
+
+
+
+      .inputs {
+
+        label {
+          color: $text-light;
+        }
+
+        input {
+          background-color: $dark-mode-background;
+          color: $text-light;
+        }
+
+      }
+
+    }
+
+    .results {
+
+      .item {
+        background-color: $dark-mode-card;
+        border-color: $dark-mode-border;
+
+        .table {
+
+
+          table {
+
+            th {
+
+              color: $text-light;
+              border-color: $dark-mode-border;
+
+            }
+
+            td {
+              border-color: $dark-mode-border;
+              color: $text-light;
+            }
+
+          }
+
+        }
+      }
+
+      .not-data {
+
+        i {
+          color: $text-light;
+        }
+
+        h1 {
+          color: $text-light;
+        }
+
+      }
+    }
+
+
+  }
 }
 
 </style>

@@ -20,6 +20,22 @@
         Acessar
       </router-link>
     </div>
+    <div class="card">
+      <div class="title">
+        <i class="fi fi-rr-envelope"></i>
+        <span>
+          Envio de E-mail
+        </span>
+      </div>
+      <div class="description">
+        <p>
+          Envio de e-mails em massa com excel.
+        </p>
+      </div>
+      <router-link to="/ageTools/envio-email" @click="SAVE_SYSTEM({loading: true})">
+        Acessar
+      </router-link>
+    </div>
 
 
   </div>
@@ -57,8 +73,9 @@ h1 {
   .card {
     width: calc((100% / 5) - 2vw);
     @include card();
-    @include flex(column, flex-start, center, 3vh);
+    @include flex(column, space-between, center, 3vh);
     border-top: 6px solid $border;
+    min-height: 45vh;
 
     &:hover {
       border-top-color: $primary;

@@ -13,9 +13,6 @@
         <span>Colaborador</span>
       </div>
       <div class="item">
-        <span>Meta atual</span>
-      </div>
-      <div class="item">
         <span>Usuário vinculado</span>
       </div>
       <div class="item">
@@ -26,9 +23,6 @@
       </div>
       <div class="item">
         <span>Tipo de comissão</span>
-      </div>
-      <div class="item" style="justify-content: flex-start">
-        <span>Supervisor</span>
       </div>
       <div class="item">
         <span>Gestor</span>
@@ -43,9 +37,6 @@
           <span>{{ item.collaborator }}</span>
         </div>
         <div class="item">
-          <span>{{ item.meta }}</span>
-        </div>
-        <div class="item">
           <span>{{ item.username }}</span>
         </div>
         <div class="item">
@@ -56,9 +47,6 @@
         </div>
         <div class="item">
           <span>{{ item.type_commission }}</span>
-        </div>
-        <div class="item" style="justify-content: flex-start">
-          <span>{{ item.supervisor }}</span>
         </div>
         <div class="item">
           <span>{{ item.management }}</span>
