@@ -117,4 +117,37 @@ h1 {
 }
 
 
+.mode-dark {
+  .cards {
+    .card {
+      background-color: $dark-mode-card;
+      border-color: $dark-mode-border;
+
+
+      &:hover {
+        border-color: $primary;
+      }
+
+      .title {
+        i {
+          color: $text-light;
+        }
+
+        span {
+          color: $text-light;
+        }
+      }
+
+      .description {
+
+        p {
+          color: $text-light;
+        }
+      }
+
+
+    }
+  }
+}
+
 </style>

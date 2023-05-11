@@ -28,7 +28,7 @@
           <div class="body">
             <div class="row-item"
                  v-for="item in data" :key="item.id"
-                 @click="optionsTemplate({id: item.id, name: item.name, template: item.template})">
+                 @click="optionsTemplate({template: item, mailer: this.mailer})">
               <div class="data-item">
                 {{ item.name }}
               </div>
@@ -53,26 +53,34 @@
 <script>
 import {AXIOS} from "../../../../../services/api.ts";
 import Cookie from 'js-cookie';
+import {mapMutations} from "vuex";
 
 export default {
   name: "TemplatesAvailable",
   props: ['mailer'],
+  emits: ['back-maier', 'options-template'],
   data () {
     return {
       data: {}
     }
   },
   methods: {
+    ...mapMutations([
+       'SAVE_SYSTEM'
+    ]),
     backMailers: function () {
       this.$emit('back-mailer')
     },
     optionsTemplate: function (data) {
+      this.SAVE_SYSTEM({loading: true})
       this.$emit('options-template', data)
     },
     getTemplates: function () {
+      this.SAVE_SYSTEM({loading: true})
+
       AXIOS({
         method: 'GET',
-        url: 'agetools/tools/templates',
+        url: 'agetools/tools/mailer/templates',
         headers: {
           'Authorization': 'Bearer '+Cookie.get('token')
         },
@@ -81,6 +89,7 @@ export default {
         }
       }).then((res) => {
         this.data = res.data
+        this.SAVE_SYSTEM({loading: false})
       })
     }
   },

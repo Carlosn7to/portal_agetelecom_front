@@ -1,5 +1,5 @@
 <template>
-  <div class="container-mail">
+  <div class="container-mail" v-if="page === 'main'">
     <div class="back">
       <button @click="backTemplates">
         Voltar
@@ -10,7 +10,7 @@
         <i class="fi fi-rr-eye"></i>
         <h2>Visualizar Template</h2>
       </div>
-      <div class="option">
+      <div class="option" @click="page = 'unique-email'">
         <i class="fi fi-rr-envelope"></i>
         <h2>E-mail individual</h2>
       </div>
@@ -24,16 +24,40 @@
       </div>
     </div>
   </div>
+
+  <UniqueEmail
+    v-if="page === 'unique-email'"
+    @back-options="page = 'main'"
+    :dataconfig="this.template"
+  />
+
 </template>
 
 <script>
+
+import UniqueEmail from "@/components/ageTools/mailer/home/templateOptions/uniqueEmail";
+import {mapMutations} from "vuex";
+
 export default {
   name: "TemplateOptions",
+  emits: ['back-templates'],
+  components: {UniqueEmail},
   props: ['template'],
+  data () {
+    return {
+      page: 'main'
+    }
+  },
   methods: {
+    ...mapMutations([
+       'SAVE_SYSTEM'
+    ]),
     backTemplates: function () {
       this.$emit('back-templates')
     }
+  },
+  beforeMount() {
+    this.SAVE_SYSTEM({loading: false})
   }
 }
 </script>
@@ -41,11 +65,7 @@ export default {
 <style scoped lang="scss">
 
 
-.back {
-  button{
-    @include btn-dashboard(true);
-  }
-}
+
 .options {
   @include flex(row, center, center, 3vw);
   width: 100%;
@@ -61,12 +81,29 @@ export default {
 
     i {
       font-size: 3.4rem;
-      color: $h1-light;
+      color: $primary;
     }
 
     h2 {
       font-size: 1.6rem;
       text-align: center;
+    }
+  }
+}
+
+
+.mode-dark {
+
+  .options {
+
+    .option {
+      background-color: $dark-mode-card;
+      border-color: $dark-mode-border;
+
+
+      &:hover {
+        border-color: $primary;
+      }
     }
   }
 }

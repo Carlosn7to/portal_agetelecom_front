@@ -60,6 +60,7 @@
                 {{ item.templates }}
               </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -72,6 +73,7 @@
 
 import {AXIOS} from "../../../../../services/api.ts";
 import Cookie from 'js-cookie';
+import {mapMutations} from "vuex";
 
 
 export default {
@@ -82,28 +84,35 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+        'SAVE_SYSTEM'
+    ]),
     viewTemplate: function (data) {
       this.$emit('view-template', data)
     },
     getMailers: function () {
       AXIOS({
         method: 'GET',
-        url: 'agetools/tools/mailers',
+        url: 'agetools/tools/mailer/mailers',
         headers: {
           'Authorization': 'Bearer '+Cookie.get('token')
         }
       }).then((res) => {
         this.data = res.data
+        this.SAVE_SYSTEM({loading: false})
+
       })
     }
   },
   beforeMount() {
+    this.SAVE_SYSTEM({loading: true})
     this.getMailers()
   }
 }
 </script>
 
 <style scoped lang="scss">
+
 
 
 

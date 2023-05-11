@@ -38,21 +38,28 @@ export default {
        'SAVE_SYSTEM'
     ]),
     viewTemplate: function (data) {
+      this.SAVE_SYSTEM({loading: true})
       this.mailer = data
       this.page = 'templates'
     },
     optionsTemplate: function (data) {
+      this.SAVE_SYSTEM({loading: true})
       this.template = data
       this.page = 'template-options'
     }
   }, beforeMount() {
-    this.SAVE_SYSTEM({loading: false})
   }
 }
 </script>
 
 <style lang="scss">
 
+.back {
+
+  button{
+    @include btn-dashboard(true);
+  }
+}
 
 .container-mail {
   width: 100%;
@@ -124,6 +131,45 @@ export default {
     }
   }
 
+}
+
+
+.mode-dark {
+
+
+  .section {
+
+    .table-list {
+      .header {
+
+
+        .data-item {
+
+          span {
+            color: $text-light;
+          }
+        }
+      }
+
+      .body {
+
+        .row-item {
+          background-color: $dark-mode-card;
+          border-color: $dark-mode-border;
+
+          .data-item {
+            color: $text-light;
+          }
+
+          &:hover {
+            border-color: $primary;
+          }
+        }
+      }
+
+    }
+
+  }
 }
 
 </style>

@@ -1,9 +1,8 @@
 <template>
-  <a href="#" @click="downloadPrintScreen">Download</a>
+  <a href="#" @click="downloadPrintScreen('container')">Download</a>
   <div id="container" style="width: 100vw; background-color: #e0e1e7">
     <div id="card" style="width: 40%; height: 100%; background-color: #fff; margin: 0 auto">
       <div id="header" style="width: 100%; height: 23vh; background-image: url('https://agenotifica.s3.sa-east-1.amazonaws.com/age/Prancheta+1+copiar+5.jpg'); background-size: cover; background-repeat: no-repeat">
-
       </div>
       <div id="main" style="padding: 3vh 2vw 3vh 4vw; margin: 0 auto">
         <div id="section">
@@ -73,7 +72,6 @@
 <script>
 
 
-import html2canvas from "html2canvas";
 
 export default {
   name: "TestComponent",
@@ -83,25 +81,56 @@ export default {
     }
   },
   methods: {
-    downloadPrintScreen: function (name) {
+    downloadPrintScreen: function (divId) {
 
-      // Obtém a div com o id "printscreen"
-      const element = document.getElementById('container');
+      // Obtém a div que você deseja baixar como imagem
+      var divToPrint = document.getElementById(divId);
 
+      // Obtém todas as imagens dentro da div
+      var images = divToPrint.getElementsByTagName('img');
 
-      // Usa html2canvas para criar uma imagem PNG da div
-      html2canvas(element).then(canvas => {
-        // Cria uma URL para a imagem
-        const url = canvas.toDataURL('image/png');
+      // Contador para rastrear quantas imagens foram carregadas
+      var imagesLoaded = 0;
 
-        // Cria um link para o download da imagem
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `${name}.png`;
+      // Função que é chamada quando uma imagem é carregada
+      function onImageLoad() {
+        imagesLoaded++;
+        if (imagesLoaded === images.length) {
+          // Todas as imagens foram carregadas, então crie o canvas e baixe a imagem
+          console.log('true')
+          createCanvasAndDownload();
+        }
+      }
 
-        // Dispara um clique no link para iniciar o download
-        link.dispatchEvent(new MouseEvent('click'));
-      });
+      // Percorre todas as imagens e adiciona um listener de 'onload'
+      for (var i = 0; i < images.length; i++) {
+        images[i].onload = onImageLoad;
+      }
+
+      // Função que cria o canvas e baixa a imagem
+      function createCanvasAndDownload() {
+        // Cria um elemento canvas
+        var canvas = document.createElement('canvas');
+        canvas.width = divToPrint.offsetWidth;
+        canvas.height = divToPrint.offsetHeight;
+
+        // Desenha a div no canvas
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(divToPrint, 0, 0);
+
+        // Converte o canvas em uma imagem PNG
+        var dataUrl = canvas.toDataURL('image/png');
+
+        // Cria um link para baixar a imagem
+        var link = document.createElement('a');
+        link.download = 'div_imagem.png';
+        link.href = dataUrl;
+
+        // Adiciona o link ao DOM e clica nele para iniciar o download
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
 
 
     }
