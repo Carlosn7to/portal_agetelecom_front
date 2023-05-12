@@ -6,7 +6,7 @@
       </button>
     </div>
     <div class="options">
-      <div class="option">
+      <div class="option" @click="page = 'view-template'">
         <i class="fi fi-rr-eye"></i>
         <h2>Visualizar Template</h2>
       </div>
@@ -31,17 +31,24 @@
     :dataconfig="this.template"
   />
 
+  <ViewTemplate
+      v-if="page === 'view-template'"
+      @back-options="page = 'main'"
+      :dataconfig="this.template"
+  />
+
 </template>
 
 <script>
 
-import UniqueEmail from "@/components/ageTools/mailer/home/templateOptions/uniqueEmail";
+import UniqueEmail from "@/components/ageTools/mailer/home/templateOptions/UniqueEmail";
+import ViewTemplate from "@/components/ageTools/mailer/home/templateOptions/ViewTemplate";
 import {mapMutations} from "vuex";
 
 export default {
   name: "TemplateOptions",
   emits: ['back-templates'],
-  components: {UniqueEmail},
+  components: {UniqueEmail, ViewTemplate},
   props: ['template'],
   data () {
     return {

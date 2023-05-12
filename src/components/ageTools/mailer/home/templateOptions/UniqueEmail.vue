@@ -31,7 +31,7 @@ import {AXIOS} from "../../../../../../services/api.ts";
 import Cookie from 'js-cookie';
 
 export default {
-  name: "uniqueEmail",
+  name: "UniqueEmail",
   emits: ['back-options'],
   props: ['dataconfig'],
   data () {
