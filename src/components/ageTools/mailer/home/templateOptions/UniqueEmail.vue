@@ -119,7 +119,7 @@ export default {
           }
         }
 
-        input[type=text], input[type=email], input[type=number] {
+        input[type=text], input[type=email], input[type=number], input[type=date] {
           @include inp-t-g;
           width: 100%;
           border: 1px solid #ffffff;
