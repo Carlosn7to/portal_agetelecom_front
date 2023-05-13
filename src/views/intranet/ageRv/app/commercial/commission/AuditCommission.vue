@@ -9,8 +9,8 @@
                       filters.display = false, this.monthName = 'Janeiro']">Janeiro/2023</li>
           <li @click="[dateFiltered.month = '02', getAnalytic(),
                       filters.display = false, this.monthName = 'Fevereiro']">Fevereiro/2023</li>
-<!--          <li @click="[dateFiltered.month = '03', getAnalytic(), -->
-<!--                      filters.display = false, this.monthName = 'Março']">Março/2023</li>-->
+          <li @click="[dateFiltered.month = '03', getAnalytic(),
+                      filters.display = false, this.monthName = 'Março']">Março/2023</li>
         </ul>
       </div>
     </div>
