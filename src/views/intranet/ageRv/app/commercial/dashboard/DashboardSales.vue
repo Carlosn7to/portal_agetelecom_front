@@ -30,7 +30,27 @@
           v-if="updateChart === false"
       />
       <div class="group-third">
-        <div class="card"></div>
+        <div class="card">
+          <h2>Cancelamentos</h2>
+
+          <div class="table">
+            <table>
+              <thead>
+              <tr>
+                <th>Nº do contrato</th>
+                <th>Nome do cliente</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="(item, index) in data.cancel.extract" :key="index">
+                <td>{{ item.id_contrato }}</td>
+                <td>{{ item.nome_cliente }}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
         <div class="card">
           <div class="icon">
             <i class="fi fi-rr-star"></i>
@@ -41,24 +61,31 @@
           </div>
         </div>
         <div class="card">
-          <template v-if="parseFloat(data.commission.diff) > 0">
-            <div class="icon">
-              <i class="fi fi-rr-chevron-double-up"></i>
-            </div>
-            <div class="title-info">
-              <h3>R${{ data.commission.diff }}</h3>
-              <h2>Acelerador</h2>
-            </div>
-          </template>
-          <template v-else>
-            <div class="icon">
-              <i class="fi fi-rr-chevron-double-down"></i>
-            </div>
-            <div class="title-info">
-              <h3>R$ {{ data.commission.diff }}</h3>
-              <h2>Deflator</h2>
-            </div>
-          </template>
+          <div class="icon">
+            <i class="fi fi-rr-star"></i>
+          </div>
+          <div class="title-info">
+            <h3>R${{ data.valueStar.value }}</h3>
+            <h2>Valor da estrela</h2>
+          </div>
+        </div>
+        <div class="card">
+          <div class="icon">
+            <i class="fi fi-rr-rocket-lunch"></i>
+          </div>
+          <div class="title-info">
+            <h3>{{ data.meta }}</h3>
+            <h2>Meta</h2>
+          </div>
+        </div>
+        <div class="card">
+          <div class="icon">
+            <i class="fi fi-rr-chart-line-up"></i>
+          </div>
+          <div class="title-info">
+            <h3>{{ data.metaPercent }}%</h3>
+            <h2>Meta atingida</h2>
+          </div>
         </div>
       </div>
     </div>
@@ -201,18 +228,19 @@ export default {
 
     .group-third {
       display: grid;
-      grid-template-rows: 13vh 75%;
+      grid-template-rows: 13vh 13vh 30vh;
       grid-template-columns: 48.5% 48.5%;
       gap: 2vh;
-      grid-template-areas: 'S T'
+      grid-template-areas: 'T T'
+                            'T T'
                            'F F';
 
       .card:nth-child(1) {
         grid-area: F;
+        overflow-y: auto;
       }
 
       .card:nth-child(2) {
-        grid-area: S;
         background-color: #FF9800;
         @include flex(row, space-between, center, 1vw);
 
@@ -281,6 +309,113 @@ export default {
           }
         }
 
+      }
+
+      .card:nth-child(4) {
+        background-color: #b158e1;
+        @include flex(row, space-between, center, 1vw);
+
+        .icon {
+          padding: 2.5vh 1.5vw;
+          border-radius: 50%;
+          background-color: #8542a8;
+
+          i {
+            font-size: 2rem;
+            color: #fff;
+          }
+        }
+
+        .title-info {
+          width: 45%;
+          @include flex(column, flex-start, initial, 0);
+          text-align: right;
+
+          h2 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #ffffff;
+          }
+
+          h3 {
+            font-size: 2.2rem;
+            font-weight: 500;
+            color: #ffffff;
+
+          }
+        }
+      }
+
+      .card:nth-child(5) {
+        background-color: #47ded9;
+        @include flex(row, space-between, center, 1vw);
+
+        .icon {
+          padding: 2.5vh 1.5vw;
+          border-radius: 50%;
+          background-color: #38aba7;
+
+          i {
+            font-size: 2rem;
+            color: #fff;
+          }
+        }
+
+        .title-info {
+          width: 45%;
+          @include flex(column, flex-start, initial, 0);
+          text-align: right;
+
+          h2 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #ffffff;
+          }
+
+          h3 {
+            font-size: 2.2rem;
+            font-weight: 500;
+            color: #ffffff;
+
+          }
+        }
+      }
+
+
+      .table {
+        margin: 2vh 0;
+
+        table {
+          text-align: left;
+          width: 100%;
+          border-collapse: collapse;
+
+          thead {
+            tr {
+              border-bottom: 1px solid $border-hover;
+              height: 5vh;
+
+              th {
+                font-size: 1.2rem;
+                color: $h1-light;
+                padding: 1vh 1vw;
+              }
+            }
+          }
+
+          tbody {
+            tr {
+              height: 5vh;
+              border-bottom: 1px solid $border;
+
+            }
+
+            td {
+              padding: 1vh 1vw;
+              user-select: text !important;
+            }
+          }
+        }
       }
     }
   }
