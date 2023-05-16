@@ -41,12 +41,7 @@
                 <th>Nome do cliente</th>
               </tr>
               </thead>
-              <tbody>
-              <tr v-for="(item, index) in data.cancel.extract" :key="index">
-                <td>{{ item.id_contrato }}</td>
-                <td>{{ item.nome_cliente }}</td>
-              </tr>
-              </tbody>
+
             </table>
           </div>
 
@@ -61,13 +56,24 @@
           </div>
         </div>
         <div class="card">
-          <div class="icon">
-            <i class="fi fi-rr-star"></i>
-          </div>
-          <div class="title-info">
-            <h3>R${{ data.valueStar.value }}</h3>
-            <h2>Valor da estrela</h2>
-          </div>
+          <template v-if="data.mediator > 0">
+            <div class="icon">
+              <i class="fi fi-rr-chevron-double-up"></i>
+            </div>
+            <div class="title-info">
+              <h3>R${{ data.commission.diff }}</h3>
+              <h2>Acelerador</h2>
+            </div>
+          </template>
+          <template v-else>
+            <div class="icon">
+              <i class="fi fi-rr-chevron-double-down"></i>
+            </div>
+            <div class="title-info">
+              <h3>R${{ data.commission.diff }}</h3>
+              <h2>Deflator</h2>
+            </div>
+          </template>
         </div>
         <div class="card">
           <div class="icon">
