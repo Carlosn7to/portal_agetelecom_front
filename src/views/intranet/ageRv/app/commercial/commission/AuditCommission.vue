@@ -5,12 +5,11 @@
       <i class="fi fi-rr-caret-down" @click="filters.display = !filters.display"></i>
       <div class="items" v-if="filters.display">
         <ul>
-          <li @click="[dateFiltered.month = '01', getAnalytic(),
-                      filters.display = false, this.monthName = 'Janeiro']">Janeiro/2023</li>
-          <li @click="[dateFiltered.month = '02', getAnalytic(),
-                      filters.display = false, this.monthName = 'Fevereiro']">Fevereiro/2023</li>
-          <li @click="[dateFiltered.month = '03', getAnalytic(),
-                      filters.display = false, this.monthName = 'Março']">Março/2023</li>
+          <li v-for="(item, index) in this.dashboards.monthsAvailable" :key="index"
+              @click="[dateFiltered.month = item.mes_competencia, getAnalytic(),
+                      filters.display = false, this.monthName = getMonthName(item.mes_competencia)]">
+            {{ getMonthName(item.mes_competencia) }}
+          </li>
         </ul>
       </div>
     </div>
@@ -88,7 +87,7 @@ export default {
   data () {
     return {
       page: 'view-general',
-      monthName: 'Janeiro',
+      monthName: '',
       title: 'Painel de comissões - ',
       data: {},
       dataInfo: {},
@@ -148,8 +147,19 @@ export default {
         this.dateFiltered.month = (date.getMonth() + 1).toString()
       }
 
+
       return this.dateFiltered.month
     },
+    getMonthName(month) {
+      const monthNames = [
+        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+      ];
+
+      return monthNames[parseInt(month, 10) - 1] + "/" + this.dateFiltered.year;
+    },
+
+
   },
   beforeMount() {
     this.getMonth()
