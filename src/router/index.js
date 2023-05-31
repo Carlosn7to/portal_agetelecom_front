@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LoginPage from "@/views/intranet/web/LoginPage";
+// import LoginPage from "@/views/portal/web/authenticate/LoginPage";
 import Guard from '/services/middleware/Auth.js'
+import LoginPage from "@/views/intranet/web/LoginPage";
 
 const routes = [
   {

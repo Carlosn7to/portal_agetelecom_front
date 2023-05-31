@@ -47,6 +47,18 @@
 
 }
 
+@mixin container-card($light-theme: true) {
+  padding: 2vh 1vw;
+  background-color: #fff;
+  border-radius: 5px;
+  @include tr;
+
+
+  @if($light-theme == false) {
+    background-color: $dark-mode-card !important;
+  }
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*
@@ -1010,4 +1022,83 @@
         }
       }
     }
+}
+
+
+
+// Formulários
+
+
+@mixin form() {
+
+  form {
+
+
+    width: 100%;
+    @include container-card();
+    padding: 4vh 10vw 6vh 10vw;
+    @include flex(column, center, initial, 2vh);
+
+
+    .label-input {
+      @include flex(column, flex-start, initial, .3vh);
+
+      label {
+        font-size: 2rem;
+        font-weight: 500;
+      }
+
+
+      .input {
+        @include flex(row, space-between, center, 1vw);
+        background-color: $input-background;
+        padding: 10px 15px;
+
+        input {
+          background-color: transparent;
+          outline: none;
+          border: none;
+          padding-bottom: 4px;
+          font-size: 1.8rem;
+          width: 80%;
+
+
+          &::placeholder {
+            color: $input-placeholder;
+            font-size: 1.8rem;
+          }
+        }
+
+        i {
+          color: $input-icon;
+          font-size: 2.4rem;
+        }
+      }
+    }
+
+    .submit {
+      @include flex(row, center, center, 2vh);
+      width: 100%;
+
+      button {
+        width: 90%;
+        @include flex(row, center, center, 1vw);
+        background-color: $primary;
+        color: #f1f1f1;
+        font-size: 1.8rem;
+        font-weight: 500;
+        padding: 10px 15px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        transition: .3s;
+
+        &:hover {
+          background-color: $primary-hover;
+          color: #fff;
+        }
+      }
+    }
+  }
 }

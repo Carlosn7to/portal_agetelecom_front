@@ -36,7 +36,7 @@
       </div>
     </div>
   </div>
-  <div id="modal" v-if="modal === true">
+  <div id="modal" v-if="modal === null">
     <div id="card-modal">
       <div id="close-button">
         <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
@@ -47,6 +47,70 @@
         <input type="datetime-local" name="last_period" id="last_period" v-model="lastPeriod" required>
         <input type="submit" value="Baixar">
       </form>
+    </div>
+  </div>
+  <div id="modal" v-if="modal === true">
+    <div id="card-modal">
+      <div id="close-button">
+        <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
+      </div>
+      <h5>Selecione o período</h5>
+
+      <form action="#" @submit.prevent="downloadReport(0, 0, this.url, this.name, this.reportId)">
+        <div class="options-date">
+          <label for="type-date">Tipo de filtro: <b>*</b></label>
+          <select name="type-date" v-model="typeDate" required>
+            <option value="day">Dia</option>
+<!--            <option value="month">Mês</option>-->
+            <option value="period">Período</option>
+          </select>
+        </div>
+
+        <div class="options-date" v-if="typeDate === 'day'">
+          <label for="date-day">Dia: <b>*</b></label>
+          <input type="date" name="date-day" id="date-day" required v-model="dateDay">
+        </div>
+
+<!--        <div class="options-date" v-if="typeDate === 'month'">-->
+<!--          <label for="date-day">Mês: <b>*</b></label>-->
+<!--          <div class="double-options">-->
+<!--            <select name="month" id="month" v-model="dateMonth" required>-->
+<!--              <option value="01">Janeiro</option>-->
+<!--              <option value="02">Fevereiro</option>-->
+<!--              <option value="03">Março</option>-->
+<!--              <option value="04">Abril</option>-->
+<!--              <option value="05">Maio</option>-->
+<!--              <option value="06">Junho</option>-->
+<!--              <option value="07">Julho</option>-->
+<!--              <option value="08">Agosto</option>-->
+<!--              <option value="09">Setembro</option>-->
+<!--              <option value="10">Outubro</option>-->
+<!--              <option value="11">Novembro</option>-->
+<!--              <option value="12">Dezembro</option>-->
+<!--            </select>-->
+<!--            <select name="year" id="year" v-model="dateYear" required>-->
+<!--              <option value="2023">2023</option>-->
+<!--              <option value="2022">2022</option>-->
+<!--              <option value="2021">2021</option>-->
+<!--              <option value="2020">2020</option>-->
+<!--            </select>-->
+<!--          </div>-->
+<!--        </div>-->
+
+        <div class="options-date" v-if="typeDate === 'period'">
+          <label for="date-period">Período Inicial: <b>*</b></label>
+          <input type="date" name="date-period" id="date-period" v-model="firstPeriod" required>
+        </div>
+        <div class="options-date" v-if="typeDate === 'period'">
+          <label for="date-period">Período Inicial: <b>*</b></label>
+          <input type="date" name="date-period" id="date-period" v-model="lastPeriod" required>
+        </div>
+
+        <div class="submit">
+          <button>Baixar relatório</button>
+        </div>
+      </form>
+
     </div>
   </div>
 </template>
@@ -69,6 +133,10 @@ export default {
       name: '',
       reportId: 0,
       modal: false,
+      typeDate: 'day',
+      dateDay: '',
+      dateMonth: '01',
+      dateYear: '2023',
       firstPeriod: '',
       lastPeriod: '',
       firstPeriodHour: '',
@@ -119,6 +187,25 @@ export default {
 
         this.SAVE_SYSTEM({loading: true})
 
+        let payload = () => {
+          switch (this.typeDate) {
+            case "day":
+              return {
+                date: this.dateDay
+              }
+            case "month":
+              return {
+                month: this.dateMonth,
+                year: this.dateYear
+              }
+            case "period":
+              return {
+                firstPeriod: this.firstPeriod,
+                lastPeriod: this.lastPeriod,
+              }
+          }
+        }
+
 
         AXIOS({
           method: 'GET',
@@ -126,10 +213,7 @@ export default {
           headers: {
             'Authorization': 'Bearer '+Cookie.get('token')
           },
-          params: {
-            firstPeriod: this.firstPeriod,
-            lastPeriod: this.lastPeriod,
-          },
+          params: payload(),
           responseType: 'blob',
         }).then((res) => {
 
@@ -279,9 +363,68 @@ export default {
 }
 
 #modal {
+  width: 100vw;
+  height: 100vh;
+
   #card-modal {
-    width: 20vw;
-    padding: 1vh 1vw;
+    width: 40vw;
+    padding: 1vh 1vw 4vh 1vw;
+    @include flex(column, flex-start, initial, 2vh);
+
+    #close-button {
+      padding: 0;
+    }
+
+    h5 {
+      font-size: 1.6rem;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .options-date {
+      @include flex(column, flex-start, initial, 1vh);
+
+      label {
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: $h1-black;
+
+        b {
+          color: $red;
+        }
+      }
+
+      select, input[type=date], input[type=datetime-local] {
+        width: 100%;
+        padding: 10px 8px;
+        border-radius: 5px;
+        outline: none;
+        border: 1px solid $border;
+        transition: border ease-in-out .2s;
+        margin-bottom: 10px;
+
+        &:focus {
+          border-color: $border-hover;
+        }
+      }
+
+
+      .double-options {
+        @include flex(row, flex-start, initial, 1vw);
+      }
+
+
+
+    }
+
+    .submit {
+      @include flex(row, center, center, 0);
+
+      button {
+        @include btn-dashboard(true);
+
+      }
+    }
 
     form {
       @include flex(column, flex-initial, initial, 10px);
