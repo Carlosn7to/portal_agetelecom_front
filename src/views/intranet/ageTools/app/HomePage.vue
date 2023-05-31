@@ -36,6 +36,22 @@
         Acessar
       </router-link>
     </div>
+    <div class="card">
+      <div class="title">
+        <i class="fi fi-rr-address-book"></i>
+        <span>
+          Agenda técnica
+        </span>
+      </div>
+      <div class="description">
+        <p>
+          Acompanhamento das notas.
+        </p>
+      </div>
+      <router-link to="/ageTools/agenda" @click="SAVE_SYSTEM({loading: true})">
+        Acessar
+      </router-link>
+    </div>
 
 
   </div>

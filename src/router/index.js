@@ -244,6 +244,14 @@ const routes = [
     beforeEnter: [
       Guard.auth
     ]
+  },
+  {
+    path: '/ageTools/agenda',
+    name: 'HomeSchedule',
+    component: () => import("@/views/intranet/ageTools/app/tools/schedule/HomeSchedule"),
+    beforeEnter: [
+      Guard.auth
+    ]
   }
 
 ]

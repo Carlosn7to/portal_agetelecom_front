@@ -133,7 +133,7 @@ export default {
       name: '',
       reportId: 0,
       modal: false,
-      typeDate: 'day',
+      typeDate: '',
       dateDay: '',
       dateMonth: '01',
       dateYear: '2023',
@@ -226,7 +226,9 @@ export default {
           link.download = name
           link.click()
           this.modal = false
+          this.typeDate = ''
           this.SAVE_SYSTEM({loading: false})
+
         })
       }
     }

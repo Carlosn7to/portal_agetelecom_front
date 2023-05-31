@@ -59,14 +59,15 @@ export default {
     }
 
     .items {
-      width: 80%;
-      @include flex(row, space-between, center, 1vw);
+
+      @include flex(row, space-evenly, center, 30px);
 
       a {
         img {
           display: block;
           margin: 0 auto;
-          width: 60%;
+          width: 50px;
+          max-width: 80px;
           height: auto;
         }
       }

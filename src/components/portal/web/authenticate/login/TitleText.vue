@@ -31,10 +31,8 @@ export default {
 
   .logo {
     width: 50%;
-    img {
-      width: 15%;
-      height: auto;
-    }
+    max-width: 200px;
+    height: auto;
 
   }
 
@@ -56,7 +54,13 @@ export default {
 
   }
 
+}
 
+
+@media (min-width: 768px) {
+   .container-logo-text {
+     padding-top: 5%;
+   }
 }
 
 </style>
