@@ -11,10 +11,11 @@
         <button @click="modalAction">
           <i class="fi fi-rs-filter"></i>
         </button>
-        <button v-if="filtered">
-          <i class="fi fi-rs-filter-slash"></i>
+        <button v-if="dataItems.length" @click="download">
+          <i class="fi fi-rs-file-excel"></i>
         </button>
       </div>
+      <span>Contagem do resultado: <b>{{ dataItems.length ? dataItems.length : 0 }}</b></span>
 
     </div>
     <div class="data">
@@ -31,6 +32,8 @@
               <th>Técnico</th>
               <th>Data inicio att.</th>
               <th>Data fim att.</th>
+              <th>Data inicio agendamento</th>
+              <th>Data fim agendamento</th>
               <th>Situacao do contrato</th>
               <th>Status do contrato</th>
               <th>Contexto</th>
@@ -48,6 +51,8 @@
               <td>{{ item.technical }}</td>
               <td>{{ item.date_start_attendance }}</td>
               <td>{{ item.date_end_attendance }}</td>
+              <td>{{ item.date_start_schedule }}</td>
+              <td>{{ item.date_end_schedule }}</td>
               <td>{{ item.stage_contract }}</td>
               <td>{{ item.status_contract }}</td>
               <td>{{ item.context }}</td>
@@ -167,6 +172,51 @@ export default {
         this.loading = false
         this.dataItems = res.data;
       })
+    },
+    download: function () {
+      const headersExcel = [
+        'Protocolo',
+        'Status',
+        'Tipo de solicitação',
+        'Equipe',
+        'Técnico',
+        'Data inicio att.',
+        'Data fim att.',
+        'Data inicio agendamento',
+        'Data fim agendamento',
+        'Nome do cliente',
+        'Nº do contrato',
+        'Situacao do contrato',
+        'Status do contrato',
+        'Contexto',
+        'Problema'
+      ]
+
+      const data = this.dataItems
+
+      AXIOS({
+        method: 'POST',
+        url: 'agetools/tools/schedule/dashboard/download-excel',
+        data: {
+          headersExcel,
+          data
+        },
+        responseType: 'blob',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token')
+        }
+      }).then((res) => {
+
+        let blob = new Blob([res.data],
+            { type: 'vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+        let link = document.createElement('a')
+        link.href = window.URL.createObjectURL(blob)
+        link.download = 'agenda.xlsx'
+        link.click()
+      })
+
+
+
     }
   },
   computed: {
@@ -214,6 +264,12 @@ export default {
           color: #fff;
         }
       }
+
+
+    }
+
+    span {
+      font-size: 1.4rem;
     }
   }
 
