@@ -19,13 +19,14 @@
     </div>
     <div class="data">
       <div class="table">
-        <table>
+        <table  v-if="!loading">
           <thead>
             <tr>
               <th>Protocolo</th>
+              <th>Status</th>
+              <th>Tipo de solicitação</th>
               <th>Nº do contrato</th>
               <th>Nome do cliente</th>
-              <th>Status</th>
               <th>Equipe</th>
               <th>Técnico</th>
               <th>Data inicio att.</th>
@@ -37,193 +38,26 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>54156</td>
-              <td>28316</td>
-              <td>Carlos A. M. F. Neto</td>
-              <td>Em campo</td>
-              <td>Age Técnicos</td>
-              <td>Joao gomes da Silva</td>
-              <td>31/05/2023</td>
-              <td>01/06/2023</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>Ativação concluída</td>
-              <td>Instalado</td>
-            </tr>
-            <tr>
-              <td>54156</td>
-              <td>28316</td>
-              <td>Carlos A. M. F. Neto</td>
-              <td>Em campo</td>
-              <td>Age Técnicos</td>
-              <td>Joao gomes da Silva</td>
-              <td>31/05/2023</td>
-              <td>01/06/2023</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>Ativação concluída</td>
-              <td>Instalado</td>
-            </tr>
-
-            <tr>
-              <td>54156</td>
-              <td>28316</td>
-              <td>Carlos A. M. F. Neto</td>
-              <td>Em campo</td>
-              <td>Age Técnicos</td>
-              <td>Joao gomes da Silva</td>
-              <td>31/05/2023</td>
-              <td>01/06/2023</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>Ativação concluída</td>
-              <td>Instalado</td>
-            </tr>
-
-            <tr>
-              <td>54156</td>
-              <td>28316</td>
-              <td>Carlos A. M. F. Neto</td>
-              <td>Em campo</td>
-              <td>Age Técnicos</td>
-              <td>Joao gomes da Silva</td>
-              <td>31/05/2023</td>
-              <td>01/06/2023</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>Ativação concluída</td>
-              <td>Instalado</td>
-            </tr>
-            <tr>
-              <td>54156</td>
-              <td>28316</td>
-              <td>Carlos A. M. F. Neto</td>
-              <td>Em campo</td>
-              <td>Age Técnicos</td>
-              <td>Joao gomes da Silva</td>
-              <td>31/05/2023</td>
-              <td>01/06/2023</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>Ativação concluída</td>
-              <td>Instalado</td>
-            </tr>
-            <tr>
-              <td>54156</td>
-              <td>28316</td>
-              <td>Carlos A. M. F. Neto</td>
-              <td>Em campo</td>
-              <td>Age Técnicos</td>
-              <td>Joao gomes da Silva</td>
-              <td>31/05/2023</td>
-              <td>01/06/2023</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>Ativação concluída</td>
-              <td>Instalado</td>
-            </tr>
-            <tr>
-              <td>54156</td>
-              <td>28316</td>
-              <td>Carlos A. M. F. Neto</td>
-              <td>Em campo</td>
-              <td>Age Técnicos</td>
-              <td>Joao gomes da Silva</td>
-              <td>31/05/2023</td>
-              <td>01/06/2023</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>Ativação concluída</td>
-              <td>Instalado</td>
-            </tr>
-            <tr>
-              <td>54156</td>
-              <td>28316</td>
-              <td>Carlos A. M. F. Neto</td>
-              <td>Em campo</td>
-              <td>Age Técnicos</td>
-              <td>Joao gomes da Silva</td>
-              <td>31/05/2023</td>
-              <td>01/06/2023</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>Ativação concluída</td>
-              <td>Instalado</td>
-            </tr>
-            <tr>
-              <td>54156</td>
-              <td>28316</td>
-              <td>Carlos A. M. F. Neto</td>
-              <td>Em campo</td>
-              <td>Age Técnicos</td>
-              <td>Joao gomes da Silva</td>
-              <td>31/05/2023</td>
-              <td>01/06/2023</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>Ativação concluída</td>
-              <td>Instalado</td>
-            </tr>
-            <tr>
-              <td>54156</td>
-              <td>28316</td>
-              <td>Carlos A. M. F. Neto</td>
-              <td>Em campo</td>
-              <td>Age Técnicos</td>
-              <td>Joao gomes da Silva</td>
-              <td>31/05/2023</td>
-              <td>01/06/2023</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>Ativação concluída</td>
-              <td>Instalado</td>
-            </tr>
-            <tr>
-              <td>54156</td>
-              <td>28316</td>
-              <td>Carlos A. M. F. Neto</td>
-              <td>Em campo</td>
-              <td>Age Técnicos</td>
-              <td>Joao gomes da Silva</td>
-              <td>31/05/2023</td>
-              <td>01/06/2023</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>Ativação concluída</td>
-              <td>Instalado</td>
-            </tr>
-            <tr>
-              <td>54156</td>
-              <td>28316</td>
-              <td>Carlos A. M. F. Neto</td>
-              <td>Em campo</td>
-              <td>Age Técnicos</td>
-              <td>Joao gomes da Silva</td>
-              <td>31/05/2023</td>
-              <td>01/06/2023</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>Ativação concluída</td>
-              <td>Instalado</td>
-            </tr>
-            <tr>
-              <td>54156</td>
-              <td>28316</td>
-              <td>Carlos A. M. F. Neto</td>
-              <td>Em campo</td>
-              <td>Age Técnicos</td>
-              <td>Joao gomes da Silva</td>
-              <td>31/05/2023</td>
-              <td>01/06/2023</td>
-              <td>Aprovado</td>
-              <td>Normal</td>
-              <td>Ativação concluída</td>
-              <td>Instalado</td>
+            <tr v-for="(item, index) in dataItems" :key="index">
+              <td>{{ item.protocol }}</td>
+              <td>{{ item.status }}</td>
+              <td>{{ item.type_note }}</td>
+              <td>{{ item.contract_id }}</td>
+              <td>{{ item.name_client }}</td>
+              <td>{{ item.team }}</td>
+              <td>{{ item.technical }}</td>
+              <td>{{ item.date_start_attendance }}</td>
+              <td>{{ item.date_end_attendance }}</td>
+              <td>{{ item.stage_contract }}</td>
+              <td>{{ item.status_contract }}</td>
+              <td>{{ item.context }}</td>
+              <td>{{ item.problem }}</td>
             </tr>
 
           </tbody>
         </table>
+        <LoadingSpinner v-if="loading"
+        />
       </div>
 
     </div>
@@ -234,42 +68,63 @@
         <i class="fi fi-rs-cross"  @click="modalAction"></i>
       </div>
       <h2>Filtros disponíveis</h2>
-      
-      <div class="filters-available">
-        <div class="filter-available">
-          <label for="typeNote">Tipo de solicitação: </label>
-          <select name="typeNote" id="typeNote">
-            <option value="1">teste</option>
-          </select>
+
+      <form action="#" @submit.prevent="getData">
+        <div class="filters-available">
+          <div class="filter-available">
+            <label for="typeNote">Tipo de solicitação: </label>
+            <select name="typeNote" id="typeNote" v-model="payload.typeNote">
+              <option value="0" selected>--- Selecione um tipo de solicitação ---</option>
+              <option v-for="item in this.filters.typeNote" :value="item.id" :key="item.id">{{ item.title }}</option>
+            </select>
+          </div>
+          <div class="filter-available">
+            <label for="dateSchedule">Data do agendamento: <b>*</b> </label>
+            <input type="date" name="dateSchedule" id="dateSchedule" v-model="payload.dateSchedule" required>
+          </div>
+          <div class="filter-available">
+            <label for="region">Região: </label>
+            <select name="region" id="region" v-model="payload.region">
+              <option value="0" selected>--- Selecione a região ---</option>
+              <option v-for="item in this.filters.region" :value="item.id" :key="item.id">{{ item.title }}</option>
+            </select>
+          </div>
+          <div class="filter-data">
+            <button>Filtrar</button>
+          </div>
         </div>
-        <div class="filter-available">
-          <label for="dateSchedule">Data do agendamento: </label>
-          <input type="date" name="dateSchedule" id="dateSchedule">
-        </div>
-        <div class="filter-available">
-          <label for="region">Região: </label>
-          <select name="region" id="region">
-            <option value="1">Asa Sul</option>
-          </select>
-        </div>
-        <div class="filter-data">
-          <button>Filtrar</button>
-        </div>
-      </div>
+      </form>
 
     </div>
   </div>
 </template>
 
 <script>
-import {mapMutations} from "vuex";
+import {mapGetters, mapMutations} from "vuex";
+import {AXIOS} from "../../../../../../../services/api.ts";
+import Cookie from 'js-cookie';
+import LoadingSpinner from "@/components/portal/_aux/LoadingSpinner";
+
 
 export default {
   name: "HomeSchedule",
+  components: {LoadingSpinner},
+
   data() {
     return {
       filtered: false,
-      modal: false
+      modal: false,
+      filters: {
+        typeNote: {},
+        region: {}
+      },
+      payload: {
+        typeNote: 0,
+        dateSchedule: null,
+        region: 0
+      },
+      loading: false,
+      dataItems: {}
     }
   },
   methods: {
@@ -278,15 +133,56 @@ export default {
     ]),
     modalAction() {
       this.modal = !this.modal;
+    },
+    getFilters: function () {
+      AXIOS({
+        method: 'GET',
+        url: 'agetools/tools/schedule/dashboard/filters',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token')
+        }
+      }).then((res) => {
+        this.filters.typeNote = res.data.typeNotes;
+        this.filters.region = res.data.regions;
+
+      })
+    },
+    getData: function () {
+
+      this.loading = true
+      this.modal = false
+
+      AXIOS({
+        method: 'GET',
+        url: 'agetools/tools/schedule/dashboard/data',
+        params: {
+          dateSchedule: this.payload.dateSchedule,
+          typeNote: this.payload.typeNote,
+          region: this.payload.region
+        },
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token')
+        }
+      }).then((res) => {
+        this.loading = false
+        this.dataItems = res.data;
+      })
     }
   },
+  computed: {
+    ...mapGetters([
+      'system'
+    ])
+  },
   beforeMount() {
-      this.SAVE_SYSTEM({loading: false})
+    this.SAVE_SYSTEM({loading: false})
+    this.getFilters();
   }
 }
 </script>
 
 <style scoped lang="scss">
+
 
 .container {
   width: 100%;
@@ -329,11 +225,12 @@ export default {
     .table {
       width: 100%;
       max-height: 100%;
+      height: 100%;
       overflow-y: auto;
+      position: relative;
 
       table {
         width: 100%;
-        height: 100%;
         border-collapse: collapse;
 
         thead {
@@ -346,6 +243,11 @@ export default {
               color: $h1-black;
               text-align: center;
             }
+
+            th.sticky {
+              position: sticky;
+              top: 0;
+            }
           }
         }
         tbody {
@@ -353,7 +255,7 @@ export default {
             td {
               padding: 1vh 1vw;
               border-bottom: 1px solid $border;
-              font-size: 1.2rem;
+              font-size: 1rem;
               font-weight: 400;
               color: $h1-black;
               text-align: center;
@@ -412,6 +314,10 @@ export default {
         font-size: 1.2rem;
         font-weight: 500;
         color: $h1-black;
+
+        b {
+          color: $red;
+        }
       }
 
       select, input {
