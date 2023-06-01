@@ -23,13 +23,41 @@
         <table  v-if="!loading">
           <thead>
             <tr>
-              <th>Protocolo</th>
+              <th>
+                <div class="filters-arrow">
+                  <span>Protocolo</span>
+                  <div class="filters-options">
+                    <i class="fi fi-sr-sort-alt" @click="ordenateData('protocol', 'up')" v-if="orders.protocol === 'no-order'"></i>
+                    <i class="fi fi-rs-arrow-alt-up" @click="ordenateData('protocol', 'down')" v-if="orders.protocol === 'up'"></i>
+                    <i class="fi fi-rs-arrow-alt-down" @click="ordenateData('protocol', 'no-order')" v-if="orders.protocol === 'down'"></i>
+                  </div>
+                </div>
+              </th>
               <th>Status</th>
+              <th>
+                <div class="filters-arrow">
+                  <span>Turno</span>
+                  <div class="filters-options">
+                    <i class="fi fi-sr-sort-alt" @click="ordenateData('turn', 'up')" v-if="orders.turn === 'no-order'"></i>
+                    <i class="fi fi-rs-arrow-alt-up" @click="ordenateData('turn', 'down')" v-if="orders.turn === 'up'"></i>
+                    <i class="fi fi-rs-arrow-alt-down" @click="ordenateData('turn', 'no-order')" v-if="orders.turn === 'down'"></i>
+                  </div>
+                </div>
+              </th>
               <th>Tipo de solicitação</th>
               <th>Nº do contrato</th>
               <th>Nome do cliente</th>
               <th>Equipe</th>
-              <th>Técnico</th>
+              <th>
+                <div class="filters-arrow">
+                  <span>Técnico</span>
+                  <div class="filters-options">
+                    <i class="fi fi-sr-sort-alt" @click="ordenateData('technical', 'up')" v-if="orders.technical === 'no-order'"></i>
+                    <i class="fi fi-rs-arrow-alt-up" @click="ordenateData('technical', 'down')" v-if="orders.technical === 'up'"></i>
+                    <i class="fi fi-rs-arrow-alt-down" @click="ordenateData('technical', 'no-order')" v-if="orders.technical === 'down'"></i>
+                  </div>
+                </div>
+              </th>
               <th>Data inicio att.</th>
               <th>Data fim att.</th>
               <th>Data inicio agendamento</th>
@@ -44,6 +72,7 @@
             <tr v-for="(item, index) in dataItems" :key="index">
               <td>{{ item.protocol }}</td>
               <td>{{ item.status }}</td>
+              <td>{{ this.turnName(item.date_start_schedule) }}</td>
               <td>{{ item.type_note }}</td>
               <td>{{ item.contract_id }}</td>
               <td>{{ item.name_client }}</td>
@@ -129,7 +158,12 @@ export default {
         region: 0
       },
       loading: false,
-      dataItems: {}
+      dataItems: {},
+      orders: {
+        protocol: 'no-order',
+        turn: 'no-order',
+        technical: 'no-order',
+      }
     }
   },
   methods: {
@@ -217,12 +251,133 @@ export default {
 
 
 
-    }
+    },
+    turnName: function (dateHour) {
+      let date = new Date(dateHour)
+      let hour = date.getHours()
+
+      if (hour >= 6 && hour < 12) {
+        return 'Manhã';
+      } else if (hour >= 12 && hour < 18) {
+        return 'Tarde';
+      } else {
+        return 'Noite';
+      }
+    },
+    ordenateData: function(item, order) {
+
+      let clearOrders = () => {
+        this.orders.turn = 'no-order'
+        this.orders.technical = 'no-order'
+        this.orders.protocol = 'no-order'
+      }
+
+
+      switch (item) {
+        case 'turn':
+          clearOrders()
+          this.orders.turn = order
+
+          if(order === 'up' || order === 'down') {
+            this.dataItems.sort((a, b) => {
+              if(a.turn > b.turn)
+                if(order === 'up')
+                  return 1;
+                else
+                  return -1
+
+              if(a.turn < b.turn)
+                if(order === 'down')
+                  return 1;
+                else
+                  return -1
+            })
+          }
+
+          if(order === 'no-order') {
+            this.dataItems.sort((a, b) => {
+              if(a.protocol > b.protocol)
+                return -1
+
+              if(a.protocol < b.protocol)
+                return 1
+
+            })
+          }
+
+          break
+        case 'protocol':
+          clearOrders()
+          this.orders.protocol = order
+
+          if(order === 'up' || order === 'down') {
+            this.dataItems.sort((a, b) => {
+              if(a.protocol > b.protocol)
+                if(order === 'up')
+                  return 1;
+                else
+                  return -1
+
+              if(a.protocol < b.protocol)
+                if(order === 'down')
+                  return 1;
+                else
+                  return -1
+            })
+          }
+
+          if(order === 'no-order') {
+            this.dataItems.sort((a, b) => {
+              if(a.protocol > b.protocol)
+                return -1
+
+              if(a.protocol < b.protocol)
+                return 1
+
+            })
+          }
+
+          break
+        case 'technical':
+          clearOrders()
+          this.orders.technical = order
+
+          if(order === 'up' || order === 'down') {
+            this.dataItems.sort((a, b) => {
+              if(a.technical > b.technical)
+                if(order === 'up')
+                  return 1;
+                else
+                  return -1
+
+              if(a.technical < b.technical)
+                if(order === 'down')
+                  return 1;
+                else
+                  return -1
+            })
+          }
+
+          if(order === 'no-order') {
+            this.dataItems.sort((a, b) => {
+              if(a.protocol > b.protocol)
+                return -1
+
+              if(a.protocol < b.protocol)
+                return 1
+
+            })
+          }
+
+          break
+      }
+
+    },
   },
   computed: {
     ...mapGetters([
       'system'
-    ])
+    ]),
   },
   beforeMount() {
     this.SAVE_SYSTEM({loading: false})
@@ -300,9 +455,21 @@ export default {
               text-align: center;
             }
 
-            th.sticky {
-              position: sticky;
-              top: 0;
+            .filters-arrow {
+              @include flex(row, flex-start, center, 1vw);
+
+              .filters-options {
+                @include flex(column, flex-start, center, 0);
+                i {
+                  color: $h1-black;
+                  font-size: 1.4rem;
+                  cursor: pointer;
+
+                  &:hover {
+                    opacity: .8;
+                  }
+                }
+              }
             }
           }
         }
@@ -318,6 +485,8 @@ export default {
               user-select: text;
 
             }
+
+
           }
         }
       }
