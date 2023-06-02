@@ -16,7 +16,14 @@
         </button>
       </div>
       <span>Contagem do resultado: <b>{{ dataItems.length ? dataItems.length : 0 }}</b></span>
-
+      <div class="period">
+        <span>Período</span>
+        <div class="turns">
+          <p>Manhã: <b>{{ countTurns.morning }}</b></p>
+          <p>Tarde: <b>{{ countTurns.afternoon }}</b></p>
+          <p>Noite: <b>{{ countTurns.night }}</b></p>
+        </div>
+      </div>
     </div>
     <div class="data">
       <div class="table">
@@ -72,7 +79,7 @@
             <tr v-for="(item, index) in dataItems" :key="index">
               <td>{{ item.protocol }}</td>
               <td>{{ item.status }}</td>
-              <td>{{ this.turnName(item.date_start_schedule) }}</td>
+              <td>{{ item.turnName }}</td>
               <td>{{ item.type_note }}</td>
               <td>{{ item.contract_id }}</td>
               <td>{{ item.name_client }}</td>
@@ -163,6 +170,11 @@ export default {
         protocol: 'no-order',
         turn: 'no-order',
         technical: 'no-order',
+      },
+      countTurns: {
+        morning: 0,
+        afternoon: 0,
+        night: 0
       }
     }
   },
@@ -205,6 +217,29 @@ export default {
       }).then((res) => {
         this.loading = false
         this.dataItems = res.data;
+
+        this.dataItems.forEach((item) => {
+          let date = new Date(item.date_start_schedule)
+          let hour = date.getHours()
+
+          let turn = ''
+
+          if (hour >= 6 && hour < 12) {
+            turn = 'Manhã';
+            this.countTurns.morning++
+          } else if (hour >= 12 && hour < 18) {
+            turn = 'Tarde';
+            this.countTurns.afternoon++
+          } else {
+            turn = 'Noite';
+            this.countTurns.night++
+          }
+
+          item['turnName'] = turn
+
+        })
+
+
       })
     },
     download: function () {
@@ -252,18 +287,6 @@ export default {
 
 
     },
-    turnName: function (dateHour) {
-      let date = new Date(dateHour)
-      let hour = date.getHours()
-
-      if (hour >= 6 && hour < 12) {
-        return 'Manhã';
-      } else if (hour >= 12 && hour < 18) {
-        return 'Tarde';
-      } else {
-        return 'Noite';
-      }
-    },
     ordenateData: function(item, order) {
 
       let clearOrders = () => {
@@ -280,13 +303,13 @@ export default {
 
           if(order === 'up' || order === 'down') {
             this.dataItems.sort((a, b) => {
-              if(a.turn > b.turn)
+              if(a.turnName > b.turnName)
                 if(order === 'up')
                   return 1;
                 else
                   return -1
 
-              if(a.turn < b.turn)
+              if(a.turnName < b.turnName)
                 if(order === 'down')
                   return 1;
                 else
@@ -425,6 +448,13 @@ export default {
 
     span {
       font-size: 1.4rem;
+    }
+
+    .period {
+      span {
+        font-size: 1rem;
+        font-weight: 600;
+      }
     }
   }
 
