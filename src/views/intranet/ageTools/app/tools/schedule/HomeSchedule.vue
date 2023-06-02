@@ -30,6 +30,7 @@
         <table  v-if="!loading">
           <thead>
             <tr>
+              <th>Tipo de solicitação</th>
               <th>
                 <div class="filters-arrow">
                   <span>Protocolo</span>
@@ -40,7 +41,7 @@
                   </div>
                 </div>
               </th>
-              <th>Status</th>
+              <th>Nome do cliente</th>
               <th>
                 <div class="filters-arrow">
                   <span>Turno</span>
@@ -51,9 +52,16 @@
                   </div>
                 </div>
               </th>
-              <th>Tipo de solicitação</th>
-              <th>Nº do contrato</th>
-              <th>Nome do cliente</th>
+              <th>
+                <div class="filters-arrow">
+                  <span>Região</span>
+                  <div class="filters-options">
+                    <i class="fi fi-sr-sort-alt" @click="ordenateData('region', 'up')" v-if="orders.region === 'no-order'"></i>
+                    <i class="fi fi-rs-arrow-alt-up" @click="ordenateData('region', 'down')" v-if="orders.region === 'up'"></i>
+                    <i class="fi fi-rs-arrow-alt-down" @click="ordenateData('region', 'no-order')" v-if="orders.region === 'down'"></i>
+                  </div>
+                </div>
+              </th>
               <th>Equipe</th>
               <th>
                 <div class="filters-arrow">
@@ -67,8 +75,10 @@
               </th>
               <th>Data inicio att.</th>
               <th>Data fim att.</th>
+              <th>Status</th>
               <th>Data inicio agendamento</th>
               <th>Data fim agendamento</th>
+              <th>Nº do contrato</th>
               <th>Situacao do contrato</th>
               <th>Status do contrato</th>
               <th>Contexto</th>
@@ -77,18 +87,19 @@
           </thead>
           <tbody>
             <tr v-for="(item, index) in dataItems" :key="index">
-              <td>{{ item.protocol }}</td>
-              <td>{{ item.status }}</td>
-              <td>{{ item.turnName }}</td>
               <td>{{ item.type_note }}</td>
-              <td>{{ item.contract_id }}</td>
+              <td>{{ item.protocol }}</td>
               <td>{{ item.name_client }}</td>
+              <td>{{ item.turnName }}</td>
+              <td>{{ item.region }}</td>
               <td>{{ item.team }}</td>
               <td>{{ item.technical }}</td>
               <td>{{ item.date_start_attendance }}</td>
               <td>{{ item.date_end_attendance }}</td>
+              <td>{{ item.status }}</td>
               <td>{{ item.date_start_schedule }}</td>
               <td>{{ item.date_end_schedule }}</td>
+              <td>{{ item.contract_id }}</td>
               <td>{{ item.stage_contract }}</td>
               <td>{{ item.status_contract }}</td>
               <td>{{ item.context }}</td>
@@ -114,9 +125,8 @@
         <div class="filters-available">
           <div class="filter-available">
             <label for="typeNote">Tipo de solicitação: </label>
-            <select name="typeNote" id="typeNote" v-model="payload.typeNote">
-              <option value="0" selected>--- Selecione um tipo de solicitação ---</option>
-              <option v-for="item in this.filters.typeNote" :value="item.id" :key="item.id">{{ item.title }}</option>
+            <select multiple v-model="selectedOptions">
+              <option v-for="(option, index) in options" :value="option.value" :key="index">{{ option.label }}</option>
             </select>
           </div>
           <div class="filter-available">
@@ -170,12 +180,16 @@ export default {
         protocol: 'no-order',
         turn: 'no-order',
         technical: 'no-order',
+        region: 'no-order'
       },
       countTurns: {
         morning: 0,
         afternoon: 0,
         night: 0
-      }
+      },
+      options: [
+      ],
+      selectedOptions: [],
     }
   },
   methods: {
@@ -194,6 +208,14 @@ export default {
         }
       }).then((res) => {
         this.filters.typeNote = res.data.typeNotes;
+
+        this.filters.typeNote.forEach((item) => {
+          this.options.push({
+            label: item.title,
+            value: item.id
+          })
+        })
+
         this.filters.region = res.data.regions;
 
       })
@@ -208,7 +230,7 @@ export default {
         url: 'agetools/tools/schedule/dashboard/data',
         params: {
           dateSchedule: this.payload.dateSchedule,
-          typeNote: this.payload.typeNote,
+          typeNote: this.selectedOptions,
           region: this.payload.region
         },
         headers: {
@@ -258,7 +280,8 @@ export default {
         'Situacao do contrato',
         'Status do contrato',
         'Contexto',
-        'Problema'
+        'Problema',
+        'Região'
       ]
 
       const data = this.dataItems
@@ -293,6 +316,7 @@ export default {
         this.orders.turn = 'no-order'
         this.orders.technical = 'no-order'
         this.orders.protocol = 'no-order'
+        this.orders.region = 'no-order'
       }
 
 
@@ -374,6 +398,38 @@ export default {
                   return -1
 
               if(a.technical < b.technical)
+                if(order === 'down')
+                  return 1;
+                else
+                  return -1
+            })
+          }
+
+          if(order === 'no-order') {
+            this.dataItems.sort((a, b) => {
+              if(a.protocol > b.protocol)
+                return -1
+
+              if(a.protocol < b.protocol)
+                return 1
+
+            })
+          }
+
+          break
+        case 'region':
+          clearOrders()
+          this.orders.region = order
+
+          if(order === 'up' || order === 'down') {
+            this.dataItems.sort((a, b) => {
+              if(a.region > b.region)
+                if(order === 'up')
+                  return 1;
+                else
+                  return -1
+
+              if(a.region < b.region)
                 if(order === 'down')
                   return 1;
                 else
@@ -587,6 +643,21 @@ export default {
         &:focus {
           border-color: $border-hover;
         }
+      }
+
+      select:nth-child(1) {
+        width: 200px;
+        height: 200px;
+        overflow-y: scroll;
+      }
+
+      option {
+        background-color: #fff;
+        padding: 5px;
+      }
+
+      option:checked {
+        background-color: #ccc;
       }
 
     }
