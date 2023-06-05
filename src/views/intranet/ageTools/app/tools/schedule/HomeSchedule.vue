@@ -530,7 +530,7 @@ export default {
 
   .panel {
     grid-area: P;
-    @include flex(column, space-between, initial, 0);
+    @include flex(column, flex-start, initial, 2vh);
     max-width: 100%;
     max-height: 100%;
     overflow: auto;
@@ -539,8 +539,8 @@ export default {
 
     .list {
       position: relative;
-      min-height: 78%;
-      max-height: 78%;
+      min-height: 84%;
+      max-height: 84%;
 
     }
   }
