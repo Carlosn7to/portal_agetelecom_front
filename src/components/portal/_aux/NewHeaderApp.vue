@@ -3,7 +3,7 @@
     <div class="header-top">
       <div class="search">
         <i class="fi fi-rr-search"></i>
-        <input disabled type="text" name="search" id="search" placeholder="Buscar..." autocomplete="off">
+        <input disabled type="text" name="search" id="search" placeholder="Em desenvolvimento..." autocomplete="off">
       </div>
       <div class="options">
         <div class="icons-system">
@@ -76,14 +76,15 @@ export default {
   z-index: 2;
   .header-top {
     background-color: #ffffff;
-    @include sh-pattern;
-    border-radius: 5px;
+    //@include sh-pattern;
+    border-radius: 10px;
     padding: 1vh 1.5vw;
     @include flex(row, space-between, center, 0);
 
     .search {
       @include flex(row, flex-start, center, 1vw);
       width: 50%;
+
 
       i {
         font-size: 1.8rem;

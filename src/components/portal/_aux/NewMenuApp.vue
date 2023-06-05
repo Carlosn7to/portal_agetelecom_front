@@ -119,7 +119,7 @@ export default {
 .container-menu {
   height: 100%;
   @include flex(row, flex-start, initial, 0);
-  @include sh-pattern;
+  //@include sh-pattern;
   z-index: 3;
 
   .menu-app {
