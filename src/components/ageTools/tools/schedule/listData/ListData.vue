@@ -3,7 +3,7 @@
     <div class="options-list-data" v-if="data.length > 0">
 
       <div class="search">
-        <input type="text" name="search" id="search" placeholder="Buscar..." autocomplete="off">
+        <input type="text" name="search" id="search" placeholder="Buscar..." autocomplete="off" v-model="search">
       </div>
 
       <div class="buttons">
@@ -15,23 +15,45 @@
       <table v-if="data.length > 0">
         <thead>
           <tr>
+            <th>Tipo de solicitação</th>
             <th>Protocolo</th>
             <th>Nome do cliente</th>
-            <th>Técnico</th>
-            <th>Data agendamento</th>
             <th>Turno</th>
-            <th>Tipo de solicitação</th>
+            <th>Região</th>
+            <th>Nº do contrato</th>
+            <th>Equipe</th>
+            <th>Técnico</th>
+            <th>Data inicio Att.</th>
+            <th>Data Fim Att.</th>
+            <th>Status</th>
+            <th>Data inicio agendamento</th>
+            <th>Data fim agendamento</th>
+            <th>Situação do contrato</th>
+            <th>Status do contrato</th>
+            <th>Contexto</th>
+            <th>Problema</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in data" :key="index">
+          <tr v-for="(item, index) in ClientFiltered" :key="index">
+            <td>{{ item.type_note }}</td>
             <td>{{ item.protocol }}</td>
             <td>{{ item.name_client }}</td>
-            <td>{{ item.technical }}</td>
-            <td>{{ item.date_start_schedule }}</td>
             <td>{{ item.turnName }}</td>
-            <td>{{ item.type_note }}</td>
+            <td>{{ item.region }}</td>
+            <td>{{ item.contract_id }}</td>
+            <td>{{ item.team }}</td>
+            <td>{{ item.technical }}</td>
+            <td>{{ item.date_start_attendance }}</td>
+            <td>{{ item.date_end_attendance }}</td>
+            <td>{{ item.status }}</td>
+            <td>{{ item.date_start_schedule }}</td>
+            <td>{{ item.date_end_schedule }}</td>
+            <td>{{ item.stage_contract }}</td>
+            <td>{{ item.status_contract }}</td>
+            <td>{{ item.context }}</td>
+            <td>{{ item.problem }}</td>
             <td>
               <div class="actions">
                 <button @click="copyProtocol(item.protocol)">
@@ -65,7 +87,8 @@ export default {
         "personID": 0,
         "pbxInfo": {},
         "availability": true
-      }
+      },
+      search: ''
     }
   },
   methods: {
@@ -94,12 +117,20 @@ export default {
       this.jsonHash.personID = idClient
 
 
-      const url = `https://erp.agetelecom.com.br/search_people`;
+      const url = `https://erp.agetelecom.com.br/service_dashboard#list`;
       this.copyProtocol(protocol);
       window.open(url, '_blank');
     },
-    filteredData: function () {
-      alert(this.typeFilter)
+  },
+  computed: {
+    ClientFiltered: function () {
+      let values = []
+      values = this.data.filter((value) => {
+        return (
+            value.name_client.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        )
+      })
+      return values
     }
   }
 }
@@ -144,7 +175,7 @@ export default {
 
     height: 83%;
     max-height: 83%;
-    overflow-y: auto;
+    overflow: auto;
 
     padding: 0 1vw 0 0;
     table {
