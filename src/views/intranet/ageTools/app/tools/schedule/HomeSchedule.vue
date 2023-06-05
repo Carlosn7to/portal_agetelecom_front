@@ -2,7 +2,12 @@
   <div class="grid-container">
 
     <div class="header">
-      <h1>Painel - Agenda</h1>
+      <h1>{{ page }} - Agenda</h1>
+
+      <div class="pages">
+        <button :class="{'selected' : page === 'Painel'}" @click="page = 'Painel'">Painel</button>
+        <button :class="{'selected' : page === 'Dashboard'}" @click="page = 'Dashboard'">Dashboard</button>
+      </div>
 
     </div>
 
@@ -12,23 +17,30 @@
           :pendingConsult="pendingConsult"
       />
     </div>
-    <div class="dashboards">
-      <DashboardSchedule
-          :data="dashboardData"
-          @filterData="filteredData"
-      />
-    </div>
-    <div class="list">
-      <ListData
-          :data="this.listData.data"
-          :typeFilter="this.listData.typeFilter"
-          @downloadExcel="download"
-          v-if="! loading"
-          @getClientUnique="getNameClient"
-      />
-      <LoadingSpinner v-if="loading"
-      />
-    </div>
+    <template v-if="page === 'Painel'">
+      <div class="panel">
+        <div class="dashboards">
+          <DashboardSchedule
+              :data="dashboardData"
+              @filterData="filteredData"
+          />
+        </div>
+        <div class="list">
+          <ListData
+              :data="this.listData.data"
+              :typeFilter="this.listData.typeFilter"
+              @downloadExcel="download"
+              v-if="! loading"
+              @getClientUnique="getNameClient"
+          />
+          <LoadingSpinner v-if="loading"
+          />
+        </div>
+      </div>
+    </template>
+    <template v-if="page === 'Dashboard'">
+      <h1>Em desenvolvimento</h1>
+    </template>
     <div class="filters">
       <ShortFilters
           :dataFilters="this.filters.typeNote"
@@ -54,7 +66,7 @@ export default {
   components: {LoadingSpinner, CalendarComponent, DashboardSchedule, ListData, ShortFilters},
   data() {
     return {
-      page: 'new',
+      page: 'Painel',
       searchClient: '',
       filtered: false,
       modal: false,
@@ -474,14 +486,13 @@ export default {
 
 .grid-container {
   display: grid;
-  height: 100%;
   grid-template-columns: 78% 20%;
-  grid-template-rows: 7% 15% 23% 47%;
+  grid-template-rows: 7vh 17vh 25vh 60vh;
   gap: 2vh;
   grid-template-areas: 'H H'
-                        'A C'
-                        'L C'
-                        'L F';
+                        'P C'
+                        'P C'
+                        'P F';
   justify-content: space-between;
 
   .header {
@@ -495,13 +506,16 @@ export default {
 
     }
 
-    .search-client {
+    .pages {
       width: 30%;
-      @include flex(row, space-between, center, 0);
+      @include flex(row, flex-end, center, 1vw);
 
-      input {
-        width: 100%;
-        @include card();
+      button {
+        @include btn-dashboard(false);
+      }
+
+      .selected {
+        @include btn-dashboard(true);
       }
     }
   }
@@ -514,15 +528,21 @@ export default {
     grid-area: C;
   }
 
-  .dashboards {
-    grid-area: A;
-  }
-
-  .list {
-    grid-area: L;
-    position: relative;
+  .panel {
+    grid-area: P;
+    @include flex(column, space-between, initial, 0);
     max-width: 100%;
+    max-height: 100%;
     overflow: auto;
+    .dashboards {
+    }
+
+    .list {
+      position: relative;
+      min-height: 78%;
+      max-height: 78%;
+
+    }
   }
 }
 

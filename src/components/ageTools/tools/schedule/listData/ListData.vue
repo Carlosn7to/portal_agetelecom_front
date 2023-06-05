@@ -15,6 +15,7 @@
       <table v-if="data.length > 0">
         <thead>
           <tr>
+            <th>Ações</th>
             <th>Tipo de solicitação</th>
             <th>Protocolo</th>
             <th>Nome do cliente</th>
@@ -32,11 +33,20 @@
             <th>Status do contrato</th>
             <th>Contexto</th>
             <th>Problema</th>
-            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(item, index) in ClientFiltered" :key="index">
+            <td>
+              <div class="actions">
+                <button @click="copyProtocol(item.protocol)">
+                  <i class="fi fi-rr-copy-alt"></i>
+                </button>
+                <button @click="searchInVoalle(item.protocol, item.id_client)">
+                  <i class="fi fi-rr-redo"></i>
+                </button>
+              </div>
+            </td>
             <td>{{ item.type_note }}</td>
             <td>{{ item.protocol }}</td>
             <td>{{ item.name_client }}</td>
@@ -54,16 +64,6 @@
             <td>{{ item.status_contract }}</td>
             <td>{{ item.context }}</td>
             <td>{{ item.problem }}</td>
-            <td>
-              <div class="actions">
-                <button @click="copyProtocol(item.protocol)">
-                  <i class="fi fi-rr-copy-alt"></i>
-                </button>
-                <button @click="searchInVoalle(item.protocol, item.id_client)">
-                  <i class="fi fi-rr-redo"></i>
-                </button>
-              </div>
-            </td>
           </tr>
         </tbody>
       </table>
@@ -176,8 +176,8 @@ export default {
 
   #list-data {
 
-    height: 83%;
-    max-height: 83%;
+    height: 80%;
+    max-height: 80%;
     overflow: auto;
     max-width: 100%;
 
@@ -186,6 +186,9 @@ export default {
       border-collapse: collapse;
       width: 100%;
       thead {
+        position: sticky;
+        top: 0;
+        background-color: #fff;
         tr {
           th {
             border-bottom: 1px solid $border-hover;
@@ -193,7 +196,7 @@ export default {
             color: $h1-black;
             font-size: 1.2rem;
             font-weight: 400;
-            min-width: 13vw;
+            min-width: 10vw;
           }
         }
       }
@@ -207,7 +210,7 @@ export default {
             text-align: center;
             font-weight: 500;
             user-select: text;
-            min-width: 13vw;
+            min-width: 10vw;
 
 
             .actions {
@@ -273,6 +276,7 @@ export default {
 
       table {
         thead {
+          background-color: $dark-mode-card;
           tr {
             th {
               color: $dark-mode-text-primary;

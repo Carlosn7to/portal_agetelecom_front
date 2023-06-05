@@ -2,10 +2,15 @@
   <div id="filters">
     <div class="title">
       <h2>Filtrar tipo de solicitação</h2>
+
+
+      <div class="filter-items">
+        <input type="text" name="filter-item" id="filter-item" v-model="search" autocomplete="off" placeholder="Filtrar tipo de solicitação...">
+      </div>
     </div>
 
     <div class="items">
-      <div class="item" v-for="filter in dataFilters" :key="filter.id">
+      <div class="item" v-for="filter in FiltersFiltered" :key="filter.id">
         <div class="checkbox">
           <label class="container-checkbox">
             <input type="checkbox" :name="`filter${filter.id}`" :id="filter.id" v-model="checkboxId" :value="filter.id">
@@ -14,7 +19,7 @@
         </div>
         <div class="title-item">
 
-          <span>
+          <span @click="pushCheckboxId(filter.id)">
             {{ filter.title }}
           </span>
 
@@ -34,11 +39,30 @@ export default {
   data () {
     return {
       checkboxId: [],
+      search: ''
     }
   },
   methods: {
     filterData() {
       this.$emit('filterData', this.checkboxId)
+    },
+    pushCheckboxId(id) {
+      if(this.checkboxId.includes(id)) {
+        this.checkboxId = this.checkboxId.filter(item => item !== id)
+      } else {
+        this.checkboxId.push(id)
+      }
+    }
+  },
+  computed: {
+    FiltersFiltered: function () {
+      let values = []
+      values = this.dataFilters.filter((value) => {
+        return (
+            value.title.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        )
+      })
+      return values
     }
   },
   beforeMount() {
@@ -53,7 +77,7 @@ export default {
   background-color: #fff;
   border-radius: 10px;
   padding: 2vh 1vw;
-  @include flex(column, flex-start, initial, 2vh);
+  @include flex(column, space-between, initial, 2vh);
 
   h2 {
     font-size: 1.4rem;
@@ -62,11 +86,20 @@ export default {
     color: $h1-black;
   }
 
+  .filter-items {
+    input {
+      width: 100%;
+      @include card();
+      padding: 5px 7px;
+      margin: 2vh 0;
+    }
+  }
 
   .items {
     @include flex(column, flex-start, initial, 2vh);
     overflow-y: auto;
-    max-height: 75%;
+    max-height: 60%;
+    min-height: 60%;
 
     .item {
       width: 100%;
@@ -101,6 +134,13 @@ export default {
     background-color: $dark-mode-card;
     h2 {
       color: $h1-white;
+    }
+
+    .filter-items {
+      input {
+        background-color: $dark-mode-card;
+        color: $h1-white;
+      }
     }
 
     .items {
