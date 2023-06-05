@@ -580,6 +580,8 @@ export default {
   .list {
     grid-area: L;
     position: relative;
+    max-width: 100%;
+    overflow: auto;
   }
 }
 

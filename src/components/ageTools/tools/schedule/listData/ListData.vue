@@ -176,6 +176,7 @@ export default {
     height: 83%;
     max-height: 83%;
     overflow: auto;
+    max-width: 100%;
 
     padding: 0 1vw 0 0;
     table {
@@ -189,6 +190,7 @@ export default {
             color: $h1-black;
             font-size: 1.2rem;
             font-weight: 400;
+            min-width: 13vw;
           }
         }
       }
@@ -202,6 +204,7 @@ export default {
             text-align: center;
             font-weight: 500;
             user-select: text;
+            min-width: 13vw;
 
 
             .actions {
