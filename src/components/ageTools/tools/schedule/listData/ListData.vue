@@ -1,12 +1,12 @@
 <template>
   <div class="container-list-data">
-    <div class="options-list-data" v-if="data.length > 0">
+    <div class="options-list-data">
 
       <div class="search">
-        <input type="text" name="search" id="search" placeholder="Buscar..." autocomplete="off" v-model="search">
+        <input type="text" name="search" id="search" placeholder="Buscar cliente..." autocomplete="off" v-model="search" @keyup.enter="getClientUnique">
       </div>
 
-      <div class="buttons">
+      <div class="buttons"  v-if="data.length > 0">
         <button @click="downloadExcel">Download excel</button>
       </div>
 
@@ -80,7 +80,7 @@
 export default {
   name: "ListData",
   props: ['data', 'typeFilter'],
-  emits: ['downloadExcel'],
+  emits: ['downloadExcel', 'getClientUnique'],
   data () {
     return {
       jsonHash: {
@@ -121,6 +121,9 @@ export default {
       this.copyProtocol(protocol);
       window.open(url, '_blank');
     },
+    getClientUnique: function () {
+      this.$emit('getClientUnique', this.search)
+    }
   },
   computed: {
     ClientFiltered: function () {

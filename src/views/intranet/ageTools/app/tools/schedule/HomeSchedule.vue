@@ -1,186 +1,42 @@
 <template>
-  <template v-if="page !== 'new'">
-    <div class="container">
-      <div class="filters">
-        <div class="search">
-          <input type="text" name="search" id="search"
-                 placeholder="Buscar..."
-                 autocomplete="off"
-          >
-        </div>
-        <div class="filter">
-          <button @click="modalAction">
-            <i class="fi fi-rs-filter"></i>
-          </button>
-          <button v-if="dataItems.length" @click="download">
-            <i class="fi fi-rs-file-excel"></i>
-          </button>
-        </div>
-        <span>Contagem do resultado: <b>{{ dataItems.length ? dataItems.length : 0 }}</b></span>
-        <div class="period">
-          <span>Período</span>
-          <div class="turns">
-            <p>Manhã: <b>{{ countTurns.morning }}</b></p>
-            <p>Tarde: <b>{{ countTurns.afternoon }}</b></p>
-            <p>Noite: <b>{{ countTurns.night }}</b></p>
-          </div>
-        </div>
-      </div>
-      <div class="data">
-        <div class="table">
-          <table  v-if="!loading">
-            <thead>
-            <tr>
-              <th>Tipo de solicitação</th>
-              <th>
-                <div class="filters-arrow">
-                  <span>Protocolo</span>
-                  <div class="filters-options">
-                    <i class="fi fi-sr-sort-alt" @click="ordenateData('protocol', 'up')" v-if="orders.protocol === 'no-order'"></i>
-                    <i class="fi fi-rs-arrow-alt-up" @click="ordenateData('protocol', 'down')" v-if="orders.protocol === 'up'"></i>
-                    <i class="fi fi-rs-arrow-alt-down" @click="ordenateData('protocol', 'no-order')" v-if="orders.protocol === 'down'"></i>
-                  </div>
-                </div>
-              </th>
-              <th>Nome do cliente</th>
-              <th>
-                <div class="filters-arrow">
-                  <span>Turno</span>
-                  <div class="filters-options">
-                    <i class="fi fi-sr-sort-alt" @click="ordenateData('turn', 'up')" v-if="orders.turn === 'no-order'"></i>
-                    <i class="fi fi-rs-arrow-alt-up" @click="ordenateData('turn', 'down')" v-if="orders.turn === 'up'"></i>
-                    <i class="fi fi-rs-arrow-alt-down" @click="ordenateData('turn', 'no-order')" v-if="orders.turn === 'down'"></i>
-                  </div>
-                </div>
-              </th>
-              <th>
-                <div class="filters-arrow">
-                  <span>Região</span>
-                  <div class="filters-options">
-                    <i class="fi fi-sr-sort-alt" @click="ordenateData('region', 'up')" v-if="orders.region === 'no-order'"></i>
-                    <i class="fi fi-rs-arrow-alt-up" @click="ordenateData('region', 'down')" v-if="orders.region === 'up'"></i>
-                    <i class="fi fi-rs-arrow-alt-down" @click="ordenateData('region', 'no-order')" v-if="orders.region === 'down'"></i>
-                  </div>
-                </div>
-              </th>
-              <th>Equipe</th>
-              <th>
-                <div class="filters-arrow">
-                  <span>Técnico</span>
-                  <div class="filters-options">
-                    <i class="fi fi-sr-sort-alt" @click="ordenateData('technical', 'up')" v-if="orders.technical === 'no-order'"></i>
-                    <i class="fi fi-rs-arrow-alt-up" @click="ordenateData('technical', 'down')" v-if="orders.technical === 'up'"></i>
-                    <i class="fi fi-rs-arrow-alt-down" @click="ordenateData('technical', 'no-order')" v-if="orders.technical === 'down'"></i>
-                  </div>
-                </div>
-              </th>
-              <th>Data inicio att.</th>
-              <th>Data fim att.</th>
-              <th>Status</th>
-              <th>Data inicio agendamento</th>
-              <th>Data fim agendamento</th>
-              <th>Nº do contrato</th>
-              <th>Situacao do contrato</th>
-              <th>Status do contrato</th>
-              <th>Contexto</th>
-              <th>Problema</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(item, index) in dataItems" :key="index">
-              <td>{{ item.type_note }}</td>
-              <td>{{ item.protocol }}</td>
-              <td>{{ item.name_client }}</td>
-              <td>{{ item.turnName }}</td>
-              <td>{{ item.region }}</td>
-              <td>{{ item.team }}</td>
-              <td>{{ item.technical }}</td>
-              <td>{{ item.date_start_attendance }}</td>
-              <td>{{ item.date_end_attendance }}</td>
-              <td>{{ item.status }}</td>
-              <td>{{ item.date_start_schedule }}</td>
-              <td>{{ item.date_end_schedule }}</td>
-              <td>{{ item.contract_id }}</td>
-              <td>{{ item.stage_contract }}</td>
-              <td>{{ item.status_contract }}</td>
-              <td>{{ item.context }}</td>
-              <td>{{ item.problem }}</td>
-            </tr>
+  <div class="grid-container">
 
-            </tbody>
-          </table>
+    <div class="header">
+      <h1>Painel - Agenda</h1>
 
-        </div>
-
-      </div>
     </div>
-    <div class="modal-filters" v-if="modal">
-      <div class="card-modal">
-        <div class="close-button">
-          <i class="fi fi-rs-cross"  @click="modalAction"></i>
-        </div>
-        <h2>Filtros disponíveis</h2>
 
-        <form action="#" @submit.prevent="getData">
-          <div class="filters-available">
-            <div class="filter-available">
-              <label for="typeNote">Tipo de solicitação: </label>
-              <select multiple v-model="selectedOptions">
-                <option v-for="(option, index) in options" :value="option.value" :key="index">{{ option.label }}</option>
-              </select>
-            </div>
-            <div class="filter-available">
-              <label for="dateSchedule">Data do agendamento: <b>*</b> </label>
-              <input type="date" name="dateSchedule" id="dateSchedule" v-model="payload.dateSchedule" required>
-            </div>
-            <div class="filter-available">
-              <label for="region">Região: </label>
-              <select name="region" id="region" v-model="payload.region">
-                <option value="0" selected>--- Selecione a região ---</option>
-                <option v-for="item in this.filters.region" :value="item.id" :key="item.id">{{ item.title }}</option>
-              </select>
-            </div>
-            <div class="filter-data">
-              <button>Filtrar</button>
-            </div>
-          </div>
-        </form>
-
-      </div>
+    <div class="calendar">
+      <CalendarComponent
+          @getDateFilter="getDateFilter"
+          :pendingConsult="pendingConsult"
+      />
     </div>
-  </template>
-  <template v-else>
-    <div class="grid-container">
-      <div class="calendar">
-        <CalendarComponent
-        @getDateFilter="getDateFilter"
-        :pendingConsult="pendingConsult"
-        />
-      </div>
-      <div class="dashboards">
-        <DashboardSchedule
+    <div class="dashboards">
+      <DashboardSchedule
           :data="dashboardData"
           @filterData="filteredData"
-        />
-      </div>
-      <div class="list">
-        <ListData
-            :data="this.listData.data"
-            :typeFilter="this.listData.typeFilter"
-            @downloadExcel="download"
-            v-if="! loading"
-        />
-        <LoadingSpinner v-if="loading"
-        />
-      </div>
-      <div class="filters">
-        <ShortFilters
-            :dataFilters="this.filters.typeNote"
-            @filterData="getData"
-        />
-      </div>
+      />
     </div>
-  </template>
+    <div class="list">
+      <ListData
+          :data="this.listData.data"
+          :typeFilter="this.listData.typeFilter"
+          @downloadExcel="download"
+          v-if="! loading"
+          @getClientUnique="getNameClient"
+      />
+      <LoadingSpinner v-if="loading"
+      />
+    </div>
+    <div class="filters">
+      <ShortFilters
+          :dataFilters="this.filters.typeNote"
+          @filterData="getData"
+      />
+    </div>
+  </div>
+
 </template>
 
 <script>
@@ -199,6 +55,7 @@ export default {
   data() {
     return {
       page: 'new',
+      searchClient: '',
       filtered: false,
       modal: false,
       filters: {
@@ -328,6 +185,64 @@ export default {
 
       })
 
+
+    },
+    getNameClient: function (name) {
+
+      this.loading = true
+      this.modal = false
+      this.pendingConsult = true
+
+      this.dashboardData.total = 0
+      this.dashboardData.turn.morning = 0
+      this.dashboardData.turn.afternoon = 0
+      this.dashboardData.notAtt = 0
+      this.listData.typeFilter = 'all'
+
+      AXIOS({
+        method: 'GET',
+        url: 'agetools/tools/schedule/dashboard/data',
+        params: {
+          dateSchedule: this.payload.dateSchedule,
+          name: name
+        },
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token')
+        }
+      }).then((res) => {
+        this.loading = false
+        this.dataItems = res.data;
+        this.listData.data = res.data;
+        this.pendingConsult = false
+
+        this.dataItems.forEach((item) => {
+          let date = new Date(item.date_start_schedule)
+          let hour = date.getHours()
+
+          let turn = ''
+
+          if (hour >= 6 && hour < 12) {
+            turn = 'Manhã';
+            this.dashboardData.turn.morning++
+          } else if (hour >= 12 && hour < 18) {
+            turn = 'Tarde';
+            this.dashboardData.turn.afternoon++
+          } else {
+            turn = 'Noite';
+            this.dashboardData.turn.night++
+          }
+
+          item['turnName'] = turn
+
+          if(item.technical === null) {
+            this.dashboardData.notAtt++
+          }
+
+        })
+
+        this.dashboardData.total = this.dataItems.length
+
+      })
 
     },
     download: function () {
@@ -561,13 +476,39 @@ export default {
   display: grid;
   height: 100%;
   grid-template-columns: 78% 20%;
-  grid-template-rows: 15% 23% 58%;
+  grid-template-rows: 7% 15% 23% 47%;
   gap: 2vh;
-  grid-template-areas: 'A C'
+  grid-template-areas: 'H H'
+                        'A C'
                         'L C'
                         'L F';
   justify-content: space-between;
 
+  .header {
+    grid-area: H;
+    @include flex(row, space-between, center, 0);
+
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 500;
+
+    }
+
+    .search-client {
+      width: 30%;
+      @include flex(row, space-between, center, 0);
+
+      input {
+        width: 100%;
+        @include card();
+      }
+    }
+  }
+
+  .filters {
+    grid-area: F;
+  }
 
   .calendar {
     grid-area: C;
