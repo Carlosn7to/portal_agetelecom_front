@@ -44,8 +44,6 @@ export default {
         {img_src: 'suporte-tecnico.png', label: 'Sem téc. atribuído', value: this.dataDashboards.notAtt, typeFilter: 'notAtt'},
         {img_src: 'agendado.png', label: 'Executada', value: this.dataDashboards.executed, typeFilter: 'executed'},
         {img_src: 'nao-agendado.png', label: 'Não Executada', value: this.dataDashboards.notExecuted, typeFilter: 'notExecuted'},
-        {img_src: 'bug.png', label: 'Em desenvolvimento', value: 0, typeFilter: 'dev'},
-        {img_src: 'bug.png', label: 'Em desenvolvimento', value: 0, typeFilter: 'dev'},
       ]
     }
   },
@@ -55,10 +53,8 @@ export default {
       {img_src: 'manha.png', label: 'Período da manhã', value: this.dataDashboards.turn.morning, typeFilter: 'morning'},
       {img_src: 'tarde.png', label: 'Período da tarde', value: this.dataDashboards.turn.afternoon, typeFilter: 'afternoon'},
       {img_src: 'suporte-tecnico.png', label: 'Sem téc. atribuído', value: this.dataDashboards.notAtt, typeFilter: 'notAtt'},
-      {img_src: 'agendado.png', label: 'Executada', value: this.dataDashboards.executed, typeFilter: 'scheduled'},
-      {img_src: 'nao-agendado.png', label: 'Não Executada', value: this.dataDashboards.notExecuted, typeFilter: 'notScheduled'},
-      {img_src: 'bug.png', label: 'Em desenvolvimento', value: 0, typeFilter: 'dev'},
-      {img_src: 'bug.png', label: 'Em desenvolvimento', value: 0, typeFilter: 'dev'},
+      {img_src: 'agendado.png', label: 'Executada', value: this.dataDashboards.executed, typeFilter: 'executed'},
+      {img_src: 'nao-agendado.png', label: 'Não Executada', value: this.dataDashboards.notExecuted, typeFilter: 'notExecuted'},
     ]
   }
 }
@@ -67,8 +63,7 @@ export default {
 <style scoped lang="scss">
 
 #dashboards {
-  @include flex(row, space-between, center, 1vw);
-  flex-wrap: wrap;
+  @include flex(row, space-between, center, .5vw);
   height: 100%;
   .dashboard {
     background-color: #fff;
@@ -76,7 +71,7 @@ export default {
     cursor: pointer;
     border: 1px solid transparent;
 
-    width: calc((24%) - 10px);
+    width: calc((100% / 6) - 10px);
     @include flex(row, space-between, center, 0vw);
     padding: 1vh .5vw;
 
@@ -85,11 +80,10 @@ export default {
       width: 30%;
       @include flex(row, flex-start, center, 0);
       .icon {
-        padding: 9px 13px;
         border-radius: 50%;
 
         img {
-          width: 2vw;
+          width: 1.5vw;
           height: auto;
         }
       }

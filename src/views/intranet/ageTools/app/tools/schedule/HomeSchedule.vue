@@ -20,7 +20,7 @@
 
       <div class="pages">
         <button :class="{'selected' : page === 'Painel'}" @click="page = 'Painel'">Painel</button>
-        <button :class="{'selected' : page === 'Dashboard'}" @click="page = 'Dashboard'">Dashboard</button>
+        <button :class="{'selected' : page === 'Dashboard'}" @click="page = 'Dashboard'" v-if="dataItems.length > 0">Dashboard</button>
         <button :class="{'selected' : modalFilter}" @click="modalFilter = !modalFilter" v-if="filters.typeNote.length > 0">
           <i class="fi fi-rs-filter"></i>
         </button>
@@ -57,6 +57,7 @@
     <template v-if="page === 'Dashboard'">
       <DashboardPage
         :dataItems="dataItems"
+        ref="dashboardPageRef"
       />
     </template>
 
@@ -157,7 +158,8 @@ export default {
       })
     },
     getData: function (typeNotes) {
-
+      this.page = 'Painel'
+      this.modalFilter = false
       this.loading = true
       this.modal = false
       this.pendingConsult = true
@@ -218,13 +220,16 @@ export default {
 
         this.dashboardData.total = this.dataItems.length
         this.$refs.dashboardScheduleRef.updateDashboard();
+        this.$refs.dashboardPageRef.mountDashboard();
+
 
       })
 
 
     },
     getNameClient: function (name) {
-
+      this.page = 'Painel'
+      this.modalFilter = false
       this.loading = true
       this.modal = false
       this.pendingConsult = true
@@ -274,10 +279,19 @@ export default {
             this.dashboardData.notAtt++
           }
 
+          if(item.executed) {
+            this.dashboardData.executed++
+          } else {
+            this.dashboardData.notExecuted++
+          }
+
         })
 
         this.dashboardData.total = this.dataItems.length
+        this.page = 'Painel'
+        this.modalFilter = false
         this.$refs.dashboardScheduleRef.updateDashboard();
+        this.$refs.dashboardPageRef.mountDashboard();
 
       })
 

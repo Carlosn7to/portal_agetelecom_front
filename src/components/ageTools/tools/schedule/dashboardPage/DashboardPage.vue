@@ -1,13 +1,14 @@
 <template>
   <div class="container-dashboard">
+    <input type="text" name="search" id="search" v-model="searchTerm" placeholder="Buscar técnico, Equipe ou Cidade..." autocomplete="off">
     <div class="item">
       <div class="info">
         <div class="title">
-          <h2>Cidades</h2>
+          <h2>Técnicos</h2>
         </div>
-        <div class="data" v-for="(region, index) in regions" :key="index">
-          <span>{{ region.region }}:</span>
-          <span><b>{{ region.count }}</b></span>
+        <div class="data" v-for="(technical, index) in filteredTechnicals" :key="index">
+          <span>{{ technical.technical }}:</span>
+          <span><b>{{ technical.count }}</b></span>
         </div>
       </div>
     </div>
@@ -16,7 +17,7 @@
         <div class="title">
           <h2>Equipes</h2>
         </div>
-        <div class="data" v-for="(team, index) in teams" :key="index">
+        <div class="data" v-for="(team, index) in filteredTeams" :key="index">
           <span>{{ team.team }}:</span>
           <span><b>{{ team.count }}</b></span>
         </div>
@@ -25,11 +26,11 @@
     <div class="item">
       <div class="info">
         <div class="title">
-          <h2>Técnicos</h2>
+          <h2>Cidades</h2>
         </div>
-        <div class="data" v-for="(technical, index) in technicals" :key="index">
-          <span>{{ technical.technical }}:</span>
-          <span><b>{{ technical.count }}</b></span>
+        <div class="data" v-for="(region, index) in filteredRegions" :key="index">
+          <span>{{ region.region }}:</span>
+          <span><b>{{ region.count }}</b></span>
         </div>
       </div>
     </div>
@@ -44,7 +45,8 @@ export default {
     return {
       regions: null,
       technicals: null,
-      teams: null
+      teams: null,
+      searchTerm: ''
     }
   },
   methods: {
@@ -70,6 +72,26 @@ export default {
 
     }
   },
+  computed: {
+    filteredRegions() {
+      if (this.searchTerm) {
+        return this.regions.filter(region => region.region.toLowerCase().includes(this.searchTerm.toLowerCase()));
+      }
+      return this.regions;
+    },
+    filteredTechnicals() {
+      if (this.searchTerm) {
+        return this.technicals.filter(technical => technical.technical.toLowerCase().includes(this.searchTerm.toLowerCase()));
+      }
+      return this.technicals;
+    },
+    filteredTeams() {
+      if (this.searchTerm) {
+        return this.teams.filter(team => team.team.toLowerCase().includes(this.searchTerm.toLowerCase()));
+      }
+      return this.teams;
+    }
+  },
   beforeMount() {
     this.mountDashboard();
   }
@@ -79,13 +101,19 @@ export default {
 <style scoped lang="scss">
 
 .container-dashboard {
-  @include flex(row, flex-start, initial, 1vw);
+  @include flex(column, flex-start, initial, 1vh);
   flex-wrap: wrap;
   padding: 2vh 2vw;
 
-  .item {
-    width: calc((100% / 3) - 10px);
+  input {
     @include card();
+    width: 30%;
+    padding: 9px 10px;
+  }
+
+  .item {
+    width: 100%;
+    margin-bottom: 2vh;
 
     .info {
       @include flex(column, flex-start, initial, 2vh);
@@ -99,9 +127,10 @@ export default {
 
       .data {
         @include flex(row, flex-start, center, .2vw);
+        @include card();
 
         span {
-          font-size: 1.4rem;
+          font-size: 1rem;
           color: $h1-light;
         }
       }
