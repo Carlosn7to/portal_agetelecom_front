@@ -11,84 +11,101 @@
       </div>
 
     </div>
-    <div id="list-data">
-      <table v-if="data.length > 0">
-        <thead>
-          <tr>
-            <th>Ações</th>
-            <th>Tipo de solicitação</th>
-            <th>Protocolo</th>
-            <th>Nome do cliente</th>
-            <th>Turno</th>
-            <th>Região</th>
-            <th>Nº do contrato</th>
-            <th>Equipe</th>
-            <th>Técnico</th>
-            <th>Data inicio Att.</th>
-            <th>Data Fim Att.</th>
-            <th>Status</th>
-            <th>Data inicio agendamento</th>
-            <th>Data fim agendamento</th>
-            <th>Situação do contrato</th>
-            <th>Status do contrato</th>
-            <th>Contexto</th>
-            <th>Problema</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in ClientFiltered" :key="index">
-            <td>
-              <div class="actions">
-                <button @click="copyProtocol(item.protocol)">
-                  <i class="fi fi-rr-copy-alt"></i>
-                </button>
-                <button @click="searchInVoalle(item.protocol, item.id_client)">
-                  <i class="fi fi-rr-redo"></i>
-                </button>
-              </div>
-            </td>
-            <td>{{ item.type_note }}</td>
-            <td>{{ item.protocol }}</td>
-            <td>{{ item.name_client }}</td>
-            <td>{{ item.turnName }}</td>
-            <td>{{ item.region }}</td>
-            <td>{{ item.contract_id }}</td>
-            <td>{{ item.team }}</td>
-            <td>{{ item.technical }}</td>
-            <td>{{ item.date_start_attendance }}</td>
-            <td>{{ item.date_end_attendance }}</td>
-            <td>{{ item.status }}</td>
-            <td>{{ item.date_start_schedule }}</td>
-            <td>{{ item.date_end_schedule }}</td>
-            <td>{{ item.stage_contract }}</td>
-            <td>{{ item.status_contract }}</td>
-            <td>{{ item.context }}</td>
-            <td>{{ item.problem }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="alert" v-else>
-        <span>
-          Nenhum dado encontrado!
-        </span>
+    <div id="list-data" v-if="data.length > 0">
+      <div class="headers-list">
+        <div class="header" v-for="(header, index) in table.headers" :key="index">
+          <span>{{ header }}</span>
+        </div>
       </div>
+      <div class="body-list" >
+        <template v-for="(item, index) in ClientFiltered" :key="index">
+          <div class="body-row">
+            <div class="body"  style="display: flex; align-items: center; gap: .5vw; justify-content: center">
+              <button class="checked" v-if="item.executed === false" @click="executeNote(item.protocol, item.date_start_attendance, item.date_end_attendance, item.date_start_schedule, item.date_end_schedule)">
+                <i class="fi fi-rs-comment-alt-check"></i>
+              </button>
+              <button  @click="searchInVoalle(item.protocol)">
+                <i class="fi fi-rs-redo"></i>
+              </button>
+            </div>
+            <div class="body">
+              <span>{{ item.type_note}}</span>
+            </div>
+            <div class="body">
+              <span>{{ item.protocol}}</span>
+            </div>
+            <div class="body">
+              <span>{{ item.name_client}}</span>
+            </div>
+            <div class="body">
+              <span>{{ item.turnName}}</span>
+            </div>
+            <div class="body">
+              <span>{{ item.region}}</span>
+            </div>
+            <div class="body">
+              <span>{{ item.contract_id}}</span>
+            </div>
+            <div class="body">
+              <span>{{ item.team}}</span>
+            </div>
+            <div class="body">
+              <span>{{ item.technical}}</span>
+            </div>
+            <div class="body">
+              <span>{{ item.date_start_attendance}}</span>
+            </div>
+            <div class="body">
+              <span>{{ item.date_end_attendance}}</span>
+            </div>
+            <div class="body">
+              <span>{{ item.date_start_schedule}}</span>
+            </div>
+            <div class="body">
+              <span>{{ item.date_end_schedule}}</span>
+            </div>
+            <div class="body">
+              <span>{{ item.status}}</span>
+            </div>
+            <div class="body">
+              <span>{{ item.stage_contract}}</span>
+            </div>
+            <div class="body">
+              <span>{{ item.status_contract}}</span>
+            </div>
+            <div class="body">
+              <span>{{ item.context}}</span>
+            </div>
+            <div class="body">
+              <span>{{ item.problem}}</span>
+            </div>
+          </div>
+        </template>
+      </div>
+
     </div>
   </div>
 </template>
 
 <script>
+
+import {AXIOS} from "../../../../../../services/api.ts";
+import Cookie from 'js-cookie';
+
+
 export default {
   name: "ListData",
   props: ['data', 'typeFilter'],
   emits: ['downloadExcel', 'getClientUnique'],
   data () {
     return {
-      jsonHash: {
-        "personID": 0,
-        "pbxInfo": {},
-        "availability": true
-      },
-      search: ''
+      search: '',
+      table: {
+        headers: ['Ações', 'Tipo de solicitação', 'Protocolo', 'Cliente','Turno', 'Região', 'Nº do contrato', 'Equipe', 'Técnico', 'Data inicio Att.',
+                'Data fim att.', 'Data inicio agendamento', 'Data fim agendamento', 'Status', 'Situação do contrato', 'Status do contrato', 'Contexto', 'Problema'],
+          body: ['', 'type_note', 'protocol', 'name_client','turnName', 'region', 'contract_id', 'team', 'technical', 'date_start_attendance',
+              'date_end_attendance', 'date_start_schedule', 'date_end_schedule', 'status', 'stage_contract', 'status_contract', 'context', 'problem']
+      }
     }
   },
   methods: {
@@ -112,9 +129,8 @@ export default {
       // Remove o input temporário do corpo do documento
       document.body.removeChild(inputTemp);
     },
-    searchInVoalle: function(protocol, idClient) {
+    searchInVoalle: function(protocol) {
 
-      this.jsonHash.personID = idClient
 
 
       const url = `https://erp.agetelecom.com.br/service_dashboard#list`;
@@ -123,6 +139,29 @@ export default {
     },
     getClientUnique: function () {
       this.$emit('getClientUnique', this.search)
+    },
+    executeNote: function (protocol, date_start_attendance, date_end_attendance, date_start_schedule, date_end_schedule) {
+
+      this.$emit('executeNote', protocol)
+
+      const payload = {
+        protocol: protocol,
+        date_start_attendance: date_start_attendance,
+        date_end_attendance: date_end_attendance,
+        date_start_schedule: date_start_schedule,
+        date_end_schedule: date_end_schedule
+      };
+
+      AXIOS({
+        method: 'POST',
+        url: 'agetools/tools/schedule/notes/new-executed',
+        headers: {
+          'Authorization': 'Bearer '+Cookie.get('token')
+        },
+        data: {payload: payload}
+      }).then((res) => {
+        console.log(res)
+      })
     }
   },
   computed: {
@@ -142,17 +181,16 @@ export default {
 <style scoped lang="scss">
 
 .container-list-data {
-  @include flex(column,space-between, initial, 1vh);
+  @include flex(column,flex-start, initial, 1vh);
   height: 100%;
   background-color: #fff;
   border-radius: 10px;
   padding: 1vh 1vw;
 
   .options-list-data {
-    height: 14%;
     width: 100%;
     @include flex(row, space-between, center, 0);
-    padding: 2vh 0;
+    padding: 1vh 0;
 
     .search {
       width: 40%;
@@ -164,6 +202,8 @@ export default {
     }
 
     .buttons {
+
+
       button {
         @include btn-dashboard();
 
@@ -171,24 +211,83 @@ export default {
           @include btn-dashboard(true);
         }
       }
+
+
     }
   }
 
   #list-data {
+    @include flex(column, flex-start, initial, 1vh);
+    overflow-x: scroll;
 
-    height: 80%;
-    max-height: 80%;
-    overflow: auto;
-    max-width: 100%;
+    .headers-list {
+      @include flex(row, flex-start, center, 0vw);
+      text-align: center;
+      width: 100%;
 
-    padding: 0 1vw 0 0;
+      .header {
+        text-align: center;
+        height: 10vh;
+        font-size: 1.4rem;
+        font-weight: 500;
+        border-bottom: 1px solid $border-hover;
+        @include flex(row, center, center, 0);
+        min-width: 15%;
+      }
+    }
+
+    .body-list {
+      @include flex(column, flex-start, initial, 1vh);
+      max-height: 50%;
+      min-height: 50%;
+
+      .body-row {
+        @include flex(row, flex-start, center, 0);
+        height: 6vh;
+        padding: 2vh 0;
+
+        .body {
+          text-align: center;
+          min-width: 15%;
+          font-size: 1.2rem;
+
+
+
+          button {
+            @include btn-dashboard(true);
+
+            i {
+              font-size: 1rem;
+            }
+          }
+
+          .checked {
+            background-color: #35c475;
+            border-color: #35c475;
+
+
+            &:hover {
+              background-color: #35c475;
+              border-color: #35c475;
+              opacity: .8;
+            }
+          }
+        }
+      }
+
+
+    }
+
     table {
       border-collapse: collapse;
       width: 100%;
+      max-width: 100%;
+
       thead {
         position: sticky;
         top: 0;
         background-color: #fff;
+
         tr {
           th {
             border-bottom: 1px solid $border-hover;
@@ -212,9 +311,9 @@ export default {
             user-select: text;
             min-width: 10vw;
 
-
             .actions {
               @include flex(row, center, center, 1vw);
+
               button {
                 @include btn-dashboard(false);
 
@@ -234,7 +333,6 @@ export default {
       padding-top: 25vh;
       @include flex(row, center, center, 1vw);
 
-
       span {
         font-size: 2.6rem;
         color: $h1-light;
@@ -248,7 +346,6 @@ export default {
       }
     }
   }
-
 }
 
 .mode-dark {

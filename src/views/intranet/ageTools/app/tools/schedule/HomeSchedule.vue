@@ -1,4 +1,18 @@
 <template>
+  <div class="modal-filters" v-if="modalFilter">
+    <div class="calendar">
+      <CalendarComponent
+          @getDateFilter="getDateFilter"
+          :pendingConsult="pendingConsult"
+      />
+    </div>
+    <div class="filters">
+      <ShortFilters
+          :dataFilters="this.filters.typeNote"
+          @filterData="getData"
+      />
+    </div>
+  </div>
   <div class="grid-container">
 
     <div class="header">
@@ -7,22 +21,21 @@
       <div class="pages">
         <button :class="{'selected' : page === 'Painel'}" @click="page = 'Painel'">Painel</button>
         <button :class="{'selected' : page === 'Dashboard'}" @click="page = 'Dashboard'">Dashboard</button>
+        <button :class="{'selected' : modalFilter}" @click="modalFilter = !modalFilter" v-if="filters.typeNote.length > 0">
+          <i class="fi fi-rs-filter"></i>
+        </button>
       </div>
 
     </div>
 
-    <div class="calendar">
-      <CalendarComponent
-          @getDateFilter="getDateFilter"
-          :pendingConsult="pendingConsult"
-      />
-    </div>
+
     <template v-if="page === 'Painel'">
-      <div class="panel">
+      <div class="panel"  @click="modalFilter = false">
         <div class="dashboards">
           <DashboardSchedule
-              :data="dashboardData"
+              :dataDashboards="dashboardData"
               @filterData="filteredData"
+              ref="dashboardScheduleRef"
           />
         </div>
         <div class="list">
@@ -32,21 +45,21 @@
               @downloadExcel="download"
               v-if="! loading"
               @getClientUnique="getNameClient"
+              @executeNote="executeNote"
           />
-          <LoadingSpinner v-if="loading"
-          />
+          <div class="loading"  v-if="loading">
+            <LoadingSpinner
+            />
+          </div>
         </div>
       </div>
     </template>
     <template v-if="page === 'Dashboard'">
-      <h1>Em desenvolvimento</h1>
-    </template>
-    <div class="filters">
-      <ShortFilters
-          :dataFilters="this.filters.typeNote"
-          @filterData="getData"
+      <DashboardPage
+        :dataItems="dataItems"
       />
-    </div>
+    </template>
+
   </div>
 
 </template>
@@ -60,10 +73,11 @@ import CalendarComponent from "@/components/portal/_aux/calendar/CalendarCompone
 import DashboardSchedule from "@/components/ageTools/tools/schedule/dashboad/DashboardSchedule";
 import ListData from "@/components/ageTools/tools/schedule/listData/ListData";
 import ShortFilters from "@/components/ageTools/tools/schedule/filters/ShortFilters";
+import DashboardPage from "@/components/ageTools/tools/schedule/dashboardPage/DashboardPage";
 
 export default {
   name: "HomeSchedule",
-  components: {LoadingSpinner, CalendarComponent, DashboardSchedule, ListData, ShortFilters},
+  components: {LoadingSpinner, CalendarComponent, DashboardSchedule, ListData, ShortFilters, DashboardPage},
   data() {
     return {
       page: 'Painel',
@@ -103,12 +117,15 @@ export default {
           night: 0
         },
         total: 0,
-        notAtt: 0
+        notAtt: 0,
+        executed: 0,
+        notExecuted: 0,
       },
       listData: {
         typeFilter: 'all',
         data: {}
-      }
+      },
+      modalFilter: false
     }
   },
   methods: {
@@ -191,9 +208,16 @@ export default {
             this.dashboardData.notAtt++
           }
 
+          if(item.executed) {
+            this.dashboardData.executed++
+          } else {
+            this.dashboardData.notExecuted++
+          }
+
         })
 
         this.dashboardData.total = this.dataItems.length
+        this.$refs.dashboardScheduleRef.updateDashboard();
 
       })
 
@@ -253,6 +277,7 @@ export default {
         })
 
         this.dashboardData.total = this.dataItems.length
+        this.$refs.dashboardScheduleRef.updateDashboard();
 
       })
 
@@ -453,21 +478,41 @@ export default {
     },
     filteredData: function (typeFilter) {
 
-        if(typeFilter === 'all') {
-          this.listData.data = this.dataItems
-        } else if (typeFilter === 'morning') {
-            this.listData.data = this.dataItems.filter((item) => {
-              return item.turnName === 'Manhã'
-            })
-          } else if (typeFilter === 'afternoon') {
-            this.listData.data = this.dataItems.filter((item) => {
-              return item.turnName === 'Tarde'
-            })
-        } else if (typeFilter === 'notAtt') {
-          this.listData.data = this.dataItems.filter((item) => {
-            return item.technical === null
-          })
-        }
+      switch (typeFilter) {
+        case 'all':
+          this.listData.data = this.dataItems;
+          break;
+        case 'morning':
+          this.listData.data = this.dataItems.filter((item) => item.turnName === 'Manhã');
+          break;
+        case 'afternoon':
+          this.listData.data = this.dataItems.filter((item) => item.turnName === 'Tarde');
+          break;
+        case 'notAtt':
+          this.listData.data = this.dataItems.filter((item) => item.technical === null);
+          break;
+        case 'executed':
+          this.listData.data = this.dataItems.filter((item) => item.executed === true);
+          break;
+        case 'notExecuted':
+          this.listData.data = this.dataItems.filter((item) => item.executed === false);
+          break;
+        default:
+          this.listData.data = this.dataItems;
+          break;
+      }
+    },
+    executeNote: function (protocol) {
+      this.dataItems.map((item) => {
+          if(item.protocol === protocol) {
+            item.executed = true
+          }
+      })
+
+      this.dashboardData.executed++
+      this.dashboardData.notExecuted--
+
+      this.$refs.dashboardScheduleRef.updateDashboard();
     }
   },
   computed: {
@@ -484,16 +529,36 @@ export default {
 
 <style scoped lang="scss">
 
+.modal-filters {
+  @include flex(column, flex-start, initial, 2vh);
+  position: absolute;
+  top: 20%;
+  right: 2%;
+  width: 20vw;
+  height: 70vh;
+  max-width: 20vw;
+  max-height: 70vh;
+  z-index: 5;
+  background-color: #ffffff;
+  border-radius: 10px;
+  .filters {
+    height: 70%;
+  }
+
+  .calendar {
+  }
+}
+
+.mode-dark {
+  .modal-filters {
+    background-color: $dark-mode-card;
+  }
+}
+
+
 .grid-container {
-  display: grid;
-  grid-template-columns: 78% 20%;
-  grid-template-rows: 7vh 17vh 25vh 60vh;
-  gap: 2vh;
-  grid-template-areas: 'H H'
-                        'P C'
-                        'P C'
-                        'P F';
-  justify-content: space-between;
+  @include flex(column, flex-start, initial, 2vh);
+  height: 150vh;
 
   .header {
     grid-area: H;
@@ -520,20 +585,13 @@ export default {
     }
   }
 
-  .filters {
-    grid-area: F;
-  }
-
-  .calendar {
-    grid-area: C;
-  }
 
   .panel {
     grid-area: P;
     @include flex(column, flex-start, initial, 2vh);
     max-width: 100%;
     max-height: 100%;
-    overflow: auto;
+
     .dashboards {
     }
 
@@ -541,7 +599,13 @@ export default {
       position: relative;
       min-height: 84%;
       max-height: 84%;
+      max-width: 100%;
 
+
+      .loading {
+        width: 100%;
+        height: 50vh;
+      }
     }
   }
 }

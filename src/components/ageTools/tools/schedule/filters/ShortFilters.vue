@@ -82,7 +82,7 @@ export default {
   @include flex(column, space-between, initial, 2vh);
 
   .top {
-    max-height: 90%;
+    max-height: 60%;
 
     h2 {
       font-size: 1.4rem;

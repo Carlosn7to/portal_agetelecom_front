@@ -1,69 +1,18 @@
 <template>
   <div id="dashboards">
-    <div class="dashboard" @click="filterData('all')">
+    <div class="dashboard" v-for="(item, index) in dashboards" @click="filterData(item.typeFilter)" :key="index">
       <div class="container-icon">
         <div class="icon">
-          <img :src="require('@/assets/portal/ageTools/tools/schedule/servico-tecnico.png')" alt="servico-tecnico">
+          <img :src="require('@/assets/portal/ageTools/tools/schedule/'+item.img_src)" alt="icone">
         </div>
       </div>
       <div class="container-info">
         <div class="info">
           <div class="title">
-            <span>Total do dia</span>
+            <span>{{ item.label }}</span>
           </div>
           <div class="value">
-            <span>{{ data.total }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="dashboard" @click="filterData('morning')">
-      <div class="container-icon">
-        <div class="icon">
-          <img :src="require('@/assets/portal/ageTools/tools/schedule/manha.png')" alt="sol-manha">
-        </div>
-      </div>
-      <div class="container-info">
-        <div class="info">
-          <div class="title">
-            <span>Período da Manhã</span>
-          </div>
-          <div class="value">
-            <span>{{ data.turn.morning }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="dashboard" @click="filterData('afternoon')">
-      <div class="container-icon">
-        <div class="icon">
-          <img :src="require('@/assets/portal/ageTools/tools/schedule/tarde.png')" alt="sol-tarde">
-        </div>
-      </div>
-      <div class="container-info">
-        <div class="info">
-          <div class="title">
-            <span>Período da Tarde</span>
-          </div>
-          <div class="value">
-            <span>{{ data.turn.afternoon }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="dashboard" @click="filterData('notAtt')">
-      <div class="container-icon">
-        <div class="icon">
-          <img :src="require('@/assets/portal/ageTools/tools/schedule/suporte-tecnico.png')" alt="suporte-tecnico">
-        </div>
-      </div>
-      <div class="container-info">
-        <div class="info">
-          <div class="title">
-            <span>Sem téc. atribuído</span>
-          </div>
-          <div class="value">
-            <span>{{ data.notAtt }}</span>
+            <span>{{ item.value }}</span>
           </div>
         </div>
       </div>
@@ -74,30 +23,61 @@
 <script>
 export default {
   name: "DashboardSchedule",
-  props: ['data'],
+  props: ['dataDashboards'],
   emits: ['filterData'],
+  data () {
+    return {
+      dashboards: [],
+      dashboardData: null,
+    }
+  },
   methods: {
     filterData(typeFilter) {
       this.$emit('filterData', typeFilter)
+    },
+    updateDashboard: function () {
+      console.log('updateDashboard')
+      this.dashboards = [
+        {img_src: 'servico-tecnico.png', label: 'Total do dia', value: this.dataDashboards.total, typeFilter: 'all'},
+        {img_src: 'manha.png', label: 'Período da manhã', value: this.dataDashboards.turn.morning, typeFilter: 'morning'},
+        {img_src: 'tarde.png', label: 'Período da tarde', value: this.dataDashboards.turn.afternoon, typeFilter: 'afternoon'},
+        {img_src: 'suporte-tecnico.png', label: 'Sem téc. atribuído', value: this.dataDashboards.notAtt, typeFilter: 'notAtt'},
+        {img_src: 'agendado.png', label: 'Executada', value: this.dataDashboards.executed, typeFilter: 'executed'},
+        {img_src: 'nao-agendado.png', label: 'Não Executada', value: this.dataDashboards.notExecuted, typeFilter: 'notExecuted'},
+        {img_src: 'bug.png', label: 'Em desenvolvimento', value: 0, typeFilter: 'dev'},
+        {img_src: 'bug.png', label: 'Em desenvolvimento', value: 0, typeFilter: 'dev'},
+      ]
     }
   },
+  beforeMount() {
+    this.dashboards = [
+      {img_src: 'servico-tecnico.png', label: 'Total do dia', value: this.dataDashboards.total, typeFilter: 'all'},
+      {img_src: 'manha.png', label: 'Período da manhã', value: this.dataDashboards.turn.morning, typeFilter: 'morning'},
+      {img_src: 'tarde.png', label: 'Período da tarde', value: this.dataDashboards.turn.afternoon, typeFilter: 'afternoon'},
+      {img_src: 'suporte-tecnico.png', label: 'Sem téc. atribuído', value: this.dataDashboards.notAtt, typeFilter: 'notAtt'},
+      {img_src: 'agendado.png', label: 'Executada', value: this.dataDashboards.executed, typeFilter: 'scheduled'},
+      {img_src: 'nao-agendado.png', label: 'Não Executada', value: this.dataDashboards.notExecuted, typeFilter: 'notScheduled'},
+      {img_src: 'bug.png', label: 'Em desenvolvimento', value: 0, typeFilter: 'dev'},
+      {img_src: 'bug.png', label: 'Em desenvolvimento', value: 0, typeFilter: 'dev'},
+    ]
+  }
 }
 </script>
 
 <style scoped lang="scss">
 
 #dashboards {
-  height: 100%;
   @include flex(row, space-between, center, 1vw);
+  flex-wrap: wrap;
+  height: 100%;
   .dashboard {
     background-color: #fff;
     border-radius: 10px;
     cursor: pointer;
     border: 1px solid transparent;
 
-    width: calc((100% / 4) - 10px);
-    height: 100%;
-    @include flex(row, space-between, center, 2vw);
+    width: calc((24%) - 10px);
+    @include flex(row, space-between, center, 0vw);
     padding: 1vh .5vw;
 
     .container-icon {
@@ -107,11 +87,9 @@ export default {
       .icon {
         padding: 9px 13px;
         border-radius: 50%;
-        font-size: 2rem;
-        color: #fff;
 
         img {
-          width: 4vw;
+          width: 2vw;
           height: auto;
         }
       }
@@ -122,13 +100,13 @@ export default {
       height: 100%;
       .info {
         height: 100%;
-        @include flex(column, space-between, initial, 0);
+        @include flex(column, space-between, initial, 1.5vh);
 
 
         .title {
           span {
             color: $h1-black;
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 600;
           }
         }
@@ -136,7 +114,7 @@ export default {
         .value {
           @include flex(row, flex-end, center, 0);
           span {
-            font-size: 2.2rem;
+            font-size: 1.6rem;
             font-weight: 600;
             color: $h1-light;
             text-align: right;
