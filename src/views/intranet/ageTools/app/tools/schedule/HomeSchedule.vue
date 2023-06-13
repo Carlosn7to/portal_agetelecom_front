@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-filters" v-if="modalFilter">
+  <div class="modal-filters" :style="{ display: modalFilter ? 'block' : 'none' }">
     <div class="calendar">
       <CalendarComponent
           @getDateFilter="getDateFilter"
@@ -18,9 +18,39 @@
     <div class="header">
       <h1>{{ page }} - Agenda</h1>
 
+      <div class="capacity">
+        <div class="box">
+          <div class="title">Capacidade de instalações</div>
+          <div class="item">Seg a Sex:</div>
+          <div class="item">Manhã: 116</div>
+          <div class="item">Tarde: 174</div>
+          <div class="item">Sábado:</div>
+          <div class="item">Manhã: 70</div>
+          <div class="item">Tarde: 106</div>
+        </div>
+        <div class="box">
+          <div class="title">Capacidade de visitas técnicas</div>
+          <div class="item">Seg a Sex:</div>
+          <div class="item">Manhã: 65</div>
+          <div class="item">Tarde: 60</div>
+          <div class="item">Sábado:</div>
+          <div class="item">Manhã: 38</div>
+          <div class="item">Tarde: 33</div>
+        </div>
+        <div class="box">
+          <div class="title">Capacidade de MP/PME</div>
+          <div class="item">Seg a Sex:</div>
+          <div class="item">Manhã: 10</div>
+          <div class="item">Tarde: 10</div>
+          <div class="item">Sábado:</div>
+          <div class="item">Manhã: 10</div>
+          <div class="item">Tarde: 10</div>
+        </div>
+      </div>
+
       <div class="pages">
         <button :class="{'selected' : page === 'Painel'}" @click="page = 'Painel'">Painel</button>
-        <button :class="{'selected' : page === 'Dashboard'}" @click="page = 'Dashboard'" v-if="dataItems.length > 0">Dashboard</button>
+        <button :class="{'selected' : page === 'Dashboard'}" @click="page = 'Dashboard'" v-if="dataItems.length > 0 && ! loading">Dashboard</button>
         <button :class="{'selected' : modalFilter}" @click="modalFilter = !modalFilter" v-if="filters.typeNote.length > 0">
           <i class="fi fi-rs-filter"></i>
         </button>
@@ -169,6 +199,8 @@ export default {
       this.dashboardData.turn.morning = 0
       this.dashboardData.turn.afternoon = 0
       this.dashboardData.notAtt = 0
+      this.dashboardData.executed = 0
+      this.dashboardData.notExecuted = 0
       this.listData.typeFilter = 'all'
 
       AXIOS({
@@ -238,6 +270,9 @@ export default {
       this.dashboardData.turn.morning = 0
       this.dashboardData.turn.afternoon = 0
       this.dashboardData.notAtt = 0
+      this.dashboardData.executed = 0
+      this.dashboardData.notExecuted = 0
+
       this.listData.typeFilter = 'all'
 
       AXIOS({
@@ -585,8 +620,36 @@ export default {
 
     }
 
+    .capacity {
+      height: 100%;
+      width: 60%;
+      @include flex(row, center, center, 0);
+
+      .box {
+        height: 100%;
+        width: 100%;
+        @include flex(row, space-between, center, 0);
+        flex-wrap: wrap;
+
+        .title {
+          width: 100%;
+          font-size: 1.2rem;
+          font-weight: 500;
+          border: 1px solid $border-hover;
+          padding: 5px;
+        }
+
+        .item {
+          width: calc(100% / 3);
+          font-size: 1rem;
+          border: 1px solid $border-hover;
+          padding: 5px;
+        }
+
+      }
+    }
+
     .pages {
-      width: 30%;
       @include flex(row, flex-end, center, 1vw);
 
       button {

@@ -249,8 +249,12 @@ export default {
         .body {
           text-align: center;
           min-width: 15%;
-          font-size: 1.2rem;
 
+          span {
+            user-select: text;
+            font-size: 1.2rem;
+
+          }
 
 
           button {
