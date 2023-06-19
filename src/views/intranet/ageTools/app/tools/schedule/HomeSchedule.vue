@@ -31,8 +31,8 @@
         <div class="box">
           <div class="title">Capacidade de visitas técnicas</div>
           <div class="item">Seg a Sex:</div>
-          <div class="item">Manhã: 65</div>
-          <div class="item">Tarde: 60</div>
+          <div class="item">Manhã: 62</div>
+          <div class="item">Tarde: 57</div>
           <div class="item">Sábado:</div>
           <div class="item">Manhã: 38</div>
           <div class="item">Tarde: 33</div>

@@ -151,8 +151,8 @@ const routes = [
   },
   {
     path: '/ageRv/comercial/gerenciamento',
-    name: 'DashboardPage',
-    component: () => import("@/views/intranet/ageRv/app/commercial/management/DashboardPage"),
+    name: 'HomeCollaborator',
+    component: () => import("@/views/portal/app/ageRv/management/collaborator/HomeCollaborator.vue"),
     beforeEnter: [
       Guard.auth,
       Guard.permission_rv
