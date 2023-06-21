@@ -17,7 +17,8 @@ const routes = [
   {
     path: '/sistemas',
     name: 'SystemApp',
-    component: () => import('@/views/intranet/app/SystemApp'),
+    component: () => import('@/components/portal/WelcomeSystems.vue'),
+    // component: () => import('@/views/portal/app/main/home/HomePage.vue'),
     beforeEnter: [
       Guard.auth
     ]
@@ -152,7 +153,7 @@ const routes = [
   {
     path: '/ageRv/comercial/gerenciamento',
     name: 'HomeCollaborator',
-    component: () => import("@/views/portal/app/ageRv/management/collaborator/HomeCollaborator.vue"),
+    component: () => import("@/views/intranet/ageRv/app/commercial/management/DashboardPage.vue"),
     beforeEnter: [
       Guard.auth,
       Guard.permission_rv

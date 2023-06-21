@@ -166,7 +166,13 @@ h2 {
 
 
 #app {
+  //@include container(100vw, 100vh, 0, rgba(245, 245, 249, 0.12));
   @include container(100vw, 100vh, 0, $back-main);
+
+  .container-menu {
+    //display: none;
+  }
+
 
   #content-app {
     @include container(100%, 100%, 0, transparent);
@@ -176,6 +182,7 @@ h2 {
       @include container(100%, 100%, 0, transparent);
       @include flex(column, flex-start, initial, 0);
       position: relative;
+
 
       #content-page {
         width: 100%;

@@ -88,6 +88,8 @@ export default {
   },
   mounted() {
     this.getModules()
+    this.SAVE_SYSTEM({loading: false})
+
   }
 }
 </script>

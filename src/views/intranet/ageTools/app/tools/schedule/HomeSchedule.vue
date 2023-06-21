@@ -223,6 +223,17 @@ export default {
           let date = new Date(item.date_start_schedule)
           let hour = date.getHours()
 
+          let dateStartSchedule = new Date(item.date_start_schedule)
+          let dateStartAttendance = new Date(item.date_start_attendance)
+
+
+          if(dateStartAttendance <= dateStartSchedule) {
+            this.dashboardData.notAtt++
+            item.technical = null
+            item.date_start_attendance = null
+            item.date_end_attendance = null
+          }
+
           let turn = ''
 
           if (hour >= 6 && hour < 12) {
@@ -241,6 +252,7 @@ export default {
           if(item.technical === null) {
             this.dashboardData.notAtt++
           }
+
 
           if(item.executed) {
             this.dashboardData.executed++
@@ -294,6 +306,18 @@ export default {
         this.dataItems.forEach((item) => {
           let date = new Date(item.date_start_schedule)
           let hour = date.getHours()
+
+
+          let dateStartSchedule = new Date(item.date_start_schedule)
+          let dateStartAttendance = new Date(item.date_start_attendance)
+
+
+          if(dateStartAttendance <= dateStartSchedule) {
+            this.dashboardData.notAtt++
+            item.technical = null
+            item.date_start_attendance = null
+            item.date_end_attendance = null
+          }
 
           let turn = ''
 
@@ -572,6 +596,7 @@ export default {
   beforeMount() {
     this.SAVE_SYSTEM({loading: false})
     this.getFilters();
+    this.loading = false
   }
 }
 </script>

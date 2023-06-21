@@ -11,7 +11,7 @@
       </div>
 
       <div class="items">
-        <div class="item" v-for="filter in FiltersFiltered" :key="filter.id">
+        <div class="item" v-for="filter in FiltersFiltered" :key="filter.id" >
           <div class="checkbox">
             <label class="container-checkbox">
               <input type="checkbox" :name="`filter${filter.id}`" :id="filter.id" v-model="checkboxId" :value="filter.id">
@@ -41,7 +41,7 @@ export default {
   data () {
     return {
       checkboxId: [],
-      search: ''
+      search: '',
     }
   },
   methods: {
@@ -59,11 +59,15 @@ export default {
   computed: {
     FiltersFiltered: function () {
       let values = []
-      values = this.dataFilters.filter((value) => {
-        return (
-            value.title.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-        )
-      })
+
+      if(this.dataFilters.length > 0) {
+        values = this.dataFilters.filter((value) => {
+          return (
+              value.title.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+          )
+        })
+      }
+
       return values
     }
   },

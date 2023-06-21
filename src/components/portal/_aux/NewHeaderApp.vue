@@ -7,9 +7,7 @@
       </div>
       <div class="options">
         <div class="icons-system">
-<!--          <div class="box-icon">-->
-<!--            <i class="fi fi-rr-headset"></i>-->
-<!--          </div>-->
+
           <div class="box-icon" v-if="system.mode === 'light'" @click="SAVE_SYSTEM({mode: 'dark'})">
             <i class="fi fi-rs-moon"></i>
           </div>
@@ -19,10 +17,13 @@
 <!--          <div class="box-icon">-->
 <!--            <i class="fi fi-rr-cowbell"></i>-->
 <!--          </div>-->
+          <div class="box-icon" @click="logout">
+            <i class="fi fi-rr-power"></i>
+          </div>
         </div>
-        <div class="image-user">
-          <img :src="require('@/assets/img/users/padrao.png')" alt="user">
-        </div>
+<!--        <div class="image-user">-->
+<!--          <img :src="require('@/assets/img/users/padrao.png')" alt="user">-->
+<!--        </div>-->
       </div>
     </div>
   </div>
@@ -61,6 +62,9 @@ export default {
           this.mode = 'dark'
           break
       }
+    },
+    logout: function () {
+      this.$router.replace('/')
     }
   },
   computed: {
@@ -75,15 +79,15 @@ export default {
   padding: 1vh 2vw;
   z-index: 2;
   .header-top {
-    background-color: #ffffff;
     //@include sh-pattern;
     border-radius: 10px;
     padding: 1vh 1.5vw;
-    @include flex(row, space-between, center, 0);
+    @include flex(row, flex-end, center, 0);
 
     .search {
       @include flex(row, flex-start, center, 1vw);
       width: 50%;
+      display: none;
 
 
       i {
@@ -149,7 +153,7 @@ export default {
   background-color: $dark-mode-background;
 
   .header-top {
-    background-color: $dark-mode-card !important;
+    //background-color: $dark-mode-card !important;
 
     .search {
 
