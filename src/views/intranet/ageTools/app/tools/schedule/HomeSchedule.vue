@@ -25,7 +25,7 @@
           <div class="item">Manhã: 116</div>
           <div class="item">Tarde: 174</div>
           <div class="item">Sábado:</div>
-          <div class="item">Manhã: 70</div>
+          <div class="item">Manhã: 65</div>
           <div class="item">Tarde: 106</div>
         </div>
         <div class="box">
@@ -356,23 +356,23 @@ export default {
     download: function () {
       const headersExcel = [
         'Protocolo',
-        'Status',
-        'Tipo de solicitação',
-        'Equipe',
-        'Técnico',
-        'Data inicio att.',
-        'Data fim att.',
-        'Data inicio agendamento',
-        'Data fim agendamento',
-        'id_client',
-        'Nome do cliente',
-        'Nº do contrato',
-        'Situacao do contrato',
-        'Status do contrato',
-        'Contexto',
-        'Problema',
-        'Região',
-        'Turno'
+          'Tipo de plano',
+          'Nome do cliente',
+          'Turno',
+          'Região',
+          'Nº contrato',
+          'Time',
+          'Técnico',
+          'Data inicio att.',
+          'Data fim att.',
+          'Data inicio agendamento',
+          'Data fim agendamento',
+          'Status',
+          'Situacao do contrato',
+          'Status do contrato',
+          'Contexto', 'Problema',
+          'Executada',
+          'Turno - 2'
       ]
 
       const data = this.dataItems
