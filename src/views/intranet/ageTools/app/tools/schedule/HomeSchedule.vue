@@ -25,7 +25,7 @@
           <div class="item">Manhã: 116</div>
           <div class="item">Tarde: 174</div>
           <div class="item">Sábado:</div>
-          <div class="item">Manhã: 65</div>
+          <div class="item">Manhã: 70</div>
           <div class="item">Tarde: 106</div>
         </div>
         <div class="box">
@@ -34,7 +34,7 @@
           <div class="item">Manhã: 62</div>
           <div class="item">Tarde: 57</div>
           <div class="item">Sábado:</div>
-          <div class="item">Manhã: 38</div>
+          <div class="item">Manhã: 33</div>
           <div class="item">Tarde: 33</div>
         </div>
         <div class="box">
