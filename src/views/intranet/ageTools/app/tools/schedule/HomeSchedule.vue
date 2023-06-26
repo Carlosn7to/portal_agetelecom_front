@@ -371,6 +371,8 @@ export default {
           'Situacao do contrato',
           'Status do contrato',
           'Contexto', 'Problema',
+          'Telefone',
+          'Celular',
           'Executada',
           'Turno - 2'
       ]
