@@ -19,6 +19,7 @@ const routes = [
     name: 'SystemApp',
     component: () => import('@/components/portal/WelcomeSystems.vue'),
     // component: () => import('@/views/portal/app/main/home/HomePage.vue'),
+    // component: () => import('@/views/portal/app/main/home/HomePagee.vue'),
     beforeEnter: [
       Guard.auth
     ]
@@ -225,7 +226,8 @@ const routes = [
   {
     path: '/ageTools/home',
     name: 'HomeTools',
-    component: () => import("@/views/intranet/ageTools/app/HomePage"),
+    // component: () => import("@/views/intranet/ageTools/app/HomePage"),
+    component: () => import("@/views/portal/app/ageTools/home/ToolsPage.vue"),
     beforeEnter: [
       Guard.auth
     ]
@@ -250,6 +252,14 @@ const routes = [
     path: '/ageTools/agenda',
     name: 'HomeSchedule',
     component: () => import("@/views/intranet/ageTools/app/tools/schedule/HomeSchedule"),
+    beforeEnter: [
+      Guard.auth
+    ]
+  },
+  {
+    path: '/ageComunica/home',
+    name: 'CommunicateHome',
+    component: () => import("@/views/portal/app/ageCommunicate/home/CommunicateHome.vue"),
     beforeEnter: [
       Guard.auth
     ]

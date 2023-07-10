@@ -103,7 +103,7 @@ export default defineComponent({
 
             <template v-for="(section, indexSection) in module.sections"  :key="indexSection">
               <div class="section" :style="{animationDelay: (.3 * indexSection) + 's'}"  @click="tradePage(section.url)">
-                <div class="section-icon" :style="{backgroundColor: section.cor_fundo + '50'}">
+                <div class="section-icon" :style="{backgroundColor: section.cor_fundo + '80'}">
                   <i :class="section.icone"></i>
                 </div>
                 <div class="section-name">

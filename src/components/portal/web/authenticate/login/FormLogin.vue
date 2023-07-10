@@ -22,8 +22,8 @@
                  v-model="payload.password.value"
                  placeholder="********"
                  autocomplete="off">
-          <i class="fi fi-sr-eye-crossed" v-if="! payload.password.show" @click="showPassword()"></i>
-          <i class="fi fi-sr-eye" v-else @click="showPassword()"></i>
+          <i class="fi fi-sr-eye-crossed" style="cursor: pointer;" v-if="! payload.password.show" @click="showPassword()"></i>
+          <i class="fi fi-sr-eye"  style="cursor: pointer;" v-else @click="showPassword()"></i>
         </div>
       </div>
 

@@ -67,8 +67,8 @@ export default {
       }
 
       this.regions = getCountsAndSort(this.dataItems, 'region');
-      this.technicals = getCountsAndSort(this.dataItems, 'technical');
-      this.teams = getCountsAndSort(this.dataItems, 'team');
+      // this.technicals = getCountsAndSort(this.dataItems, 'technical');
+      // this.teams = getCountsAndSort(this.dataItems, 'team');
 
     }
   },

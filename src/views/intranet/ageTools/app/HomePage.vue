@@ -52,8 +52,6 @@
         Acessar
       </router-link>
     </div>
-
-
   </div>
 </template>
 

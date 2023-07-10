@@ -178,6 +178,10 @@ h2 {
     @include container(100%, 100%, 0, transparent);
     @include flex(row, flex-start, initial, 0);
 
+    #container-header {
+      //display: none;
+    }
+
     #layer-app {
       @include container(100%, 100%, 0, transparent);
       @include flex(column, flex-start, initial, 0);
@@ -202,6 +206,17 @@ h2 {
     color: $text-light;
     font-weight: 500;
     font-size: 1.4rem;
+  }
+}
+
+@keyframes up-modal {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

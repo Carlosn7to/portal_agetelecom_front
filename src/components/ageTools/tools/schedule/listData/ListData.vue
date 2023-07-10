@@ -47,18 +47,6 @@
               <span>{{ item.contract_id}}</span>
             </div>
             <div class="body">
-              <span>{{ item.team}}</span>
-            </div>
-            <div class="body">
-              <span>{{ item.technical}}</span>
-            </div>
-            <div class="body">
-              <span>{{ item.date_start_attendance}}</span>
-            </div>
-            <div class="body">
-              <span>{{ item.date_end_attendance}}</span>
-            </div>
-            <div class="body">
               <span>{{ item.date_start_schedule}}</span>
             </div>
             <div class="body">
@@ -101,10 +89,10 @@ export default {
     return {
       search: '',
       table: {
-        headers: ['Ações', 'Tipo de solicitação', 'Protocolo', 'Cliente','Turno', 'Região', 'Nº do contrato', 'Equipe', 'Técnico', 'Data inicio Att.',
-                'Data fim att.', 'Data inicio agendamento', 'Data fim agendamento', 'Status', 'Situação do contrato', 'Status do contrato', 'Contexto', 'Problema'],
-          body: ['', 'type_note', 'protocol', 'name_client','turnName', 'region', 'contract_id', 'team', 'technical', 'date_start_attendance',
-              'date_end_attendance', 'date_start_schedule', 'date_end_schedule', 'status', 'stage_contract', 'status_contract', 'context', 'problem']
+        headers: ['Ações', 'Tipo de solicitação', 'Protocolo', 'Cliente','Turno', 'Região', 'Nº do contrato',
+                'Data inicio agendamento', 'Data fim agendamento', 'Status', 'Situação do contrato', 'Status do contrato', 'Contexto', 'Problema'],
+          body: ['', 'type_note', 'protocol', 'name_client','turnName', 'region', 'contract_id',
+              'date_start_schedule', 'date_end_schedule', 'status', 'stage_contract', 'status_contract', 'context', 'problem']
       }
     }
   },

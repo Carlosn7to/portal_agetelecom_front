@@ -1,6 +1,11 @@
 <template>
-  <div id="container-header" :class="{ 'dark-mode' : system.mode === 'dark' }">
+  <div id="container-header" v-if="! system.loading" :class="{ 'dark-mode' : system.mode === 'dark' }">
     <div class="header-top">
+      <div class="back-page">
+        <button @click="tradePage" v-if="system.routeNow !== '/sistemas'">
+          Voltar
+        </button>
+      </div>
       <div class="search">
         <i class="fi fi-rr-search"></i>
         <input disabled type="text" name="search" id="search" placeholder="Em desenvolvimento..." autocomplete="off">
@@ -65,6 +70,10 @@ export default {
     },
     logout: function () {
       this.$router.replace('/')
+    },
+    tradePage () {
+      this.SAVE_SYSTEM({loading: true})
+      this.$router.replace(this.system.routeLast)
     }
   },
   computed: {
@@ -78,11 +87,18 @@ export default {
 #container-header {
   padding: 1vh 2vw;
   z-index: 2;
+
   .header-top {
     //@include sh-pattern;
     border-radius: 10px;
     padding: 1vh 1.5vw;
-    @include flex(row, flex-end, center, 0);
+    @include flex(row, space-between, center, 0);
+
+    .back-page {
+      button {
+        @include btn-dashboard(true);
+      }
+    }
 
     .search {
       @include flex(row, flex-start, center, 1vw);

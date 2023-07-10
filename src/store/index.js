@@ -24,6 +24,8 @@ export default createStore({
       loading: false,
       login: false,
       cache: true,
+      routeLast: '',
+      routeNow: '/sistemas',
       alert: {
         type: 'attenttion',
         msg: 'Você não tem permissão para acessar o sistema AgeBoard!',
@@ -65,9 +67,11 @@ export default createStore({
 
     SAVE_SYSTEM(state, payload) {
       return [
-          state.system.mode = payload.mode !== undefined ? payload.mode : state.system.mode,
-          state.system.loading = payload.loading !== undefined ? payload.loading : state.system.loading,
-          state.system.login = payload.login !== undefined ? payload.login : state.system.login
+        state.system.mode = payload.mode !== undefined ? payload.mode : state.system.mode,
+        state.system.loading = payload.loading !== undefined ? payload.loading : state.system.loading,
+        state.system.login = payload.login !== undefined ? payload.login : state.system.login,
+        state.system.routeLast = payload.routeLast !== undefined ? payload.routeLast : state.system.routeLast,
+        state.system.routeNow = payload.routeNow !== undefined ? payload.routeNow : state.system.routeNow
       ]
     },
 
