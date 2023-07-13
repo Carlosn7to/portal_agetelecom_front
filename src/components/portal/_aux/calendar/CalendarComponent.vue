@@ -155,8 +155,6 @@ export default {
         this.daySelected = day.date
       }
 
-      this.getData(day)
-
     },
     getData(day) {
 

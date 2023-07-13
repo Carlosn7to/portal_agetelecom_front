@@ -1,97 +1,80 @@
 <template>
-  <div class="modal-filters" :style="{ display: modalFilter ? 'block' : 'none' }">
-    <div class="calendar">
-      <CalendarComponent
-          @getDateFilter="getDateFilter"
-          :pendingConsult="pendingConsult"
-      />
-    </div>
-    <div class="filters">
-      <ShortFilters
-          :dataFilters="this.filters.typeNote"
-          @filterData="getData"
-      />
-    </div>
-  </div>
-  <div class="grid-container">
 
-    <div class="header">
-      <h1>{{ page }} - Agenda</h1>
+  <template v-if="page === 'Painel'">
+    <div class="modal-filters" :style="{ display: modalFilter ? 'block' : 'none' }">
+      <div class="calendar">
+        <CalendarComponent
+            @getDateFilter="getDateFilter"
+            :pendingConsult="pendingConsult"
+        />
+      </div>
+      <div class="filters">
+        <ShortFilters
+            :dataFilters="this.filters.typeNote"
+            @filterData="getData"
+        />
+      </div>
+    </div>
+    <div class="grid-container">
 
-      <div class="capacity">
-        <div class="box">
-          <div class="title">Capacidade de instalações</div>
-          <div class="item">Seg a Sex:</div>
-          <div class="item">Manhã: 116</div>
-          <div class="item">Tarde: 174</div>
-          <div class="item">Sábado:</div>
-          <div class="item">Manhã: 70</div>
-          <div class="item">Tarde: 106</div>
+      <div class="header">
+        <h1>{{ page }} - Agenda</h1>
+
+
+        <div class="pages">
+          <button :class="{'selected' : page === 'Painel'}" @click="page = 'Painel'">Painel</button>
+          <button :class="{'selected' : page === 'Capacity'}" @click="page = 'Capacity'">Capacidade</button>
+          <button :class="{'selected' : page === 'Dashboard'}" @click="page = 'Dashboard'" v-if="dataItems.length > 0 && ! loading">Dashboard</button>
+          <button :class="{'selected' : modalFilter}" @click="modalFilter = !modalFilter" v-if="filters.typeNote.length > 0">
+            <i class="fi fi-rs-filter"></i>
+          </button>
         </div>
-        <div class="box">
-          <div class="title">Capacidade de visitas técnicas</div>
-          <div class="item">Seg a Sex:</div>
-          <div class="item">Manhã: 62</div>
-          <div class="item">Tarde: 57</div>
-          <div class="item">Sábado:</div>
-          <div class="item">Manhã: 33</div>
-          <div class="item">Tarde: 33</div>
-        </div>
-        <div class="box">
-          <div class="title">Capacidade de MP/PME</div>
-          <div class="item">Seg a Sex:</div>
-          <div class="item">Manhã: 10</div>
-          <div class="item">Tarde: 10</div>
-          <div class="item">Sábado:</div>
-          <div class="item">Manhã: 10</div>
-          <div class="item">Tarde: 10</div>
-        </div>
+
       </div>
 
-      <div class="pages">
-        <button :class="{'selected' : page === 'Painel'}" @click="page = 'Painel'">Painel</button>
-        <button :class="{'selected' : page === 'Dashboard'}" @click="page = 'Dashboard'" v-if="dataItems.length > 0 && ! loading">Dashboard</button>
-        <button :class="{'selected' : modalFilter}" @click="modalFilter = !modalFilter" v-if="filters.typeNote.length > 0">
-          <i class="fi fi-rs-filter"></i>
-        </button>
-      </div>
 
-    </div>
-
-
-    <template v-if="page === 'Painel'">
-      <div class="panel"  @click="modalFilter = false">
-        <div class="dashboards">
-          <DashboardSchedule
-              :dataDashboards="dashboardData"
-              @filterData="filteredData"
-              ref="dashboardScheduleRef"
-          />
-        </div>
-        <div class="list">
-          <ListData
-              :data="this.listData.data"
-              :typeFilter="this.listData.typeFilter"
-              @downloadExcel="download"
-              v-if="! loading"
-              @getClientUnique="getNameClient"
-              @executeNote="executeNote"
-          />
-          <div class="loading"  v-if="loading">
-            <LoadingSpinner
+      <template v-if="page === 'Painel'">
+        <div class="panel"  @click="modalFilter = false">
+          <div class="dashboards">
+            <DashboardSchedule
+                :dataDashboards="dashboardData"
+                @filterData="filteredData"
+                ref="dashboardScheduleRef"
             />
           </div>
+          <div class="list">
+            <ListData
+                :data="this.listData.data"
+                :typeFilter="this.listData.typeFilter"
+                @downloadExcel="download"
+                v-if="! loading"
+                @getClientUnique="getNameClient"
+                @executeNote="executeNote"
+            />
+            <div class="loading"  v-if="loading">
+              <LoadingSpinner
+              />
+            </div>
+          </div>
         </div>
-      </div>
-    </template>
-    <template v-if="page === 'Dashboard'">
-      <DashboardPage
-        :dataItems="dataItems"
-        ref="dashboardPageRef"
-      />
-    </template>
+      </template>
+      <template v-if="page === 'Dashboard'">
+        <DashboardPage
+            :dataItems="dataItems"
+            ref="dashboardPageRef"
+        />
+      </template>
 
-  </div>
+    </div>
+  </template>
+
+  <template v-else-if="page === 'Capacity'">
+
+    <CapacitySchedule
+        @returnPage="page = 'Painel'"
+    />
+
+  </template>
 
 </template>
 
@@ -105,13 +88,16 @@ import DashboardSchedule from "@/components/ageTools/tools/schedule/dashboad/Das
 import ListData from "@/components/ageTools/tools/schedule/listData/ListData";
 import ShortFilters from "@/components/ageTools/tools/schedule/filters/ShortFilters";
 import DashboardPage from "@/components/ageTools/tools/schedule/dashboardPage/DashboardPage";
+import CapacitySchedule from "@/components/ageTools/tools/schedule/capacity/CapacitySchedule.vue";
 
 export default {
   name: "HomeSchedule",
-  components: {LoadingSpinner, CalendarComponent, DashboardSchedule, ListData, ShortFilters, DashboardPage},
+  components: {
+    CapacitySchedule,
+    LoadingSpinner, CalendarComponent, DashboardSchedule, ListData, ShortFilters, DashboardPage},
   data() {
     return {
-      page: 'Painel',
+      page: 'Capacity',
       searchClient: '',
       filtered: false,
       modal: false,
