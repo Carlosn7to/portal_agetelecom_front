@@ -97,7 +97,7 @@ export default {
     LoadingSpinner, CalendarComponent, DashboardSchedule, ListData, ShortFilters, DashboardPage},
   data() {
     return {
-      page: 'Capacity',
+      page: 'Painel',
       searchClient: '',
       filtered: false,
       modal: false,
