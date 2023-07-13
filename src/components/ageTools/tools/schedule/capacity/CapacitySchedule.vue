@@ -115,11 +115,11 @@ export default defineComponent({
           <div class="turns">
             <div class="turn">
               <span>Manhã: <b>{{ item.manha.count }}</b></span>
-              <i class="fi fi-rr-rectangle-list" @click="openModalClients(index, 'Manhã', item.manha.clients)"></i>
+              <i class="fi fi-rr-rectangle-list" v-if="item.manha.count > 0" @click="openModalClients(index, 'Manhã', item.manha.clients)"></i>
             </div>
             <div class="turn">
               <span>Tarde: <b>{{ item.tarde.count }}</b></span>
-              <i class="fi fi-rr-rectangle-list" @click="openModalClients(index, 'Tarde', item.tarde.clients)"></i>
+              <i class="fi fi-rr-rectangle-list" v-if="item.tarde.count > 0" @click="openModalClients(index, 'Tarde', item.tarde.clients)"></i>
             </div>
           </div>
       </div>
