@@ -89,6 +89,7 @@ import ListData from "@/components/ageTools/tools/schedule/listData/ListData";
 import ShortFilters from "@/components/ageTools/tools/schedule/filters/ShortFilters";
 import DashboardPage from "@/components/ageTools/tools/schedule/dashboardPage/DashboardPage";
 import CapacitySchedule from "@/components/ageTools/tools/schedule/capacity/CapacitySchedule.vue";
+import moment from "moment";
 
 export default {
   name: "HomeSchedule",
@@ -572,7 +573,7 @@ export default {
       this.dashboardData.notExecuted--
 
       this.$refs.dashboardScheduleRef.updateDashboard();
-    }
+    },
   },
   computed: {
     ...mapGetters([
@@ -583,6 +584,7 @@ export default {
     this.SAVE_SYSTEM({loading: false})
     this.getFilters();
     this.loading = false
+    this.payload.dateSchedule = moment().format('YYYY-MM-DD')
   }
 }
 </script>
