@@ -24,7 +24,6 @@
         <div class="pages">
           <button :class="{'selected' : page === 'Painel'}" @click="page = 'Painel'">Painel</button>
           <button :class="{'selected' : page === 'Capacity'}" @click="page = 'Capacity'">Capacidade</button>
-          <button :class="{'selected' : page === 'Dashboard'}" @click="page = 'Dashboard'" v-if="dataItems.length > 0 && ! loading">Dashboard</button>
           <button :class="{'selected' : modalFilter}" @click="modalFilter = !modalFilter" v-if="filters.typeNote.length > 0">
             <i class="fi fi-rs-filter"></i>
           </button>
