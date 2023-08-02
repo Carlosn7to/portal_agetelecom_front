@@ -88,11 +88,11 @@ export default defineComponent({
       <div class="box">
         <div class="title">Capacidade de visitas técnicas</div>
         <div class="item">Seg a Sex:</div>
-        <div class="item">Manhã: 62</div>
+        <div class="item">Manhã: 57</div>
         <div class="item">Tarde: 57</div>
         <div class="item">Sábado:</div>
-        <div class="item">Manhã: 33</div>
-        <div class="item">Tarde: 33</div>
+        <div class="item">Manhã: 24 </div>
+        <div class="item">Tarde: 24 </div>
       </div>
       <div class="box">
         <div class="title">Capacidade de MP/PME</div>
@@ -236,7 +236,7 @@ export default defineComponent({
     width: 10%;
   }
   .capacity {
-    width: 50%;
+    width: 70%;
     height: 100%;
     @include flex(row, center, center, 0);
 
