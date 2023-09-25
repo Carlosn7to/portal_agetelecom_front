@@ -28,7 +28,8 @@ export default createStore({
       routeNow: '/sistemas',
       alert: {
         type: 'attenttion',
-        msg: 'Você não tem permissão para acessar o sistema AgeBoard!',
+        title: 'Erro!',
+        msg: 'Não foi possível concluir a operação',
         display: false
       }
     }

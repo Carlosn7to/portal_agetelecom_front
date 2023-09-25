@@ -25,7 +25,7 @@
           <i class="fi fi-rr-eye"></i>
           <span>Visualizar prévia</span>
         </button>
-        <button @click="downloadReport(report.isPeriodoHora,report.isPeriodo,report.url,report.nome_arquivo, report.id)">
+        <button @click="downloadReport(report.isPeriodoHora,report.isPeriodo,report.nome_arquivo, report.id)">
           <i class="fi fi-rr-download"></i>
           <span>Baixar relatório</span>
         </button>
@@ -42,7 +42,7 @@
         <i class="fi fi-rr-cross-small" @click="this.modal = false"></i>
       </div>
       <h5 style="text-align: center; font-size: 1.4rem">Selecione o período</h5>
-      <form action="#" @submit.prevent="downloadReport(0, 0, this.url, this.name, this.reportId)">
+      <form action="#" @submit.prevent="downloadReport(0, 0, this.name, this.reportId)">
         <input type="datetime-local" name="first_period" id="first_period" v-model="firstPeriod" required>
         <input type="datetime-local" name="last_period" id="last_period" v-model="lastPeriod" required>
         <input type="submit" value="Baixar">
@@ -56,7 +56,7 @@
       </div>
       <h5>Selecione o período</h5>
 
-      <form action="#" @submit.prevent="downloadReport(0, 0, this.url, this.name, this.reportId)">
+      <form action="#" @submit.prevent="downloadReport(0, 0, this.name, this.reportId)">
         <div class="options-date">
           <label for="type-date">Tipo de filtro: <b>*</b></label>
           <select name="type-date" v-model="typeDate" required>
@@ -173,7 +173,7 @@ export default {
     viewReport: function (id) {
       alert(id)
     },
-    downloadReport: function (periodHour, period, url, name, id) {
+    downloadReport: function (periodHour, period, name, id) {
 
       if(period === 1 || periodHour === 1) {
         this.name = name

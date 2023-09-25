@@ -79,26 +79,26 @@ export default defineComponent({
       <div class="box">
         <div class="title">Capacidade de instalações</div>
         <div class="item">Seg a Sex:</div>
-        <div class="item">Manhã: 116</div>
-        <div class="item">Tarde: 174</div>
+        <div class="item">Manhã: 150</div>
+        <div class="item">Tarde: 150</div>
         <div class="item">Sábado:</div>
-        <div class="item">Manhã: 70</div>
-        <div class="item">Tarde: 106</div>
+        <div class="item">Manhã: 100</div>
+        <div class="item">Tarde: 100</div>
       </div>
       <div class="box">
         <div class="title">Capacidade de visitas técnicas</div>
         <div class="item">Seg a Sex:</div>
-        <div class="item">Manhã: 57</div>
-        <div class="item">Tarde: 57</div>
+        <div class="item">Manhã: 75</div>
+        <div class="item">Tarde: 75</div>
         <div class="item">Sábado:</div>
-        <div class="item">Manhã: 24 </div>
-        <div class="item">Tarde: 24 </div>
+        <div class="item">Manhã: 37 </div>
+        <div class="item">Tarde: 37 </div>
       </div>
       <div class="box">
         <div class="title">Capacidade de MP/PME</div>
         <div class="item">Seg a Sex:</div>
-        <div class="item">Manhã: 10</div>
-        <div class="item">Tarde: 10</div>
+        <div class="item">Manhã: 15</div>
+        <div class="item">Tarde: 15</div>
         <div class="item">Sábado:</div>
         <div class="item">Manhã: 10</div>
         <div class="item">Tarde: 10</div>
