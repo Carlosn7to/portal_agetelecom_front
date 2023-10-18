@@ -88,8 +88,8 @@ export default defineComponent({
       <div class="box">
         <div class="title">Capacidade de visitas técnicas</div>
         <div class="item">Seg a Sex:</div>
-        <div class="item">Manhã: 75</div>
-        <div class="item">Tarde: 75</div>
+        <div class="item">Manhã: 84</div>
+        <div class="item">Tarde: 84</div>
         <div class="item">Sábado:</div>
         <div class="item">Manhã: 37 </div>
         <div class="item">Tarde: 37 </div>
@@ -97,8 +97,8 @@ export default defineComponent({
       <div class="box">
         <div class="title">Capacidade de MP/PME</div>
         <div class="item">Seg a Sex:</div>
-        <div class="item">Manhã: 15</div>
-        <div class="item">Tarde: 15</div>
+        <div class="item">Manhã: 20</div>
+        <div class="item">Tarde: 20</div>
         <div class="item">Sábado:</div>
         <div class="item">Manhã: 10</div>
         <div class="item">Tarde: 10</div>
