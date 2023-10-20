@@ -263,6 +263,14 @@ const routes = [
     beforeEnter: [
       Guard.auth
     ]
+  },
+  {
+    path: '/aniel/order',
+    name: 'AnielOrder',
+    component: () => import("@/views/intranet/aniel/OrderComponent.vue"),
+    beforeEnter: [
+      Guard.auth
+    ]
   }
 
 ]
