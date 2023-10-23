@@ -273,7 +273,7 @@ export default {
       const date = new Date()
 
 
-      if (date.getMonth() < 10) {
+      if ((date.getMonth() + 1) < 10) {
         this.filter.actualMonth = '0' + ( date.getMonth() + 1) + ''
       } else {
         this.filter.actualMonth = (date.getMonth() + 1).toString()
