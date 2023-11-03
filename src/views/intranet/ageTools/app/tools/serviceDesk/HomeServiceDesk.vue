@@ -28,9 +28,15 @@ export default {
     ]),
     getClient() {
 
+
+
       if(this.search.length < 14) {
         return alert('CPF inválido')
       }
+
+      this.data.client = []
+      this.data.contract = []
+      this.data.connection = []
 
       AXIOS({
         method: 'get',
@@ -42,10 +48,9 @@ export default {
         this.data.client = res.data[0]
 
         if(res.data.length === 0) {
-          this.data.client = []
-          this.data.contract = []
-          this.data.connection = []
-          return false;
+
+         return alert('Nenhum cliente encontrado!')
+
         }
 
         this.getContract()
