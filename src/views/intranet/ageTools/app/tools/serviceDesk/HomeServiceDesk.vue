@@ -40,6 +40,14 @@ export default {
         }
       }).then((res) => {
         this.data.client = res.data[0]
+
+        if(res.data.length === 0) {
+          this.data.client = []
+          this.data.contract = []
+          this.data.connection = []
+          return false;
+        }
+
         this.getContract()
       })
     },
@@ -52,7 +60,9 @@ export default {
         }
       }).then((res) => {
         this.data.contract = res.data[0]
-        this.getConnection()
+
+
+        this.data.contract.id ? this.getConnection() : this.data.contract = [];
       })
     },
     getConnection() {
