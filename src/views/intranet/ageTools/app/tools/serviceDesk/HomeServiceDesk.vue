@@ -51,9 +51,7 @@ export default {
          return alert('Nenhum cliente encontrado!')
 
         }
-
         this.data.client = res.data[0]
-
 
         this.getContract()
       })
@@ -123,31 +121,31 @@ export default {
           <div class="data-item">
             <div class="item">
               <span>Nome</span>
-              <span>{{ this.data.client.length > 0 ? this.data.client.name : ' - ' }}</span>
+              <span>{{ this.data.client.name ? this.data.client.name : ' - ' }}</span>
             </div>
             <div class="item">
               <span>CPF / CNPJ</span>
-              <span>{{ this.data.client.length > 0 ? this.data.client.tx_id : ' - ' }}</span>
+              <span>{{ this.data.client.tx_id ? this.data.client.tx_id : ' - ' }}</span>
             </div>
             <div class="item">
               <span>E-mail</span>
-              <span>{{ this.data.client.length > 0 ? this.data.client.email : ' - ' }}</span>
+              <span>{{ this.data.client.email ? this.data.client.email : ' - ' }}</span>
             </div>
           </div>
           <div class="data-items">
             <div class="item">
               <span>Telefone Principal</span>
-              <span>{{ this.data.client.length > 0 ? this.data.client.cell_phone_1 : ' - ' }}</span>
+              <span>{{ this.data.client.cell_phone_1 ? this.data.client.cell_phone_1 : ' - ' }}</span>
             </div>
             <div class="item">
               <span>Telefone Secundário</span>
-              <span>{{ this.data.client.length > 0 ? this.data.client.cell_phone_2 : ' - ' }}</span>
+              <span>{{ this.data.client.cell_phone_2 ? this.data.client.cell_phone_2 : ' - ' }}</span>
             </div>
           </div>
           <div class="data-item">
             <div class="item">
               <span>Endereço</span>
-              <span>{{ this.data.client.length > 0 ? this.data.client.full_address : ' - ' }}</span>
+              <span>{{ this.data.client.full_address ? this.data.client.full_address : ' - ' }}</span>
             </div>
           </div>
         </div>
