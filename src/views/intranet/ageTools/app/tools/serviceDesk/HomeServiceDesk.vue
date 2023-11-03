@@ -64,6 +64,11 @@ export default {
           'Authorization': 'Bearer ' + Cookie.get('token')
         }
       }).then((res) => {
+
+        if(res.data.length === 0) {
+          return alert("Nenhum contrato vinculado")
+        }
+
         this.data.contract = res.data[0]
 
 
@@ -78,6 +83,11 @@ export default {
           'Authorization': 'Bearer ' + Cookie.get('token')
         }
       }).then((res) => {
+
+        if(res.data.length === 0) {
+          return alert("Nenhuma conexão encontrada")
+        }
+
         this.data.connection = res.data[0]
       })
     }
