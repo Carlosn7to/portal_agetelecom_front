@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkageportal"]=self["webpackChunkageportal"]||[]).push([[383],{5383:function(e,n,t){t.r(n),t.d(n,{default:function(){return l}});var a=t(3396);function u(e,n,t,u,r,o){return(0,a.wg)(),(0,a.iD)("div",null," Communicate ")}var r=t(65),o=(0,a.aZ)({name:"CommunicateHome",methods:{...(0,r.OI)(["SAVE_SYSTEM"])},mounted(){this.SAVE_SYSTEM({loading:!1})}}),i=t(89);const c=(0,i.Z)(o,[["render",u]]);var l=c}}]);
+//# sourceMappingURL=383.18ea906d.js.map

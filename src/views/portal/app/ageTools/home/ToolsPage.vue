@@ -42,18 +42,34 @@ export default defineComponent({
         <div class="title">
           <i class="fi fi-rr-envelope"></i>
           <span>
-          Envio de E-mail
+          Atendimento
         </span>
         </div>
         <div class="description">
           <p>
-            Envio de e-mails em massa com excel.
+            Informações sobre o cliente, conexão e contrato.
           </p>
         </div>
-        <router-link to="/ageTools/envio-email" @click="SAVE_SYSTEM({loading: true})">
+        <router-link to="/ageTools/atendimento" @click="SAVE_SYSTEM({loading: true})">
           Acessar
         </router-link>
       </div>
+      <!--      <div class="card">-->
+<!--        <div class="title">-->
+<!--          <i class="fi fi-rr-envelope"></i>-->
+<!--          <span>-->
+<!--          Envio de E-mail-->
+<!--        </span>-->
+<!--        </div>-->
+<!--        <div class="description">-->
+<!--          <p>-->
+<!--            Envio de e-mails em massa com excel.-->
+<!--          </p>-->
+<!--        </div>-->
+<!--        <router-link to="/ageTools/envio-email" @click="SAVE_SYSTEM({loading: true})">-->
+<!--          Acessar-->
+<!--        </router-link>-->
+<!--      </div>-->
       <div class="card">
         <div class="title">
           <i class="fi fi-rr-address-book"></i>

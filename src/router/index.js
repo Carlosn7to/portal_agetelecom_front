@@ -257,6 +257,14 @@ const routes = [
     ]
   },
   {
+    path: '/ageTools/atendimento',
+    name: 'HomeServiceDesk',
+    component: () => import("@/views/intranet/ageTools/app/tools/serviceDesk/HomeServiceDesk.vue"),
+    beforeEnter: [
+      Guard.auth
+    ]
+  },
+  {
     path: '/ageComunica/home',
     name: 'CommunicateHome',
     component: () => import("@/views/portal/app/ageCommunicate/home/CommunicateHome.vue"),
