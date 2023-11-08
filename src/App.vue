@@ -3,7 +3,7 @@
     <NewMenuApp
       v-if="system.login === true"
     />
-    <div id="layer-app">
+    <div id="layer-app">  
       <NewHeaderApp
           v-if="system.login === true"
       />

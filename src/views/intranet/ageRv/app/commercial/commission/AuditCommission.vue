@@ -141,10 +141,10 @@ export default {
     },
     getMonth: function () {
       const date = new Date()
-      if (date.getMonth() < 10) {
+      if ((date.getMonth() - 1) < 10) {
         this.dateFiltered.month = '0' + (date.getMonth() - 1)
       } else {
-        this.dateFiltered.month = (date.getMonth() + 1).toString()
+        this.dateFiltered.month = (date.getMonth() - 1).toString()
       }
 
 
