@@ -109,7 +109,7 @@
 
     </div>
     <div id="printscreen" style="display: none">
-      <h1>Comprovante de comissão - <b>{{ data.name.toUpperCase() }}</b> </h1>
+      <h1>Comprovante de comissão - <b>{{ data.name.toUpperCase() }} - Referência: {{ getMonthName(dateFiltered.month) }}</b> </h1>
       <div class="cards-dashboard">
         <div class="card">
           <div class="title">
@@ -246,7 +246,7 @@ import {mapMutations} from "vuex";
 
 export default {
   name: "ViewSeller",
-  props: ['data'],
+  props: ['data', 'dateFiltered'],
   data () {
     return {
       filters: {
@@ -283,6 +283,14 @@ export default {
     ...mapMutations([
        'SAVE_SYSTEM'
     ]),
+    getMonthName(month) {
+      const monthNames = [
+        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+      ];
+
+      return monthNames[parseInt(month, 10) - 1] + "/" + this.dateFiltered.year;
+    },
     returnSellers: function () {
       this.$emit('return-sellers')
     },

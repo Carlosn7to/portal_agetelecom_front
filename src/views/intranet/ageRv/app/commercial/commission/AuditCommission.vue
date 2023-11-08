@@ -68,6 +68,7 @@
     v-if="page === 'view-sales'"
     @return-page="viewPage"
     :data="data"
+    :dateFiltered="dateFiltered"
   />
 </template>
 

@@ -127,6 +127,7 @@
     :data="dataSeller"
     v-if="page === 'view-seller'"
     @return-sellers="page = 'view-sellers'"
+    :dateFiltered="dateFiltered"
   />
 </template>
 
@@ -137,7 +138,7 @@ import ViewSeller from "@/components/ageRv/comercial/commission/audit/ViewSeller
 export default {
   name: "ViewSales",
   components: {ViewSeller},
-  props: ['data'],
+  props: ['data', 'dateFiltered'],
   data () {
     return {
       filters: {
