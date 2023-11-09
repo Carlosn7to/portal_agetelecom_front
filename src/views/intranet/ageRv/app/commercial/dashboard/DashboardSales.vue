@@ -172,7 +172,7 @@ export default {
       if (date.getMonth() < 10) {
         this.filters.month = '0' + ( date.getMonth()) + ''
       } else {
-        this.filters.month = (date.getMonth() + 1).toString()
+        this.filters.month = (date.getMonth()).toString()
       }
     },
   },
