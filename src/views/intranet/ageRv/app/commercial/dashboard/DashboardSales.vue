@@ -140,7 +140,6 @@ export default {
 
       if(this.filters.dataType === 'penultimate-month') {
         this.filters.month = this.filters.month - 1;
-        this.filters.month = '0' + this.filters.month + ''
       } else {
         this.getMonth()
       }
@@ -169,7 +168,7 @@ export default {
       const date = new Date()
 
 
-      if (date.getMonth() < 10) {
+      if ((date.getMonth() - 1) < 10) {
         this.filters.month = '0' + ( date.getMonth()) + ''
       } else {
         this.filters.month = (date.getMonth()).toString()
