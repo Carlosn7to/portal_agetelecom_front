@@ -139,9 +139,9 @@ export default {
       this.SAVE_SYSTEM({loading: true})
 
       if(this.filters.dataType === 'penultimate-month') {
-        this.filters.month = this.filters.month - 1;
+        this.getMonth(2)
       } else {
-        this.getMonth()
+        this.getMonth(1)
       }
 
       AXIOS({
@@ -152,7 +152,7 @@ export default {
         },
         params: {
           dashboard: true,
-          year: '2023',
+          year: this.filters.year,
           month: this.filters.month
         }
       }).then((res) => {
@@ -164,16 +164,17 @@ export default {
 
       })
     },
-    getMonth: function () {
-      const date = new Date()
+    getMonth: function (paramDate) {
+      const currentDate = new Date();
+      const targetDate = new Date(currentDate);
+      targetDate.setMonth(currentDate.getMonth() - paramDate);
 
+      const year = targetDate.getFullYear().toString();
+      const month = (targetDate.getMonth() + 1).toString().padStart(2, '0');
 
-      if ((date.getMonth() - 1) < 10) {
-        this.filters.month = '0' + ( date.getMonth()) + ''
-      } else {
-        this.filters.month = (date.getMonth()).toString()
-      }
-    },
+      this.filters.year = year;
+      this.filters.month = month;
+      },
   },
   computed: {
     ...mapGetters([

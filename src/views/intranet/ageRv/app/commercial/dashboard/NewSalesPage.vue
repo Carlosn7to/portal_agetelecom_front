@@ -216,6 +216,7 @@ export default {
       filter: {
         month: '',
         actualMonth: null,
+        actualYear: null,
         typeUser: Cookie.get('agerv_function'),
       },
       modal: false,
@@ -236,10 +237,9 @@ export default {
     modeView: function (mode) {
       this.mode = mode
     },
-    getSellers: function (month, year) {
+    getSellers: function () {
 
       this.loading = true
-      this.filter.month = month
       this.data = null
       this.projection = false
       this.dashStatus = false
@@ -251,8 +251,8 @@ export default {
           'Authorization': 'Bearer ' + Cookie.get('token')
         },
         params: {
-          year: year,
-          month: this.filter.month
+          year: this.filter.actualYear,
+          month: this.filter.actualMonth
         }
       }).then((res) => {
         this.data = res.data
@@ -270,16 +270,18 @@ export default {
       this.dashboard = dash
     },
     getMonth: function () {
-      const date = new Date()
 
+      const currentDate = new Date();
+      const targetDate = new Date(currentDate);
+      targetDate.setMonth(currentDate.getMonth());
 
-      if ((date.getMonth() + 1) < 10) {
-        this.filter.actualMonth = '0' + ( date.getMonth() + 1) + ''
-      } else {
-        this.filter.actualMonth = (date.getMonth() + 1).toString()
-      }
+      const year = targetDate.getFullYear().toString();
+      const month = (targetDate.getMonth() + 1).toString().padStart(2, '0');
 
-      this.getSellers(this.filter.actualMonth, '2023')
+      this.filter.actualYear = year;
+      this.filter.actualMonth = month;
+
+      this.getSellers(this.filter.actualMonth, this.filter.actualYear)
     },
     extractView: function (page, title, data) {
       this.page = page
