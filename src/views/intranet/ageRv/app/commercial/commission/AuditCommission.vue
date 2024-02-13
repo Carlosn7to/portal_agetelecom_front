@@ -129,7 +129,7 @@ export default {
           'Authorization': 'Bearer '+Cookie.get('token')
         },
         params: {
-          month: 11,
+          month: 12,
           year: 2023
         }
       }).then((res) => {
