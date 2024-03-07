@@ -98,7 +98,7 @@ export default {
       },
       dateFiltered: {
         month: null,
-        year: 2023
+        year: 2024
       }
     }
   },
@@ -129,8 +129,8 @@ export default {
           'Authorization': 'Bearer '+Cookie.get('token')
         },
         params: {
-          month: 12,
-          year: 2023
+          month: '01',
+          year: 2024
         }
       }).then((res) => {
         this.dataInfo = res.data
