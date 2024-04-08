@@ -198,7 +198,7 @@ export default {
         }
 
         .items-list-body {
-          height: 70vh;
+          max-height: 40vh;
           overflow-y: auto;
           padding: 2px;
 

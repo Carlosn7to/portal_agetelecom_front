@@ -21,17 +21,9 @@
         <span>{{ report.nome }}</span>
       </div>
       <div class="actions">
-        <button @click="viewReport(report.id)">
-          <i class="fi fi-rr-eye"></i>
-          <span>Visualizar prévia</span>
-        </button>
         <button @click="downloadReport(report.isPeriodoHora,report.isPeriodo,report.nome_arquivo, report.id)">
           <i class="fi fi-rr-download"></i>
           <span>Baixar relatório</span>
-        </button>
-        <button>
-          <i class="fi fi-rr-envelope"></i>
-          <span>Enviar E-mail</span>
         </button>
       </div>
     </div>
