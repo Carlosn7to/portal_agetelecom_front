@@ -465,6 +465,15 @@ export default {
     color: $md-text-h1 !important;
   }
 
+  #filters {
+
+    input[type=text] {
+      background-color: $dark-mode-background;
+      color: #fff !important;
+    }
+
+  }
+
   #reports {
 
     .report {
@@ -478,13 +487,37 @@ export default {
       &:hover {
         border: 2px solid $age-or;
       }
+
+      .actions {
+
+        button {
+          background-color: $primary !important;
+          border-color: $primary !important;
+          color: #fff !important;
+
+          span {
+            color: #fff !important;
+          }
+
+          &:hover {
+            background-color: $primary-hover !important;
+            border-color: $primary-hover !important;
+          }
+        }
+      }
     }
   }
 
 
   #modal {
     #card-modal {
-      background-color: $dark-mode-background;
+      background-color: #1A1C1E;
+
+      #close-button {
+        i {
+          color: #fff;
+        }
+      }
 
       h5 {
         color: $dark-mode-text-primary;
@@ -506,6 +539,19 @@ export default {
             color: $dark-mode-text-primary;
             border-color: $age-or;
           }
+        }
+
+        .options-date {
+          label {
+            color: #fff;
+          }
+
+
+        }
+
+        select, input[type=date] {
+          background-color: $dark-mode-card !important;
+          color: #fff !important;
         }
       }
     }
