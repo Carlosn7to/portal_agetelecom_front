@@ -129,8 +129,8 @@ export default {
           'Authorization': 'Bearer '+Cookie.get('token')
         },
         params: {
-          month: '06',
-          year: 2023
+          month: '01',
+          year: 2024
         }
       }).then((res) => {
         this.dataInfo = res.data
